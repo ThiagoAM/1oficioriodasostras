@@ -1034,34 +1034,51 @@
                     <div class="row">
                         <div class="col-6 col-12-medium">
                             <section>
-                                <form method="post" action="#">
+                                <form
+                                    method="post"
+                                    action="https://api.web3forms.com/submit"
+                                >
+                                    <input
+                                        type="hidden"
+                                        name="access_key"
+                                        value="9a3756d0-17ce-4f56-b8ee-e0b225c5879e"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        name="redirect"
+                                        value="https://1oficioriodasostras.com.br/sucesso.html"
+                                    />
                                     <div class="row gtr-50">
                                         <div class="col-6 col-12-small">
                                             <input
                                                 name="name"
                                                 placeholder="Nome"
                                                 type="text"
+                                                required
                                             />
                                         </div>
                                         <div class="col-6 col-12-small">
                                             <input
                                                 name="email"
                                                 placeholder="Email"
-                                                type="text"
+                                                type="email"
+                                                required
                                             />
                                         </div>
                                         <div class="col-12">
                                             <textarea
                                                 name="message"
                                                 placeholder="Mensagem"
+                                                required
                                             ></textarea>
                                         </div>
                                         <div class="col-12">
-                                            <a
-                                                href="#"
+                                            <button
+                                                type="submit"
                                                 class="form-button-submit button icon solid fa-envelope"
-                                                >Enviar Mensagem</a
                                             >
+                                                Enviar Mensagem
+                                            </button>
                                         </div>
                                     </div>
                                 </form>
@@ -1081,13 +1098,19 @@
                                                 Rio das Ostras/RJ<br />
                                                 CEP: 28893-470
                                             </li>
-                                            <li class="icon brands fa-whatsapp">
+                                            <!-- <li class="icon solid fa-whatsapp">
                                                 WhatsApp: <br />
-                                                (00) 000-0000
-                                            </li>
+                                                <a
+                                                    href="https://wa.me/55000000000"
+                                                    target="_blank"
+                                                    >(00) 000-0000</a
+                                                >
+                                            </li> -->
                                             <li class="icon solid fa-phone">
                                                 Telefone (Vivo): <br />
-                                                (22) 3034-8260
+                                                <a href="tel:+552230348260"
+                                                    >(22) 3034-8260</a
+                                                >
                                             </li>
                                             <li class="icon solid fa-envelope">
                                                 Email: <br />
@@ -1098,7 +1121,7 @@
                                             </li>
                                         </ul>
                                     </div>
-                                    <div class="col-6 col-12-small">
+                                    <!-- <div class="col-6 col-12-small">
                                         <ul class="icons">
                                             <li class="icon brands fa-twitter">
                                                 <a href="#">@untitled</a>
@@ -1118,7 +1141,7 @@
                                                 >
                                             </li>
                                         </ul>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </section>
                         </div>
