@@ -2438,6 +2438,22 @@ button.alt:active,
 
     /* Header */
 
+    #logo {
+        font-size: 2rem; /* Adjust as needed */
+        line-height: 1.5; /* Increase line height for better spacing */
+        margin-bottom: 20px; /* Add space below the heading */
+        text-align: center; /* Center the text if needed */
+    }
+
+    #logo a {
+        display: inline-block;
+    }
+
+    #logo p {
+        margin-top: 10px; /* Add space above the paragraph */
+        text-align: center; /* Center the text */
+    }
+
     #header > .container {
         padding: 12em 0 5em 0;
     }
