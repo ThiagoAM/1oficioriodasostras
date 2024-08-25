@@ -7,6 +7,16 @@
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 */
 
+/* Define CSS Variables */
+:root {
+    --main-bg-color: #f0f0f0;
+    --primary-color: #3c84a8;
+    --secondary-color: #628fae;
+    --text-color: #777;
+    --heading-font: "Arvo", sans-serif;
+    --body-font: "Source Sans Pro", sans-serif;
+}
+
 html,
 body,
 div,
@@ -173,7 +183,7 @@ html {
 }
 
 body {
-    background: #f0f0f0;
+    background: var(--main-bg-color);
 }
 
 body.is-preload *,
@@ -193,9 +203,9 @@ body,
 input,
 textarea,
 select {
-    font-family: "Source Sans Pro";
+    font-family: var(--body-font);
     font-weight: 300;
-    color: #777;
+    color: var(--text-color);
     line-height: 1.65em;
     font-size: 15pt;
 }
@@ -270,12 +280,12 @@ a strong {
 }
 
 a:hover {
-    color: #628fae;
+    color: var(--secondary-color);
     border-bottom-color: rgba(255, 255, 255, 0);
 }
 
 a:hover strong {
-    color: #628fae;
+    color: var(--secondary-color);
 }
 
 strong,
@@ -1800,7 +1810,7 @@ form input[type="email"]:focus,
 form input[type="password"]:focus,
 form select:focus,
 form textarea:focus {
-    background: #f0f0f0;
+    background: var(--main-bg-color);
 }
 
 form textarea {
@@ -1864,7 +1874,7 @@ table thead {
 }
 
 table tfoot {
-    background: #f0f0f0;
+    background: var(--main-bg-color);
     border-top: solid 2px #e5e5e5;
 }
 
@@ -1882,7 +1892,7 @@ button,
     -webkit-appearance: none;
     position: relative;
     display: inline-block;
-    background: #3c84a8;
+    background: var(--primary-color);
     color: #fff !important;
     text-transform: uppercase;
     border-radius: 4px;
@@ -1913,7 +1923,7 @@ input[type="submit"]:hover,
 input[type="reset"]:hover,
 button:hover,
 .button:hover {
-    background: #628fae;
+    background: var(--secondary-color);
 }
 
 input[type="button"]:active,
@@ -1921,7 +1931,7 @@ input[type="submit"]:active,
 input[type="reset"]:active,
 button:active,
 .button:active {
-    background: #3c84a8;
+    background: var(--primary-color);
 }
 
 input[type="button"].alt,
@@ -2030,9 +2040,9 @@ button.alt:active,
 }
 
 #header h1 {
-    font-family: "Arvo";
+    font-family: var(--heading-font);
     font-weight: 700;
-    color: #3c84a8;
+    color: var(--primary-color);
     text-shadow: 0.05em 0.075em 0 rgba(0, 0, 0, 0.1);
     font-size: 3em;
     letter-spacing: 13px;
@@ -2076,7 +2086,7 @@ button.alt:active,
     text-decoration: none;
     text-transform: uppercase;
     font-weight: 400;
-    color: #777;
+    color: var(--text-color);
     outline: 0;
     display: block;
 }
@@ -2126,13 +2136,13 @@ button.alt:active,
 
 #nav > ul > li.active > a:before,
 #nav > ul > li:hover > a:before {
-    background: #628fae;
+    background: var(--secondary-color);
     color: #fff;
 }
 
 #nav > ul > li.active > a > span,
 #nav > ul > li:hover > a > span {
-    color: #628fae;
+    color: var(--secondary-color);
 }
 
 .dropotron {
@@ -2181,7 +2191,7 @@ button.alt:active,
     display: block;
     padding: 0.3em 1em 0.3em 1em;
     border: 0;
-    border-top: solid 1px #f0f0f0;
+    border-top: solid 1px var(--main-bg-color);
     outline: 0;
 }
 
@@ -2210,7 +2220,7 @@ button.alt:active,
     transition:
         color 0.25s ease-in-out,
         border-bottom-color 0.25s ease-in-out;
-    color: #3c84a8;
+    color: var(--primary-color);
 }
 
 /* Features */
@@ -2349,7 +2359,7 @@ button.alt:active,
     position: relative;
     overflow: hidden;
     border-top: solid 2px #e5e5e5;
-    background: #f0f0f0;
+    background: var(--main-bg-color);
     padding: 6em 0 8em 0;
 }
 
