@@ -1048,6 +1048,11 @@
                                         name="redirect"
                                         value="https://1oficioriodasostras.com.br/sucesso.html"
                                     />
+                                    <input
+                                        type="hidden"
+                                        name="subject"
+                                        value="Novo Formulário de Contato Enviado pelo Site - Web3Forms"
+                                    />
                                     <div class="row gtr-50">
                                         <div class="col-6 col-12-small">
                                             <input
@@ -1055,6 +1060,8 @@
                                                 placeholder="Nome"
                                                 type="text"
                                                 required
+                                                oninvalid="this.setCustomValidity('Por favor, insira seu nome.')"
+                                                oninput="this.setCustomValidity('')"
                                             />
                                         </div>
                                         <div class="col-6 col-12-small">
@@ -1063,6 +1070,8 @@
                                                 placeholder="Email"
                                                 type="email"
                                                 required
+                                                oninvalid="this.setCustomValidity('Por favor, insira um email válido.')"
+                                                oninput="this.setCustomValidity('')"
                                             />
                                         </div>
                                         <div class="col-12">
@@ -1070,6 +1079,8 @@
                                                 name="message"
                                                 placeholder="Mensagem"
                                                 required
+                                                oninvalid="this.setCustomValidity('Por favor, insira sua mensagem.')"
+                                                oninput="this.setCustomValidity('')"
                                             ></textarea>
                                         </div>
                                         <div class="col-12">
@@ -1169,5 +1180,11 @@
         <script src="assets/js/util.js"></script>
         <script src="assets/js/main.js"></script>
         <script src="assets/js/smoothScroll.js"></script>
+        <script>
+            window.onload = function () {
+                // Reset the form fields when the page loads
+                document.getElementById("form").reset();
+            };
+        </script>
     </body>
 </html>
