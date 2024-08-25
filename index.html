@@ -1086,12 +1086,15 @@
                                             ></textarea>
                                         </div>
                                         <div class="col-12">
+                                            <div
+                                                class="g-recaptcha"
+                                                data-sitekey="6LePfy0qAAAAAK6zHW4HkPizXjDFffSyAhmynR2V"
+                                            ></div>
+                                        </div>
+                                        <div class="col-12">
                                             <button
                                                 type="submit"
-                                                class="form-button-submit button icon solid fa-envelope g-recaptcha"
-                                                data-sitekey="6LePfy0qAAAAAK6zHW4HkPizXjDFffSyAhmynR2V"
-                                                data-callback="onSubmit"
-                                                data-action="submit"
+                                                class="form-button-submit button icon solid fa-envelope"
                                             >
                                                 Enviar Mensagem
                                             </button>
@@ -1190,11 +1193,6 @@
                 // Reset the form fields when the page loads
                 document.getElementById("message-form").reset();
             };
-        </script>
-        <script>
-            function onSubmit(token) {
-                document.getElementById("message-form").submit();
-            }
         </script>
     </body>
 </html>
