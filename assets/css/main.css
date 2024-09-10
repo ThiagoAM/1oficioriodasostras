@@ -18,6 +18,24 @@
     --body-font: "Source Sans Pro", sans-serif;
 }
 
+/* Header */
+
+#logo {
+    font-size: 2rem; /* Adjust as needed */
+    line-height: 1.5; /* Increase line height for better spacing */
+    margin-bottom: 20px; /* Add space below the heading */
+    text-align: center; /* Center the text if needed */
+}
+
+#logo a {
+    display: inline-block;
+}
+
+#logo p {
+    margin-top: 10px; /* Add space above the paragraph */
+    text-align: center; /* Center the text */
+}
+
 html,
 body,
 div,
@@ -2434,24 +2452,6 @@ button.alt:active,
 
     .image.right {
         max-width: 50%;
-    }
-
-    /* Header */
-
-    #logo {
-        font-size: 2rem; /* Adjust as needed */
-        line-height: 1.5; /* Increase line height for better spacing */
-        margin-bottom: 20px; /* Add space below the heading */
-        text-align: center; /* Center the text if needed */
-    }
-
-    #logo a {
-        display: inline-block;
-    }
-
-    #logo p {
-        margin-top: 10px; /* Add space above the paragraph */
-        text-align: center; /* Center the text */
     }
 
     #header > .container {
