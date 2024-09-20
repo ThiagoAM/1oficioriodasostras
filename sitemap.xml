@@ -6,17 +6,11 @@
             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 <!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
 
-
 <url>
   <loc>https://1oficioriodasostras.com.br/</loc>
   <lastmod>2024-09-08T03:42:32+00:00</lastmod>
+  <changefreq>monthly</changefreq>
   <priority>1.00</priority>
 </url>
-<url>
-  <loc>https://1oficioriodasostras.com.br/index.html</loc>
-  <lastmod>2024-09-08T03:42:32+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-
 
 </urlset>
