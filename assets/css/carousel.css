@@ -6,7 +6,7 @@
     width: 100vw;
     left: 50%;
     transform: translateX(-50%);
-    aspect-ratio: 16/7;
+    aspect-ratio: 16/6;
     overflow: hidden;
 }
 .carousel-wrapper::before {
@@ -69,15 +69,25 @@
 }
 
 /* ── Responsive tweaks */
+
+/* Apply 1/1 ratio ONLY for screens up to 736px wide */
 @media (max-width: 736px) {
     .carousel-wrapper {
         aspect-ratio: 1/1;
     }
 }
 
+/* Apply 16/9 ratio ONLY for screens between 737px and 1280px wide */
+@media (min-width: 737px) and (max-width: 1280px) {
+    .carousel-wrapper {
+        aspect-ratio: 16/9;
+    }
+}
+
+/* This rule affects a different element and should work independently */
 @media (min-width: 1281px) {
     #header > .container {
-        padding-top: 9em;
+        padding-top: 9.5em;
         padding-bottom: 5em;
     }
 }
