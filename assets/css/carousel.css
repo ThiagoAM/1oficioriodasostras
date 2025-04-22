@@ -1,0 +1,83 @@
+/* Carousel & Header Overlay Styles */
+
+/* ── Full‑width, ratio‑based wrapper */
+.carousel-wrapper {
+    position: relative;
+    width: 100vw;
+    left: 50%;
+    transform: translateX(-50%);
+    aspect-ratio: 16/7;
+    overflow: hidden;
+}
+.carousel-wrapper::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+/* ── Image strip */
+.carousel {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+}
+.carousel-images {
+    display: flex;
+    height: 100%;
+}
+.carousel-images img {
+    flex: 0 0 100%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+/* ── Overlayed logo & text */
+.header-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 1rem;
+}
+.logo-overlay {
+    max-width: 300px;
+    max-height: 150px;
+    height: auto;
+    margin-bottom: 0.5rem;
+}
+#logo {
+    margin: 0;
+    font-size: 1.4rem;
+    text-transform: none;
+}
+#logo a,
+.header-overlay p {
+    color: #fff !important;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
+}
+.header-overlay p {
+    margin-top: 0.5rem;
+    font-weight: 300;
+}
+
+/* ── Responsive tweaks */
+@media (max-width: 736px) {
+    .carousel-wrapper {
+        aspect-ratio: 1/1;
+    }
+}
+
+@media (min-width: 1281px) {
+    #header > .container {
+        padding-top: 9em;
+        padding-bottom: 5em;
+    }
+}
