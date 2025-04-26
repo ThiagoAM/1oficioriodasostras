@@ -73,7 +73,12 @@
 /* Apply 1/1 ratio ONLY for screens up to 736px wide */
 @media (max-width: 736px) {
     .carousel-wrapper {
-        aspect-ratio: 1/1;
+        aspect-ratio: 1/1.5;
+    }
+
+    /* push the carousel (and its overlay)*/
+    #header .carousel-wrapper {
+        margin-top: -6em;
     }
 }
 
@@ -83,7 +88,7 @@
         aspect-ratio: 16/9;
     }
 
-    /* push the carousel (and its overlay) up by 4em */
+    /* push the carousel (and its overlay)*/
     #header .carousel-wrapper {
         margin-top: -8.5em;
     }
@@ -96,7 +101,7 @@
         padding-bottom: 5em;
     }
 
-    /* push the carousel (and its overlay) up by 4em */
+    /* push the carousel (and its overlay)*/
     #header .carousel-wrapper {
         margin-top: -6em;
     }
