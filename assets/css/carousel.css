@@ -6,7 +6,7 @@
     width: 100vw;
     left: 50%;
     transform: translateX(-50%);
-    aspect-ratio: 16/7.5;
+    aspect-ratio: 16/8;
     overflow: hidden;
 }
 .carousel-wrapper::before {
@@ -85,7 +85,7 @@
 
     /* push the carousel (and its overlay) up by 4em */
     #header .carousel-wrapper {
-        margin-top: -6em;
+        margin-top: -8.5em;
     }
 }
 
@@ -98,6 +98,6 @@
 
     /* push the carousel (and its overlay) up by 4em */
     #header .carousel-wrapper {
-        margin-top: -4em;
+        margin-top: -6em;
     }
 }
