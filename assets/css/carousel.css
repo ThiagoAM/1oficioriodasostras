@@ -6,7 +6,7 @@
     width: 100vw;
     left: 50%;
     transform: translateX(-50%);
-    aspect-ratio: 16/7;
+    aspect-ratio: 16/7.5;
     overflow: hidden;
 }
 .carousel-wrapper::before {
@@ -82,6 +82,11 @@
     .carousel-wrapper {
         aspect-ratio: 16/9;
     }
+
+    /* push the carousel (and its overlay) up by 4em */
+    #header .carousel-wrapper {
+        margin-top: -6em;
+    }
 }
 
 /* This rule affects a different element and should work independently */
@@ -89,5 +94,10 @@
     #header > .container {
         padding-top: 9.5em;
         padding-bottom: 5em;
+    }
+
+    /* push the carousel (and its overlay) up by 4em */
+    #header .carousel-wrapper {
+        margin-top: -4em;
     }
 }

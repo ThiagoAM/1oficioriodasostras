@@ -800,7 +800,7 @@ button:active,
 }
 
 #nav > ul > li:last-child {
-    padding-right: 0;
+    padding-right: 1.35em;
 }
 
 #nav > ul > li > a {
@@ -813,6 +813,7 @@ button:active,
     display: block;
 }
 
+/* Circle with icon on each nav bar item */
 #nav > ul > li > a:before {
     display: inline-block;
     background: #878787;
@@ -849,7 +850,7 @@ button:active,
     -ms-transition: color 0.25s ease-in-out;
     transition: color 0.25s ease-in-out;
     font-size: 0.85em;
-    letter-spacing: 3px;
+    letter-spacing: 2px;
 }
 
 #nav > ul > li:hover > a:before {
