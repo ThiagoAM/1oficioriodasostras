@@ -6,7 +6,7 @@
     width: 100vw;
     left: 50%;
     transform: translateX(-50%);
-    aspect-ratio: 16/6;
+    aspect-ratio: 16/7;
     overflow: hidden;
 }
 .carousel-wrapper::before {
