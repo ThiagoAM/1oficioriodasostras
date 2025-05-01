@@ -1501,3 +1501,14 @@ button:active,
         transform: translateX(0);
     }
 }
+
+/* Hide empty sidebar & make content full-width on desktop */
+@media screen and (min-width: 981px) {
+    #sidebar {
+        display: none;
+    }
+    /* Override the .col-8 width so it fills 100% */
+    #content {
+        width: 100% !important;
+    }
+}
