@@ -1,52 +1,80 @@
 <!doctype html>
 <html lang="pt-BR">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Mensagem Enviada com Sucesso!</title>
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                background-color: #f4f4f4;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                height: 100vh;
-                margin: 0;
-            }
-            .container {
-                background-color: #ffffff;
-                padding: 20px;
-                border-radius: 5px;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                text-align: center;
-            }
-            h1 {
-                color: #4f82a5;
-            }
-            p {
-                font-size: 1.2em;
-                margin-top: 10px;
-            }
-            a {
-                display: inline-block;
-                margin-top: 20px;
-                padding: 10px 20px;
-                background-color: #4f82a5;
-                color: #ffffff;
-                text-decoration: none;
-                border-radius: 5px;
-            }
-            a:hover {
-                background-color: #628fae;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <h1>Mensagem Enviada com Sucesso!</h1>
-            <p>Obrigado por entrar em contato. Retornaremos em breve.</p>
-            <a href="/">Voltar para o site</a>
-        </div>
-    </body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mensagem enviada com sucesso</title>
+    <link rel="icon" type="image/png" href="assets/images/cartorio-icon.png" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <style>
+      body {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: radial-gradient(circle at top, #e5e7eb 0, #f9fafb 45%, #f9fafb 100%);
+      }
+      .success-card {
+        background: #ffffff;
+        border-radius: 20px;
+        padding: 2rem 2.2rem;
+        max-width: 420px;
+        width: 100%;
+        box-shadow: 0 22px 55px rgba(15, 23, 42, 0.26);
+        border: 1px solid rgba(148, 163, 184, 0.35);
+        text-align: center;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+      .success-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 999px;
+        margin: 0 auto 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(34, 197, 94, 0.1);
+        color: #16a34a;
+        font-size: 1.7rem;
+      }
+      .success-title {
+        margin: 0 0 0.4rem;
+        font-size: 1.4rem;
+        color: #111827;
+        font-weight: 600;
+      }
+      .success-text {
+        margin: 0 0 1.4rem;
+        font-size: 0.95rem;
+        color: #4b5563;
+      }
+      .success-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.6rem 1.4rem;
+        border-radius: 999px;
+        border: none;
+        background: #202841;
+        color: #f9fafb;
+        font-size: 0.9rem;
+        font-weight: 500;
+        text-decoration: none;
+      }
+      .success-link:hover {
+        background: #111827;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="success-card">
+      <div class="success-icon">✓</div>
+      <h1 class="success-title">Mensagem enviada com sucesso</h1>
+      <p class="success-text">
+        Obrigado por entrar em contato com o Cartório do 1º Ofício de Justiça de Rio das Ostras.
+        Nossa equipe retornará em breve utilizando os dados informados.
+      </p>
+      <a href="/" class="success-link">Voltar para o site</a>
+    </div>
+  </body>
 </html>

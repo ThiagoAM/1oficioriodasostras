@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Solicitação – Registro Civil (RCPN) – 1º Ofício Rio das Ostras</title>
+    <link rel="icon" type="image/png" href="assets/images/cartorio-icon.png" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <script defer src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a href="/" class="brand">
+          <img
+            src="assets/images/cartorio-icon.png"
+            alt="Logo do Cartório do 1º Ofício de Justiça de Rio das Ostras"
+            class="brand-logo"
+          />
+          <div class="brand-text">
+            <span class="brand-title">1º Ofício de Justiça</span>
+            <span class="brand-subtitle">Notas • Protesto • RCPN • Rio das Ostras/RJ</span>
+          </div>
+        </a>
+      </div>
+    </header>
+
+    <main>
+      <section class="section section-alt">
+        <div class="container contact-grid service-form-grid">
+          <div class="contact-text">
+            <header class="section-header section-header-left">
+              <p class="section-kicker">Serviços Online</p>
+              <h1 class="section-title">Solicitação – Registro Civil</h1>
+              <p class="section-subtitle">
+                Formulário ampliado para pedidos de nascimento, casamento, óbito, averbações e outros atos
+                do Registro Civil de Pessoas Naturais (RCPN).
+              </p>
+            </header>
+            <ul class="contact-list">
+              <li class="contact-item">
+                <span class="iconify contact-icon" data-icon="mdi:information-outline" aria-hidden="true"></span>
+                <div>
+                  A estrutura abaixo segue o padrão completo do site anterior para facilitar a busca do registro.
+                </div>
+              </li>
+              <li class="contact-item">
+                <span class="iconify contact-icon" data-icon="mdi:clock-outline" aria-hidden="true"></span>
+                <div>
+                  Em caso de ausência de algum dado, informe o máximo possível no campo de observações.
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="contact-form-card">
+            <form action="https://api.web3forms.com/submit" method="POST" class="contact-form">
+              <input type="hidden" name="access_key" value="2a703f7e-b77b-4478-97f2-c9d8379ad11b" />
+              <input type="hidden" name="subject" value="Solicitação RCPN - Site 1º Ofício Rio das Ostras" />
+              <input type="hidden" name="from_name" value="Site 1º Ofício Rio das Ostras" />
+              <input type="hidden" name="tipo_de_servico" value="Registro civil" />
+              <input type="hidden" name="redirect" value="/sucesso.html" />
+              <input type="checkbox" name="botcheck" class="hidden" style="display:none" />
+
+              <section class="form-section">
+                <h2 class="form-section-title">Dados do solicitante</h2>
+
+                <div class="field-grid">
+                  <div class="field-group">
+                    <label for="tipoPessoaRcpn" class="field-label">Tipo de pessoa *</label>
+                    <select id="tipoPessoaRcpn" name="tipo_pessoa" class="field-input" required>
+                      <option value="">Selecione</option>
+                      <option value="Pessoa Física">Pessoa Física</option>
+                      <option value="Pessoa Jurídica">Pessoa Jurídica</option>
+                    </select>
+                  </div>
+                  <div class="field-group">
+                    <label for="cpfCnpjRcpn" class="field-label">CPF/CNPJ *</label>
+                    <input type="text" id="cpfCnpjRcpn" name="cpf_cnpj" class="field-input" required />
+                  </div>
+                </div>
+
+                <div class="field-group">
+                  <label for="nome" class="field-label">Nome completo *</label>
+                  <input type="text" id="nome" name="name" class="field-input" required />
+                </div>
+
+                <div class="field-grid">
+                  <div class="field-group">
+                    <label for="emailRcpn" class="field-label">E-mail *</label>
+                    <input type="email" id="emailRcpn" name="email" class="field-input" required />
+                  </div>
+                  <div class="field-group">
+                    <label for="emailRcpnConfirm" class="field-label">Confirmar e-mail *</label>
+                    <input
+                      type="email"
+                      id="emailRcpnConfirm"
+                      name="email_confirmacao"
+                      class="field-input"
+                      required
+                      oninput="this.setCustomValidity(this.value !== document.getElementById('emailRcpn').value ? 'Os e-mails não coincidem.' : '')"
+                    />
+                  </div>
+                </div>
+
+                <div class="field-grid">
+                  <div class="field-group">
+                    <label for="telefone" class="field-label">Telefone / WhatsApp *</label>
+                    <input type="tel" id="telefone" name="phone" class="field-input" placeholder="(22) 99999-9999" required />
+                  </div>
+                  <div class="field-group">
+                    <label for="telefone2" class="field-label">Telefone adicional</label>
+                    <input type="tel" id="telefone2" name="telefone_adicional" class="field-input" />
+                  </div>
+                </div>
+
+                <div class="field-group">
+                  <label for="endereco" class="field-label">Endereço</label>
+                  <input type="text" id="endereco" name="endereco" class="field-input" />
+                </div>
+              </section>
+
+              <section class="form-section">
+                <h2 class="form-section-title">Dados do registro civil</h2>
+
+                <div class="field-group">
+                  <label for="tipoAto" class="field-label">Tipo de ato de registro civil *</label>
+                  <select id="tipoAto" name="tipo_ato_rcpn" class="field-input" required>
+                    <option value="">Selecione uma opção</option>
+                    <option value="Nascimento">Nascimento</option>
+                    <option value="Casamento">Casamento</option>
+                    <option value="Óbito">Óbito</option>
+                    <option value="Averbação">Averbação (divórcio, retificação etc.)</option>
+                    <option value="Outros">Outros atos</option>
+                  </select>
+                </div>
+
+                <div class="field-group">
+                  <label for="nomeRegistrado" class="field-label">Nome da pessoa registrada *</label>
+                  <input type="text" id="nomeRegistrado" name="nome_registrado" class="field-input" required />
+                </div>
+
+                <div class="field-grid">
+                  <div class="field-group">
+                    <label for="filiacaoPai" class="field-label">Nome do pai</label>
+                    <input type="text" id="filiacaoPai" name="filiacao_pai" class="field-input" />
+                  </div>
+                  <div class="field-group">
+                    <label for="filiacaoMae" class="field-label">Nome da mãe</label>
+                    <input type="text" id="filiacaoMae" name="filiacao_mae" class="field-input" />
+                  </div>
+                </div>
+
+                <div class="field-grid">
+                  <div class="field-group">
+                    <label for="dataEvento" class="field-label">Data aproximada do evento</label>
+                    <input type="date" id="dataEvento" name="data_evento" class="field-input" />
+                  </div>
+                  <div class="field-group">
+                    <label for="localEvento" class="field-label">Município/UF do evento</label>
+                    <input type="text" id="localEvento" name="local_evento" class="field-input" />
+                  </div>
+                </div>
+
+                <div class="field-grid">
+                  <div class="field-group">
+                    <label for="livro" class="field-label">Livro</label>
+                    <input type="text" id="livro" name="livro" class="field-input" />
+                  </div>
+                  <div class="field-group">
+                    <label for="folha" class="field-label">Folha</label>
+                    <input type="text" id="folha" name="folha" class="field-input" />
+                  </div>
+                </div>
+
+                <div class="field-group">
+                  <label for="termo" class="field-label">Termo / protocolo / matrícula</label>
+                  <input type="text" id="termo" name="termo_protocolo" class="field-input" />
+                </div>
+
+                <div class="field-group">
+                  <label for="dadosRegistro" class="field-label">
+                    Observações e dados complementares para localizar o registro *
+                  </label>
+                  <textarea id="dadosRegistro" name="dados_registro" class="field-input field-textarea" rows="6" required></textarea>
+                </div>
+
+                <fieldset class="field-group">
+                  <legend class="field-label">Tipo de entrega *</legend>
+                  <div class="radio-list">
+                    <label class="radio-option">
+                      <input type="radio" name="forma_entrega" value="Internet" required checked />
+                      <span>Internet (PDF por e-mail)</span>
+                    </label>
+                    <label class="radio-option">
+                      <input type="radio" name="forma_entrega" value="Sedex" />
+                      <span>Sedex</span>
+                    </label>
+                    <label class="radio-option">
+                      <input type="radio" name="forma_entrega" value="Retirada no balcão" />
+                      <span>Retirada no balcão</span>
+                    </label>
+                  </div>
+                </fieldset>
+              </section>
+
+              <p class="form-helper">
+                Atenção: esta solicitação não garante emissão imediata. Após análise, enviaremos retorno com
+                orientações e próximos passos.
+              </p>
+
+              <button type="submit" class="btn btn-primary btn-full">
+                Enviar solicitação de registro civil
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

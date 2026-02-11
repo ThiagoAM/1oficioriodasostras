@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Solicitação de Escrituras e Atos Notariais – 1º Ofício Rio das Ostras</title>
+    <link rel="icon" type="image/png" href="assets/images/cartorio-icon.png" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <script defer src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a href="/" class="brand">
+          <img
+            src="assets/images/cartorio-icon.png"
+            alt="Logo do Cartório do 1º Ofício de Justiça de Rio das Ostras"
+            class="brand-logo"
+          />
+          <div class="brand-text">
+            <span class="brand-title">1º Ofício de Justiça</span>
+            <span class="brand-subtitle">Notas • Protesto • RCPN • Rio das Ostras/RJ</span>
+          </div>
+        </a>
+      </div>
+    </header>
+
+    <main>
+      <section class="section section-alt">
+        <div class="container contact-grid service-form-grid">
+          <div class="contact-text">
+            <header class="section-header section-header-left">
+              <p class="section-kicker">Serviços Online</p>
+              <h1 class="section-title">Solicitação de escrituras e atos notariais</h1>
+              <p class="section-subtitle">
+                Formulário completo para encaminhamento de escrituras, com campos de partes envolvidas,
+                descrição do objeto, condições e anexos de documentos em PDF.
+              </p>
+            </header>
+            <ul class="contact-list">
+              <li class="contact-item">
+                <span class="iconify contact-icon" data-icon="mdi:information-outline" aria-hidden="true"></span>
+                <div>
+                  Esta estrutura foi ampliada para refletir o fluxo do site anterior, mantendo o layout atual.
+                </div>
+              </li>
+              <li class="contact-item">
+                <span class="iconify contact-icon" data-icon="mdi:file-document-outline" aria-hidden="true"></span>
+                <div>
+                  Você pode anexar documentos (PDF) para análise prévia da escritura.
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="contact-form-card">
+            <form action="https://api.web3forms.com/submit" method="POST" enctype="multipart/form-data" class="contact-form">
+              <input type="hidden" name="access_key" value="2a703f7e-b77b-4478-97f2-c9d8379ad11b" />
+              <input type="hidden" name="subject" value="Solicitação de Escritura/Ato Notarial - Site 1º Ofício Rio das Ostras" />
+              <input type="hidden" name="from_name" value="Site 1º Ofício Rio das Ostras" />
+              <input type="hidden" name="tipo_de_servico" value="Escritura" />
+              <input type="hidden" name="redirect" value="/sucesso.html" />
+              <input type="checkbox" name="botcheck" class="hidden" style="display:none" />
+
+              <section class="form-section">
+                <h2 class="form-section-title">Dados do solicitante</h2>
+
+                <div class="field-grid">
+                  <div class="field-group">
+                    <label for="nome" class="field-label">Nome *</label>
+                    <input type="text" id="nome" name="nome" class="field-input" required />
+                  </div>
+                  <div class="field-group">
+                    <label for="sobrenome" class="field-label">Sobrenome</label>
+                    <input type="text" id="sobrenome" name="sobrenome" class="field-input" />
+                  </div>
+                </div>
+
+                <div class="field-grid">
+                  <div class="field-group">
+                    <label for="tipoPessoaEsc" class="field-label">Tipo de pessoa *</label>
+                    <select id="tipoPessoaEsc" name="tipo_pessoa" class="field-input" required>
+                      <option value="">Selecione</option>
+                      <option value="Pessoa Física">Pessoa Física</option>
+                      <option value="Pessoa Jurídica">Pessoa Jurídica</option>
+                    </select>
+                  </div>
+                  <div class="field-group">
+                    <label for="cpfCnpjEsc" class="field-label">CPF/CNPJ *</label>
+                    <input type="text" id="cpfCnpjEsc" name="cpf_cnpj" class="field-input" required />
+                  </div>
+                </div>
+
+                <div class="field-group">
+                  <label for="endereco" class="field-label">Endereço</label>
+                  <input type="text" id="endereco" name="endereco" class="field-input" />
+                </div>
+
+                <div class="field-grid">
+                  <div class="field-group">
+                    <label for="cidade" class="field-label">Cidade</label>
+                    <input type="text" id="cidade" name="cidade" class="field-input" />
+                  </div>
+                  <div class="field-group">
+                    <label for="estado" class="field-label">UF</label>
+                    <input type="text" id="estado" name="estado" class="field-input" maxlength="2" />
+                  </div>
+                </div>
+
+                <div class="field-grid">
+                  <div class="field-group">
+                    <label for="telefone" class="field-label">Telefone / WhatsApp *</label>
+                    <input type="tel" id="telefone" name="phone" class="field-input" placeholder="(22) 99999-9999" required />
+                  </div>
+                  <div class="field-group">
+                    <label for="emailEsc" class="field-label">E-mail *</label>
+                    <input type="email" id="emailEsc" name="email" class="field-input" required />
+                  </div>
+                </div>
+
+                <div class="field-group">
+                  <label for="emailEscConfirm" class="field-label">Confirmar e-mail *</label>
+                  <input
+                    type="email"
+                    id="emailEscConfirm"
+                    name="email_confirmacao"
+                    class="field-input"
+                    required
+                    oninput="this.setCustomValidity(this.value !== document.getElementById('emailEsc').value ? 'Os e-mails não coincidem.' : '')"
+                  />
+                </div>
+              </section>
+
+              <section class="form-section">
+                <h2 class="form-section-title">Partes e objeto</h2>
+
+                <div class="field-group">
+                  <label for="tipoAto" class="field-label">Tipo de escritura / ato *</label>
+                  <select id="tipoAto" name="tipo_ato" class="field-input" required>
+                    <option value="">Selecione uma opção</option>
+                    <option value="Compra e venda">Escritura de compra e venda</option>
+                    <option value="Doação">Escritura de doação</option>
+                    <option value="União estável">Escritura de união estável</option>
+                    <option value="Inventário e partilha">Inventário e partilha</option>
+                    <option value="Divórcio consensual">Divórcio consensual</option>
+                    <option value="Outros atos">Outros atos notariais</option>
+                  </select>
+                </div>
+
+                <div class="field-group">
+                  <label for="nomeVendedores" class="field-label">Nome dos vendedores</label>
+                  <input type="text" id="nomeVendedores" name="nome_vendedores" class="field-input" />
+                </div>
+
+                <div class="field-group">
+                  <label for="nomeCompradores" class="field-label">Nome dos compradores</label>
+                  <input type="text" id="nomeCompradores" name="nome_compradores" class="field-input" />
+                </div>
+
+                <div class="field-group">
+                  <label for="descricaoImoveis" class="field-label">Descrição dos imóveis/bens envolvidos *</label>
+                  <textarea id="descricaoImoveis" name="descricao_imoveis" class="field-input field-textarea" rows="5" required></textarea>
+                </div>
+
+                <div class="field-group">
+                  <label for="precoPagamento" class="field-label">Preço e/ou forma de pagamento *</label>
+                  <textarea id="precoPagamento" name="preco_forma_pagamento" class="field-input field-textarea" rows="4" required></textarea>
+                </div>
+
+                <div class="field-group">
+                  <label for="outrosAcordos" class="field-label">Outros acordos e condições</label>
+                  <textarea id="outrosAcordos" name="outros_acordos" class="field-input field-textarea" rows="4"></textarea>
+                </div>
+              </section>
+
+              <section class="form-section">
+                <h2 class="form-section-title">Documentos e informações adicionais</h2>
+
+                <div class="field-group">
+                  <label for="docsVendedores" class="field-label">Documentos dos vendedores (PDF)</label>
+                  <input type="file" id="docsVendedores" name="documentos_vendedores" class="field-input file-input" accept=".pdf" multiple />
+                </div>
+
+                <div class="field-group">
+                  <label for="docsCompradores" class="field-label">Documentos dos compradores (PDF)</label>
+                  <input type="file" id="docsCompradores" name="documentos_compradores" class="field-input file-input" accept=".pdf" multiple />
+                </div>
+
+                <div class="field-group">
+                  <label for="docsImoveis" class="field-label">Documentos de imóveis/outros (PDF)</label>
+                  <input type="file" id="docsImoveis" name="documentos_imoveis" class="field-input file-input" accept=".pdf" multiple />
+                </div>
+
+                <div class="field-group">
+                  <label for="declaracaoAdicional" class="field-label">Comentários por e-mail ou declaração adicional *</label>
+                  <textarea id="declaracaoAdicional" name="declaracao_adicional" class="field-input field-textarea" rows="5" required></textarea>
+                </div>
+              </section>
+
+              <p class="form-helper">
+                Atenção: a solicitação será analisada e a equipe retornará com a lista oficial de documentos,
+                valores e orientações para lavratura do ato.
+              </p>
+
+              <button type="submit" class="btn btn-primary btn-full">
+                Enviar solicitação de escritura/ato
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
