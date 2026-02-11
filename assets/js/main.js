@@ -38,10 +38,27 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    let lastScrollY = window.scrollY;
+    let scrollDirection = "down";
+
     revealTargets.forEach((target, index) => {
       target.classList.add("reveal-on-scroll");
       target.style.setProperty("--reveal-delay", `${(index % 6) * 70}ms`);
     });
+
+    window.addEventListener(
+      "scroll",
+      () => {
+        const currentScrollY = window.scrollY;
+        const delta = currentScrollY - lastScrollY;
+        if (Math.abs(delta) < 2) {
+          return;
+        }
+        scrollDirection = delta > 0 ? "down" : "up";
+        lastScrollY = currentScrollY;
+      },
+      { passive: true },
+    );
 
     if (!("IntersectionObserver" in window)) {
       revealTargets.forEach((target) => target.classList.add("is-revealed"));
@@ -49,18 +66,26 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const revealObserver = new IntersectionObserver(
-      (entries, observer) => {
+      (entries) => {
         entries.forEach((entry) => {
-          if (!entry.isIntersecting) {
+          const shouldReveal = entry.isIntersecting && entry.intersectionRatio >= 0.14;
+          if (!shouldReveal) {
+            entry.target.classList.remove("is-revealed", "reveal-no-anim");
             return;
           }
+
+          if (scrollDirection === "down") {
+            entry.target.classList.remove("reveal-no-anim");
+          } else {
+            entry.target.classList.add("reveal-no-anim");
+          }
+
           entry.target.classList.add("is-revealed");
-          observer.unobserve(entry.target);
         });
       },
       {
-        threshold: 0.12,
-        rootMargin: "0px 0px -10% 0px",
+        threshold: [0, 0.14, 0.3],
+        rootMargin: "0px 0px -8% 0px",
       },
     );
 
@@ -104,8 +129,75 @@ document.addEventListener("DOMContentLoaded", () => {
   let activeIndex = 0;
   let imageLoadToken = 0;
   let revealObserver = null;
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const AUTO_SCROLL_ONLY_MODE = true;
+  const ignoreReducedMotionForAutoplay = AUTO_SCROLL_ONLY_MODE;
+  const autoplayAllowed = ignoreReducedMotionForAutoplay || !prefersReducedMotion;
+  const AUTO_SCROLL_SPEED = AUTO_SCROLL_ONLY_MODE ? 26 : 18;
+  const AUTO_RESUME_DELAY_MS = 4200;
+
+  let autoScrollRaf = 0;
+  let autoScrollLastTs = 0;
+  let autoScrollPosition = 0;
+  let autoResumeTimer = 0;
+  let autoStartRetryTimer = 0;
+  let userInteractedWithGallery = false;
+  let isAutoShuffling = false;
+  let programmaticScrollLockUntil = 0;
 
   const total = () => displayImages.length;
+  const isLightboxOpen = () => Boolean(lightbox?.classList.contains("is-open"));
+  const maxGalleryScroll = () => Math.max(0, galleryMasonry.scrollWidth - galleryMasonry.clientWidth);
+  const lockProgrammaticScroll = (durationMs = 72) => {
+    programmaticScrollLockUntil = window.performance.now() + durationMs;
+  };
+  const isProgrammaticScrollEvent = () => window.performance.now() < programmaticScrollLockUntil;
+
+  const shuffleDisplayImages = () => {
+    const shuffled = [...displayImages];
+    for (let i = shuffled.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    displayImages = shuffled;
+  };
+
+  const stopAutoScroll = () => {
+    if (autoScrollRaf) {
+      window.cancelAnimationFrame(autoScrollRaf);
+      autoScrollRaf = 0;
+    }
+    galleryMasonry.classList.remove("is-auto-scrolling");
+    autoScrollLastTs = 0;
+  };
+
+  const queueAutoStartRetry = (delayMs = 700) => {
+    if (autoStartRetryTimer || (userInteractedWithGallery && !AUTO_SCROLL_ONLY_MODE)) {
+      return;
+    }
+    autoStartRetryTimer = window.setTimeout(() => {
+      autoStartRetryTimer = 0;
+      maybeStartAutoScroll();
+    }, delayMs);
+  };
+
+  const markGalleryInteraction = () => {
+    if (AUTO_SCROLL_ONLY_MODE) {
+      return;
+    }
+
+    userInteractedWithGallery = true;
+    stopAutoScroll();
+
+    if (autoResumeTimer) {
+      window.clearTimeout(autoResumeTimer);
+    }
+
+    autoResumeTimer = window.setTimeout(() => {
+      userInteractedWithGallery = false;
+      maybeStartAutoScroll();
+    }, AUTO_RESUME_DELAY_MS);
+  };
 
   const getLayoutProps = (fileName, index) => {
     let hash = index * 31;
@@ -137,6 +229,113 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   };
 
+  const maybeStartAutoScroll = () => {
+    if (
+      !autoplayAllowed ||
+      (userInteractedWithGallery && !AUTO_SCROLL_ONLY_MODE) ||
+      isAutoShuffling ||
+      isLightboxOpen() ||
+      autoScrollRaf
+    ) {
+      return;
+    }
+    if (maxGalleryScroll() <= 2) {
+      queueAutoStartRetry();
+      return;
+    }
+    galleryMasonry.classList.add("is-auto-scrolling");
+    autoScrollPosition = galleryMasonry.scrollLeft;
+    autoScrollLastTs = window.performance.now();
+    autoScrollRaf = window.requestAnimationFrame(runAutoScroll);
+  };
+
+  const animateShuffle = ({ resumeAutoLoop }) => {
+    if (isAutoShuffling) {
+      return;
+    }
+
+    isAutoShuffling = true;
+    stopAutoScroll();
+
+    const tiles = Array.from(galleryMasonry.querySelectorAll(".gallery-tile"));
+    tiles.forEach((tile, index) => {
+      tile.style.setProperty("--tile-order", `${index}`);
+    });
+
+    galleryMasonry.classList.remove("is-shuffle-in");
+    galleryMasonry.classList.add("is-shuffling");
+
+    window.setTimeout(() => {
+      shuffleDisplayImages();
+      renderMasonry();
+
+      lockProgrammaticScroll();
+      galleryMasonry.scrollLeft = 0;
+      autoScrollPosition = 0;
+      updatePagerState();
+
+      window.requestAnimationFrame(() => {
+        galleryMasonry.classList.remove("is-shuffling");
+        galleryMasonry.classList.add("is-shuffle-in");
+
+        const newTiles = Array.from(galleryMasonry.querySelectorAll(".gallery-tile"));
+        newTiles.forEach((tile, index) => {
+          tile.style.setProperty("--tile-order", `${index}`);
+        });
+
+        window.setTimeout(() => {
+          galleryMasonry.classList.remove("is-shuffle-in");
+          isAutoShuffling = false;
+
+          if (resumeAutoLoop && !userInteractedWithGallery && !isLightboxOpen()) {
+            maybeStartAutoScroll();
+          }
+        }, 560);
+      });
+    }, 280);
+  };
+
+  const runAutoScroll = (timestamp) => {
+    if (
+      !autoplayAllowed ||
+      (userInteractedWithGallery && !AUTO_SCROLL_ONLY_MODE) ||
+      isAutoShuffling ||
+      isLightboxOpen()
+    ) {
+      stopAutoScroll();
+      return;
+    }
+
+    if (!autoScrollLastTs) {
+      autoScrollLastTs = timestamp;
+    }
+
+    const deltaSeconds = (timestamp - autoScrollLastTs) / 1000;
+    autoScrollLastTs = timestamp;
+
+    const maxScroll = maxGalleryScroll();
+    if (maxScroll <= 2) {
+      stopAutoScroll();
+      return;
+    }
+
+    autoScrollPosition = Math.min(maxScroll, autoScrollPosition + AUTO_SCROLL_SPEED * deltaSeconds);
+    const nextLeft = Math.round(autoScrollPosition);
+    if (nextLeft !== galleryMasonry.scrollLeft) {
+      lockProgrammaticScroll();
+      galleryMasonry.scrollLeft = nextLeft;
+    }
+    updatePagerState();
+
+    if (autoScrollPosition >= maxScroll - 0.5) {
+      stopAutoScroll();
+      animateShuffle({ resumeAutoLoop: true });
+      return;
+    }
+
+    autoScrollRaf = window.requestAnimationFrame(runAutoScroll);
+  };
+
   const renderMasonry = () => {
     if (revealObserver) {
       revealObserver.disconnect();
@@ -153,7 +352,7 @@ document.addEventListener("DOMContentLoaded", () => {
             class="gallery-tile"
             type="button"
             data-index="${index}"
-            style="--span:${span};--col-span:${colSpan};"
+            style="--span:${span};--col-span:${colSpan};--tile-order:${index};"
             aria-label="Abrir foto ${index + 1}"
           >
             <img
@@ -194,7 +393,20 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
+    galleryMasonry.querySelectorAll(".gallery-tile img").forEach((img) => {
+      img.addEventListener(
+        "load",
+        () => {
+          if (!userInteractedWithGallery) {
+            maybeStartAutoScroll();
+          }
+        },
+        { once: true },
+      );
+    });
+
     updatePagerState();
+    autoScrollPosition = galleryMasonry.scrollLeft;
   };
 
   const preloadAdjacent = (index) => {
@@ -248,6 +460,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!lightbox) {
       return;
     }
+    stopAutoScroll();
+    markGalleryInteraction();
     lightbox.classList.add("is-open");
     lightbox.setAttribute("aria-hidden", "false");
     document.body.classList.add("no-scroll");
@@ -263,6 +477,10 @@ document.addEventListener("DOMContentLoaded", () => {
     lightboxLoading?.classList.add("is-hidden");
     lightboxImage.src = "";
     document.body.classList.remove("no-scroll");
+    markGalleryInteraction();
+    if (!userInteractedWithGallery) {
+      maybeStartAutoScroll();
+    }
   };
 
   const showNext = () => {
@@ -278,6 +496,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!tile) {
       return;
     }
+    markGalleryInteraction();
     const index = Number(tile.dataset.index);
     if (!Number.isNaN(index)) {
       openLightbox(index);
@@ -299,28 +518,116 @@ document.addEventListener("DOMContentLoaded", () => {
     true,
   );
 
-  galleryShuffle?.addEventListener("click", () => {
-    const shuffled = [...displayImages];
-    for (let i = shuffled.length - 1; i > 0; i -= 1) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  if (!AUTO_SCROLL_ONLY_MODE) {
+    const galleryInteractionEvents = [
+      { name: "wheel", options: { passive: true } },
+      { name: "touchstart", options: { passive: true } },
+      { name: "keydown" },
+    ];
+    galleryInteractionEvents.forEach(({ name, options }) => {
+      galleryMasonry.addEventListener(name, markGalleryInteraction, options);
+    });
+  } else {
+    galleryMasonry.classList.add("is-auto-only");
+    if (galleryShuffle) {
+      galleryShuffle.classList.add("is-disabled");
+      galleryShuffle.setAttribute("aria-disabled", "true");
     }
-    displayImages = shuffled;
-    renderMasonry();
-    galleryMasonry.scrollLeft = 0;
-    updatePagerState();
+    if (galleryPagePrev) {
+      galleryPagePrev.disabled = true;
+    }
+    if (galleryPageNext) {
+      galleryPageNext.disabled = true;
+    }
+
+    galleryMasonry.addEventListener(
+      "wheel",
+      (event) => {
+        if (Math.abs(event.deltaX) > Math.abs(event.deltaY) || event.shiftKey) {
+          event.preventDefault();
+        }
+      },
+      { passive: false },
+    );
+  }
+
+  galleryShuffle?.addEventListener("click", () => {
+    if (AUTO_SCROLL_ONLY_MODE) {
+      return;
+    }
+    markGalleryInteraction();
+    animateShuffle({ resumeAutoLoop: false });
   });
 
   galleryPagePrev?.addEventListener("click", () => {
+    if (AUTO_SCROLL_ONLY_MODE) {
+      return;
+    }
+    markGalleryInteraction();
     scrollByPage(-1);
   });
 
   galleryPageNext?.addEventListener("click", () => {
+    if (AUTO_SCROLL_ONLY_MODE) {
+      return;
+    }
+    markGalleryInteraction();
     scrollByPage(1);
   });
 
-  galleryMasonry.addEventListener("scroll", updatePagerState, { passive: true });
-  window.addEventListener("resize", updatePagerState);
+  galleryMasonry.addEventListener(
+    "scroll",
+    () => {
+      autoScrollPosition = galleryMasonry.scrollLeft;
+      updatePagerState();
+      if (
+        !isProgrammaticScrollEvent() &&
+        !isAutoShuffling &&
+        autoplayAllowed &&
+        autoScrollRaf === 0
+      ) {
+        const nearEnd = galleryMasonry.scrollLeft >= maxGalleryScroll() - 1;
+        if (nearEnd && !userInteractedWithGallery) {
+          animateShuffle({ resumeAutoLoop: true });
+        }
+      }
+    },
+    { passive: true },
+  );
+
+  window.addEventListener("resize", () => {
+    updatePagerState();
+    stopAutoScroll();
+    autoScrollPosition = galleryMasonry.scrollLeft;
+    window.setTimeout(() => {
+      if (!userInteractedWithGallery) {
+        maybeStartAutoScroll();
+      }
+    }, 120);
+  });
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      stopAutoScroll();
+      return;
+    }
+    if (!userInteractedWithGallery) {
+      maybeStartAutoScroll();
+    }
+  });
+
+  window.setInterval(() => {
+    if (
+      !autoplayAllowed ||
+      (userInteractedWithGallery && !AUTO_SCROLL_ONLY_MODE) ||
+      isAutoShuffling ||
+      isLightboxOpen() ||
+      autoScrollRaf
+    ) {
+      return;
+    }
+    maybeStartAutoScroll();
+  }, 2200);
 
   lightboxClose?.addEventListener("click", closeLightbox);
   lightboxPrev?.addEventListener("click", showPrev);
@@ -346,4 +653,14 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   renderMasonry();
+  window.setTimeout(maybeStartAutoScroll, 900);
+  window.addEventListener(
+    "load",
+    () => {
+      if (!userInteractedWithGallery) {
+        maybeStartAutoScroll();
+      }
+    },
+    { once: true },
+  );
 });
