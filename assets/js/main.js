@@ -22,6 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
           ".info-card",
           ".service-card",
           ".pill-card",
+          ".useful-link-card",
           ".hours-panel",
           ".location-map-wrapper",
           ".about-image",
