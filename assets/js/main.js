@@ -31,6 +31,9 @@ document.addEventListener("DOMContentLoaded", () => {
           ".gallery-masonry",
           ".contact-form-card",
           ".contact-text",
+          ".faq-controls",
+          ".faq-meta",
+          ".faq-list",
         ].join(","),
       ),
     );
@@ -96,6 +99,228 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   initScrollReveal();
+
+  const initFaq = () => {
+    const faqList = document.getElementById("faqList");
+    const faqSearchInput = document.getElementById("faqSearchInput");
+    const faqCategoryChips = document.getElementById("faqCategoryChips");
+    const faqResultCount = document.getElementById("faqResultCount");
+    const faqResetBtn = document.getElementById("faqResetBtn");
+    const faqShowMoreBtn = document.getElementById("faqShowMoreBtn");
+
+    if (!faqList || !faqSearchInput || !faqCategoryChips || !faqResultCount || !faqResetBtn || !faqShowMoreBtn) {
+      return;
+    }
+
+    const faqItems = Array.isArray(window.FAQ_ITEMS) ? window.FAQ_ITEMS : [];
+    const MAX_VISIBLE_FAQ = 12;
+    if (faqItems.length === 0) {
+      faqResultCount.textContent = "FAQ em atualização.";
+      faqList.innerHTML = '<p class="faq-empty">As perguntas frequentes estão sendo atualizadas no momento.</p>';
+      faqShowMoreBtn.hidden = true;
+      return;
+    }
+
+    const normalize = (value) =>
+      String(value ?? "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase();
+
+    const escapeHtml = (value) =>
+      String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/\"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+
+    const buildAnswerHtml = (lines) => {
+      const normalizedLines = Array.isArray(lines) ? lines : [String(lines ?? "")];
+      let html = "";
+      let listOpen = false;
+
+      normalizedLines.forEach((lineRaw) => {
+        const line = String(lineRaw ?? "").trim();
+        if (!line) {
+          if (listOpen) {
+            html += "</ul>";
+            listOpen = false;
+          }
+          return;
+        }
+
+        if (line.startsWith("- ")) {
+          if (!listOpen) {
+            html += '<ul class="faq-answer-list">';
+            listOpen = true;
+          }
+          html += `<li>${escapeHtml(line.slice(2).trim())}</li>`;
+          return;
+        }
+
+        if (listOpen) {
+          html += "</ul>";
+          listOpen = false;
+        }
+
+        html += `<p>${escapeHtml(line)}</p>`;
+      });
+
+      if (listOpen) {
+        html += "</ul>";
+      }
+
+      return html;
+    };
+
+    let activeCategory = "Todas";
+    let searchTerm = "";
+    let showAllFaq = false;
+    const categories = ["Todas", ...new Set(faqItems.map((item) => item.category).filter(Boolean))];
+    const synonymGroups = [
+      ["preco", "precos", "valor", "valores", "custo", "custos", "taxa", "taxas", "emolumento", "emolumentos"],
+      ["documento", "documentos", "comprovante", "comprovantes", "papel", "papeis"],
+      ["casamento", "matrimonio", "nupcias"],
+      ["uniao", "convivencia"],
+      ["obito", "falecimento"],
+      ["nascimento", "nascido"],
+      ["whatsapp", "telefone", "contato"],
+      ["agendamento", "agendar", "marcar"],
+      ["isencao", "gratuidade"],
+      ["prazo", "tempo"],
+    ];
+
+    const synonymMap = new Map();
+    synonymGroups.forEach((group) => {
+      const normalizedGroup = group.map((term) => normalize(term));
+      normalizedGroup.forEach((term) => {
+        synonymMap.set(term, normalizedGroup);
+      });
+    });
+
+    const tokenize = (value) =>
+      normalize(value)
+        .split(/[\s,.;:!?()[\]{}"'/\\-]+/)
+        .filter(Boolean);
+
+    const getFilteredItems = () =>
+      faqItems.filter((item) => {
+        const categoryMatch = activeCategory === "Todas" || item.category === activeCategory;
+        if (!categoryMatch) {
+          return false;
+        }
+
+        const queryTokens = tokenize(searchTerm);
+        if (queryTokens.length === 0) {
+          return true;
+        }
+
+        const haystack = normalize(
+          [
+            item.question,
+            item.category,
+            ...(Array.isArray(item.tags) ? item.tags : []),
+            ...(Array.isArray(item.answer) ? item.answer : [item.answer]),
+          ].join(" "),
+        );
+
+        return queryTokens.every((token) => {
+          const variants = synonymMap.get(token) || [token];
+          return variants.some((variant) => haystack.includes(variant));
+        });
+      });
+
+    const renderCategoryChips = () => {
+      faqCategoryChips.innerHTML = categories
+        .map(
+          (category) => `
+            <button
+              type="button"
+              class="faq-chip${category === activeCategory ? " is-active" : ""}"
+              data-faq-category="${escapeHtml(category)}"
+            >
+              ${escapeHtml(category)}
+            </button>
+          `,
+        )
+        .join("");
+
+      faqCategoryChips.querySelectorAll(".faq-chip").forEach((chip) => {
+        chip.addEventListener("click", () => {
+          const category = chip.getAttribute("data-faq-category");
+          if (!category || category === activeCategory) {
+            return;
+          }
+          activeCategory = category;
+          showAllFaq = false;
+          renderCategoryChips();
+          renderFaqItems();
+        });
+      });
+    };
+
+    const renderFaqItems = () => {
+      const filteredItems = getFilteredItems();
+      const count = filteredItems.length;
+      const shouldLimit = !showAllFaq && count > MAX_VISIBLE_FAQ;
+      const visibleItems = shouldLimit ? filteredItems.slice(0, MAX_VISIBLE_FAQ) : filteredItems;
+      faqResultCount.textContent =
+        shouldLimit && count > 0
+          ? `${count} perguntas encontradas. Exibindo ${MAX_VISIBLE_FAQ}.`
+          : `${count} ${count === 1 ? "pergunta encontrada" : "perguntas encontradas"}.`;
+      faqShowMoreBtn.hidden = !shouldLimit;
+
+      if (count === 0) {
+        faqList.innerHTML =
+          '<p class="faq-empty">Nenhum resultado encontrado. Tente outro termo ou escolha outra categoria.</p>';
+        faqShowMoreBtn.hidden = true;
+        return;
+      }
+
+      faqList.innerHTML = visibleItems
+        .map(
+          (item, index) => `
+            <details class="faq-item"${index < 2 ? " open" : ""}>
+              <summary class="faq-question">
+                <span class="faq-question-text">${escapeHtml(item.question)}</span>
+                <span class="iconify faq-question-icon" data-icon="mdi:chevron-down" aria-hidden="true"></span>
+              </summary>
+              <div class="faq-answer">
+                ${buildAnswerHtml(item.answer)}
+              </div>
+            </details>
+          `,
+        )
+        .join("");
+    };
+
+    faqSearchInput.addEventListener("input", () => {
+      searchTerm = faqSearchInput.value;
+      showAllFaq = false;
+      renderFaqItems();
+    });
+
+    faqResetBtn.addEventListener("click", () => {
+      searchTerm = "";
+      activeCategory = "Todas";
+      showAllFaq = false;
+      faqSearchInput.value = "";
+      renderCategoryChips();
+      renderFaqItems();
+      faqSearchInput.focus();
+    });
+
+    faqShowMoreBtn.addEventListener("click", () => {
+      showAllFaq = true;
+      renderFaqItems();
+    });
+
+    renderCategoryChips();
+    renderFaqItems();
+  };
+
+  initFaq();
 
   const galleryMasonry = document.getElementById("galleryMasonry");
   const galleryShuffle = document.getElementById("galleryShuffle");

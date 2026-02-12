@@ -18,6 +18,7 @@
     />
     <script defer src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
     <script defer src="assets/js/gallery-data.js"></script>
+    <script defer src="assets/js/faq-data.js"></script>
     <script defer src="assets/js/main.js"></script>
   </head>
   <body>
@@ -42,6 +43,7 @@
           <a href="#servicos" class="nav-link">Serviços</a>
           <a href="#online" class="nav-link">Serviços Online</a>
           <a href="#links-uteis" class="nav-link">Links úteis</a>
+          <a href="#faq" class="nav-link">FAQ</a>
           <a href="#horario" class="nav-link">Horário</a>
           <a href="#localizacao" class="nav-link">Localização</a>
           <a href="#galeria" class="nav-link">Galeria</a>
@@ -56,30 +58,34 @@
       <section class="hero">
         <div class="hero-overlay"></div>
         <div class="container hero-content">
-          <div class="hero-emblem-wrap">
-            <img
-              src="assets/images/cartorio-icon.png"
-              alt="Ícone do Cartório do 1º Ofício de Justiça de Rio das Ostras"
-              class="hero-emblem"
-            />
+          <div class="hero-brand">
+            <div class="hero-emblem-wrap">
+              <img
+                src="assets/images/cartorio-icon.png"
+                alt="Ícone do Cartório do 1º Ofício de Justiça de Rio das Ostras"
+                class="hero-emblem"
+              />
+            </div>
+            <p class="hero-kicker">Cartório do 1º Ofício de Justiça de Rio das Ostras</p>
           </div>
-          <p class="hero-kicker">Cartório do 1º Ofício de Justiça de Rio das Ostras</p>
-          <h1 class="hero-title">
-            Segurança jurídica e atendimento moderno em um só lugar.
-          </h1>
-          <p class="hero-subtitle">
-            Escrituras, uniões estáveis, inventários, protesto de títulos, registro civil de pessoas naturais
-            e muito mais – com eficiência, transparência e acolhimento.
-          </p>
-          <div class="hero-actions">
-            <a href="#online" class="btn btn-primary">
-              Acessar serviços online
-              <span class="iconify" data-icon="mdi:arrow-right" aria-hidden="true"></span>
-            </a>
-            <a href="#localizacao" class="btn btn-ghost">
-              Ver como chegar
-              <span class="iconify" data-icon="mdi:map-marker" aria-hidden="true"></span>
-            </a>
+          <div class="hero-copy">
+            <h1 class="hero-title">
+              Segurança jurídica e atendimento moderno em um só lugar.
+            </h1>
+            <p class="hero-subtitle">
+              Escrituras, casamentos, uniões estáveis, inventários, protesto de títulos, registro civil de pessoas naturais
+              e muito mais – com eficiência, transparência e acolhimento.
+            </p>
+            <div class="hero-actions">
+              <a href="#online" class="btn btn-primary">
+                Acessar serviços online
+                <span class="iconify" data-icon="mdi:arrow-right" aria-hidden="true"></span>
+              </a>
+              <a href="#localizacao" class="btn btn-ghost">
+                Ver como chegar
+                <span class="iconify" data-icon="mdi:map-marker" aria-hidden="true"></span>
+              </a>
+            </div>
           </div>
           <div class="hero-badges">
             <div class="hero-badge">
@@ -93,7 +99,6 @@
               </span>
             </div>
           </div>
-
           <div class="cards-grid cards-grid-3 hero-highlights">
             <article class="info-card">
               <span class="iconify info-card-icon" data-icon="mdi:account-group-outline" aria-hidden="true"></span>
@@ -119,6 +124,40 @@
                 documentos e certidões.
               </p>
             </article>
+          </div>
+          <div class="hero-campaign">
+            <div class="hero-campaign-copy">
+              <p class="hero-campaign-kicker">Campanha temporária</p>
+              <h3 class="hero-campaign-title">Cadernos do Amanhã</h3>
+              <p class="hero-campaign-text">
+                Arrecadação de cadernos brochura, lápis de cor e contribuições por Pix para crianças e jovens em
+                situação de vulnerabilidade.
+              </p>
+              <p class="hero-campaign-deadline">Campanha válida até 5 de março.</p>
+              <div class="hero-campaign-actions">
+                <a href="assets/images/cadernos-do-amanha.jpeg" target="_blank" rel="noopener" class="btn btn-primary">
+                  Ver cartaz completo
+                  <span class="iconify" data-icon="mdi:open-in-new" aria-hidden="true"></span>
+                </a>
+                <a href="https://wa.me/552231900120" target="_blank" rel="noopener" class="btn btn-ghost">
+                  Falar com a equipe
+                  <span class="iconify" data-icon="mdi:whatsapp" aria-hidden="true"></span>
+                </a>
+              </div>
+            </div>
+            <a
+              href="assets/images/cadernos-do-amanha.jpeg"
+              target="_blank"
+              rel="noopener"
+              class="hero-campaign-poster-link"
+            >
+              <img
+                src="assets/images/cadernos-do-amanha.jpeg"
+                alt="Cartaz da campanha Cadernos do Amanhã para doação de materiais escolares e contribuição por Pix."
+                class="hero-campaign-poster"
+                loading="lazy"
+              />
+            </a>
           </div>
         </div>
       </section>
@@ -253,6 +292,44 @@
             Além desses, o cartório oferece diversos outros serviços notariais e de registro. Em caso de dúvida,
             entre em contato para receber orientação personalizada.
           </p>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section class="section section-alt faq-section" id="faq">
+        <div class="container">
+          <header class="section-header">
+            <p class="section-kicker">Perguntas Frequentes</p>
+            <h2 class="section-title">Dúvidas mais comuns</h2>
+            <p class="section-subtitle">
+              Consulte orientações sobre casamento civil, conversão de união estável, isenção, registro civil e
+              atendimento. As informações foram organizadas para facilitar a busca.
+            </p>
+          </header>
+
+          <div class="faq-controls">
+            <div class="faq-search-wrap">
+              <label for="faqSearchInput" class="faq-search-label">Buscar na FAQ</label>
+              <input
+                id="faqSearchInput"
+                type="search"
+                class="faq-search-input"
+                placeholder="Ex.: documentos casamento, valores, isenção, óbito..."
+                autocomplete="off"
+              />
+            </div>
+            <div class="faq-chip-row" id="faqCategoryChips" aria-label="Filtrar por categoria"></div>
+          </div>
+
+          <div class="faq-meta">
+            <p class="faq-result-count" id="faqResultCount" aria-live="polite"></p>
+            <button type="button" class="faq-reset-btn" id="faqResetBtn">Limpar filtros</button>
+          </div>
+
+          <div class="faq-list" id="faqList"></div>
+          <div class="faq-show-more-wrap">
+            <button type="button" class="faq-show-more-btn" id="faqShowMoreBtn" hidden>Mostrar mais</button>
+          </div>
         </div>
       </section>
 
