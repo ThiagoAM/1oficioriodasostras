@@ -177,7 +177,12 @@ document.addEventListener("DOMContentLoaded", () => {
     let activeCategory = "Todas";
     let searchTerm = "";
     let showAllFaq = false;
-    const categories = ["Todas", ...new Set(faqItems.map((item) => item.category).filter(Boolean))];
+    const discoveredCategories = [...new Set(faqItems.map((item) => item.category).filter(Boolean))];
+    const categories = [
+      "Todas",
+      ...discoveredCategories.filter((category) => category === "Pagamento"),
+      ...discoveredCategories.filter((category) => category !== "Pagamento"),
+    ];
     const synonymGroups = [
       ["preco", "precos", "valor", "valores", "custo", "custos", "taxa", "taxas", "emolumento", "emolumentos"],
       ["documento", "documentos", "comprovante", "comprovantes", "papel", "papeis"],
@@ -187,7 +192,6 @@ document.addEventListener("DOMContentLoaded", () => {
       ["nascimento", "nascido"],
       ["whatsapp", "telefone", "contato"],
       ["agendamento", "agendar", "marcar"],
-      ["isencao", "gratuidade"],
       ["prazo", "tempo"],
     ];
 

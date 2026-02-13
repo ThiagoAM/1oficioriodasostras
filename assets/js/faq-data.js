@@ -54,7 +54,8 @@ window.FAQ_ITEMS = [
       "Valores (excluídas despesas de reconhecimento de firmas e autenticações):",
       "- Habilitação para casamento civil com celebração com Juiz de Paz na sede do cartório: R$ 1.770,73.",
       "- Habilitação para casamento civil com celebração com Juiz de Paz fora da sede do cartório: R$ 3.925,18.",
-      "Formas de pagamento: dinheiro, Pix, débito e crédito à vista ou parcelado (com juros da administradora)."
+      "Formas de pagamento: Pix, dinheiro, cartão de débito e cartão de crédito.",
+      "No cartão de crédito, há opção de parcelamento em até 21 vezes, com incidência de juros da operadora da maquininha."
     ]
   },
   {
@@ -79,7 +80,8 @@ window.FAQ_ITEMS = [
     tags: ["valor", "sem celebracao", "juiz de paz"],
     answer: [
       "Conversão de união estável em casamento (sem celebração com Juiz de Paz): R$ 1.308,29.",
-      "Pagamento em dinheiro, Pix, débito e crédito à vista ou parcelado (juros da administradora)."
+      "Formas de pagamento: Pix, dinheiro, cartão de débito e cartão de crédito.",
+      "No cartão de crédito, há opção de parcelamento em até 21 vezes, com incidência de juros da operadora da maquininha."
     ]
   },
   {
@@ -117,21 +119,6 @@ window.FAQ_ITEMS = [
       "A opção pela comunhão parcial de bens é a única que dispensa escritura de pacto antenupcial.",
       "Na conversão de união estável em casamento, a opção de regime de bens na escritura de união estável não dispensa o pacto antenupcial quando ele for exigido.",
       "O pacto antenupcial tem custas à parte e o atendimento deve ser agendado previamente no setor de notas."
-    ]
-  },
-  {
-    id: "isencao-documentos",
-    category: "Isenção",
-    question: "Quais documentos são necessários para pedido de isenção de pagamento?",
-    tags: ["isencao", "hipossuficiencia", "cadunico"],
-    answer: [
-      "Documentos informados para análise de isenção:",
-      "- Declaração de hipossuficiência modelo ARPEN preenchida, sem rasuras e sem campos em branco, assinada (obrigatória para ambos).",
-      "- Declaração de imposto de renda do ano anterior (todas as páginas e recibo) ou declaração de isento do IR (obrigatória para ambos).",
-      "- Comprovante de cadastramento no Cad-Único (obrigatório para ambos ou para um dos noivos).",
-      "- Cópia da carteira de trabalho: páginas de foto, qualificação civil, contrato atual ou último contrato e página subsequente em branco (obrigatório para ambos).",
-      "- Contracheque atualizado dos últimos 3 meses.",
-      "- Para autônomos/profissionais liberais/sem renda formal: extratos bancários dos últimos 3 meses e comprovação de renda mensal."
     ]
   },
   {
@@ -199,6 +186,20 @@ window.FAQ_ITEMS = [
     ]
   },
   {
+    id: "formas-pagamento-geral",
+    category: "Pagamento",
+    question: "Quais formas de pagamento o cartório recebe?",
+    tags: ["pagamento", "pix", "debito", "credito", "parcelamento", "21x"],
+    answer: [
+      "Formas de pagamento disponíveis:",
+      "- Pix.",
+      "- Dinheiro.",
+      "- Cartão de débito.",
+      "- Cartão de crédito.",
+      "No cartão de crédito, é possível parcelar em até 21 vezes, com juros da operadora da maquininha."
+    ]
+  },
+  {
     id: "servicos-online-disponiveis",
     category: "Serviços Online",
     question: "Quais solicitações online estão disponíveis no site?",
@@ -227,7 +228,7 @@ window.FAQ_ITEMS = [
     question: "Até quando as informações e valores deste FAQ estão válidos?",
     tags: ["validade", "31/12/2026", "atualizacao"],
     answer: [
-      "As informações principais de casamento civil, conversão de união estável e isenção, conforme base informada, são válidas até 31/12/2026.",
+      "As informações principais de casamento civil e conversão de união estável, conforme base informada, são válidas até 31/12/2026.",
       "Para confirmação final de valores e casos específicos, recomendamos contato prévio com o setor responsável."
     ]
   }
