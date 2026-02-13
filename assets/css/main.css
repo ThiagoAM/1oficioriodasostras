@@ -210,6 +210,59 @@ a {
   background: #111827;
 }
 
+/* Aviso institucional */
+
+.site-notice-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: flex-start;
+  gap: 0.7rem;
+  border-radius: 14px;
+  border: 1px solid rgba(245, 158, 11, 0.34);
+  background: linear-gradient(155deg, rgba(255, 250, 240, 0.96), rgba(255, 244, 227, 0.94));
+  box-shadow: 0 12px 28px rgba(120, 53, 15, 0.12);
+  padding: 0.75rem 0.85rem;
+}
+
+.site-notice-icon {
+  font-size: 1.2rem;
+  color: #b45309;
+  line-height: 1;
+  margin-top: 0.1rem;
+}
+
+.site-notice-copy {
+  display: grid;
+  gap: 0.22rem;
+}
+
+.site-notice-kicker {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #9a3412;
+}
+
+.site-notice-text {
+  margin: 0;
+  font-size: 0.86rem;
+  line-height: 1.58;
+  color: #7c2d12;
+}
+
+.site-notice-text strong {
+  color: #9a3412;
+}
+
+.hero-notice-card {
+  width: 100%;
+  max-width: none;
+  grid-column: 1 / -1;
+  margin-bottom: 1rem;
+}
+
 /* Hero */
 
 .hero {
@@ -396,19 +449,19 @@ a {
 
   .hero-badges {
     grid-column: 1 / -1;
-    grid-row: 2;
+    grid-row: 3;
     justify-content: center;
     margin-top: 1.35rem;
   }
 
   .hero-campaign {
     grid-column: 1 / -1;
-    grid-row: 4;
+    grid-row: 5;
   }
 
   .hero-highlights {
     grid-column: 1 / -1;
-    grid-row: 3;
+    grid-row: 4;
   }
 }
 
@@ -2259,25 +2312,44 @@ a {
 
   .hero-badges {
     grid-column: 1 / -1;
-    grid-row: 2;
+    grid-row: 3;
     justify-content: center;
     margin-top: 1.2rem;
   }
 
   .hero-campaign {
     grid-column: 1 / -1;
-    grid-row: 4;
+    grid-row: 5;
   }
 
   .hero-highlights {
     grid-column: 1 / -1;
-    grid-row: 3;
+    grid-row: 4;
   }
 }
 
 @media (max-width: 640px) {
   .header-inner {
     padding-block: 0.6rem;
+  }
+
+  .site-notice-card {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.45rem;
+    padding: 0.7rem 0.75rem;
+  }
+
+  .hero-notice-card {
+    margin-bottom: 0.9rem;
+  }
+
+  .site-notice-icon {
+    font-size: 1rem;
+    margin-top: 0;
+  }
+
+  .site-notice-text {
+    font-size: 0.82rem;
   }
 
   .brand-logo {
