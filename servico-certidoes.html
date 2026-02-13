@@ -9,6 +9,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <script defer src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <script defer src="assets/js/service-form-pdf.js"></script>
     <link
       href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap"
       rel="stylesheet"
@@ -61,14 +63,13 @@
           </div>
 
           <div class="contact-form-card">
-            <form action="https://api.web3forms.com/submit" method="POST" class="contact-form">
-              <input type="hidden" name="access_key" value="2a703f7e-b77b-4478-97f2-c9d8379ad11b" />
-              <input type="hidden" name="subject" value="Solicitação de Certidões - Site 1º Ofício Rio das Ostras" />
-              <input type="hidden" name="from_name" value="Site 1º Ofício Rio das Ostras" />
-              <input type="hidden" name="tipo_de_servico" value="Certidao" />
-              <input type="hidden" name="redirect" value="/sucesso.html" />
-              <input type="checkbox" name="botcheck" class="hidden" style="display:none" />
-
+            <form
+              class="contact-form"
+              data-pdf-service-form
+              data-service-name="Certidões"
+              data-target-email="1oficiorioostras@gmail.com"
+              data-target-whatsapp="552231900120"
+            >
               <section class="form-section">
                 <h2 class="form-section-title">Dados do solicitante</h2>
 
@@ -240,15 +241,26 @@
                     </label>
                   </div>
                 </fieldset>
+
+                <div class="field-group">
+                  <label for="anexosCertidoes" class="field-label">Anexar documentos (opcional)</label>
+                  <input
+                    type="file"
+                    id="anexosCertidoes"
+                    name="anexos_certidoes"
+                    class="field-input file-input"
+                    accept=".pdf,.jpg,.jpeg,.png"
+                    multiple
+                  />
+                </div>
               </section>
 
               <p class="form-helper">
-                Atenção: esta é uma solicitação de certidão. A emissão depende da conferência dos dados e da
-                documentação necessária.
+                Ao clicar em próximo, você verá as etapas para baixar o PDF e enviar por e-mail ou WhatsApp.
               </p>
 
-              <button type="submit" class="btn btn-primary btn-full">
-                Enviar solicitação de certidão
+              <button type="button" class="btn btn-primary btn-full" data-form-next>
+                Próximo
               </button>
             </form>
           </div>

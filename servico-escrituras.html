@@ -9,6 +9,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <script defer src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <script defer src="assets/js/service-form-pdf.js"></script>
     <link
       href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap"
       rel="stylesheet"
@@ -53,21 +55,21 @@
               <li class="contact-item">
                 <span class="iconify contact-icon" data-icon="mdi:file-document-outline" aria-hidden="true"></span>
                 <div>
-                  Você pode anexar documentos (PDF) para análise prévia da escritura.
+                  Você pode anexar documentos em PDF e fotos para análise prévia da escritura.
                 </div>
               </li>
             </ul>
           </div>
 
           <div class="contact-form-card">
-            <form action="https://api.web3forms.com/submit" method="POST" enctype="multipart/form-data" class="contact-form">
-              <input type="hidden" name="access_key" value="2a703f7e-b77b-4478-97f2-c9d8379ad11b" />
-              <input type="hidden" name="subject" value="Solicitação de Escritura/Ato Notarial - Site 1º Ofício Rio das Ostras" />
-              <input type="hidden" name="from_name" value="Site 1º Ofício Rio das Ostras" />
-              <input type="hidden" name="tipo_de_servico" value="Escritura" />
-              <input type="hidden" name="redirect" value="/sucesso.html" />
-              <input type="checkbox" name="botcheck" class="hidden" style="display:none" />
-
+            <form
+              class="contact-form"
+              enctype="multipart/form-data"
+              data-pdf-service-form
+              data-service-name="Escrituras e atos notariais"
+              data-target-email="notas1oficioro@gmail.com"
+              data-target-whatsapp="552231900120"
+            >
               <section class="form-section">
                 <h2 class="form-section-title">Dados do solicitante</h2>
 
@@ -183,18 +185,18 @@
                 <h2 class="form-section-title">Documentos e informações adicionais</h2>
 
                 <div class="field-group">
-                  <label for="docsVendedores" class="field-label">Documentos dos vendedores (PDF)</label>
-                  <input type="file" id="docsVendedores" name="documentos_vendedores" class="field-input file-input" accept=".pdf" multiple />
+                  <label for="docsVendedores" class="field-label">Documentos dos vendedores (PDF ou foto)</label>
+                  <input type="file" id="docsVendedores" name="documentos_vendedores" class="field-input file-input" accept=".pdf,.jpg,.jpeg,.png,.webp,.heic,.heif" multiple />
                 </div>
 
                 <div class="field-group">
-                  <label for="docsCompradores" class="field-label">Documentos dos compradores (PDF)</label>
-                  <input type="file" id="docsCompradores" name="documentos_compradores" class="field-input file-input" accept=".pdf" multiple />
+                  <label for="docsCompradores" class="field-label">Documentos dos compradores (PDF ou foto)</label>
+                  <input type="file" id="docsCompradores" name="documentos_compradores" class="field-input file-input" accept=".pdf,.jpg,.jpeg,.png,.webp,.heic,.heif" multiple />
                 </div>
 
                 <div class="field-group">
-                  <label for="docsImoveis" class="field-label">Documentos de imóveis/outros (PDF)</label>
-                  <input type="file" id="docsImoveis" name="documentos_imoveis" class="field-input file-input" accept=".pdf" multiple />
+                  <label for="docsImoveis" class="field-label">Documentos de imóveis/outros (PDF ou foto)</label>
+                  <input type="file" id="docsImoveis" name="documentos_imoveis" class="field-input file-input" accept=".pdf,.jpg,.jpeg,.png,.webp,.heic,.heif" multiple />
                 </div>
 
                 <div class="field-group">
@@ -204,12 +206,11 @@
               </section>
 
               <p class="form-helper">
-                Atenção: a solicitação será analisada e a equipe retornará com a lista oficial de documentos,
-                valores e orientações para lavratura do ato.
+                Ao clicar em próximo, você verá as etapas para baixar o PDF e enviar por e-mail ou WhatsApp.
               </p>
 
-              <button type="submit" class="btn btn-primary btn-full">
-                Enviar solicitação de escritura/ato
+              <button type="button" class="btn btn-primary btn-full" data-form-next>
+                Próximo
               </button>
             </form>
           </div>

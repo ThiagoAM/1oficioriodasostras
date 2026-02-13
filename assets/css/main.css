@@ -2024,6 +2024,293 @@ a {
   color: #b91c1c;
 }
 
+/* Fluxo de envio do formulario */
+
+.service-flow-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 110;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+}
+
+.service-flow-modal[hidden] {
+  display: none;
+}
+
+.service-flow-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 16% 10%, rgba(45, 212, 191, 0.18), transparent 42%),
+    rgba(2, 6, 23, 0.72);
+  backdrop-filter: blur(4px);
+}
+
+.service-flow-modal-dialog {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 700px);
+  border-radius: 18px;
+  border: 1px solid rgba(94, 234, 212, 0.28);
+  background:
+    radial-gradient(circle at 10% 0, rgba(20, 184, 166, 0.2), transparent 42%),
+    linear-gradient(160deg, #071322 0, #0a1f34 60%, #0a1a2c 100%);
+  box-shadow: 0 26px 62px rgba(2, 6, 23, 0.46);
+  padding: 1.1rem 1.1rem 1rem;
+}
+
+.service-flow-close-btn {
+  position: absolute;
+  top: 0.45rem;
+  right: 0.45rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.5);
+  background: rgba(15, 23, 42, 0.68);
+  color: #d9e4f0;
+  font-size: 1.15rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.service-flow-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin: 0 2rem 0.75rem 0;
+}
+
+.service-flow-logo {
+  width: 56px;
+  height: 56px;
+  border-radius: 999px;
+  object-fit: contain;
+  background: rgba(8, 19, 33, 0.62);
+  border: 1px solid rgba(94, 234, 212, 0.38);
+  box-shadow: 0 12px 26px rgba(2, 6, 23, 0.38);
+  padding: 0.32rem;
+}
+
+.service-flow-head-copy {
+  display: grid;
+  gap: 0.28rem;
+}
+
+.service-flow-title {
+  margin: 0;
+  font-size: 1.06rem;
+  color: #f8fbff;
+}
+
+.service-flow-intro {
+  margin: 0;
+  font-size: 0.84rem;
+  line-height: 1.52;
+  color: #c6d5e4;
+}
+
+.service-flow-steps {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.65rem;
+}
+
+.service-flow-step {
+  padding: 0.55rem 0.6rem 0.6rem;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  background: rgba(8, 23, 41, 0.78);
+  transition: opacity 0.15s ease, filter 0.15s ease, border-color 0.15s ease;
+}
+
+.service-flow-step.is-disabled {
+  opacity: 0.42;
+  filter: saturate(0.68);
+  pointer-events: none;
+}
+
+.service-flow-step.is-disabled .service-flow-step-content,
+.service-flow-step.is-collapsed .service-flow-step-content {
+  display: none;
+}
+
+.service-flow-step.is-complete {
+  border-color: rgba(52, 211, 153, 0.56);
+}
+
+.service-flow-step-title {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: #d7e3f0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  cursor: default;
+}
+
+.service-flow-step-title:disabled {
+  opacity: 1;
+}
+
+.service-flow-step.is-complete .service-flow-step-title {
+  cursor: pointer;
+}
+
+.service-flow-step.is-complete .service-flow-step-title:hover {
+  color: #f1f5f9;
+}
+
+.service-flow-step-title:focus-visible {
+  outline: 2px solid rgba(147, 197, 253, 0.85);
+  outline-offset: 3px;
+}
+
+.service-flow-step-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42rem;
+}
+
+.service-flow-step-toggle-indicator {
+  display: none;
+  font-size: 0.96rem;
+  line-height: 1;
+  color: #d7e3f0;
+  transition: transform 0.15s ease;
+}
+
+.service-flow-step.is-complete .service-flow-step-toggle-indicator {
+  display: inline-block;
+}
+
+.service-flow-step.is-complete:not(.is-collapsed) .service-flow-step-toggle-indicator {
+  transform: rotate(180deg);
+}
+
+.service-flow-step-done {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.22rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  color: #86efac;
+  border: 1px solid rgba(134, 239, 172, 0.42);
+  background: rgba(22, 101, 52, 0.26);
+  border-radius: 999px;
+  padding: 0.14rem 0.45rem;
+}
+
+.service-flow-step-done[hidden] {
+  display: none !important;
+}
+
+.service-flow-step-text {
+  margin: 0.22rem 0 0;
+  font-size: 0.84rem;
+  line-height: 1.48;
+  color: #c6d5e4;
+}
+
+.service-flow-target-email {
+  font-weight: 700;
+  color: #f8fbff;
+  word-break: break-word;
+}
+
+.service-flow-inline-copy-btn {
+  margin-left: 0.45rem;
+  padding: 0.26rem 0.62rem;
+  font-size: 0.75rem;
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(148, 163, 184, 0.56);
+  color: #f8fbff;
+  box-shadow: 0 8px 20px rgba(2, 6, 23, 0.22);
+  vertical-align: middle;
+}
+
+.service-flow-inline-copy-btn:hover {
+  background: rgba(30, 41, 59, 0.9);
+  border-color: rgba(148, 163, 184, 0.72);
+  color: #f8fbff;
+}
+
+.service-flow-step-content {
+  margin-top: 0.22rem;
+}
+
+.service-flow-download-btn {
+  margin-top: 0.55rem;
+}
+
+.service-flow-confirm-btn {
+  margin-top: 1.25rem;
+}
+
+.service-flow-finish-btn {
+  margin-top: 0.75rem;
+}
+
+.service-flow-status {
+  min-height: 1rem;
+  margin-top: 0.5rem;
+}
+
+.service-flow-global-status {
+  margin: 0.1rem 0 0.55rem;
+  padding: 0.34rem 0.56rem;
+  border-radius: 9px;
+  background: rgba(8, 23, 41, 0.52);
+  border: 1px solid rgba(148, 163, 184, 0.28);
+}
+
+.service-flow-channels {
+  margin-top: 0.55rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.service-flow-email-btn,
+.service-flow-email-btn:hover {
+  color: #f8fbff;
+}
+
+.service-flow-whatsapp-btn {
+  background: #128c7e;
+  border: 1px solid #128c7e;
+  color: #f8fbff;
+  box-shadow: 0 14px 30px rgba(22, 163, 74, 0.33);
+}
+
+.service-flow-whatsapp-btn:hover {
+  background: #0f786d;
+  border-color: #0f786d;
+  color: #f8fbff;
+}
+
+.service-flow-status.form-status--success {
+  color: #86efac;
+}
+
+.service-flow-status.form-status--error {
+  color: #fca5a5;
+}
+
 /* Footer */
 
 .site-footer {
@@ -2453,6 +2740,37 @@ a {
 
   .hero-campaign-actions .btn {
     width: 100%;
+  }
+
+  .service-flow-channels {
+    flex-direction: column;
+  }
+
+  .service-flow-channels .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .service-flow-modal-dialog {
+    padding: 1rem 0.85rem 0.85rem;
+  }
+
+  .service-flow-head {
+    margin-right: 1.7rem;
+    gap: 0.58rem;
+  }
+
+  .service-flow-logo {
+    width: 46px;
+    height: 46px;
+  }
+
+  .service-flow-intro {
+    font-size: 0.8rem;
+  }
+
+  .service-flow-step {
+    padding: 0.5rem 0.5rem 0.55rem;
   }
 
   .faq-question {
