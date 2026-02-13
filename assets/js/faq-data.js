@@ -164,6 +164,98 @@ window.FAQ_ITEMS = [
     ]
   },
   {
+    id: "transcricao-nascimento-documentos",
+    category: "Registro Civil",
+    question: "Quais documentos são necessários para transcrição de nascimento?",
+    tags: ["transcricao", "nascimento", "consular", "apostila", "rtd", "valor"],
+    answer: [
+      "Para solicitar a transcrição de nascimento, apresentar:",
+      "- RG, CNH ou RNE, passaporte e CPF dos pais (cópia e original). Na ausência do original físico, podem ser aceitos RG ou CNH em formato digital.",
+      "- Certidão de assento de nascimento emitida por autoridade consular brasileira; ou certidão estrangeira de nascimento legalizada por autoridade consular brasileira ou apostilada pela autoridade competente do país de origem, traduzida por tradutor público juramentado e registrada em Cartório de RTD (art. 148 da Lei 6.015 e art. 904 da CGJ/RJ).",
+      "- Documento que comprove a nacionalidade brasileira de um dos genitores.",
+      "- Comprovante de residência atualizado do município de Rio das Ostras (água, luz, telefone fixo, gás, internet ou TV a cabo), em cópia e original.",
+      "- Requerimento com firma reconhecida por um dos pais ou por procurador.",
+      "Valor informado da transcrição: R$ 983,68."
+    ]
+  },
+  {
+    id: "transcricao-casamento-documentos",
+    category: "Registro Civil",
+    question: "Quais documentos são necessários para transcrição de casamento?",
+    tags: ["transcricao", "casamento", "consular", "apostila", "rtd", "valor"],
+    answer: [
+      "Para solicitar a transcrição de casamento, apresentar:",
+      "- RG, CNH ou RNE, passaporte e CPF dos nubentes (cópia e original). Na ausência do original físico, podem ser aceitos RG ou CNH em formato digital.",
+      "- Certidão de assento de casamento emitida por autoridade consular brasileira; ou certidão estrangeira de casamento legalizada por autoridade consular brasileira e apostilada pela autoridade competente do país de origem, traduzida por tradutor público juramentado e registrada em Cartório de RTD (art. 148 da Lei 6.015 e art. 908 da CGJ/RJ).",
+      "- Certidão de nascimento do cônjuge brasileiro; ou certidão de casamento anterior com averbação de divórcio; ou certidão de óbito do ex-cônjuge falecido(a), quando aplicável.",
+      "- Comprovante de residência atualizado do município de Rio das Ostras (água, luz, telefone fixo, gás, internet ou TV a cabo), em cópia e original.",
+      "- Requerimento com firma reconhecida por um dos cônjuges ou por procurador.",
+      "Valor informado da transcrição: R$ 983,68."
+    ]
+  },
+  {
+    id: "transcricao-obito-documentos",
+    category: "Registro Civil",
+    question: "Quais documentos são necessários para transcrição de óbito?",
+    tags: ["transcricao", "obito", "consular", "apostila", "rtd", "valor"],
+    answer: [
+      "Para solicitar a transcrição de óbito, apresentar:",
+      "- RG ou CNH, passaporte e CPF do(a) falecido(a) (cópia e original). Na ausência do original físico, podem ser aceitos RG ou CNH em formato digital.",
+      "- Certidão brasileira de nascimento ou, se for o caso, certidão brasileira de casamento do(a) falecido(a).",
+      "- Certidão do assento de óbito emitida por autoridade consular brasileira; ou certidão estrangeira de óbito legalizada por autoridade consular brasileira ou apostilada pela autoridade competente do país de origem, com tradução por tradutor público juramentado (quando necessária) e registro em Cartório de RTD (art. 148 da Lei 6.015 e art. 904 da CGJ/RJ).",
+      "- Comprovante de residência atualizado do município de Rio das Ostras (água, luz, telefone fixo, gás, internet ou TV a cabo), em cópia e original.",
+      "- Requerimento com firma reconhecida por familiar ou por procurador.",
+      "Valor informado da transcrição: R$ 983,68."
+    ]
+  },
+  {
+    id: "averbacao-divorcio-transcricao-casamento",
+    category: "Registro Civil",
+    question: "Como funciona a averbação de divórcio em transcrição de casamento?",
+    tags: ["averbacao", "divorcio", "transcricao", "casamento", "2 via", "valor"],
+    answer: [
+      "A averbação direta em cartório no Brasil é aplicável apenas ao divórcio simples (exclusiva dissolução do matrimônio, sem envolver guarda de filhos, pensão alimentícia ou partilha de bens).",
+      "Documentos informados:",
+      "- Sentença ou escritura pública de divórcio brasileira; ou escritura pública de divórcio emitida por autoridade consular brasileira; ou cópia integral da sentença estrangeira com comprovação do trânsito em julgado, apostilada no país de origem, traduzida por tradutor público juramentado e registrada em Cartório de RTD (art. 142 da Lei 6.015 e art. 465 do Provimento CNJ nº 149/2023).",
+      "- Requerimento com firma reconhecida por um dos cônjuges ou por procurador.",
+      "Valor informado da 2ª via com averbação: R$ 393,56."
+    ]
+  },
+  {
+    id: "escrituras-documentos-gerais",
+    category: "Escrituras e Notas",
+    question: "Quais documentos são normalmente exigidos para escrituras públicas?",
+    tags: ["escritura", "notas", "documentos", "imovel", "certidoes"],
+    answer: [
+      "As escrituras públicas podem envolver compra e venda, doação, inventário, divórcio, usucapião, entre outros atos.",
+      "A lista abaixo é prévia e geral. A documentação final varia conforme o tipo de escritura e a situação das partes.",
+      "Em regra, podem ser solicitados:",
+      "- Documentos pessoais de todas as partes: RG e CPF (original e cópia), comprovante de residência e certidão de registro civil (nascimento, casamento ou óbito).",
+      "- Documentação do imóvel, quando aplicável: matrícula atualizada, certidão/escritura anterior, certidão de ônus reais, certidão negativa de débitos municipais e descrição completa do imóvel.",
+      "- Certidões negativas das partes, conforme o caso: CND Federal, CND Estadual, CND Municipal, Funesbom, ações cíveis/fazendárias municipais, ações cíveis/criminais na Justiça Federal e negativa de ações do TST.",
+      "- Testemunhas, quando exigidas no ato, com presença física no cartório e apresentação de RG e CPF."
+    ]
+  },
+  {
+    id: "escrituras-advogado-orientacoes",
+    category: "Escrituras e Notas",
+    question: "Em quais escrituras a atuação de advogado é obrigatória e quais orientações devo seguir?",
+    tags: ["escritura", "advogado", "inventario", "divorcio", "usucapiao", "agendamento"],
+    answer: [
+      "Conforme orientação informada, a atuação de advogado é obrigatória, entre outros casos, em:",
+      "- Usucapião.",
+      "- Inventário.",
+      "- Divórcio.",
+      "- Partilha de bens.",
+      "- Adjudicação compulsória.",
+      "- Outras situações complexas.",
+      "Observações importantes:",
+      "- O tabelião fará a análise técnica da documentação apresentada.",
+      "- O ato é iniciado após a comprovação de pagamento.",
+      "- Recomenda-se atendimento prévio com a equipe de notas para confirmar a lista específica do seu caso."
+    ]
+  },
+  {
     id: "horario-atendimento",
     category: "Atendimento",
     question: "Qual o horário de funcionamento do cartório e do plantão?",

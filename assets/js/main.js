@@ -179,10 +179,11 @@ document.addEventListener("DOMContentLoaded", () => {
     let searchTerm = "";
     let showAllFaq = false;
     const discoveredCategories = [...new Set(faqItems.map((item) => item.category).filter(Boolean))];
+    const prioritizedCategories = ["Pagamento", "Escrituras e Notas"];
     const categories = [
       "Todas",
-      ...discoveredCategories.filter((category) => category === "Pagamento"),
-      ...discoveredCategories.filter((category) => category !== "Pagamento"),
+      ...prioritizedCategories.filter((category) => discoveredCategories.includes(category)),
+      ...discoveredCategories.filter((category) => !prioritizedCategories.includes(category)),
     ];
     const synonymGroups = [
       ["preco", "precos", "valor", "valores", "custo", "custos", "taxa", "taxas", "emolumento", "emolumentos"],
