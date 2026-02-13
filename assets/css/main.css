@@ -1106,6 +1106,73 @@ a {
   color: #c1d2e3;
 }
 
+/* Formularios para impressao */
+
+.paper-forms-section {
+  background:
+    radial-gradient(circle at 14% 0, rgba(20, 184, 166, 0.14), transparent 42%),
+    radial-gradient(circle at 90% 4%, rgba(56, 189, 248, 0.14), transparent 38%),
+    linear-gradient(180deg, rgba(236, 245, 252, 0.62), rgba(241, 247, 253, 0.84));
+}
+
+.paper-forms-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 1rem;
+}
+
+.paper-form-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  border-radius: var(--radius-lg);
+  padding: 1.15rem;
+  border: 1px solid rgba(94, 234, 212, 0.24);
+  background:
+    radial-gradient(circle at 10% 0, rgba(45, 212, 191, 0.18), transparent 46%),
+    linear-gradient(160deg, #081526 0, #0a2137 64%, #0a2842 100%);
+  box-shadow: 0 16px 36px rgba(7, 18, 32, 0.22);
+  overflow: hidden;
+}
+
+.paper-form-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.62rem;
+}
+
+.paper-form-icon {
+  flex-shrink: 0;
+  font-size: 1.5rem;
+  color: #7eeadf;
+  margin-top: 0.1rem;
+}
+
+.paper-form-title {
+  margin: 0 0 0.25rem;
+  font-size: 1rem;
+  color: #f8fbff;
+}
+
+.paper-form-meta {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #9dc3df;
+}
+
+.paper-form-text {
+  margin: 0;
+  font-size: 0.87rem;
+  line-height: 1.55;
+  color: #d4e3f2;
+}
+
+.paper-form-download {
+  margin-top: auto;
+  align-self: flex-start;
+}
+
 /* Links uteis */
 
 .useful-links-section {
@@ -2300,6 +2367,11 @@ a {
 
   .faq-chip-row {
     gap: 0.42rem;
+  }
+
+  .paper-form-download {
+    width: 100%;
+    justify-content: center;
   }
 
   .section {
