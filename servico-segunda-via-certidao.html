@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>2ª Via de Certidão – 1º Ofício Rio das Ostras</title>
+    <link rel="icon" type="image/png" href="assets/images/cartorio-icon.png" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <script defer src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script defer src="assets/js/pix-qr.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <script defer src="assets/js/service-form-pdf.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a href="/" class="brand">
+          <img
+            src="assets/images/cartorio-icon.png"
+            alt="Logo do Cartório do 1º Ofício de Justiça de Rio das Ostras"
+            class="brand-logo"
+          />
+          <div class="brand-text">
+            <span class="brand-title">1º Ofício de Justiça</span>
+            <span class="brand-subtitle">Notas • Protesto • RCPN • Rio das Ostras/RJ</span>
+          </div>
+        </a>
+      </div>
+    </header>
+
+    <main>
+      <section class="section section-alt">
+        <div class="container contact-grid service-form-grid">
+          <div class="contact-text">
+            <header class="section-header section-header-left">
+              <p class="section-kicker">Serviços Online</p>
+              <h1 class="section-title">2ª via de certidão</h1>
+              <p class="section-subtitle">
+                Pedido de 2ª via de certidão de nascimento, casamento ou óbito, com orientação conforme o cartório de
+                origem do registro.
+              </p>
+            </header>
+
+            <ul class="contact-list">
+              <li class="contact-item">
+                <span class="iconify contact-icon" data-icon="mdi:cash-multiple" aria-hidden="true"></span>
+                <div>
+                  <strong>Registro do 1º Ofício de Rio das Ostras:</strong><br />
+                  Valor (2026): <strong>R$ 176,50</strong>.
+                </div>
+              </li>
+              <li class="contact-item">
+                <span class="iconify contact-icon" data-icon="mdi:information-outline" aria-hidden="true"></span>
+                <div>
+                  <strong>Registro de outro cartório:</strong><br />
+                  fale com nossos escreventes para disponibilidade, valores e orientações antes do pagamento.
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="contact-form-card">
+            <form
+              class="contact-form"
+              data-pdf-service-form
+              data-service-name="2ª via de certidão (nascimento, casamento ou óbito)"
+              data-target-email="registrocivilro@gmail.com"
+              data-target-whatsapp="552231900120"
+            >
+              <section class="form-section">
+                <h2 class="form-section-title">Dados do pedido</h2>
+
+                <div class="field-group">
+                  <label for="nomeTitular2Via" class="field-label">Nome completo do titular da certidão *</label>
+                  <input type="text" id="nomeTitular2Via" name="nome_titular" class="field-input" required />
+                </div>
+
+                <div class="field-grid">
+                  <div class="field-group">
+                    <label for="tipoCertidao2Via" class="field-label">Tipo de certidão *</label>
+                    <select id="tipoCertidao2Via" name="tipo_certidao" class="field-input" required>
+                      <option value="">Selecione</option>
+                      <option value="Nascimento">Nascimento</option>
+                      <option value="Casamento">Casamento</option>
+                      <option value="Óbito">Óbito</option>
+                    </select>
+                  </div>
+                  <div class="field-group">
+                    <label for="origemRegistro2Via" class="field-label">Origem do registro *</label>
+                    <select id="origemRegistro2Via" name="origem_registro" class="field-input" required>
+                      <option value="1_oficio">Registro do 1º Ofício de Rio das Ostras</option>
+                      <option value="outro_cartorio">Registro de outro cartório</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="field-grid">
+                  <div class="field-group">
+                    <label for="email2Via" class="field-label">E-mail *</label>
+                    <input type="email" id="email2Via" name="email" class="field-input" required />
+                  </div>
+                  <div class="field-group">
+                    <label for="emailConfirm2Via" class="field-label">Confirmar e-mail *</label>
+                    <input
+                      type="email"
+                      id="emailConfirm2Via"
+                      name="email_confirmacao"
+                      class="field-input"
+                      required
+                      oninput="this.setCustomValidity(this.value !== document.getElementById('email2Via').value ? 'Os e-mails não coincidem.' : '')"
+                    />
+                  </div>
+                </div>
+
+                <div class="field-group">
+                  <label for="telefone2Via" class="field-label">Telefone / WhatsApp *</label>
+                  <input type="tel" id="telefone2Via" name="phone" class="field-input" placeholder="(22) 99999-9999" required />
+                </div>
+              </section>
+
+              <section class="form-section">
+                <h2 class="form-section-title">Valor e pagamento</h2>
+
+                <div class="field-group">
+                  <label for="valor2ViaInfo" class="field-label">Valor de referência</label>
+                  <input type="text" id="valor2ViaInfo" name="valor_referencia" class="field-input" value="R$ 176,50" readonly />
+                </div>
+
+                <div class="field-grid">
+                  <div class="field-group">
+                    <label for="pix2Via" class="field-label">PIX (CNPJ)</label>
+                    <input type="text" id="pix2Via" name="pix_cnpj" class="field-input" value="58.886.764/0001-80" readonly />
+                  </div>
+                  <div class="field-group">
+                    <label for="cnpj2Via" class="field-label">CNPJ</label>
+                    <input type="text" id="cnpj2Via" name="cnpj" class="field-input" value="58.886.764/0001-80" readonly />
+                  </div>
+                </div>
+
+                <div class="field-group">
+                  <label for="recebedor2Via" class="field-label">Recebedor</label>
+                  <input
+                    type="text"
+                    id="recebedor2Via"
+                    name="recebedor"
+                    class="field-input"
+                    value="Serviço do 1º Ofício de Justiça de Rio das Ostras"
+                    readonly
+                  />
+                </div>
+
+                <div
+                  class="pix-qr-block"
+                  id="pixQr2Via"
+                  data-pix-qr
+                  data-pix-payload-static="00020126580014br.gov.bcb.pix01360692edb8-6f55-4027-91b1-0bc688a185ba5204000053039865802BR5925SERVICO DO 1 OFICIO DE RI6012Porto Alegre62160512naoinformado6304012F"
+                  data-pix-key="58886764000180"
+                  data-pix-merchant-name="Servico do 1 Oficio de Justica de Rio das Ostras"
+                  data-pix-merchant-city="Rio das Ostras"
+                  data-pix-amount="176.50"
+                  data-pix-txid="SEGVIA2026"
+                >
+                  <div class="pix-qr-code" data-pix-qr-code aria-label="QR Code PIX para pagamento"></div>
+                  <p class="form-helper pix-qr-helper">Escaneie este QR Code no app do seu banco para pagar R$ 176,50.</p>
+                  <button type="button" class="btn btn-primary pix-qr-copy-btn" data-pix-copy-btn>
+                    Copiar Código PIX
+                  </button>
+                </div>
+
+                <p class="form-helper" id="avisoOrigemRegistro2Via">
+                  Para registros do 1º Ofício de Rio das Ostras, realize o pagamento de R$ 176,50 e anexe o comprovante.
+                </p>
+                <p class="form-helper">
+                  Importante: a certidão será emitida somente após a validação do comprovante de pagamento pela nossa
+                  equipe.
+                </p>
+              </section>
+
+              <section class="form-section">
+                <h2 class="form-section-title">Comprovante e observações</h2>
+
+                <div class="field-group">
+                  <label for="comprovante2Via" class="field-label">
+                    Comprovante de pagamento (obrigatório para registro do 1º Ofício)
+                  </label>
+                  <input
+                    type="file"
+                    id="comprovante2Via"
+                    name="comprovante_pagamento"
+                    class="field-input file-input"
+                    accept=".pdf,.jpg,.jpeg,.png,.webp,.heic,.heif"
+                    required
+                  />
+                </div>
+
+                <div class="field-group">
+                  <label for="obs2Via" class="field-label">Observações adicionais</label>
+                  <textarea id="obs2Via" name="observacoes" class="field-input field-textarea" rows="4"></textarea>
+                </div>
+              </section>
+
+              <p class="form-helper">
+                Ao clicar em próximo, você verá as etapas para baixar o PDF e enviar por WhatsApp ou e-mail.
+              </p>
+
+              <button type="button" class="btn btn-primary btn-full" data-form-next>
+                Próximo
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const origemField = document.getElementById("origemRegistro2Via");
+        const comprovanteField = document.getElementById("comprovante2Via");
+        const valorField = document.getElementById("valor2ViaInfo");
+        const avisoField = document.getElementById("avisoOrigemRegistro2Via");
+        const pixQrBlock = document.getElementById("pixQr2Via");
+
+        if (
+          !(origemField instanceof HTMLSelectElement) ||
+          !(comprovanteField instanceof HTMLInputElement) ||
+          !(valorField instanceof HTMLInputElement) ||
+          !(pixQrBlock instanceof HTMLElement)
+        ) {
+          return;
+        }
+
+        const syncPaymentRules = () => {
+          const isLocalRecord = origemField.value === "1_oficio";
+
+          comprovanteField.required = isLocalRecord;
+          valorField.value = isLocalRecord ? "R$ 176,50" : "A confirmar com escrevente";
+          pixQrBlock.hidden = !isLocalRecord;
+
+          if (isLocalRecord) {
+            pixQrBlock.dataset.pixAmount = "176.50";
+            const qrHelper = pixQrBlock.querySelector(".pix-qr-helper");
+            if (qrHelper) {
+              qrHelper.textContent = "Escaneie este QR Code no app do seu banco para pagar R$ 176,50.";
+            }
+            if (window.PixQr && typeof window.PixQr.renderPixQr === "function") {
+              window.PixQr.renderPixQr(pixQrBlock, { amount: "176.50" });
+            }
+          }
+
+          if (avisoField) {
+            avisoField.textContent = isLocalRecord
+              ? "Para registros do 1º Ofício de Rio das Ostras, realize o pagamento de R$ 176,50 e anexe o comprovante."
+              : "Para registros de outro cartório, não realize pagamento antes do retorno dos escreventes. Verificaremos disponibilidade e valores específicos.";
+          }
+        };
+
+        origemField.addEventListener("change", syncPaymentRules);
+        syncPaymentRules();
+      });
+    </script>
+  </body>
+</html>

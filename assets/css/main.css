@@ -1982,6 +1982,19 @@ a {
   background: #ffffff;
 }
 
+.field-input[readonly] {
+  background: #eef3f8;
+  border-color: rgba(125, 158, 187, 0.5);
+  color: #7b8794;
+  cursor: not-allowed;
+}
+
+.field-input[readonly]:focus {
+  border-color: rgba(125, 158, 187, 0.5);
+  box-shadow: none;
+  background: #eef3f8;
+}
+
 .field-textarea {
   resize: vertical;
   min-height: 120px;
@@ -2002,6 +2015,50 @@ a {
 
 .file-input {
   padding: 0.45rem 0.6rem;
+}
+
+.pix-qr-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 0.7rem;
+  border-radius: 12px;
+  border: 1px solid rgba(125, 158, 187, 0.34);
+  background: rgba(247, 251, 255, 0.92);
+}
+
+.pix-qr-code {
+  min-width: 344px;
+  min-height: 344px;
+  padding: 0.45rem;
+  border-radius: 10px;
+  border: 1px solid rgba(125, 158, 187, 0.42);
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pix-qr-code img,
+.pix-qr-code canvas {
+  display: block;
+  width: 336px !important;
+  height: 336px !important;
+}
+
+.pix-qr-helper {
+  margin-top: 0;
+}
+
+.pix-qr-copy-btn {
+  padding: 0.52rem 1rem;
+  font-size: 0.8rem;
+}
+
+.pix-qr-copy-btn.is-copied {
+  background: linear-gradient(135deg, #34d399, #10b981);
+  color: #052e2b;
 }
 
 .form-helper {

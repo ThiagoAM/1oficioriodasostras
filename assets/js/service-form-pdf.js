@@ -152,7 +152,13 @@
       if (!(input instanceof HTMLInputElement) || !input.files) {
         return;
       }
-      Array.from(input.files).forEach((file) => files.push(file));
+      const fieldLabel = getElementLabel(form, input);
+      Array.from(input.files).forEach((file) =>
+        files.push({
+          file,
+          fieldLabel,
+        }),
+      );
     });
     return files;
   };
@@ -362,15 +368,22 @@
       paragraphGap: 6,
     });
 
+    const getAttachmentDisplayName = (attachment) => {
+      const file = attachment.file;
+      const fieldLabel = String(attachment.fieldLabel || "").trim();
+      return fieldLabel ? `${fieldLabel} - ${file.name}` : file.name;
+    };
+
     if (attachments.length === 0) {
       drawParagraph("Nenhum anexo foi selecionado.", {
         size: 10.5,
         color: rgb(0.43, 0.49, 0.56),
       });
     } else {
-      attachments.forEach((file, index) => {
+      attachments.forEach((attachment, index) => {
+        const file = attachment.file;
         drawParagraph(
-          `${index + 1}. ${file.name} (${formatBytes(file.size)}${file.type ? `, ${file.type}` : ""})`,
+          `${index + 1}. ${getAttachmentDisplayName(attachment)} (${formatBytes(file.size)}${file.type ? `, ${file.type}` : ""})`,
           { size: 10.5 },
         );
       });
@@ -514,7 +527,8 @@
       return true;
     };
 
-    for (const file of attachments) {
+    for (const attachment of attachments) {
+      const file = attachment.file;
       let bytes;
       try {
         bytes = await file.arrayBuffer();
@@ -552,7 +566,7 @@
               : await pdfDoc.embedJpg(optimizedImage.imageBytes);
           const imagePage = pdfDoc.addPage(pageSize);
           const headingY = imagePage.getHeight() - margin;
-          imagePage.drawText(`Anexo: ${file.name}`, {
+          imagePage.drawText(`Anexo: ${getAttachmentDisplayName(attachment)}`, {
             x: margin,
             y: headingY,
             size: 10.5,
