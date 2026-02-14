@@ -56,13 +56,6 @@
                   A certidão só é emitida após confirmação do pagamento.
                 </div>
               </li>
-              <li class="contact-item">
-                <span class="iconify contact-icon" data-icon="mdi:qrcode" aria-hidden="true"></span>
-                <div>
-                  <strong>PIX (CNPJ):</strong> 58.886.764/0001-80<br />
-                  <strong>Recebedor:</strong> Serviço do 1º Ofício de Justiça de Rio das Ostras
-                </div>
-              </li>
             </ul>
           </div>
 
@@ -91,6 +84,11 @@
                     <label for="telefoneItc" class="field-label">Telefone / WhatsApp *</label>
                     <input type="tel" id="telefoneItc" name="phone" class="field-input" placeholder="(22) 99999-9999" required />
                   </div>
+                </div>
+
+                <div class="field-group">
+                  <label for="telefone2Itc" class="field-label">Telefone / WhatsApp adicional (opcional)</label>
+                  <input type="tel" id="telefone2Itc" name="telefone_adicional" class="field-input" placeholder="(22) 99999-9999" />
                 </div>
 
                 <div class="field-grid">
@@ -177,6 +175,7 @@
                     name="comprovante_pagamento"
                     class="field-input file-input"
                     accept=".pdf,.jpg,.jpeg,.png,.webp,.heic,.heif"
+                    multiple
                     required
                   />
                 </div>
@@ -186,10 +185,6 @@
                   <textarea id="obsItc" name="observacoes" class="field-input field-textarea" rows="4"></textarea>
                 </div>
               </section>
-
-              <p class="form-helper">
-                Ao clicar em próximo, você verá as etapas para baixar o PDF e enviar por WhatsApp ou e-mail.
-              </p>
 
               <button type="button" class="btn btn-primary btn-full" data-form-next>
                 Próximo

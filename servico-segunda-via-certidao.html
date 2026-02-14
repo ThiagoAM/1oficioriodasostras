@@ -49,18 +49,18 @@
             </header>
 
             <ul class="contact-list">
-              <li class="contact-item">
+              <li class="contact-item" id="infoRegistroLocal2Via">
                 <span class="iconify contact-icon" data-icon="mdi:cash-multiple" aria-hidden="true"></span>
                 <div>
                   <strong>Registro do 1º Ofício de Rio das Ostras:</strong><br />
                   Valor (2026): <strong>R$ 176,50</strong>.
                 </div>
               </li>
-              <li class="contact-item">
+              <li class="contact-item" id="infoRegistroOutro2Via">
                 <span class="iconify contact-icon" data-icon="mdi:information-outline" aria-hidden="true"></span>
                 <div>
                   <strong>Registro de outro cartório:</strong><br />
-                  fale com nossos escreventes para disponibilidade, valores e orientações antes do pagamento.
+                  fale com nossos escreventes para disponibilidade, valores e orientações específicas.
                 </div>
               </li>
             </ul>
@@ -123,9 +123,20 @@
                   <label for="telefone2Via" class="field-label">Telefone / WhatsApp *</label>
                   <input type="tel" id="telefone2Via" name="phone" class="field-input" placeholder="(22) 99999-9999" required />
                 </div>
+
+                <div class="field-group">
+                  <label for="telefone2ViaAdicional" class="field-label">Telefone / WhatsApp adicional (opcional)</label>
+                  <input
+                    type="tel"
+                    id="telefone2ViaAdicional"
+                    name="telefone_adicional"
+                    class="field-input"
+                    placeholder="(22) 99999-9999"
+                  />
+                </div>
               </section>
 
-              <section class="form-section">
+              <section class="form-section" id="paymentSection2Via">
                 <h2 class="form-section-title">Valor e pagamento</h2>
 
                 <div class="field-group">
@@ -177,17 +188,17 @@
                 <p class="form-helper" id="avisoOrigemRegistro2Via">
                   Para registros do 1º Ofício de Rio das Ostras, realize o pagamento de R$ 176,50 e anexe o comprovante.
                 </p>
-                <p class="form-helper">
+                <p class="form-helper" id="pagamentoImportante2Via">
                   Importante: a certidão será emitida somente após a validação do comprovante de pagamento pela nossa
                   equipe.
                 </p>
               </section>
 
               <section class="form-section">
-                <h2 class="form-section-title">Comprovante e observações</h2>
+                <h2 class="form-section-title" id="comprovanteSectionTitle2Via">Comprovante e observações</h2>
 
                 <div class="field-group">
-                  <label for="comprovante2Via" class="field-label">
+                  <label for="comprovante2Via" class="field-label" id="comprovanteLabel2Via">
                     Comprovante de pagamento (obrigatório para registro do 1º Ofício)
                   </label>
                   <input
@@ -196,19 +207,19 @@
                     name="comprovante_pagamento"
                     class="field-input file-input"
                     accept=".pdf,.jpg,.jpeg,.png,.webp,.heic,.heif"
+                    multiple
                     required
                   />
                 </div>
+                <p class="form-helper" id="outroCartorioHelper2Via" hidden>
+                  Para registros de outro cartório, se desejar, anexe documentos complementares para agilizar a análise.
+                </p>
 
                 <div class="field-group">
                   <label for="obs2Via" class="field-label">Observações adicionais</label>
                   <textarea id="obs2Via" name="observacoes" class="field-input field-textarea" rows="4"></textarea>
                 </div>
               </section>
-
-              <p class="form-helper">
-                Ao clicar em próximo, você verá as etapas para baixar o PDF e enviar por WhatsApp ou e-mail.
-              </p>
 
               <button type="button" class="btn btn-primary btn-full" data-form-next>
                 Próximo
@@ -225,21 +236,43 @@
         const comprovanteField = document.getElementById("comprovante2Via");
         const valorField = document.getElementById("valor2ViaInfo");
         const avisoField = document.getElementById("avisoOrigemRegistro2Via");
+        const paymentSection = document.getElementById("paymentSection2Via");
+        const comprovanteLabel = document.getElementById("comprovanteLabel2Via");
+        const comprovanteSectionTitle = document.getElementById("comprovanteSectionTitle2Via");
+        const outroCartorioHelper = document.getElementById("outroCartorioHelper2Via");
         const pixQrBlock = document.getElementById("pixQr2Via");
+        const infoRegistroLocal = document.getElementById("infoRegistroLocal2Via");
+        const infoRegistroOutro = document.getElementById("infoRegistroOutro2Via");
 
         if (
           !(origemField instanceof HTMLSelectElement) ||
           !(comprovanteField instanceof HTMLInputElement) ||
           !(valorField instanceof HTMLInputElement) ||
+          !(paymentSection instanceof HTMLElement) ||
           !(pixQrBlock instanceof HTMLElement)
         ) {
           return;
         }
 
+        const setSectionEnabled = (section, enabled) => {
+          section.querySelectorAll("input, select, textarea, button").forEach((element) => {
+            if (
+              element instanceof HTMLInputElement ||
+              element instanceof HTMLSelectElement ||
+              element instanceof HTMLTextAreaElement ||
+              element instanceof HTMLButtonElement
+            ) {
+              element.disabled = !enabled;
+            }
+          });
+        };
+
         const syncPaymentRules = () => {
           const isLocalRecord = origemField.value === "1_oficio";
 
           comprovanteField.required = isLocalRecord;
+          paymentSection.hidden = !isLocalRecord;
+          setSectionEnabled(paymentSection, isLocalRecord);
           valorField.value = isLocalRecord ? "R$ 176,50" : "A confirmar com escrevente";
           pixQrBlock.hidden = !isLocalRecord;
 
@@ -258,6 +291,28 @@
             avisoField.textContent = isLocalRecord
               ? "Para registros do 1º Ofício de Rio das Ostras, realize o pagamento de R$ 176,50 e anexe o comprovante."
               : "Para registros de outro cartório, não realize pagamento antes do retorno dos escreventes. Verificaremos disponibilidade e valores específicos.";
+          }
+
+          if (comprovanteSectionTitle) {
+            comprovanteSectionTitle.textContent = isLocalRecord ? "Comprovante e observações" : "Documentos e observações";
+          }
+
+          if (comprovanteLabel) {
+            comprovanteLabel.textContent = isLocalRecord
+              ? "Comprovante de pagamento (obrigatório para registro do 1º Ofício)"
+              : "Anexos (opcional)";
+          }
+
+          if (outroCartorioHelper) {
+            outroCartorioHelper.hidden = isLocalRecord;
+          }
+
+          if (infoRegistroLocal) {
+            infoRegistroLocal.hidden = !isLocalRecord;
+          }
+
+          if (infoRegistroOutro) {
+            infoRegistroOutro.hidden = isLocalRecord;
           }
         };
 

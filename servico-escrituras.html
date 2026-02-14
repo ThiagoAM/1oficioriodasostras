@@ -121,21 +121,27 @@
                     <input type="tel" id="telefone" name="phone" class="field-input" placeholder="(22) 99999-9999" required />
                   </div>
                   <div class="field-group">
-                    <label for="emailEsc" class="field-label">E-mail *</label>
-                    <input type="email" id="emailEsc" name="email" class="field-input" required />
+                    <label for="telefone2Esc" class="field-label">Telefone / WhatsApp adicional (opcional)</label>
+                    <input type="tel" id="telefone2Esc" name="telefone_adicional" class="field-input" placeholder="(22) 99999-9999" />
                   </div>
                 </div>
 
-                <div class="field-group">
-                  <label for="emailEscConfirm" class="field-label">Confirmar e-mail *</label>
-                  <input
-                    type="email"
-                    id="emailEscConfirm"
-                    name="email_confirmacao"
-                    class="field-input"
-                    required
-                    oninput="this.setCustomValidity(this.value !== document.getElementById('emailEsc').value ? 'Os e-mails não coincidem.' : '')"
-                  />
+                <div class="field-grid">
+                  <div class="field-group">
+                    <label for="emailEsc" class="field-label">E-mail *</label>
+                    <input type="email" id="emailEsc" name="email" class="field-input" required />
+                  </div>
+                  <div class="field-group">
+                    <label for="emailEscConfirm" class="field-label">Confirmar e-mail *</label>
+                    <input
+                      type="email"
+                      id="emailEscConfirm"
+                      name="email_confirmacao"
+                      class="field-input"
+                      required
+                      oninput="this.setCustomValidity(this.value !== document.getElementById('emailEsc').value ? 'Os e-mails não coincidem.' : '')"
+                    />
+                  </div>
                 </div>
               </section>
 
@@ -204,10 +210,6 @@
                   <textarea id="declaracaoAdicional" name="declaracao_adicional" class="field-input field-textarea" rows="5" required></textarea>
                 </div>
               </section>
-
-              <p class="form-helper">
-                Ao clicar em próximo, você verá as etapas para baixar o PDF e enviar por e-mail ou WhatsApp.
-              </p>
 
               <button type="button" class="btn btn-primary btn-full" data-form-next>
                 Próximo

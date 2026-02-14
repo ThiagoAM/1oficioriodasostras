@@ -75,6 +75,10 @@ a {
   text-decoration: none;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 .container {
   width: 100%;
   max-width: var(--container-width);
@@ -2015,6 +2019,96 @@ a {
 
 .file-input {
   padding: 0.45rem 0.6rem;
+}
+
+.file-attachments-panel {
+  margin-top: 0.5rem;
+  border: 1px solid rgba(125, 158, 187, 0.34);
+  border-radius: 11px;
+  background: rgba(247, 251, 255, 0.78);
+  padding: 0.55rem 0.6rem;
+}
+
+.file-attachments-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.42rem;
+}
+
+.file-attachments-title {
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #334e68;
+  letter-spacing: 0.01em;
+}
+
+.file-attachments-summary {
+  font-size: 0.72rem;
+  color: #486581;
+}
+
+.file-attachments-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.file-attachment-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  padding: 0.38rem 0.45rem;
+  border-radius: 9px;
+  background: #ffffff;
+  border: 1px solid rgba(125, 158, 187, 0.28);
+}
+
+.file-attachment-item-empty {
+  justify-content: flex-start;
+  color: #627d98;
+  font-size: 0.76rem;
+}
+
+.file-attachment-meta {
+  min-width: 0;
+  display: grid;
+  gap: 0.08rem;
+}
+
+.file-attachment-name {
+  font-size: 0.76rem;
+  color: #102a43;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: min(68vw, 460px);
+}
+
+.file-attachment-size {
+  font-size: 0.7rem;
+  color: #627d98;
+}
+
+.file-attachment-remove-btn {
+  border: 1px solid rgba(185, 28, 28, 0.2);
+  background: rgba(254, 226, 226, 0.72);
+  color: #991b1b;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.24rem 0.55rem;
+  cursor: pointer;
+  transition: background 0.16s ease, border-color 0.16s ease, color 0.16s ease;
+}
+
+.file-attachment-remove-btn:hover {
+  background: rgba(254, 202, 202, 0.86);
+  border-color: rgba(185, 28, 28, 0.34);
 }
 
 .pix-qr-block {
