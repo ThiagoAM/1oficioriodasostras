@@ -2029,8 +2029,9 @@ a {
 }
 
 .pix-qr-code {
-  min-width: 344px;
-  min-height: 344px;
+  width: min(100%, 344px);
+  min-width: 0;
+  min-height: 0;
   padding: 0.45rem;
   border-radius: 10px;
   border: 1px solid rgba(125, 158, 187, 0.42);
@@ -2043,8 +2044,10 @@ a {
 .pix-qr-code img,
 .pix-qr-code canvas {
   display: block;
-  width: 336px !important;
-  height: 336px !important;
+  width: min(100%, 336px) !important;
+  max-width: 336px;
+  height: auto !important;
+  aspect-ratio: 1 / 1;
 }
 
 .pix-qr-helper {
@@ -2699,6 +2702,35 @@ a {
 }
 
 @media (max-width: 640px) {
+  .service-form-grid.container {
+    padding-inline: 0.8rem;
+  }
+
+  .contact-form-card {
+    padding: 1.15rem 1rem 1.05rem;
+    border-radius: 16px;
+  }
+
+  .form-section {
+    padding: 0.8rem;
+  }
+
+  .pix-qr-block {
+    width: 100%;
+    padding: 0.58rem;
+  }
+
+  .pix-qr-code {
+    width: min(100%, 280px);
+    padding: 0.34rem;
+  }
+
+  .pix-qr-code img,
+  .pix-qr-code canvas {
+    width: 100% !important;
+    max-width: 272px;
+  }
+
   .header-inner {
     padding-block: 0.6rem;
   }
