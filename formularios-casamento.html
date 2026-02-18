@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Formulários de Casamento – 1º Ofício Rio das Ostras</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <script defer src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+    <script defer src="assets/js/paper-forms-casamento.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a href="/" class="brand">
+          <img
+            src="assets/images/cartorio-icon.png"
+            alt="Logo do Cartório do 1º Ofício de Justiça de Rio das Ostras"
+            class="brand-logo"
+          />
+          <div class="brand-text">
+            <span class="brand-title">1º Ofício de Justiça</span>
+            <span class="brand-subtitle">Notas • Protesto • RCPN • Rio das Ostras/RJ</span>
+          </div>
+        </a>
+      </div>
+    </header>
+
+    <main>
+      <section class="section section-alt">
+        <div class="container contact-grid service-form-grid">
+          <div class="contact-text">
+            <header class="section-header section-header-left">
+              <p class="section-kicker">Formulários para impressão</p>
+              <h1 class="section-title">Preenchimento de formulários de casamento</h1>
+              <p class="section-subtitle">
+                Preencha os dados abaixo para gerar um ZIP com os formulários de casamento em PDF já preenchidos.
+              </p>
+            </header>
+            <ul class="contact-list">
+              <li class="contact-item">
+                <span class="iconify contact-icon" data-icon="mdi:file-document-edit-outline" aria-hidden="true"></span>
+                <div>
+                  O ZIP será gerado com dois arquivos: <strong>Declaração de Residência</strong> e
+                  <strong>Atestado das Testemunhas</strong>.
+                </div>
+              </li>
+              <li class="contact-item">
+                <span class="iconify contact-icon" data-icon="mdi:printer-outline" aria-hidden="true"></span>
+                <div>
+                  Após o download, imprima os PDFs, confira os dados e assine nos campos de assinatura.
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="contact-form-card">
+            <form id="casamentoPaperForm" class="contact-form">
+              <section class="form-section">
+                <h2 class="form-section-title">Dados do documento</h2>
+                <div class="field-grid">
+                  <div class="field-group">
+                    <label for="dataDocumento" class="field-label">Data de referência *</label>
+                    <input type="date" id="dataDocumento" name="data_documento" class="field-input" required />
+                  </div>
+                  <div class="field-group">
+                    <label for="cidadeDocumento" class="field-label">Cidade/UF</label>
+                    <input type="text" id="cidadeDocumento" name="cidade_documento" class="field-input" value="Rio das Ostras - RJ" />
+                  </div>
+                </div>
+              </section>
+
+              <section class="form-section">
+                <h2 class="form-section-title">Declarante (Declaração de Residência)</h2>
+                <div class="field-group">
+                  <label for="declaranteNome" class="field-label">Nome completo *</label>
+                  <input type="text" id="declaranteNome" name="declarante_nome" class="field-input" required />
+                </div>
+                <div class="field-grid">
+                  <div class="field-group">
+                    <label for="declaranteNacionalidade" class="field-label">Nacionalidade *</label>
+                    <input type="text" id="declaranteNacionalidade" name="declarante_nacionalidade" class="field-input" required />
+                  </div>
+                  <div class="field-group">
+                    <label for="declaranteProfissao" class="field-label">Profissão *</label>
+                    <input type="text" id="declaranteProfissao" name="declarante_profissao" class="field-input" required />
+                  </div>
+                </div>
+                <div class="field-grid">
+                  <div class="field-group">
+                    <label for="declaranteEstadoCivil" class="field-label">Estado civil *</label>
+                    <input type="text" id="declaranteEstadoCivil" name="declarante_estado_civil" class="field-input" required />
+                  </div>
+                  <div class="field-group">
+                    <label for="declaranteIdade" class="field-label">Idade *</label>
+                    <input type="number" id="declaranteIdade" name="declarante_idade" class="field-input" min="16" max="120" required />
+                  </div>
+                </div>
+                <div class="field-grid">
+                  <div class="field-group">
+                    <label for="declaranteRg" class="field-label">RG *</label>
+                    <input type="text" id="declaranteRg" name="declarante_rg" class="field-input" required />
+                  </div>
+                  <div class="field-group">
+                    <label for="declaranteRgOrgao" class="field-label">Órgão expedidor *</label>
+                    <input type="text" id="declaranteRgOrgao" name="declarante_rg_orgao" class="field-input" required />
+                  </div>
+                </div>
+                <div class="field-grid">
+                  <div class="field-group">
+                    <label for="declaranteRgData" class="field-label">Data de expedição do RG *</label>
+                    <input type="date" id="declaranteRgData" name="declarante_rg_data" class="field-input" required />
+                  </div>
+                  <div class="field-group">
+                    <label for="declaranteCpf" class="field-label">CPF *</label>
+                    <input type="text" id="declaranteCpf" name="declarante_cpf" class="field-input" required />
+                  </div>
+                </div>
+                <div class="field-group">
+                  <label for="declaranteEndereco1" class="field-label">Endereço (linha 1) *</label>
+                  <input type="text" id="declaranteEndereco1" name="declarante_endereco_1" class="field-input" required />
+                </div>
+                <div class="field-group">
+                  <label for="declaranteEndereco2" class="field-label">Endereço (linha 2)</label>
+                  <input type="text" id="declaranteEndereco2" name="declarante_endereco_2" class="field-input" />
+                </div>
+                <div class="field-group">
+                  <label for="declaranteEndereco3" class="field-label">Endereço (linha 3)</label>
+                  <input type="text" id="declaranteEndereco3" name="declarante_endereco_3" class="field-input" />
+                </div>
+              </section>
+
+              <section class="form-section">
+                <h2 class="form-section-title">Dados dos noivos</h2>
+                <div class="field-group">
+                  <label for="conjugeUm" class="field-label">Nome do(a) 1º cônjuge *</label>
+                  <input type="text" id="conjugeUm" name="conjuge_1" class="field-input" required />
+                </div>
+                <div class="field-group">
+                  <label for="conjugeDois" class="field-label">Nome do(a) 2º cônjuge *</label>
+                  <input type="text" id="conjugeDois" name="conjuge_2" class="field-input" required />
+                </div>
+              </section>
+
+              <section class="form-section">
+                <h2 class="form-section-title">1ª Testemunha</h2>
+                <div class="field-group">
+                  <label for="t1Nome" class="field-label">Nome completo *</label>
+                  <input type="text" id="t1Nome" name="t1_nome" class="field-input" required />
+                </div>
+                <div class="field-grid">
+                  <div class="field-group">
+                    <label for="t1Nacionalidade" class="field-label">Nacionalidade *</label>
+                    <input type="text" id="t1Nacionalidade" name="t1_nacionalidade" class="field-input" required />
+                  </div>
+                  <div class="field-group">
+                    <label for="t1Profissao" class="field-label">Profissão *</label>
+                    <input type="text" id="t1Profissao" name="t1_profissao" class="field-input" required />
+                  </div>
+                </div>
+                <div class="field-grid">
+                  <div class="field-group">
+                    <label for="t1EstadoCivil" class="field-label">Estado civil *</label>
+                    <input type="text" id="t1EstadoCivil" name="t1_estado_civil" class="field-input" required />
+                  </div>
+                  <div class="field-group">
+                    <label for="t1Idade" class="field-label">Idade *</label>
+                    <input type="number" id="t1Idade" name="t1_idade" class="field-input" min="16" max="120" required />
+                  </div>
+                </div>
+                <div class="field-grid">
+                  <div class="field-group">
+                    <label for="t1Rg" class="field-label">RG *</label>
+                    <input type="text" id="t1Rg" name="t1_rg" class="field-input" required />
+                  </div>
+                  <div class="field-group">
+                    <label for="t1RgOrgao" class="field-label">Órgão expedidor *</label>
+                    <input type="text" id="t1RgOrgao" name="t1_rg_orgao" class="field-input" required />
+                  </div>
+                </div>
+                <div class="field-grid">
+                  <div class="field-group">
+                    <label for="t1RgData" class="field-label">Data de expedição do RG *</label>
+                    <input type="date" id="t1RgData" name="t1_rg_data" class="field-input" required />
+                  </div>
+                  <div class="field-group">
+                    <label for="t1Cpf" class="field-label">CPF *</label>
+                    <input type="text" id="t1Cpf" name="t1_cpf" class="field-input" required />
+                  </div>
+                </div>
+                <div class="field-group">
+                  <label for="t1Endereco1" class="field-label">Residência (linha 1) *</label>
+                  <input type="text" id="t1Endereco1" name="t1_endereco_1" class="field-input" required />
+                </div>
+                <div class="field-group">
+                  <label for="t1Endereco2" class="field-label">Residência (linha 2)</label>
+                  <input type="text" id="t1Endereco2" name="t1_endereco_2" class="field-input" />
+                </div>
+              </section>
+
+              <section class="form-section">
+                <h2 class="form-section-title">2ª Testemunha</h2>
+                <div class="field-group">
+                  <label for="t2Nome" class="field-label">Nome completo *</label>
+                  <input type="text" id="t2Nome" name="t2_nome" class="field-input" required />
+                </div>
+                <div class="field-grid">
+                  <div class="field-group">
+                    <label for="t2Nacionalidade" class="field-label">Nacionalidade *</label>
+                    <input type="text" id="t2Nacionalidade" name="t2_nacionalidade" class="field-input" required />
+                  </div>
+                  <div class="field-group">
+                    <label for="t2Profissao" class="field-label">Profissão *</label>
+                    <input type="text" id="t2Profissao" name="t2_profissao" class="field-input" required />
+                  </div>
+                </div>
+                <div class="field-grid">
+                  <div class="field-group">
+                    <label for="t2EstadoCivil" class="field-label">Estado civil *</label>
+                    <input type="text" id="t2EstadoCivil" name="t2_estado_civil" class="field-input" required />
+                  </div>
+                  <div class="field-group">
+                    <label for="t2Idade" class="field-label">Idade *</label>
+                    <input type="number" id="t2Idade" name="t2_idade" class="field-input" min="16" max="120" required />
+                  </div>
+                </div>
+                <div class="field-grid">
+                  <div class="field-group">
+                    <label for="t2Rg" class="field-label">RG *</label>
+                    <input type="text" id="t2Rg" name="t2_rg" class="field-input" required />
+                  </div>
+                  <div class="field-group">
+                    <label for="t2RgOrgao" class="field-label">Órgão expedidor *</label>
+                    <input type="text" id="t2RgOrgao" name="t2_rg_orgao" class="field-input" required />
+                  </div>
+                </div>
+                <div class="field-grid">
+                  <div class="field-group">
+                    <label for="t2RgData" class="field-label">Data de expedição do RG *</label>
+                    <input type="date" id="t2RgData" name="t2_rg_data" class="field-input" required />
+                  </div>
+                  <div class="field-group">
+                    <label for="t2Cpf" class="field-label">CPF *</label>
+                    <input type="text" id="t2Cpf" name="t2_cpf" class="field-input" required />
+                  </div>
+                </div>
+                <div class="field-group">
+                  <label for="t2Endereco1" class="field-label">Residência (linha 1) *</label>
+                  <input type="text" id="t2Endereco1" name="t2_endereco_1" class="field-input" required />
+                </div>
+                <div class="field-group">
+                  <label for="t2Endereco2" class="field-label">Residência (linha 2)</label>
+                  <input type="text" id="t2Endereco2" name="t2_endereco_2" class="field-input" />
+                </div>
+              </section>
+
+              <button type="submit" class="btn btn-primary btn-full" id="gerarZipBtn">
+                Baixar formulários preenchidos
+                <span class="iconify" data-icon="mdi:file-zip-outline" aria-hidden="true"></span>
+              </button>
+
+              <p id="paperFormStatus" class="form-status" aria-live="polite"></p>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
