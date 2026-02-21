@@ -14,6 +14,313 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  const initStatsSection = () => {
+    const statsGrid = document.getElementById("statsGrid");
+    const statsYearControls = document.getElementById("statsYearControls");
+    const statsTypeControls = document.getElementById("statsTypeControls");
+    const statsPeriodLabel = document.getElementById("statsPeriodLabel");
+
+    if (!statsGrid || !statsYearControls || !statsTypeControls || !statsPeriodLabel) {
+      return;
+    }
+
+    const statsByYear = {
+      "2025": {
+        period: "Período: 01/01/2025 a 31/12/2025.",
+        items: [
+          { id: "nascimentos", label: "Nascimentos", value: 1743, category: "civil" },
+          { id: "obitos", label: "Óbitos", value: 994, category: "civil" },
+          { id: "habilitacoes-casamento", label: "Habilitações de casamento", value: 800, category: "civil" },
+          { id: "registros-casamento", label: "Registros de casamento", value: 866, category: "civil" },
+          { id: "certidoes-outras-cidades", label: "Certidões externas", value: 1355, category: "civil" },
+          { id: "apostilamentos-haia", label: "Apostilamentos de Haia", value: 957, category: "autenticacao" },
+          { id: "total-escrituras", label: "Total de escrituras", value: 2236, category: "notas" },
+          { id: "atas-notariais", label: "Atas notariais", value: 101, category: "notas" },
+          { id: "compra-venda", label: "Escrituras compra e venda", value: 1048, category: "notas" },
+          { id: "inventario", label: "Escrituras de inventário", value: 81, category: "notas" },
+          { id: "uniao-estavel", label: "Declaração de união estável", value: 461, category: "notas" },
+          { id: "dissolucao-uniao-estavel", label: "Dissolução de união estável", value: 40, category: "notas" },
+          { id: "pacto-antenupcial", label: "Pacto antenupcial", value: 42, category: "notas" },
+          { id: "divorcio", label: "Escrituras de divórcio", value: 70, category: "notas" },
+          { id: "doacao", label: "Escrituras de doação", value: 82, category: "notas" },
+          { id: "emancipacao", label: "Emancipações", value: 10, category: "notas" },
+          { id: "procuracoes", label: "Procurações", value: 524, category: "notas" },
+          { id: "testamentos", label: "Testamentos", value: 23, category: "notas" },
+          { id: "autenticacoes", label: "Autenticações", value: 9421, category: "autenticacao" },
+          { id: "reconhecimentos-firma", label: "Reconhecimentos de firma", value: 71095, category: "autenticacao" },
+          { id: "protestados", label: "Títulos protestados", value: 25890, category: "protesto" },
+          { id: "cancelados", label: "Títulos cancelados", value: 3232, category: "protesto" },
+          { id: "pagos", label: "Títulos pagos", value: 2664, category: "protesto" },
+          { id: "total-protestos", label: "Total de títulos em protesto", value: 31142, category: "protesto" },
+        ],
+      },
+      "2026": {
+        period: "Período: 01/01/2026 a 19/01/2026.",
+        items: [
+          { id: "nascimentos", label: "Nascimentos", value: 74, category: "civil" },
+          { id: "obitos", label: "Óbitos", value: 58, category: "civil" },
+          { id: "habilitacoes-casamento", label: "Habilitações de casamento", value: 26, category: "civil" },
+          { id: "registros-casamento", label: "Registros de casamento", value: 33, category: "civil" },
+          { id: "certidoes-outras-cidades", label: "Certidões externas", value: 55, category: "civil" },
+          { id: "apostilamentos-haia", label: "Apostilamentos de Haia", value: 66, category: "autenticacao" },
+          { id: "total-escrituras", label: "Total de escrituras", value: 80, category: "notas" },
+          { id: "atas-notariais", label: "Atas notariais", value: 2, category: "notas" },
+          { id: "compra-venda", label: "Escrituras compra e venda", value: 46, category: "notas" },
+          { id: "inventario", label: "Escrituras de inventário", value: 2, category: "notas" },
+          { id: "uniao-estavel", label: "Declaração de união estável", value: 17, category: "notas" },
+          { id: "dissolucao-uniao-estavel", label: "Dissolução de união estável", value: 3, category: "notas" },
+          { id: "pacto-antenupcial", label: "Pacto antenupcial", value: 3, category: "notas" },
+          { id: "divorcio", label: "Escrituras de divórcio", value: 4, category: "notas" },
+          { id: "doacao", label: "Escrituras de doação", value: 2, category: "notas" },
+          { id: "emancipacao", label: "Emancipações", value: 1, category: "notas" },
+          { id: "procuracoes", label: "Procurações", value: 26, category: "notas" },
+          { id: "autenticacoes", label: "Autenticações", value: 378, category: "autenticacao" },
+          { id: "reconhecimentos-firma", label: "Reconhecimentos de firma", value: 3003, category: "autenticacao" },
+          { id: "protestados", label: "Títulos protestados", value: 2521, category: "protesto" },
+          { id: "cancelados", label: "Títulos cancelados", value: 184, category: "protesto" },
+          { id: "pagos", label: "Títulos pagos", value: 231, category: "protesto" },
+          { id: "total-protestos", label: "Total de títulos em protesto", value: 2936, category: "protesto" },
+        ],
+      },
+    };
+
+    const categoryMeta = {
+      civil: { label: "Registro Civil", icon: "mdi:account-child-outline" },
+      notas: { label: "Notas e Escrituras", icon: "mdi:file-document-edit-outline" },
+      protesto: { label: "Protesto", icon: "mdi:alert-decagram-outline" },
+      autenticacao: { label: "Firmas e Cópias", icon: "mdi:signature-freehand" },
+    };
+
+    const layoutByKey = {
+      md: "stats-card--md",
+      sm: "stats-card--sm",
+    };
+
+    const rowTemplates = [
+      ["md", "md", "md"],
+      ["md", "md", "sm", "sm"],
+      ["md", "sm", "sm", "sm", "sm"],
+      ["sm", "sm", "sm", "sm", "sm", "sm"],
+    ];
+
+    const yearButtons = Array.from(statsYearControls.querySelectorAll("[data-stats-year]"));
+    const typeButtons = Array.from(statsTypeControls.querySelectorAll("[data-stats-type]"));
+    const availableYears = Object.keys(statsByYear);
+    if (yearButtons.length === 0 || typeButtons.length === 0 || availableYears.length === 0) {
+      return;
+    }
+
+    const numberFormatter = new Intl.NumberFormat("pt-BR");
+
+    const escapeHtml = (value) =>
+      String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/\"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+
+    const createSeededRng = (seedValue) => {
+      let seed = 0;
+      const normalized = String(seedValue ?? "stats");
+      for (let i = 0; i < normalized.length; i += 1) {
+        seed = (seed * 31 + normalized.charCodeAt(i)) >>> 0;
+      }
+      return () => {
+        seed = (seed * 1664525 + 1013904223) >>> 0;
+        return seed / 4294967296;
+      };
+    };
+
+    const shuffle = (items, rng) => {
+      const shuffled = [...items];
+      for (let i = shuffled.length - 1; i > 0; i -= 1) {
+        const randomIndex = Math.floor(rng() * (i + 1));
+        [shuffled[i], shuffled[randomIndex]] = [shuffled[randomIndex], shuffled[i]];
+      }
+      return shuffled;
+    };
+
+    const refreshIcons = () => {
+      if (window.Iconify && typeof window.Iconify.scan === "function") {
+        window.Iconify.scan(statsGrid);
+      }
+    };
+
+    const buildCardContent = (item) => {
+      const meta = categoryMeta[item.category] || categoryMeta.notas;
+      return `
+        <div class="stats-card-content">
+          <div class="stats-card-top">
+            <span class="stats-tag">${escapeHtml(meta.label)}</span>
+            <span class="iconify stats-card-icon" data-icon="${escapeHtml(meta.icon)}" aria-hidden="true"></span>
+          </div>
+          <p class="stats-card-value">${escapeHtml(numberFormatter.format(item.value))}</p>
+          <h3 class="stats-card-label">${escapeHtml(item.label)}</h3>
+        </div>
+      `;
+    };
+
+    const buildCardMarkup = (slot, index) => `
+      <article
+        class="stats-card ${slot.sizeClass}"
+        data-slot-index="${index}"
+        data-item-id="${escapeHtml(slot.item.id)}"
+        data-stat-category="${escapeHtml(slot.item.category)}"
+        style="--stats-order:${index};"
+      >
+        <div class="stats-card-face">${buildCardContent(slot.item)}</div>
+      </article>
+    `;
+
+    const setActiveButton = (year) => {
+      yearButtons.forEach((button) => {
+        const buttonYear = button.getAttribute("data-stats-year");
+        const isActive = buttonYear === year;
+        button.classList.toggle("is-active", isActive);
+        button.setAttribute("aria-pressed", isActive ? "true" : "false");
+      });
+    };
+
+    const setActiveTypeButton = (type) => {
+      typeButtons.forEach((button) => {
+        const buttonType = button.getAttribute("data-stats-type");
+        const isActive = buttonType === type;
+        button.classList.toggle("is-active", isActive);
+        button.setAttribute("aria-pressed", isActive ? "true" : "false");
+      });
+    };
+
+    const buildSlots = (items, year) => {
+      const rng = createSeededRng(`layout-${year}`);
+      const randomized = shuffle(items, rng);
+      const sizeKeys = [];
+
+      while (sizeKeys.length < randomized.length) {
+        const template = rowTemplates[Math.floor(rng() * rowTemplates.length)] || rowTemplates[0];
+        sizeKeys.push(...template);
+      }
+
+      return randomized.map((item, index) => {
+        const sizeKey = sizeKeys[index] || "sm";
+        return {
+          item,
+          sizeClass: layoutByKey[sizeKey] || layoutByKey.sm,
+        };
+      });
+    };
+
+    const preferredDefaultYear = "2026";
+    let activeYear =
+      (statsByYear[preferredDefaultYear] ? preferredDefaultYear : null) ||
+      yearButtons.find((button) => button.classList.contains("is-active"))?.getAttribute("data-stats-year") ||
+      availableYears[0];
+    if (!activeYear || !statsByYear[activeYear]) {
+      activeYear = availableYears[0];
+    }
+    let activeType =
+      typeButtons.find((button) => button.classList.contains("is-active"))?.getAttribute("data-stats-type") || "all";
+    if (!activeType) {
+      activeType = "all";
+    }
+    let transitionToken = 0;
+    let transitionOutTimeoutId = 0;
+    let transitionInTimeoutId = 0;
+
+    const clearTransitionTimers = () => {
+      if (transitionOutTimeoutId) {
+        window.clearTimeout(transitionOutTimeoutId);
+        transitionOutTimeoutId = 0;
+      }
+      if (transitionInTimeoutId) {
+        window.clearTimeout(transitionInTimeoutId);
+        transitionInTimeoutId = 0;
+      }
+    };
+
+    const getFilteredItems = (items) => {
+      if (activeType === "all") {
+        return items;
+      }
+      return items.filter((item) => item.category === activeType);
+    };
+
+    const renderState = ({ year, animate }) => {
+      const yearData = statsByYear[year];
+      if (!yearData) {
+        return;
+      }
+
+      const applyRender = () => {
+        activeYear = year;
+        setActiveButton(year);
+        setActiveTypeButton(activeType);
+        statsPeriodLabel.textContent = yearData.period;
+        const filteredItems = getFilteredItems(yearData.items);
+        const slots = buildSlots(filteredItems, `${year}-${activeType}`);
+        statsGrid.innerHTML = slots.map((slot, index) => buildCardMarkup(slot, index)).join("");
+        refreshIcons();
+      };
+
+      if (!animate) {
+        clearTransitionTimers();
+        statsGrid.classList.remove("is-transitioning", "is-entering");
+        applyRender();
+        return;
+      }
+
+      clearTransitionTimers();
+      transitionToken += 1;
+      const currentToken = transitionToken;
+      statsGrid.classList.remove("is-entering");
+      statsGrid.classList.add("is-transitioning");
+
+      transitionOutTimeoutId = window.setTimeout(() => {
+        if (currentToken !== transitionToken) {
+          return;
+        }
+        applyRender();
+        statsGrid.classList.remove("is-transitioning");
+        statsGrid.classList.add("is-entering");
+
+        transitionInTimeoutId = window.setTimeout(() => {
+          if (currentToken !== transitionToken) {
+            return;
+          }
+          statsGrid.classList.remove("is-entering");
+          transitionInTimeoutId = 0;
+        }, 520);
+
+        transitionOutTimeoutId = 0;
+      }, 190);
+    };
+
+    yearButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const year = button.getAttribute("data-stats-year");
+        if (!year || year === activeYear || !statsByYear[year]) {
+          return;
+        }
+        renderState({ year, animate: true });
+      });
+    });
+
+    typeButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const type = button.getAttribute("data-stats-type");
+        if (!type || type === activeType) {
+          return;
+        }
+        activeType = type;
+        renderState({ year: activeYear, animate: true });
+      });
+    });
+
+    renderState({ year: activeYear, animate: false });
+  };
+
+  initStatsSection();
+
   const initScrollReveal = () => {
     const revealTargets = Array.from(
       document.querySelectorAll(
@@ -32,6 +339,9 @@ document.addEventListener("DOMContentLoaded", () => {
           ".gallery-masonry",
           ".contact-form-card",
           ".contact-text",
+          ".stats-controls",
+          ".stats-grid",
+          ".stats-card",
           ".faq-controls",
           ".faq-meta",
           ".faq-list",

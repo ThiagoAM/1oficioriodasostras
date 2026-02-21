@@ -45,6 +45,7 @@
         </button>
         <nav class="site-nav" id="siteNav">
           <a href="#servicos" class="nav-link">Serviços</a>
+          <a href="#estatisticas" class="nav-link">Estatísticas</a>
           <a href="#online" class="nav-link">Serviços Online</a>
           <a href="#links-uteis" class="nav-link">Links úteis</a>
           <a href="#faq" class="nav-link">FAQ</a>
@@ -677,6 +678,39 @@
         </div>
       </section>
 
+      <!-- Estatísticas -->
+      <section class="section stats-section" id="estatisticas">
+        <div class="container">
+          <header class="section-header">
+            <p class="section-kicker">Números do Cartório</p>
+            <h2 class="section-title">Indicadores por ano</h2>
+            <p class="section-subtitle">
+              Acompanhe, com transparência, os principais atos registrados pelo cartório em um painel completo,
+              organizado por ano e por tipo de serviço.
+            </p>
+          </header>
+
+          <div class="stats-toolbar stats-controls">
+            <div class="stats-switches">
+              <div class="stats-year-switch" id="statsYearControls" role="group" aria-label="Selecionar ano dos dados">
+                <button type="button" class="stats-year-btn" data-stats-year="2025" aria-pressed="false">2025</button>
+                <button type="button" class="stats-year-btn is-active" data-stats-year="2026" aria-pressed="true">2026</button>
+              </div>
+              <div class="stats-type-switch" id="statsTypeControls" role="group" aria-label="Filtrar por tipo de ato">
+                <button type="button" class="stats-type-btn is-active" data-stats-type="all" aria-pressed="true">Todos</button>
+                <button type="button" class="stats-type-btn" data-stats-type="civil" aria-pressed="false">Registro Civil</button>
+                <button type="button" class="stats-type-btn" data-stats-type="notas" aria-pressed="false">Notas e Escrituras</button>
+                <button type="button" class="stats-type-btn" data-stats-type="protesto" aria-pressed="false">Protesto</button>
+                <button type="button" class="stats-type-btn" data-stats-type="autenticacao" aria-pressed="false">Firmas e Cópias</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="stats-grid" id="statsGrid" aria-live="polite"></div>
+          <p class="stats-period stats-period-bottom" id="statsPeriodLabel" aria-live="polite"></p>
+        </div>
+      </section>
+
       <!-- Contato / Formulário -->
       <section class="section section-alt" id="contato">
         <div class="container contact-grid">
@@ -820,6 +854,7 @@
           <h3 class="footer-title">Atalhos</h3>
           <nav class="footer-nav">
             <a href="#servicos">Serviços</a>
+            <a href="#estatisticas">Estatísticas</a>
             <a href="#online">Serviços Online</a>
             <a href="#links-uteis">Links úteis</a>
             <a href="#horario">Horário</a>
