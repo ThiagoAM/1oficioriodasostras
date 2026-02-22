@@ -44,15 +44,15 @@
           <span class="nav-toggle-bar"></span>
         </button>
         <nav class="site-nav" id="siteNav">
-          <a href="#servicos" class="nav-link">Serviços</a>
-          <a href="#estatisticas" class="nav-link">Estatísticas</a>
           <a href="#online" class="nav-link">Serviços Online</a>
-          <a href="#links-uteis" class="nav-link">Links úteis</a>
+          <a href="#servicos" class="nav-link">Serviços</a>
           <a href="#faq" class="nav-link">FAQ</a>
           <a href="#horario" class="nav-link">Horário</a>
           <a href="#localizacao" class="nav-link">Localização</a>
-          <a href="#galeria" class="nav-link">Galeria</a>
           <a href="#sobre" class="nav-link">Sobre</a>
+          <a href="#galeria" class="nav-link">Galeria</a>
+          <a href="#links-uteis" class="nav-link">Links</a>
+          <a href="#estatisticas" class="nav-link">Estatísticas</a>
           <a href="#contato" class="nav-link nav-link-primary">Contato</a>
         </nav>
       </div>
@@ -562,6 +562,16 @@
               contexto local e a nossa região.
             </p>
           </header>
+
+          <div class="gallery-toolbar">
+            <div class="stats-year-switch" id="galleryCategoryControls" role="group" aria-label="Filtrar fotos da galeria">
+              <button type="button" class="stats-year-btn is-active" data-gallery-filter="all" aria-pressed="true">Tudo</button>
+              <button type="button" class="stats-year-btn" data-gallery-filter="cartorio" aria-pressed="false">Cartório</button>
+              <button type="button" class="stats-year-btn" data-gallery-filter="rio-das-ostras" aria-pressed="false">
+                Rio das Ostras
+              </button>
+            </div>
+          </div>
 
           <div class="gallery-masonry" id="galleryMasonry" aria-label="Galeria de fotos do cartório e de Rio das Ostras"></div>
         </div>

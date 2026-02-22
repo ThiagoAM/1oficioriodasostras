@@ -639,6 +639,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initFaq();
 
   const galleryMasonry = document.getElementById("galleryMasonry");
+  const galleryCategoryControls = document.getElementById("galleryCategoryControls");
   const galleryShuffle = document.getElementById("galleryShuffle");
   const galleryPagePrev = document.getElementById("galleryPagePrev");
   const galleryPageNext = document.getElementById("galleryPageNext");
@@ -651,22 +652,91 @@ document.addEventListener("DOMContentLoaded", () => {
   const lightboxPrev = document.getElementById("lightboxPrev");
   const lightboxNext = document.getElementById("lightboxNext");
 
+  const galleryFilterButtons = galleryCategoryControls
+    ? Array.from(galleryCategoryControls.querySelectorAll("[data-gallery-filter]"))
+    : [];
+
+  const normalizeGalleryCategory = (value, pathValue) => {
+    const raw = String(value || "").trim().toLowerCase();
+    if (raw === "cartorio" || raw === "rio-das-ostras") {
+      return raw;
+    }
+
+    const pathRaw = String(pathValue || "").toLowerCase();
+    if (pathRaw.includes("/gallery/cartorio/")) {
+      return "cartorio";
+    }
+    if (pathRaw.includes("/gallery/rio-das-ostras/")) {
+      return "rio-das-ostras";
+    }
+    return "";
+  };
+
   const galleryImages = Array.isArray(window.GALLERY_IMAGES)
-    ? window.GALLERY_IMAGES.filter((path) => !path.endsWith("/cartorio-icon.png"))
+    ? window.GALLERY_IMAGES
+        .map((entry) => {
+          if (typeof entry === "string") {
+            const full = entry;
+            const category = normalizeGalleryCategory("", full);
+            if (!full || !category) {
+              return null;
+            }
+            const fileName = full.split("/").pop() || "imagem";
+            const hasLegacyThumb = full.includes("/gallery/") && !full.includes("/gallery/cartorio/") && !full.includes("/gallery/rio-das-ostras/");
+            return {
+              full,
+              thumb: hasLegacyThumb ? full.replace("/gallery/", "/gallery/thumbs/") : full,
+              fileName,
+              category,
+            };
+          }
+
+          if (!entry || typeof entry !== "object") {
+            return null;
+          }
+
+          const full = String(entry.full || entry.src || entry.path || "").trim();
+          const category = normalizeGalleryCategory(entry.category, full);
+          if (!full || !category) {
+            return null;
+          }
+
+          const fileName = full.split("/").pop() || "imagem";
+          const thumbFromEntry = String(entry.thumb || "").trim();
+          const hasLegacyThumb = full.includes("/gallery/") && !full.includes("/gallery/cartorio/") && !full.includes("/gallery/rio-das-ostras/");
+          const thumb = thumbFromEntry || (hasLegacyThumb ? full.replace("/gallery/", "/gallery/thumbs/") : full);
+          return {
+            full,
+            thumb,
+            fileName,
+            category,
+          };
+        })
+        .filter(Boolean)
     : [];
 
   if (!galleryMasonry || galleryImages.length === 0) {
     return;
   }
 
-  let displayImages = galleryImages.map((fullPath, idx) => {
-    const fileName = fullPath.split("/").pop() || `imagem-${idx + 1}`;
-    return {
-      full: fullPath,
-      thumb: fullPath.replace("/gallery/", "/gallery/thumbs/"),
-      fileName,
-    };
-  });
+  const shuffleItems = (items) => {
+    const shuffled = [...items];
+    for (let i = shuffled.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  };
+
+  const getGalleryItemsForFilter = (filter) => {
+    if (filter === "cartorio" || filter === "rio-das-ostras") {
+      return galleryImages.filter((item) => item.category === filter);
+    }
+    return shuffleItems(galleryImages);
+  };
+
+  let activeGalleryFilter = "all";
+  let displayImages = getGalleryItemsForFilter(activeGalleryFilter);
 
   let activeIndex = 0;
   let imageLoadToken = 0;
@@ -696,12 +766,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const isProgrammaticScrollEvent = () => window.performance.now() < programmaticScrollLockUntil;
 
   const shuffleDisplayImages = () => {
-    const shuffled = [...displayImages];
-    for (let i = shuffled.length - 1; i > 0; i -= 1) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-    }
-    displayImages = shuffled;
+    displayImages = shuffleItems(displayImages);
+  };
+
+  const setActiveGalleryFilterButton = (filter) => {
+    galleryFilterButtons.forEach((button) => {
+      const buttonFilter = button.getAttribute("data-gallery-filter");
+      const isActive = buttonFilter === filter;
+      button.classList.toggle("is-active", isActive);
+      button.setAttribute("aria-pressed", isActive ? "true" : "false");
+    });
   };
 
   const stopAutoScroll = () => {
@@ -951,6 +1025,32 @@ document.addEventListener("DOMContentLoaded", () => {
     autoScrollPosition = galleryMasonry.scrollLeft;
   };
 
+  const applyGalleryFilter = (filter, options = {}) => {
+    const resetScroll = options.resetScroll !== false;
+    const normalizedFilter = filter === "cartorio" || filter === "rio-das-ostras" ? filter : "all";
+
+    activeGalleryFilter = normalizedFilter;
+    setActiveGalleryFilterButton(normalizedFilter);
+
+    stopAutoScroll();
+    displayImages = getGalleryItemsForFilter(normalizedFilter);
+    activeIndex = 0;
+    imageLoadToken += 1;
+
+    renderMasonry();
+
+    if (resetScroll) {
+      lockProgrammaticScroll();
+      galleryMasonry.scrollLeft = 0;
+      autoScrollPosition = 0;
+      updatePagerState();
+    }
+
+    if (!userInteractedWithGallery) {
+      window.setTimeout(maybeStartAutoScroll, 120);
+    }
+  };
+
   const preloadAdjacent = (index) => {
     const offsets = [-1, 1];
     offsets.forEach((offset) => {
@@ -1117,6 +1217,19 @@ document.addEventListener("DOMContentLoaded", () => {
     scrollByPage(1);
   });
 
+  galleryFilterButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const filter = button.getAttribute("data-gallery-filter") || "all";
+      const shouldReshuffleAll = filter === "all" && activeGalleryFilter === "all";
+      if (!shouldReshuffleAll && filter === activeGalleryFilter) {
+        return;
+      }
+
+      markGalleryInteraction();
+      applyGalleryFilter(filter);
+    });
+  });
+
   galleryMasonry.addEventListener(
     "scroll",
     () => {
@@ -1194,7 +1307,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  renderMasonry();
+  setActiveGalleryFilterButton(activeGalleryFilter);
+  applyGalleryFilter(activeGalleryFilter, { resetScroll: true });
   window.setTimeout(maybeStartAutoScroll, 900);
   window.addEventListener(
     "load",
