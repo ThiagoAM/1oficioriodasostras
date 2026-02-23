@@ -2214,6 +2214,81 @@ a {
   gap: 0.85rem;
 }
 
+.service-route-section {
+  gap: 0.95rem;
+}
+
+.service-route-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.service-route-card {
+  border: 1px solid rgba(125, 158, 187, 0.52);
+  border-radius: 12px;
+  background:
+    radial-gradient(circle at 12% 8%, rgba(56, 189, 248, 0.12), transparent 34%),
+    linear-gradient(165deg, #ffffff, #f2f8fc);
+  padding: 0.82rem 0.84rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.42rem;
+  text-align: left;
+  color: #0f172a;
+  cursor: pointer;
+  transition: transform 0.14s ease, border-color 0.14s ease, box-shadow 0.14s ease, background 0.14s ease;
+}
+
+.service-route-card:hover {
+  transform: translateY(-1px);
+  border-color: rgba(15, 118, 110, 0.55);
+  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
+}
+
+.service-route-card:focus-visible {
+  outline: 2px solid rgba(15, 118, 110, 0.32);
+  outline-offset: 2px;
+}
+
+.service-route-card.is-selected {
+  border-color: rgba(15, 118, 110, 0.88);
+  box-shadow: 0 0 0 2px rgba(15, 118, 110, 0.12);
+  background:
+    radial-gradient(circle at 10% 10%, rgba(45, 212, 191, 0.22), transparent 40%),
+    linear-gradient(165deg, #f6fffc, #e8f6f2);
+}
+
+.service-route-card.is-recommended {
+  border-color: rgba(15, 118, 110, 0.48);
+}
+
+.service-route-badge {
+  align-self: flex-start;
+  padding: 0.16rem 0.44rem;
+  border-radius: 999px;
+  font-size: 0.63rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #0f766e;
+  background: rgba(20, 184, 166, 0.18);
+  border: 1px solid rgba(15, 118, 110, 0.24);
+}
+
+.service-route-title {
+  font-size: 0.89rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: #12344d;
+}
+
+.service-route-text {
+  font-size: 0.78rem;
+  line-height: 1.48;
+  color: #486581;
+}
+
 .form-section-title {
   margin: 0;
   font-size: 0.96rem;
@@ -3368,6 +3443,10 @@ a {
   }
 
   .field-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .service-route-grid {
     grid-template-columns: minmax(0, 1fr);
   }
 

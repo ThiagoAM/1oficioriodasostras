@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Solicitação – Registro Civil (RCPN) – 1º Ofício Rio das Ostras</title>
+    <title>Registro Civil e 2ª Via de Certidão – 1º Ofício Rio das Ostras</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
     <link rel="shortcut icon" href="favicon.ico" />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png" />
@@ -13,6 +13,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <script defer src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script defer src="assets/js/pix-qr.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
     <script defer src="assets/js/service-form-pdf.js"></script>
     <link
@@ -43,197 +45,722 @@
           <div class="contact-text">
             <header class="section-header section-header-left">
               <p class="section-kicker">Serviços Online</p>
-              <h1 class="section-title">Solicitação – Registro Civil</h1>
+              <h1 class="section-title">Registro Civil e 2ª via de certidão</h1>
               <p class="section-subtitle">
-                Formulário ampliado para pedidos de nascimento, casamento, óbito, averbações e outros atos
-                do Registro Civil de Pessoas Naturais (RCPN).
+                Selecione no formulário ao lado se deseja solicitar <strong>2ª via de certidão</strong> ou
+                <strong>Registro Civil (RCPN)</strong>. O formulário completo será exibido conforme sua escolha.
               </p>
             </header>
+
             <ul class="contact-list">
-              <li class="contact-item">
+              <li class="contact-item" id="infoRegistroCivil">
+                <span class="iconify contact-icon" data-icon="mdi:account-child-outline" aria-hidden="true"></span>
+                <div>
+                  Para solicitações de Registro Civil, informe o máximo de dados possíveis para facilitar a localização
+                  do ato.
+                </div>
+              </li>
+              <li class="contact-item" id="infoRegistroLocal2Via" hidden>
+                <span class="iconify contact-icon" data-icon="mdi:cash-multiple" aria-hidden="true"></span>
+                <div>
+                  <strong>2ª via - registro do 1º Ofício de Rio das Ostras:</strong><br />
+                  Valor (2026): <strong>R$ 176,50</strong>.
+                </div>
+              </li>
+              <li class="contact-item" id="infoRegistroOutro2Via" hidden>
                 <span class="iconify contact-icon" data-icon="mdi:information-outline" aria-hidden="true"></span>
                 <div>
-                  A estrutura abaixo segue o padrão completo do site anterior para facilitar a busca do registro.
+                  <strong>2ª via - registro de outro cartório:</strong><br />
+                  fale com nossos escreventes para disponibilidade, valores e orientações específicas.
                 </div>
               </li>
               <li class="contact-item">
                 <span class="iconify contact-icon" data-icon="mdi:clock-outline" aria-hidden="true"></span>
-                <div>
-                  Em caso de ausência de algum dado, informe o máximo possível no campo de observações.
-                </div>
+                <div>Em caso de ausência de algum dado, informe o máximo possível no campo de observações.</div>
               </li>
             </ul>
           </div>
 
           <div class="contact-form-card">
-            <form
-              class="contact-form"
-              data-pdf-service-form
-              data-service-name="Registro civil"
-              data-target-email="registrocivilro@gmail.com"
-              data-target-whatsapp="552231900120"
-            >
-              <section class="form-section">
-                <h2 class="form-section-title">Dados do solicitante</h2>
+            <section class="form-section">
+              <h2 class="form-section-title">Selecione o serviço</h2>
+              <div class="field-group">
+                <label for="servicoRcpnPicker" class="field-label">Serviço desejado *</label>
+                <select id="servicoRcpnPicker" class="field-input" aria-label="Selecione o serviço desejado">
+                  <option value="">Escolha um serviço</option>
+                  <option value="segunda_via">2ª via de certidão</option>
+                  <option value="segunda_via_eletronica">2ª via de certidão eletrônica</option>
+                  <option value="registro_civil">Registro Civil (RCPN)</option>
+                </select>
+              </div>
+              <p class="form-helper" id="servicePickerHelper">Selecione uma opção para abrir o formulário completo.</p>
+            </section>
 
-                <div class="field-grid">
-                  <div class="field-group">
-                    <label for="tipoPessoaRcpn" class="field-label">Tipo de pessoa *</label>
-                    <select id="tipoPessoaRcpn" name="tipo_pessoa" class="field-input" required>
-                      <option value="">Selecione</option>
-                      <option value="Pessoa Física">Pessoa Física</option>
-                      <option value="Pessoa Jurídica">Pessoa Jurídica</option>
-                    </select>
-                  </div>
-                  <div class="field-group">
-                    <label for="cpfCnpjRcpn" class="field-label">CPF/CNPJ *</label>
-                    <input type="text" id="cpfCnpjRcpn" name="cpf_cnpj" class="field-input" required />
-                  </div>
-                </div>
+            <section class="form-section service-route-section" id="serviceRouteSection" hidden>
+              <h2 class="form-section-title" id="serviceRouteTitle">Escolha como deseja solicitar</h2>
+              <p class="form-helper" id="serviceRouteSubtitle">
+                Selecione o canal de atendimento para continuar.
+              </p>
+              <div class="service-route-grid" role="group" aria-label="Escolha o canal de solicitação">
+                <button type="button" class="service-route-card is-recommended" data-service-route="cartorio" aria-pressed="false">
+                  <span class="service-route-badge">Recomendado</span>
+                  <span class="service-route-title">Fazer pelo cartório</span>
+                  <span class="service-route-text">
+                    Atendimento direto com nossa equipe, sem intermediários. Em geral, pode ser mais rápido e mais econômico.
+                  </span>
+                </button>
+                <button type="button" class="service-route-card" data-service-route="site" aria-pressed="false">
+                  <span class="service-route-title">Fazer pelo site Registro Civil</span>
+                  <span class="service-route-text">
+                    Continue pelo portal oficial nacional do Registro Civil para realizar este serviço.
+                  </span>
+                </button>
+              </div>
+            </section>
 
-                <div class="field-group">
-                  <label for="nome" class="field-label">Nome completo *</label>
-                  <input type="text" id="nome" name="name" class="field-input" required />
-                </div>
+            <section class="form-section" id="serviceSiteInfo" hidden>
+              <h2 class="form-section-title" id="serviceSiteInfoTitle">Continuar pelo Registro Civil</h2>
+              <p class="form-helper" id="serviceSiteInfoText">
+                Esta opção é realizada no site oficial do Registro Civil.
+              </p>
+              <a
+                href="https://home.registrocivil.org.br"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn btn-primary paper-form-download"
+              >
+                Acessar site oficial do Registro Civil
+                <span class="iconify" data-icon="mdi:arrow-right" aria-hidden="true"></span>
+              </a>
+            </section>
 
-                <div class="field-grid">
+            <section class="form-section" id="segundaViaEletronicaInfo" hidden>
+              <h2 class="form-section-title">2ª via de certidão eletrônica</h2>
+              <p class="form-helper">
+                Esta opção está disponível somente no site oficial do Registro Civil.
+              </p>
+              <a
+                href="https://home.registrocivil.org.br"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn btn-primary paper-form-download"
+              >
+                Acessar site oficial do Registro Civil
+                <span class="iconify" data-icon="mdi:arrow-right" aria-hidden="true"></span>
+              </a>
+            </section>
+
+            <div data-service-form="segunda_via" hidden>
+              <form
+                class="contact-form"
+                data-pdf-service-form
+                data-service-name="2ª via de certidão (nascimento, casamento ou óbito)"
+                data-target-email="1oficiorioostras@gmail.com"
+                data-target-whatsapp="552231900120"
+              >
+                <section class="form-section">
+                  <h2 class="form-section-title">Dados do pedido</h2>
+
                   <div class="field-group">
-                    <label for="emailRcpn" class="field-label">E-mail *</label>
-                    <input type="email" id="emailRcpn" name="email" class="field-input" required />
+                    <label for="nomeTitular2Via" class="field-label">Nome completo do titular da certidão *</label>
+                    <input type="text" id="nomeTitular2Via" name="nome_titular" class="field-input" required />
                   </div>
+
+                  <div class="field-grid">
+                    <div class="field-group">
+                      <label for="tipoCertidao2Via" class="field-label">Tipo de certidão *</label>
+                      <select id="tipoCertidao2Via" name="tipo_certidao" class="field-input" required>
+                        <option value="">Selecione</option>
+                        <option value="Nascimento">Nascimento</option>
+                        <option value="Casamento">Casamento</option>
+                        <option value="Óbito">Óbito</option>
+                      </select>
+                    </div>
+                    <div class="field-group">
+                      <label for="origemRegistro2Via" class="field-label">Origem do registro *</label>
+                      <select id="origemRegistro2Via" name="origem_registro" class="field-input" required>
+                        <option value="1_oficio">Registro do 1º Ofício de Rio das Ostras</option>
+                        <option value="outro_cartorio">Registro de outro cartório</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="field-grid">
+                    <div class="field-group">
+                      <label for="email2Via" class="field-label">E-mail *</label>
+                      <input type="email" id="email2Via" name="email" class="field-input" required />
+                    </div>
+                    <div class="field-group">
+                      <label for="emailConfirm2Via" class="field-label">Confirmar e-mail *</label>
+                      <input
+                        type="email"
+                        id="emailConfirm2Via"
+                        name="email_confirmacao"
+                        class="field-input"
+                        required
+                        oninput="this.setCustomValidity(this.value !== document.getElementById('email2Via').value ? 'Os e-mails não coincidem.' : '')"
+                      />
+                    </div>
+                  </div>
+
                   <div class="field-group">
-                    <label for="emailRcpnConfirm" class="field-label">Confirmar e-mail *</label>
+                    <label for="telefone2Via" class="field-label">Telefone / WhatsApp *</label>
                     <input
-                      type="email"
-                      id="emailRcpnConfirm"
-                      name="email_confirmacao"
+                      type="tel"
+                      id="telefone2Via"
+                      name="phone"
                       class="field-input"
+                      placeholder="(22) 99999-9999"
                       required
-                      oninput="this.setCustomValidity(this.value !== document.getElementById('emailRcpn').value ? 'Os e-mails não coincidem.' : '')"
                     />
                   </div>
-                </div>
 
-                <div class="field-grid">
                   <div class="field-group">
-                    <label for="telefone" class="field-label">Telefone / WhatsApp *</label>
-                    <input type="tel" id="telefone" name="phone" class="field-input" placeholder="(22) 99999-9999" required />
+                    <label for="telefone2ViaAdicional" class="field-label">Telefone / WhatsApp adicional (opcional)</label>
+                    <input
+                      type="tel"
+                      id="telefone2ViaAdicional"
+                      name="telefone_adicional"
+                      class="field-input"
+                      placeholder="(22) 99999-9999"
+                    />
                   </div>
+                </section>
+
+                <section class="form-section" id="paymentSection2Via">
+                  <h2 class="form-section-title">Valor e pagamento</h2>
+
                   <div class="field-group">
-                    <label for="telefone2" class="field-label">Telefone / WhatsApp adicional (opcional)</label>
-                    <input type="tel" id="telefone2" name="telefone_adicional" class="field-input" placeholder="(22) 99999-9999" />
+                    <label for="valor2ViaInfo" class="field-label">Valor de referência</label>
+                    <input type="text" id="valor2ViaInfo" name="valor_referencia" class="field-input" value="R$ 176,50" readonly />
                   </div>
-                </div>
 
-                <div class="field-group">
-                  <label for="endereco" class="field-label">Endereço</label>
-                  <input type="text" id="endereco" name="endereco" class="field-input" />
-                </div>
-              </section>
+                  <div class="field-grid">
+                    <div class="field-group">
+                      <label for="pix2Via" class="field-label">PIX (CNPJ)</label>
+                      <input type="text" id="pix2Via" name="pix_cnpj" class="field-input" value="58.886.764/0001-80" readonly />
+                    </div>
+                    <div class="field-group">
+                      <label for="cnpj2Via" class="field-label">CNPJ</label>
+                      <input type="text" id="cnpj2Via" name="cnpj" class="field-input" value="58.886.764/0001-80" readonly />
+                    </div>
+                  </div>
 
-              <section class="form-section">
-                <h2 class="form-section-title">Dados do registro civil</h2>
-
-                <div class="field-group">
-                  <label for="tipoAto" class="field-label">Tipo de ato de registro civil *</label>
-                  <select id="tipoAto" name="tipo_ato_rcpn" class="field-input" required>
-                    <option value="">Selecione uma opção</option>
-                    <option value="Nascimento">Nascimento</option>
-                    <option value="Casamento">Casamento</option>
-                    <option value="Óbito">Óbito</option>
-                    <option value="Averbação">Averbação (divórcio, retificação etc.)</option>
-                    <option value="Outros">Outros atos</option>
-                  </select>
-                </div>
-
-                <div class="field-group">
-                  <label for="nomeRegistrado" class="field-label">Nome da pessoa registrada *</label>
-                  <input type="text" id="nomeRegistrado" name="nome_registrado" class="field-input" required />
-                </div>
-
-                <div class="field-grid">
                   <div class="field-group">
-                    <label for="filiacaoPai" class="field-label">Nome do pai</label>
-                    <input type="text" id="filiacaoPai" name="filiacao_pai" class="field-input" />
+                    <label for="recebedor2Via" class="field-label">Recebedor</label>
+                    <input
+                      type="text"
+                      id="recebedor2Via"
+                      name="recebedor"
+                      class="field-input"
+                      value="Serviço do 1º Ofício de Justiça de Rio das Ostras"
+                      readonly
+                    />
                   </div>
-                  <div class="field-group">
-                    <label for="filiacaoMae" class="field-label">Nome da mãe</label>
-                    <input type="text" id="filiacaoMae" name="filiacao_mae" class="field-input" />
-                  </div>
-                </div>
 
-                <div class="field-grid">
-                  <div class="field-group">
-                    <label for="dataEvento" class="field-label">Data aproximada do evento</label>
-                    <input type="date" id="dataEvento" name="data_evento" class="field-input" />
+                  <div
+                    class="pix-qr-block"
+                    id="pixQr2Via"
+                    data-pix-qr
+                    data-pix-payload-static="00020126580014br.gov.bcb.pix01360692edb8-6f55-4027-91b1-0bc688a185ba5204000053039865802BR5925SERVICO DO 1 OFICIO DE RI6012Porto Alegre62160512naoinformado6304012F"
+                    data-pix-key="58886764000180"
+                    data-pix-merchant-name="Servico do 1 Oficio de Justica de Rio das Ostras"
+                    data-pix-merchant-city="Rio das Ostras"
+                    data-pix-amount="176.50"
+                    data-pix-txid="SEGVIA2026"
+                  >
+                    <div class="pix-qr-code" data-pix-qr-code aria-label="QR Code PIX para pagamento"></div>
+                    <p class="form-helper pix-qr-helper">Escaneie este QR Code no app do seu banco para pagar R$ 176,50.</p>
+                    <button type="button" class="btn btn-primary pix-qr-copy-btn" data-pix-copy-btn>Copiar Código PIX</button>
                   </div>
+
+                  <p class="form-helper" id="avisoOrigemRegistro2Via">
+                    Para registros do 1º Ofício de Rio das Ostras, realize o pagamento de R$ 176,50 e anexe o comprovante.
+                  </p>
+                  <p class="form-helper" id="pagamentoImportante2Via">
+                    Importante: a certidão será emitida somente após a validação do comprovante de pagamento pela nossa
+                    equipe.
+                  </p>
+                </section>
+
+                <section class="form-section">
+                  <h2 class="form-section-title" id="comprovanteSectionTitle2Via">Comprovante e observações</h2>
+
                   <div class="field-group">
-                    <label for="localEvento" class="field-label">Município/UF do evento</label>
-                    <input type="text" id="localEvento" name="local_evento" class="field-input" />
-                  </div>
-                </div>
-
-                <div class="field-grid">
-                  <div class="field-group">
-                    <label for="livro" class="field-label">Livro</label>
-                    <input type="text" id="livro" name="livro" class="field-input" />
-                  </div>
-                  <div class="field-group">
-                    <label for="folha" class="field-label">Folha</label>
-                    <input type="text" id="folha" name="folha" class="field-input" />
-                  </div>
-                </div>
-
-                <div class="field-group">
-                  <label for="termo" class="field-label">Termo / protocolo / matrícula</label>
-                  <input type="text" id="termo" name="termo_protocolo" class="field-input" />
-                </div>
-
-                <div class="field-group">
-                  <label for="dadosRegistro" class="field-label">
-                    Observações e dados complementares para localizar o registro *
-                  </label>
-                  <textarea id="dadosRegistro" name="dados_registro" class="field-input field-textarea" rows="6" required></textarea>
-                </div>
-
-                <fieldset class="field-group">
-                  <legend class="field-label">Tipo de entrega *</legend>
-                  <div class="radio-list">
-                    <label class="radio-option">
-                      <input type="radio" name="forma_entrega" value="Internet" required checked />
-                      <span>Internet (arquivo digital por e-mail)</span>
+                    <label for="comprovante2Via" class="field-label" id="comprovanteLabel2Via">
+                      Comprovante de pagamento (obrigatório para registro do 1º Ofício)
                     </label>
-                    <label class="radio-option">
-                      <input type="radio" name="forma_entrega" value="Sedex" />
-                      <span>Sedex</span>
-                    </label>
-                    <label class="radio-option">
-                      <input type="radio" name="forma_entrega" value="Retirada no balcão" />
-                      <span>Retirada no balcão</span>
-                    </label>
+                    <input
+                      type="file"
+                      id="comprovante2Via"
+                      name="comprovante_pagamento"
+                      class="field-input file-input"
+                      accept=".pdf,.jpg,.jpeg,.png,.webp,.heic,.heif"
+                      multiple
+                      required
+                    />
                   </div>
-                </fieldset>
+                  <p class="form-helper" id="outroCartorioHelper2Via" hidden>
+                    Para registros de outro cartório, se desejar, anexe documentos complementares para agilizar a análise.
+                  </p>
 
-                <div class="field-group">
-                  <label for="anexosRcpn" class="field-label">Anexar documentos (opcional)</label>
-                  <input
-                    type="file"
-                    id="anexosRcpn"
-                    name="anexos_registro_civil"
-                    class="field-input file-input"
-                    accept=".pdf,.jpg,.jpeg,.png"
-                    multiple
-                  />
-                </div>
-              </section>
+                  <div class="field-group">
+                    <label for="obs2Via" class="field-label">Observações adicionais</label>
+                    <textarea id="obs2Via" name="observacoes" class="field-input field-textarea" rows="4"></textarea>
+                  </div>
+                </section>
 
-              <button type="button" class="btn btn-primary btn-full" data-form-next>
-                Próximo
-              </button>
-            </form>
+                <button type="button" class="btn btn-primary btn-full" data-form-next>Próximo</button>
+              </form>
+            </div>
+
+            <div data-service-form="registro_civil" hidden>
+              <form
+                class="contact-form"
+                data-pdf-service-form
+                data-service-name="Registro civil"
+                data-target-email="registrocivilro@gmail.com"
+                data-target-whatsapp="552231900120"
+              >
+                <section class="form-section">
+                  <h2 class="form-section-title">Dados do solicitante</h2>
+
+                  <div class="field-grid">
+                    <div class="field-group">
+                      <label for="tipoPessoaRcpn" class="field-label">Tipo de pessoa *</label>
+                      <select id="tipoPessoaRcpn" name="tipo_pessoa" class="field-input" required>
+                        <option value="">Selecione</option>
+                        <option value="Pessoa Física">Pessoa Física</option>
+                        <option value="Pessoa Jurídica">Pessoa Jurídica</option>
+                      </select>
+                    </div>
+                    <div class="field-group">
+                      <label for="cpfCnpjRcpn" class="field-label">CPF/CNPJ *</label>
+                      <input type="text" id="cpfCnpjRcpn" name="cpf_cnpj" class="field-input" required />
+                    </div>
+                  </div>
+
+                  <div class="field-group">
+                    <label for="nome" class="field-label">Nome completo *</label>
+                    <input type="text" id="nome" name="name" class="field-input" required />
+                  </div>
+
+                  <div class="field-grid">
+                    <div class="field-group">
+                      <label for="emailRcpn" class="field-label">E-mail *</label>
+                      <input type="email" id="emailRcpn" name="email" class="field-input" required />
+                    </div>
+                    <div class="field-group">
+                      <label for="emailRcpnConfirm" class="field-label">Confirmar e-mail *</label>
+                      <input
+                        type="email"
+                        id="emailRcpnConfirm"
+                        name="email_confirmacao"
+                        class="field-input"
+                        required
+                        oninput="this.setCustomValidity(this.value !== document.getElementById('emailRcpn').value ? 'Os e-mails não coincidem.' : '')"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="field-grid">
+                    <div class="field-group">
+                      <label for="telefone" class="field-label">Telefone / WhatsApp *</label>
+                      <input type="tel" id="telefone" name="phone" class="field-input" placeholder="(22) 99999-9999" required />
+                    </div>
+                    <div class="field-group">
+                      <label for="telefone2" class="field-label">Telefone / WhatsApp adicional (opcional)</label>
+                      <input
+                        type="tel"
+                        id="telefone2"
+                        name="telefone_adicional"
+                        class="field-input"
+                        placeholder="(22) 99999-9999"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="field-group">
+                    <label for="endereco" class="field-label">Endereço</label>
+                    <input type="text" id="endereco" name="endereco" class="field-input" />
+                  </div>
+                </section>
+
+                <section class="form-section">
+                  <h2 class="form-section-title">Dados do registro civil</h2>
+
+                  <div class="field-group">
+                    <label for="tipoAto" class="field-label">Tipo de ato de registro civil *</label>
+                    <select id="tipoAto" name="tipo_ato_rcpn" class="field-input" required>
+                      <option value="">Selecione uma opção</option>
+                      <option value="Nascimento">Nascimento</option>
+                      <option value="Casamento">Casamento</option>
+                      <option value="Óbito">Óbito</option>
+                      <option value="Averbação">Averbação (divórcio, retificação etc.)</option>
+                      <option value="Outros">Outros atos</option>
+                    </select>
+                  </div>
+
+                  <div class="field-group">
+                    <label for="nomeRegistrado" class="field-label">Nome da pessoa registrada *</label>
+                    <input type="text" id="nomeRegistrado" name="nome_registrado" class="field-input" required />
+                  </div>
+
+                  <div class="field-grid">
+                    <div class="field-group">
+                      <label for="filiacaoPai" class="field-label">Nome do pai</label>
+                      <input type="text" id="filiacaoPai" name="filiacao_pai" class="field-input" />
+                    </div>
+                    <div class="field-group">
+                      <label for="filiacaoMae" class="field-label">Nome da mãe</label>
+                      <input type="text" id="filiacaoMae" name="filiacao_mae" class="field-input" />
+                    </div>
+                  </div>
+
+                  <div class="field-grid">
+                    <div class="field-group">
+                      <label for="dataEvento" class="field-label">Data aproximada do evento</label>
+                      <input type="date" id="dataEvento" name="data_evento" class="field-input" />
+                    </div>
+                    <div class="field-group">
+                      <label for="localEvento" class="field-label">Município/UF do evento</label>
+                      <input type="text" id="localEvento" name="local_evento" class="field-input" />
+                    </div>
+                  </div>
+
+                  <div class="field-grid">
+                    <div class="field-group">
+                      <label for="livro" class="field-label">Livro</label>
+                      <input type="text" id="livro" name="livro" class="field-input" />
+                    </div>
+                    <div class="field-group">
+                      <label for="folha" class="field-label">Folha</label>
+                      <input type="text" id="folha" name="folha" class="field-input" />
+                    </div>
+                  </div>
+
+                  <div class="field-group">
+                    <label for="termo" class="field-label">Termo / protocolo / matrícula</label>
+                    <input type="text" id="termo" name="termo_protocolo" class="field-input" />
+                  </div>
+
+                  <div class="field-group">
+                    <label for="dadosRegistro" class="field-label">
+                      Observações e dados complementares para localizar o registro *
+                    </label>
+                    <textarea id="dadosRegistro" name="dados_registro" class="field-input field-textarea" rows="6" required></textarea>
+                  </div>
+
+                  <fieldset class="field-group">
+                    <legend class="field-label">Tipo de entrega *</legend>
+                    <div class="radio-list">
+                      <label class="radio-option">
+                        <input type="radio" name="forma_entrega" value="Internet" required checked />
+                        <span>Internet (arquivo digital por e-mail)</span>
+                      </label>
+                      <label class="radio-option">
+                        <input type="radio" name="forma_entrega" value="Sedex" />
+                        <span>Sedex</span>
+                      </label>
+                      <label class="radio-option">
+                        <input type="radio" name="forma_entrega" value="Retirada no balcão" />
+                        <span>Retirada no balcão</span>
+                      </label>
+                    </div>
+                  </fieldset>
+
+                  <div class="field-group">
+                    <label for="anexosRcpn" class="field-label">Anexar documentos (opcional)</label>
+                    <input
+                      type="file"
+                      id="anexosRcpn"
+                      name="anexos_registro_civil"
+                      class="field-input file-input"
+                      accept=".pdf,.jpg,.jpeg,.png"
+                      multiple
+                    />
+                  </div>
+                </section>
+
+                <button type="button" class="btn btn-primary btn-full" data-form-next>Próximo</button>
+              </form>
+            </div>
           </div>
         </div>
       </section>
     </main>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const servicePicker = document.getElementById("servicoRcpnPicker");
+        const servicePickerHelper = document.getElementById("servicePickerHelper");
+        const segundaViaWrapper = document.querySelector('[data-service-form="segunda_via"]');
+        const registroCivilWrapper = document.querySelector('[data-service-form="registro_civil"]');
+        const segundaViaEletronicaInfo = document.getElementById("segundaViaEletronicaInfo");
+        const serviceRouteSection = document.getElementById("serviceRouteSection");
+        const serviceRouteTitle = document.getElementById("serviceRouteTitle");
+        const serviceRouteSubtitle = document.getElementById("serviceRouteSubtitle");
+        const serviceRouteCards = Array.from(document.querySelectorAll("[data-service-route]"));
+        const serviceSiteInfo = document.getElementById("serviceSiteInfo");
+        const serviceSiteInfoTitle = document.getElementById("serviceSiteInfoTitle");
+        const serviceSiteInfoText = document.getElementById("serviceSiteInfoText");
+
+        const infoRegistroCivil = document.getElementById("infoRegistroCivil");
+        const infoRegistroLocal = document.getElementById("infoRegistroLocal2Via");
+        const infoRegistroOutro = document.getElementById("infoRegistroOutro2Via");
+
+        const origemField = document.getElementById("origemRegistro2Via");
+        const comprovanteField = document.getElementById("comprovante2Via");
+        const valorField = document.getElementById("valor2ViaInfo");
+        const avisoField = document.getElementById("avisoOrigemRegistro2Via");
+        const paymentSection = document.getElementById("paymentSection2Via");
+        const comprovanteLabel = document.getElementById("comprovanteLabel2Via");
+        const comprovanteSectionTitle = document.getElementById("comprovanteSectionTitle2Via");
+        const outroCartorioHelper = document.getElementById("outroCartorioHelper2Via");
+        const pixQrBlock = document.getElementById("pixQr2Via");
+        const routeServiceMap = {
+          segunda_via: {
+            label: "2ª via de certidão",
+            subtitle: "Escolha se deseja continuar com atendimento direto do cartório ou pelo portal nacional.",
+            siteInfoTitle: "2ª via de certidão pelo Registro Civil",
+            siteInfoText: "Para solicitar 2ª via pelo portal nacional, utilize o site oficial do Registro Civil.",
+          },
+          registro_civil: {
+            label: "Registro Civil (RCPN)",
+            subtitle: "Escolha se deseja continuar com atendimento direto do cartório ou pelo portal nacional.",
+            siteInfoTitle: "Registro Civil (RCPN) pelo Registro Civil",
+            siteInfoText: "Para solicitar serviços de Registro Civil (RCPN) pelo portal nacional, utilize o site oficial do Registro Civil.",
+          },
+        };
+        const routeSelectionByService = {
+          segunda_via: "",
+          registro_civil: "",
+        };
+        const isRouteService = (service) => Object.prototype.hasOwnProperty.call(routeServiceMap, service);
+
+        const setContainerEnabled = (container, enabled) => {
+          if (!(container instanceof HTMLElement)) {
+            return;
+          }
+
+          container.querySelectorAll("input, select, textarea, button").forEach((element) => {
+            if (
+              element instanceof HTMLInputElement ||
+              element instanceof HTMLSelectElement ||
+              element instanceof HTMLTextAreaElement ||
+              element instanceof HTMLButtonElement
+            ) {
+              element.disabled = !enabled;
+            }
+          });
+        };
+
+        const setSectionEnabled = (section, enabled) => {
+          if (!(section instanceof HTMLElement)) {
+            return;
+          }
+
+          section.querySelectorAll("input, select, textarea, button").forEach((element) => {
+            if (
+              element instanceof HTMLInputElement ||
+              element instanceof HTMLSelectElement ||
+              element instanceof HTMLTextAreaElement ||
+              element instanceof HTMLButtonElement
+            ) {
+              element.disabled = !enabled;
+            }
+          });
+        };
+
+        const isSecondViaActive = () =>
+          servicePicker instanceof HTMLSelectElement &&
+          servicePicker.value === "segunda_via" &&
+          routeSelectionByService.segunda_via === "cartorio";
+
+        const updateRouteCardsUi = (selectedRoute = "") => {
+          serviceRouteCards.forEach((card) => {
+            if (!(card instanceof HTMLButtonElement)) {
+              return;
+            }
+            const isSelected = card.dataset.serviceRoute === selectedRoute;
+            card.classList.toggle("is-selected", isSelected);
+            card.setAttribute("aria-pressed", String(isSelected));
+          });
+        };
+
+        const updateRouteCopy = (service) => {
+          const config = routeServiceMap[service];
+          if (!config) {
+            return;
+          }
+
+          if (serviceRouteTitle) {
+            serviceRouteTitle.textContent = `Escolha o canal para ${config.label}`;
+          }
+          if (serviceRouteSubtitle) {
+            serviceRouteSubtitle.textContent = config.subtitle;
+          }
+          if (serviceSiteInfoTitle) {
+            serviceSiteInfoTitle.textContent = config.siteInfoTitle;
+          }
+          if (serviceSiteInfoText) {
+            serviceSiteInfoText.textContent = config.siteInfoText;
+          }
+        };
+
+        const syncPaymentRules = () => {
+          if (
+            !(origemField instanceof HTMLSelectElement) ||
+            !(comprovanteField instanceof HTMLInputElement) ||
+            !(valorField instanceof HTMLInputElement) ||
+            !(paymentSection instanceof HTMLElement) ||
+            !(pixQrBlock instanceof HTMLElement)
+          ) {
+            return;
+          }
+
+          const isLocalRecord = origemField.value === "1_oficio";
+
+          comprovanteField.required = isLocalRecord;
+          paymentSection.hidden = !isLocalRecord;
+          setSectionEnabled(paymentSection, isLocalRecord);
+          valorField.value = isLocalRecord ? "R$ 176,50" : "A confirmar com escrevente";
+          pixQrBlock.hidden = !isLocalRecord;
+
+          if (isLocalRecord) {
+            pixQrBlock.dataset.pixAmount = "176.50";
+            const qrHelper = pixQrBlock.querySelector(".pix-qr-helper");
+            if (qrHelper) {
+              qrHelper.textContent = "Escaneie este QR Code no app do seu banco para pagar R$ 176,50.";
+            }
+            if (window.PixQr && typeof window.PixQr.renderPixQr === "function") {
+              window.PixQr.renderPixQr(pixQrBlock, { amount: "176.50" });
+            }
+          }
+
+          if (avisoField) {
+            avisoField.textContent = isLocalRecord
+              ? "Para registros do 1º Ofício de Rio das Ostras, realize o pagamento de R$ 176,50 e anexe o comprovante."
+              : "Para registros de outro cartório, não realize pagamento antes do retorno dos escreventes. Verificaremos disponibilidade e valores específicos.";
+          }
+
+          if (comprovanteSectionTitle) {
+            comprovanteSectionTitle.textContent = isLocalRecord ? "Comprovante e observações" : "Documentos e observações";
+          }
+
+          if (comprovanteLabel) {
+            comprovanteLabel.textContent = isLocalRecord
+              ? "Comprovante de pagamento (obrigatório para registro do 1º Ofício)"
+              : "Anexos (opcional)";
+          }
+
+          if (outroCartorioHelper) {
+            outroCartorioHelper.hidden = isLocalRecord;
+          }
+
+          if (infoRegistroLocal) {
+            infoRegistroLocal.hidden = !isSecondViaActive() || !isLocalRecord;
+          }
+
+          if (infoRegistroOutro) {
+            infoRegistroOutro.hidden = !isSecondViaActive() || isLocalRecord;
+          }
+        };
+
+        const syncServiceSelection = () => {
+          if (!(servicePicker instanceof HTMLSelectElement)) {
+            return;
+          }
+
+          const selectedService = servicePicker.value;
+          const showRouteSelector = isRouteService(selectedService);
+          const selectedRoute = showRouteSelector ? routeSelectionByService[selectedService] : "";
+          const showSecondVia = selectedService === "segunda_via" && selectedRoute === "cartorio";
+          const showSecondViaEletronica = selectedService === "segunda_via_eletronica";
+          const showRegistroCivil = selectedService === "registro_civil" && selectedRoute === "cartorio";
+          const showSiteFlow = showRouteSelector && selectedRoute === "site";
+
+          if (segundaViaWrapper instanceof HTMLElement) {
+            segundaViaWrapper.hidden = !showSecondVia;
+            setContainerEnabled(segundaViaWrapper, showSecondVia);
+          }
+
+          if (registroCivilWrapper instanceof HTMLElement) {
+            registroCivilWrapper.hidden = !showRegistroCivil;
+            setContainerEnabled(registroCivilWrapper, showRegistroCivil);
+          }
+
+          if (serviceRouteSection instanceof HTMLElement) {
+            serviceRouteSection.hidden = !showRouteSelector;
+          }
+
+          if (showRouteSelector) {
+            updateRouteCopy(selectedService);
+          }
+          updateRouteCardsUi(selectedRoute);
+
+          if (serviceSiteInfo instanceof HTMLElement) {
+            serviceSiteInfo.hidden = !showSiteFlow;
+          }
+
+          if (segundaViaEletronicaInfo instanceof HTMLElement) {
+            segundaViaEletronicaInfo.hidden = !showSecondViaEletronica;
+          }
+
+          if (servicePickerHelper instanceof HTMLElement) {
+            servicePickerHelper.hidden = selectedService !== "";
+          }
+
+          if (infoRegistroCivil) {
+            infoRegistroCivil.hidden = !showRegistroCivil;
+          }
+
+          if (!showSecondVia) {
+            if (infoRegistroLocal) {
+              infoRegistroLocal.hidden = true;
+            }
+            if (infoRegistroOutro) {
+              infoRegistroOutro.hidden = true;
+            }
+          } else {
+            syncPaymentRules();
+          }
+        };
+
+        if (origemField instanceof HTMLSelectElement) {
+          origemField.addEventListener("change", syncPaymentRules);
+        }
+
+        if (servicePicker instanceof HTMLSelectElement) {
+          servicePicker.addEventListener("change", syncServiceSelection);
+        }
+
+        serviceRouteCards.forEach((card) => {
+          if (!(card instanceof HTMLButtonElement)) {
+            return;
+          }
+          card.addEventListener("click", () => {
+            if (!(servicePicker instanceof HTMLSelectElement)) {
+              return;
+            }
+            const selectedService = servicePicker.value;
+            if (!isRouteService(selectedService)) {
+              return;
+            }
+
+            const selectedRoute = card.dataset.serviceRoute;
+            if (selectedRoute !== "cartorio" && selectedRoute !== "site") {
+              return;
+            }
+
+            routeSelectionByService[selectedService] = selectedRoute;
+            syncServiceSelection();
+          });
+        });
+
+        syncPaymentRules();
+        syncServiceSelection();
+      });
+    </script>
   </body>
 </html>
