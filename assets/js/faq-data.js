@@ -273,8 +273,8 @@ window.FAQ_ITEMS = [
     answer: [
       "Endereço: Rua Luíza Vianna, nº 87, Loja 1, Bairro Novo Rio das Ostras, Rio das Ostras/RJ.",
       "Telefone e WhatsApp: (22) 3190-0120.",
-      "E-mail do Registro Civil: registrocivilro@gmail.com.",
-      "No site também estão disponíveis outros e-mails setoriais para atendimento específico."
+      "E-mail: 1oficiorioostras@gmail.com.",
+      "Este é o e-mail oficial para atendimento do cartório."
     ]
   },
   {
