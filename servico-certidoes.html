@@ -51,10 +51,11 @@
             </header>
             <ul class="contact-list">
               <li class="contact-item">
-                <span class="iconify contact-icon" data-icon="mdi:information-outline" aria-hidden="true"></span>
+                <span class="iconify contact-icon" data-icon="mdi:alert-circle-outline" aria-hidden="true"></span>
                 <div>
-                  Este formulário segue o padrão completo do atendimento online: dados do solicitante,
-                  dados do ato e forma de entrega da certidão.
+                  Importante: a certidão solicitada por este formulário será entregue somente por retirada no
+                  balcão. Não há envio por e-mail, Correios ou transportadora neste atendimento. Aguarde a
+                  confirmação da equipe antes de comparecer para retirada.
                 </div>
               </li>
               <li class="contact-item">
@@ -232,15 +233,7 @@
                   <legend class="field-label">Tipo de entrega *</legend>
                   <div class="radio-list">
                     <label class="radio-option">
-                      <input type="radio" name="forma_entrega" value="Internet" required checked />
-                      <span>Internet (arquivo digital por e-mail)</span>
-                    </label>
-                    <label class="radio-option">
-                      <input type="radio" name="forma_entrega" value="Sedex" />
-                      <span>Sedex</span>
-                    </label>
-                    <label class="radio-option">
-                      <input type="radio" name="forma_entrega" value="Retirada no balcão" />
+                      <input type="radio" name="forma_entrega" value="Retirada no balcão" required checked />
                       <span>Retirada no balcão</span>
                     </label>
                   </div>
