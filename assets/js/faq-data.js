@@ -59,6 +59,37 @@ window.FAQ_ITEMS = [
     ]
   },
   {
+    id: "uniao-estavel-documentos",
+    category: "União Estável",
+    question: "Quais documentos são necessários para união estável?",
+    tags: ["uniao estavel", "documentos", "agendamento", "whatsapp"],
+    answer: [
+      "DOCUMENTOS NECESSÁRIOS:",
+      "- Documento de Identidade.",
+      "- CPF.",
+      "- Comprovante de Residência.",
+      "Se solteiro:",
+      "- Certidão de Nascimento.",
+      "Se divorciado:",
+      "- Certidão de Casamento com averbação de divórcio.",
+      "Se viúvo:",
+      "- Certidão de Casamento e Certidão de Óbito do(a) falecido(a).",
+      "- Certidão de Nascimento ou Documento de Identidade dos filhos em comum, se houver.",
+      "Para realizar o agendamento, envie as fotos dos documentos pelo WhatsApp do cartório para agendarmos a data."
+    ]
+  },
+  {
+    id: "uniao-estavel-valores",
+    category: "União Estável",
+    question: "Quais são os valores para união estável (2026)?",
+    tags: ["uniao estavel", "valores", "2026", "regime de bens"],
+    answer: [
+      "VALORES (2026):",
+      "- R$ 355,24 - Regime Comum (Comunhão Parcial de Bens ou Separação Legal de bens).",
+      "- R$ 848,16 - Regime Diverso (Separação Total ou Comunhão Universal de Bens)."
+    ]
+  },
+  {
     id: "conversao-documentos",
     category: "Conversão de União Estável",
     question: "Quais documentos são exigidos para conversão de união estável em casamento?",
