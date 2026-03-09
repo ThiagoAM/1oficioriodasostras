@@ -1,0 +1,2006 @@
+<!doctype html>
+
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+        <title>Roteiro — Tabelionato de Notas</title>
+        <style>
+            @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap");
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            body {
+                font-family: "Outfit", Arial, sans-serif;
+                background: #f5fff8;
+                color: #1a1a2e;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+
+            .hdr {
+                background: linear-gradient(
+                    135deg,
+                    #166534 0%,
+                    #16a34a 50%,
+                    #4ade80 100%
+                );
+                color: #fff;
+                padding: 32px 28px 24px;
+                position: relative;
+                overflow: hidden;
+            }
+            .hdr::before {
+                content: "";
+                position: absolute;
+                right: -40px;
+                top: -40px;
+                width: 200px;
+                height: 200px;
+                background: rgba(255, 255, 255, 0.08);
+                border-radius: 50%;
+            }
+            .hdr-emoji {
+                font-size: 44px;
+                display: block;
+                margin-bottom: 6px;
+            }
+            .hdr h1 {
+                font-size: 1.9rem;
+                font-weight: 900;
+                letter-spacing: -0.5px;
+                margin-bottom: 4px;
+            }
+            .hdr p {
+                font-size: 0.9rem;
+                opacity: 0.9;
+                max-width: 600px;
+            }
+            .hdr-badges {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 6px;
+                margin-top: 10px;
+            }
+            .hdr-badge {
+                background: rgba(255, 255, 255, 0.2);
+                border: 1px solid rgba(255, 255, 255, 0.35);
+                border-radius: 20px;
+                padding: 3px 12px;
+                font-size: 0.72rem;
+                font-weight: 600;
+            }
+
+            .wrap {
+                max-width: 1080px;
+                margin: 0 auto;
+                padding: 22px 16px 50px;
+            }
+
+            .sec {
+                background: #fff;
+                border-radius: 14px;
+                margin-bottom: 18px;
+                overflow: hidden;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+                border: 1.5px solid #dcfce7;
+            }
+            .sec-hdr {
+                padding: 14px 20px;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                cursor: pointer;
+            }
+            .sec-icon {
+                font-size: 1.6rem;
+            }
+            .sec-title {
+                font-size: 1.05rem;
+                font-weight: 800;
+                flex: 1;
+            }
+            .sec-num {
+                width: 28px;
+                height: 28px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: 900;
+                font-size: 0.85rem;
+                color: #fff;
+                flex-shrink: 0;
+            }
+            .sec-body {
+                padding: 0 20px 20px;
+            }
+            .sec-arrow {
+                font-size: 0.85rem;
+                opacity: 0.6;
+            }
+
+            .s1 .sec-hdr {
+                background: linear-gradient(90deg, #f0fdf4, #fff);
+            }
+            .s1 .sec-num {
+                background: #166534;
+            }
+            .s2 .sec-hdr {
+                background: linear-gradient(90deg, #fef3c7, #fff);
+            }
+            .s2 .sec-num {
+                background: #92400e;
+            }
+            .s3 .sec-hdr {
+                background: linear-gradient(90deg, #eff6ff, #fff);
+            }
+            .s3 .sec-num {
+                background: #1e40af;
+            }
+            .s4 .sec-hdr {
+                background: linear-gradient(90deg, #fce7f3, #fff);
+            }
+            .s4 .sec-num {
+                background: #9d174d;
+            }
+            .s5 .sec-hdr {
+                background: linear-gradient(90deg, #faf5ff, #fff);
+            }
+            .s5 .sec-num {
+                background: #6b21a8;
+            }
+            .s6 .sec-hdr {
+                background: linear-gradient(90deg, #fff7ed, #fff);
+            }
+            .s6 .sec-num {
+                background: #c2410c;
+            }
+            .s7 .sec-hdr {
+                background: linear-gradient(90deg, #ecfeff, #fff);
+            }
+            .s7 .sec-num {
+                background: #0e7490;
+            }
+            .s8 .sec-hdr {
+                background: linear-gradient(90deg, #fff1f2, #fff);
+            }
+            .s8 .sec-num {
+                background: #be123c;
+            }
+            .s9 .sec-hdr {
+                background: linear-gradient(90deg, #f0fdf4, #fff);
+            }
+            .s9 .sec-num {
+                background: #15803d;
+            }
+            .s10 .sec-hdr {
+                background: linear-gradient(90deg, #fefce8, #fff);
+            }
+            .s10 .sec-num {
+                background: #854d0e;
+            }
+
+            .cg {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+                gap: 12px;
+                margin-top: 12px;
+            }
+            .card {
+                border-radius: 10px;
+                padding: 13px 14px;
+                border: 1.5px solid;
+            }
+            .card-title {
+                font-weight: 800;
+                font-size: 0.85rem;
+                margin-bottom: 8px;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+            }
+            .card ul {
+                padding-left: 16px;
+            }
+            .card li {
+                font-size: 0.83rem;
+                margin-bottom: 4px;
+            }
+            .c-red {
+                background: #fff5f5;
+                border-color: #fca5a5;
+            }
+            .c-red .card-title {
+                color: #b91c1c;
+            }
+            .c-ora {
+                background: #fff7ed;
+                border-color: #fdba74;
+            }
+            .c-ora .card-title {
+                color: #c2410c;
+            }
+            .c-yel {
+                background: #fefce8;
+                border-color: #fde047;
+            }
+            .c-yel .card-title {
+                color: #854d0e;
+            }
+            .c-grn {
+                background: #f0fdf4;
+                border-color: #86efac;
+            }
+            .c-grn .card-title {
+                color: #15803d;
+            }
+            .c-blu {
+                background: #eff6ff;
+                border-color: #93c5fd;
+            }
+            .c-blu .card-title {
+                color: #1d4ed8;
+            }
+            .c-pur {
+                background: #faf5ff;
+                border-color: #d8b4fe;
+            }
+            .c-pur .card-title {
+                color: #6d28d9;
+            }
+            .c-pnk {
+                background: #fdf2f8;
+                border-color: #f9a8d4;
+            }
+            .c-pnk .card-title {
+                color: #9d174d;
+            }
+            .c-cyn {
+                background: #ecfeff;
+                border-color: #67e8f9;
+            }
+            .c-cyn .card-title {
+                color: #0e7490;
+            }
+            .c-gry {
+                background: #f8fafc;
+                border-color: #cbd5e1;
+            }
+            .c-gry .card-title {
+                color: #475569;
+            }
+
+            .flow {
+                margin: 12px 0;
+            }
+            .fstep {
+                display: flex;
+                gap: 12px;
+                padding: 8px 0;
+                position: relative;
+            }
+            .fstep:not(:last-child)::after {
+                content: "";
+                position: absolute;
+                left: 15px;
+                top: 40px;
+                width: 2px;
+                height: calc(100% - 10px);
+                background: #e2e8f0;
+            }
+            .fnum {
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: 900;
+                font-size: 0.8rem;
+                color: #fff;
+                flex-shrink: 0;
+                z-index: 1;
+            }
+            .fcont {
+                flex: 1;
+                padding-top: 5px;
+            }
+            .fcont strong {
+                font-size: 0.9rem;
+                font-weight: 800;
+            }
+            .fcont p {
+                font-size: 0.8rem;
+                color: #64748b;
+                margin-top: 2px;
+            }
+
+            .alrt {
+                border-radius: 10px;
+                padding: 10px 14px;
+                margin: 10px 0;
+                font-size: 0.84rem;
+                display: flex;
+                gap: 8px;
+                align-items: flex-start;
+                border: 1.5px solid;
+            }
+            .alrt-icon {
+                font-size: 1.1rem;
+                flex-shrink: 0;
+                margin-top: 1px;
+            }
+            .a-red {
+                background: #fff5f5;
+                border-color: #fca5a5;
+                color: #991b1b;
+            }
+            .a-grn {
+                background: #f0fdf4;
+                border-color: #86efac;
+                color: #14532d;
+            }
+            .a-yel {
+                background: #fefce8;
+                border-color: #fde68a;
+                color: #713f12;
+            }
+            .a-blu {
+                background: #eff6ff;
+                border-color: #93c5fd;
+                color: #1e3a8a;
+            }
+            .a-pur {
+                background: #faf5ff;
+                border-color: #d8b4fe;
+                color: #4c1d95;
+            }
+            .a-ora {
+                background: #fff7ed;
+                border-color: #fed7aa;
+                color: #9a3412;
+            }
+            .a-cyn {
+                background: #ecfeff;
+                border-color: #67e8f9;
+                color: #164e63;
+            }
+
+            .tbl {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 10px;
+                font-size: 0.82rem;
+            }
+            .tbl th {
+                background: #166534;
+                color: #fff;
+                padding: 9px 11px;
+                text-align: left;
+            }
+            .tbl th:first-child {
+                border-radius: 8px 0 0 0;
+            }
+            .tbl th:last-child {
+                border-radius: 0 8px 0 0;
+            }
+            .tbl td {
+                padding: 8px 11px;
+                border-bottom: 1px solid #f1f5f9;
+                vertical-align: top;
+            }
+            .tbl tr:nth-child(even) td {
+                background: #fafafa;
+            }
+            .tbl tr:hover td {
+                background: #f0fdf4;
+            }
+
+            .prazo {
+                display: inline-flex;
+                align-items: center;
+                gap: 4px;
+                border-radius: 20px;
+                padding: 3px 10px;
+                font-size: 0.75rem;
+                font-weight: 800;
+            }
+            .p-red {
+                background: #c0392b;
+                color: #fff;
+            }
+            .p-ora {
+                background: #e67e22;
+                color: #fff;
+            }
+            .p-yel {
+                background: #f39c12;
+                color: #fff;
+            }
+            .p-grn {
+                background: #27ae60;
+                color: #fff;
+            }
+            .p-blu {
+                background: #2980b9;
+                color: #fff;
+            }
+            .p-pur {
+                background: #8e44ad;
+                color: #fff;
+            }
+            .p-gry {
+                background: #95a5a6;
+                color: #fff;
+            }
+
+            .dl {
+                list-style: none;
+                padding: 0;
+                margin: 8px 0;
+            }
+            .dl li {
+                display: flex;
+                align-items: flex-start;
+                gap: 6px;
+                padding: 5px 8px;
+                background: #f8fafc;
+                border-radius: 7px;
+                margin-bottom: 3px;
+                font-size: 0.83rem;
+            }
+            .dl li::before {
+                content: "📄";
+                flex-shrink: 0;
+            }
+
+            .resumo-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
+                gap: 10px;
+                margin-top: 14px;
+            }
+            .rcard {
+                border-radius: 10px;
+                padding: 12px;
+                text-align: center;
+            }
+            .rcard .val {
+                font-size: 1.5rem;
+                font-weight: 900;
+                display: block;
+                margin-bottom: 2px;
+            }
+            .rcard .lbl {
+                font-size: 0.73rem;
+                font-weight: 600;
+                color: #555;
+            }
+
+            h3 {
+                font-size: 0.95rem;
+                font-weight: 800;
+                margin: 14px 0 8px;
+                color: #1a1a2e;
+            }
+            p {
+                font-size: 0.85rem;
+                margin-bottom: 6px;
+            }
+
+            @media (max-width: 600px) {
+                .hdr h1 {
+                    font-size: 1.4rem;
+                }
+                .cg {
+                    grid-template-columns: 1fr;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="hdr">
+            <span class="hdr-emoji">📜🏛️✍️</span>
+            <h1>Roteiro — Tabelionato de Notas</h1>
+            <p>
+                Escrituras · Testamentos · Atas Notariais · Procurações ·
+                Reconhecimento de Firmas · Autenticações
+            </p>
+            <div class="hdr-badges">
+                <span class="hdr-badge">📖 CN/TJRJ Arts. 271–516</span>
+                <span class="hdr-badge">📖 Lei 8.935/1994</span>
+                <span class="hdr-badge">📖 Prov. CNJ 100/2020</span>
+                <span class="hdr-badge"
+                    >📖 Prov. CGJ 74/2025 · 85/2025 · 91/2025</span
+                >
+            </div>
+        </div>
+
+        <div class="wrap">
+            <!-- S1: COMPETÊNCIAS E VEDAÇÕES -->
+
+            <div class="sec s1" id="s1">
+                <div class="sec-hdr">
+                    <div class="sec-num">1</div>
+                    <span class="sec-icon">🏛️</span>
+                    <span class="sec-title"
+                        >Competências Exclusivas e Vedações</span
+                    >
+                    <span class="sec-arrow">▼</span>
+                </div>
+                <div class="sec-body">
+                    <div class="cg">
+                        <div class="card c-grn">
+                            <div class="card-title">
+                                ✅ Atos EXCLUSIVOS do Tabelião de Notas (Art.
+                                273)
+                            </div>
+                            <ul>
+                                <li>
+                                    Lavrar escrituras e procurações públicas
+                                </li>
+                                <li>
+                                    Lavrar testamentos públicos e aprovar
+                                    cerrados
+                                </li>
+                                <li>Lavrar atas notariais</li>
+                                <li>Reconhecer firmas</li>
+                                <li>Autenticar cópias de documentos</li>
+                                <li>
+                                    Praticar atos na plataforma
+                                    <strong>e-Notariado</strong>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card c-red">
+                            <div class="card-title">
+                                🚫 Vedações (Arts. 276 e ss.)
+                            </div>
+                            <ul>
+                                <li>Lavrar instrumento particular</li>
+                                <li>
+                                    Atos estranhos às atribuições deste Código
+                                </li>
+                                <li>
+                                    Escritura envolvendo criança/adolescente em
+                                    família substituta
+                                    <strong>sem ordem judicial</strong>
+                                </li>
+                                <li>Fundação sem prévia aprovação do MP</li>
+                                <li>
+                                    Alienação de jazigo sem anuência da
+                                    concessionária
+                                </li>
+                                <li>
+                                    Frações ideais com indício de loteamento
+                                    irregular
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card c-yel">
+                            <div class="card-title">
+                                📹 Gravação em vídeo OBRIGATÓRIA (Art. 273 §4º ·
+                                Prov. CGJ 74/2025)
+                            </div>
+                            <ul>
+                                <li>
+                                    Para todos os atos dos incisos I, II e III
+                                    (escrituras, procurações, testamentos, atas)
+                                </li>
+                                <li>
+                                    Conteúdo mínimo: ID das partes · leitura do
+                                    objeto · livro/página/tabelionato ·
+                                    consentimento · data/hora · local
+                                </li>
+                                <li>
+                                    Qualidade: iluminação e ângulo adequados;
+                                    pode usar celular com boa câmera
+                                </li>
+                                <li>
+                                    Arquivo: vinculado ao ato pelo Selo de
+                                    Fiscalização, data ou nome das partes
+                                </li>
+                                <li>
+                                    Proibida divulgação: salvo consentimento de
+                                    todos, requisição judicial ou da CGJ
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card c-gry">
+                            <div class="card-title">
+                                🏛️ Exceção — Preso ou em medida socioeducativa
+                            </div>
+                            <ul>
+                                <li>Gravação de vídeo dispensada</li>
+                                <li>
+                                    Substituída por
+                                    <strong>declaração do diretor</strong> do
+                                    presídio/unidade, abonando a assinatura e
+                                    atestando presença do tabelião
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+<div class="alrt a-blu">
+                        <span class="alrt-icon">📍</span>
+                        <span
+                            ><strong>Livre escolha do tabelião:</strong>
+                            Qualquer que seja o domicílio das partes ou
+                            localização dos bens — salvo exceções do Prov. CNJ
+                            100/2020 para atos eletrônicos. O tabelião NÃO pode
+                            praticar atos fora do município da delegação (exceto
+                            atos eletrônicos). (Arts. 274–275)</span
+                        >
+                    </div>
+</div>
+            </div>
+
+            <!-- S2: QUALIFICAÇÃO PRÉVIA -->
+
+            <div class="sec s2" id="s2">
+                <div class="sec-hdr">
+                    <div class="sec-num">2</div>
+                    <span class="sec-icon">🔍</span>
+                    <span class="sec-title"
+                        >Qualificação das Partes e Consultas Obrigatórias</span
+                    >
+                    <span class="sec-arrow">▼</span>
+                </div>
+                <div class="sec-body">
+                    <div class="cg">
+                        <div class="card c-blu">
+                            <div class="card-title">
+                                🪪 Documentos de identidade aceitos (Art. 321)
+                            </div>
+                            <ul>
+                                <li>RG (Cédula de Identidade)</li>
+                                <li>
+                                    CNH válida (e vencida para reconhecimento de
+                                    firma)
+                                </li>
+                                <li>Carteira profissional com foto</li>
+                                <li>Carteira funcional com foto</li>
+                                <li>Passaporte</li>
+                                <li>Cédula de identidade de estrangeiro</li>
+                                <li>CTPS com foto</li>
+                                <li>
+                                    Identidade digital (confirmar autenticidade
+                                    eletronicamente)
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card c-yel">
+                            <div class="card-title">
+                                📋 Dados obrigatórios na qualificação (Art. 323)
+                            </div>
+                            <ul>
+                                <li>
+                                    <strong>Pessoa física:</strong> nome
+                                    completo · naturalidade · estado civil ·
+                                    profissão · endereço · CPF · RG
+                                </li>
+                                <li>
+                                    <strong>Pessoa jurídica:</strong>
+                                    denominação · sede · CNPJ · representante
+                                    legal com qualificação completa
+                                </li>
+                                <li>
+                                    Naturalidade: pelo documento de identidade
+                                </li>
+                                <li>
+                                    Estado civil: por declaração (salvo quando
+                                    exigida comprovação documental)
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+<h3>
+                        🔎 Consultas obrigatórias em atos imobiliários (Art. 329
+                        e ss.)
+                    </h3>
+                    <table class="tbl">
+                        <thead>
+                            <tr>
+                                <th>Consulta</th>
+                                <th>Validade</th>
+                                <th>Quando obrigatória</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    🔒 <strong>CNIB</strong> — Notificações de
+                                    indisponibilidade
+                                </td>
+                                <td>
+                                    <span class="prazo p-yel">30 dias</span>
+                                </td>
+                                <td>Alienação ou oneração de bens imóveis</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    💔 <strong>CESDI</strong> —
+                                    Separação/divórcio/inventário
+                                </td>
+                                <td>
+                                    <span class="prazo p-yel">30 dias</span>
+                                </td>
+                                <td>
+                                    Atos envolvendo imóveis com partes
+                                    casadas/conviventes
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    ⚰️ <strong>BIB / Plataforma CGJ</strong> —
+                                    Certidão de óbito do alienante
+                                </td>
+                                <td>
+                                    <span class="prazo p-yel">30 dias</span>
+                                </td>
+                                <td>Toda alienação / oneração de imóvel</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    📋 <strong>Certidão do RI</strong> —
+                                    Registro de Imóveis
+                                </td>
+                                <td>
+                                    <span class="prazo p-yel">30 dias</span>
+                                </td>
+                                <td>Toda escritura imobiliária</td>
+                            </tr>
+                            <tr>
+                                <td>🌾 <strong>CCIR</strong> — Imóvel rural</td>
+                                <td>—</td>
+                                <td>Imóveis rurais (qualquer ato)</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    💰 <strong>ITBI / ITCMD</strong> — Guia de
+                                    tributo
+                                </td>
+                                <td>—</td>
+                                <td>Alienações (ITBI) e sucessões (ITCMD)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="cg" style="margin-top: 12px">
+                        <div class="card c-grn">
+                            <div class="card-title">
+                                ✅ Consultas dispensadas em
+                            </div>
+                            <ul>
+                                <li>Escrituras declaratórias</li>
+                                <li>Renúncias abdicativas</li>
+                                <li>Testamentos</li>
+                                <li>
+                                    Atas notariais simples (sem transferência de
+                                    bem)
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card c-yel">
+                            <div class="card-title">
+                                ⚠️ Incapazes e alvará judicial
+                            </div>
+                            <ul>
+                                <li>
+                                    Alvará com prazo &gt; 90 dias: confirmar com
+                                    o juízo se ainda válido
+                                </li>
+                                <li>
+                                    Pessoa com deficiência capaz de expressar
+                                    vontade: pode praticar atos sem
+                                    curador/apoiador
+                                </li>
+                                <li>
+                                    Menor: representante legal deve comparecer
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card c-gry">
+                            <div class="card-title">
+                                ⚠️ Ato incompleto (Art. 278)
+                            </div>
+                            <ul>
+                                <li>
+                                    Parte não comparece para completar o ato
+                                </li>
+                                <li>
+                                    Prazo para comparecer:
+                                    <span class="prazo p-yel">30 dias</span>
+                                </li>
+                                <li>
+                                    Não comparecendo: cobrar
+                                    <strong>1/3 dos emolumentos</strong>
+                                </li>
+                                <li>
+                                    Confirmação da escritura: somente por link
+                                    eletrônico da CGJ ou e-Notariado; por ofício
+                                    apenas se impossível a confirmação
+                                    eletrônica (resposta em
+                                    <span class="prazo p-yel">5 dias</span>)
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="alrt a-grn">
+                        <span class="alrt-icon">ℹ️</span>
+                        <span
+                            ><strong>Débito tributário</strong> não impede a
+                            lavratura da escritura. O tabelião deve apenas
+                            alertar as partes sobre eventuais dívidas propter
+                            rem (IPTU, taxas condominiais, etc.) e mencionar no
+                            instrumento o resultado das consultas realizadas.
+                            (Art. 329)</span
+                        >
+                    </div>
+</div>
+            </div>
+
+            <!-- S3: ESCRITURAS DE IMÓVEIS -->
+
+            <div class="sec s3" id="s3">
+                <div class="sec-hdr">
+                    <div class="sec-num">3</div>
+                    <span class="sec-icon">🏠</span>
+                    <span class="sec-title">Escrituras de Imóveis</span>
+                    <span class="sec-arrow">▼</span>
+                </div>
+                <div class="sec-body">
+                    <div class="alrt a-blu">
+                        <span class="alrt-icon">⚖️</span>
+                        <span
+                            >Escritura pública obrigatória para imóveis com
+                            valor
+                            <strong>acima de 30 salários mínimos</strong> (Art.
+                            108 CC). Abaixo disso, admite instrumento
+                            particular.</span
+                        >
+                    </div>
+<h3>
+                        📄 Documentos obrigatórios para escritura de compra e
+                        venda
+                    </h3>
+                    <ul class="dl">
+                        <li>Guia de ITBI paga e quitada</li>
+                        <li>Certidões fiscais do imóvel (IPTU quitado)</li>
+                        <li>
+                            Certidão do Registro de Imóveis (até
+                            <span class="prazo p-yel">30 dias</span>)
+                        </li>
+                        <li>
+                            Documentos de qualificação de todos os
+                            intervenientes
+                        </li>
+                        <li>
+                            Resultado das consultas: CNIB + CESDI + óbito do
+                            alienante + RI
+                        </li>
+                        <li>
+                            Imóvel rural: CCIR + ITR quitado +
+                            georreferenciamento
+                        </li>
+                    </ul>
+
+                    <h3>📋 Conteúdo obrigatório da escritura de imóvel</h3>
+                    <ul class="dl">
+                        <li>
+                            Individualização completa do imóvel (matrícula,
+                            área, limites, confrontações)
+                        </li>
+                        <li>
+                            Título aquisitivo anterior (como o vendedor
+                            adquiriu)
+                        </li>
+                        <li>
+                            Declaração de que o imóvel é livre e desembaraçado
+                            de quaisquer ônus
+                        </li>
+                        <li>Declaração de quitação do preço</li>
+                        <li>Resultado das consultas realizadas</li>
+                        <li>
+                            Advertência sobre possíveis dívidas propter rem
+                            (IPTU, condomínio, etc.)
+                        </li>
+                    </ul>
+
+                    <div class="cg">
+                        <div class="card c-yel">
+                            <div class="card-title">🏦 1ª Aquisição — SFH</div>
+                            <ul>
+                                <li>50% de desconto nos emolumentos</li>
+                                <li>
+                                    Comprovar que é primeira aquisição
+                                    financiada pelo SFH
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card c-pur">
+                            <div class="card-title">👑 Domínio útil</div>
+                            <ul>
+                                <li>Exigir CAT (Certidão de Aforamento)</li>
+                                <li>
+                                    Laudêmio: comprovar pagamento ou
+                                    isenção/imunidade
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card c-cyn">
+                            <div class="card-title">
+                                ₿ Permuta com criptoativos
+                            </div>
+                            <ul>
+                                <li>
+                                    Declarações das partes sobre os ativos
+                                    digitais
+                                </li>
+                                <li>Comunicar ao COAF</li>
+                            </ul>
+                        </div>
+                        <div class="card c-gry">
+                            <div class="card-title">👥 Homonímia</div>
+                            <ul>
+                                <li>Verificar por prova documental</li>
+                                <li>
+                                    Dúvida insuperável: encaminhar ao juiz em
+                                    <span class="prazo p-yel">5 dias</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>⚙️ Correção de erros em escrituras</h3>
+                    <div class="cg">
+                        <div class="card c-grn">
+                            <div class="card-title">✏️ Erro material</div>
+                            <ul>
+                                <li>Averbação à margem no livro</li>
+                                <li>OU escritura retificadora</li>
+                                <li>Com anuência das partes</li>
+                            </ul>
+                        </div>
+                        <div class="card c-ora">
+                            <div class="card-title">⚠️ Erro essencial</div>
+                            <ul>
+                                <li>
+                                    Rerratificação (escritura de retificação)
+                                </li>
+                                <li>Obrigatória presença de todas as partes</li>
+                            </ul>
+                        </div>
+                        <div class="card c-blu">
+                            <div class="card-title">
+                                🏛️ Ato já registrado no RI
+                            </div>
+                            <ul>
+                                <li>
+                                    Comunicar por ofício ao Registro de Imóveis
+                                </li>
+                                <li>O RI faz a averbação na matrícula</li>
+                            </ul>
+                        </div>
+                    </div>
+</div>
+            </div>
+
+            <!-- S4: ESCRITURAS DIVERSAS -->
+
+            <div class="sec s4" id="s4">
+                <div class="sec-hdr">
+                    <div class="sec-num">4</div>
+                    <span class="sec-icon">📝</span>
+                    <span class="sec-title"
+                        >Escrituras Diversas — Família, Inventário e
+                        Especiais</span
+                    >
+                    <span class="sec-arrow">▼</span>
+                </div>
+                <div class="sec-body">
+                    <table class="tbl">
+                        <thead>
+                            <tr>
+                                <th>Ato</th>
+                                <th>Requisitos essenciais</th>
+                                <th>Vedações / Obs.</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>💑 <strong>União Estável</strong></td>
+                                <td>
+                                    Declarações obrigatórias das partes · Regime
+                                    de bens · Orientar sobre registro no RCPN
+                                </td>
+                                <td>
+                                    Informar na CESDI · Sem incapazes · Maior de
+                                    70 anos: separação obrigatória
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    💔
+                                    <strong
+                                        >Separação/Divórcio Consensual</strong
+                                    >
+                                </td>
+                                <td>
+                                    Consenso de ambas as partes · Advogado
+                                    obrigatório · Sem filhos menores ou
+                                    incapazes
+                                </td>
+                                <td>
+                                    Dois atos se houver partilha · Informar na
+                                    CESDI · Comunicar RCPN
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    ⚰️ <strong>Inventário e Partilha</strong>
+                                </td>
+                                <td>
+                                    Todos os herdeiros maiores e capazes ·
+                                    Advogado obrigatório · ITCMD recolhido · Sem
+                                    litígio
+                                </td>
+                                <td>
+                                    Herdeiro incapaz: somente com autorização
+                                    judicial expressa · Informar na CESDI ·
+                                    Prazo: iniciar em 60 dias e concluir em 12
+                                    meses
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    🔄
+                                    <strong
+                                        >Cessão de Direitos Hereditários</strong
+                                    >
+                                </td>
+                                <td>
+                                    Após abertura da sucessão · Onerada a
+                                    terceiro: ciência dos coerdeiros
+                                </td>
+                                <td>
+                                    ITBI se onerosa a terceiro · ITD se a
+                                    coerdeiro
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>🙅 <strong>Renúncia de Herança</strong></td>
+                                <td>
+                                    Pura e simples (ao monte-mor) · Anuência do
+                                    cônjuge
+                                </td>
+                                <td>
+                                    Não pode ser a favor de pessoa determinada
+                                    (seria cessão)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>🏠 <strong>Posse Declaratória</strong></td>
+                                <td>Declaração das partes sobre a posse</td>
+                                <td>
+                                    NÃO confirma propriedade · Não substitui
+                                    escritura de compra e venda
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>💌 <strong>Namoro Qualificado</strong></td>
+                                <td>Declaração conjunta das partes</td>
+                                <td>
+                                    Não cria efeitos de união estável · Fins
+                                    probatórios
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    📋
+                                    <strong
+                                        >DAV — Diretivas Antecipadas de
+                                        Vontade</strong
+                                    >
+                                </td>
+                                <td>
+                                    Testamento vital + Procuração para cuidados
+                                    de saúde
+                                </td>
+                                <td>
+                                    Pessoa capaz · Efeitos enquanto incapaz de
+                                    expressar vontade
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>🛡️ <strong>Autocuratela</strong></td>
+                                <td>
+                                    Declaração do outorgante indicando curador
+                                    para o futuro
+                                </td>
+                                <td>
+                                    Efeitos suspensos até interdição judicial ·
+                                    Certidão: somente ao declarante ou por ordem
+                                    judicial (Art. 398)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    💍
+                                    <strong>Alteração de Regime de Bens</strong>
+                                </td>
+                                <td>
+                                    Escritura pública + Homologação judicial
+                                </td>
+                                <td>
+                                    Sem efeito retroativo (salvo comunhão total)
+                                    · Não prejudica terceiros
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+<div class="alrt a-yel">
+                        <span class="alrt-icon">⚠️</span>
+                        <span
+                            ><strong>Inventário com herdeiro incapaz:</strong>
+                            somente mediante expressa autorização judicial, que
+                            deverá indicar os bens, os valores e as condições da
+                            partilha. Prazo do alvará &gt; 90 dias: confirmar
+                            com o juízo. (Art. 447)</span
+                        >
+                    </div>
+</div>
+            </div>
+
+            <!-- S5: PROCURAÇÕES -->
+
+            <div class="sec s5" id="s5">
+                <div class="sec-hdr">
+                    <div class="sec-num">5</div>
+                    <span class="sec-icon">📋</span>
+                    <span class="sec-title">Procurações</span>
+                    <span class="sec-arrow">▼</span>
+                </div>
+                <div class="sec-body">
+                    <div class="cg">
+                        <div class="card c-grn">
+                            <div class="card-title">✅ Verificar sempre</div>
+                            <ul>
+                                <li>Procedência: verificar via CEP/CENSEC</li>
+                                <li>Poderes expressos (não se presume)</li>
+                                <li>
+                                    Sobrevida do outorgante (plataforma CGJ)
+                                </li>
+                                <li>Cadeia de substabelecimentos</li>
+                            </ul>
+                        </div>
+                        <div class="card c-yel">
+                            <div class="card-title">
+                                🌍 Procuração do exterior
+                            </div>
+                            <ul>
+                                <li>
+                                    Apostila de Haia OU legalização consular
+                                </li>
+                                <li>Tradução juramentada (se necessário)</li>
+                                <li>
+                                    Registro no RTD (Registro de Títulos e
+                                    Documentos)
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card c-pur">
+                            <div class="card-title">
+                                🔒 Procuração em Causa Própria
+                            </div>
+                            <ul>
+                                <li>Irrevogável</li>
+                                <li>
+                                    Não se extingue pela morte do outorgante
+                                </li>
+                                <li>DOI obrigatória ao RI em 60 dias</li>
+                                <li>ITBI se cabível</li>
+                            </ul>
+                        </div>
+                        <div class="card c-red">
+                            <div class="card-title">
+                                ⚠️ Maior de 80 anos de outro estado
+                            </div>
+                            <ul>
+                                <li>
+                                    Confirmar os poderes por vídeo ou
+                                    videoconferência
+                                </li>
+                                <li>
+                                    Garantir a livre manifestação de vontade
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+<h3>🔄 Revogação de Procuração</h3>
+                    <div class="cg">
+                        <div class="card c-cyn">
+                            <div class="card-title">
+                                📢 Procedimento de revogação
+                            </div>
+                            <ul>
+                                <li>Anotar à margem no livro próprio</li>
+                                <li>
+                                    Se lavrada em outro serviço: comunicar em
+                                    <span class="prazo p-red">72 horas</span>
+                                </li>
+                                <li>
+                                    Mandato irrevogável: somente com autorização
+                                    judicial
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card c-gry">
+                            <div class="card-title">
+                                🚫 Quando NÃO se extingue
+                            </div>
+                            <ul>
+                                <li>
+                                    Procuração em causa própria: não se extingue
+                                    pela morte
+                                </li>
+                                <li>
+                                    Mandato irrevogável: não pode ser revogado
+                                    unilateralmente
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+</div>
+            </div>
+
+            <!-- S6: TESTAMENTOS -->
+
+            <div class="sec s6" id="s6">
+                <div class="sec-hdr">
+                    <div class="sec-num">6</div>
+                    <span class="sec-icon">📜</span>
+                    <span class="sec-title">Testamentos</span>
+                    <span class="sec-arrow">▼</span>
+                </div>
+                <div class="sec-body">
+                    <div class="cg">
+                        <div class="card c-blu">
+                            <div class="card-title">📖 Testamento Público</div>
+                            <ul>
+                                <li>Lavrado em livro próprio</li>
+                                <li>Lido em voz alta pelo tabelião</li>
+                                <li>
+                                    Assinado pelo
+                                    <strong
+                                        >testador + 2 testemunhas +
+                                        tabelião</strong
+                                    >
+                                </li>
+                                <li>
+                                    Pode ser lavrado eletronicamente por
+                                    videoconferência única
+                                </li>
+                                <li>
+                                    Informar obrigatoriamente ao
+                                    <strong>RCTO (CENSEC)</strong>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card c-pur">
+                            <div class="card-title">📦 Testamento Cerrado</div>
+                            <ul>
+                                <li>
+                                    Tabelião <strong>aprova</strong> (não lava o
+                                    conteúdo)
+                                </li>
+                                <li>Rubricar todas as folhas</li>
+                                <li>Advertir sobre facilidade de revogação</li>
+                                <li>Nota no livro próprio</li>
+                                <li>
+                                    Comunicar ao distribuidor em
+                                    <span class="prazo p-red">10 dias</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+<h3>👤 Situações especiais de testadores</h3>
+                    <table class="tbl">
+                        <thead>
+                            <tr>
+                                <th>Situação</th>
+                                <th>Procedimento</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>✍️ <strong>Não sabe assinar</strong></td>
+                                <td>
+                                    Testemunha a rogo assina no lugar do
+                                    testador + menção na escritura
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>🦻 <strong>Surdo</strong></td>
+                                <td>
+                                    Lê o testamento por si mesmo; se analfabeto,
+                                    designa quem leia na sua presença
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>👁️ <strong>Cego</strong></td>
+                                <td>
+                                    Somente testamento
+                                    <strong>público</strong> · Lido em voz alta
+                                    <strong>duas vezes</strong> (pelo tabelião e
+                                    por uma testemunha)
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="alrt a-red">
+                        <span class="alrt-icon">🔒</span>
+                        <span
+                            ><strong>Sigilo absoluto:</strong> certidão somente
+                            ao testador (em vida) ou por ordem judicial. Após o
+                            óbito: quem apresentar certidão de óbito pode
+                            solicitar certidão do testamento. (Art. 484
+                            indiretamente + regras gerais)</span
+                        >
+                    </div>
+
+                    <div class="alrt a-yel">
+                        <span class="alrt-icon">⚠️</span>
+                        <span
+                            ><strong>Qualificação especial:</strong> no
+                            testamento deve constar necessariamente data de
+                            nascimento, naturalidade, CPF e documento de
+                            identidade do testador. (Art. 323)</span
+                        >
+                    </div>
+</div>
+            </div>
+
+            <!-- S7: ATAS NOTARIAIS -->
+
+            <div class="sec s7" id="s7">
+                <div class="sec-hdr">
+                    <div class="sec-num">7</div>
+                    <span class="sec-icon">📋</span>
+                    <span class="sec-title">Atas Notariais</span>
+                    <span class="sec-arrow">▼</span>
+                </div>
+                <div class="sec-body">
+                    <div class="alrt a-cyn">
+                        <span class="alrt-icon">ℹ️</span>
+                        <span
+                            >Ata notarial é
+                            <strong
+                                >instrumento público sem juízo de valor</strong
+                            >. O tabelião narra fatos e circunstâncias, mas não
+                            emite opinião jurídica sobre eles. (Art. 399)</span
+                        >
+                    </div>
+<h3>📋 Conteúdo obrigatório da ata (Art. 400)</h3>
+                    <ul class="dl">
+                        <li>Local, data e hora da prática do ato</li>
+                        <li>Qualificação completa do solicitante</li>
+                        <li>Narração circunstanciada do fato verificado</li>
+                        <li>Declaração de que o instrumento foi lido</li>
+                        <li>
+                            Assinatura do solicitante e sinal público do
+                            tabelião
+                        </li>
+                    </ul>
+
+                    <h3>📌 Principais usos da ata notarial</h3>
+                    <div class="cg">
+                        <div class="card c-blu">
+                            <div class="card-title">
+                                💻 Conteúdo digital (sites/redes sociais)
+                            </div>
+                            <ul>
+                                <li>
+                                    Tabelião captura e narra o conteúdo
+                                    visualizado
+                                </li>
+                                <li>Preserva evidência de publicação</li>
+                                <li>
+                                    Data e hora da verificação constam
+                                    obrigatoriamente
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card c-grn">
+                            <div class="card-title">
+                                🏠 Usucapião Extrajudicial (Prov. CNJ 149/2023)
+                            </div>
+                            <ul>
+                                <li>Advogado ou defensor obrigatório</li>
+                                <li>
+                                    Certidão do RI (negativa ou confirmando
+                                    ausência de proprietário registrado)
+                                </li>
+                                <li>CNIB + BIB</li>
+                                <li>
+                                    NÃO confirma propriedade: encaminhar ao RI
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card c-pur">
+                            <div class="card-title">
+                                🛡️ Curatela/Apoio por ata
+                            </div>
+                            <ul>
+                                <li>Anuência dos parentes de 2º grau</li>
+                                <li>Entrevista com médico + advogado</li>
+                                <li>Gravação em vídeo obrigatória</li>
+                                <li>
+                                    Efeitos suspensos até
+                                    <strong>homologação judicial</strong>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card c-yel">
+                            <div class="card-title">
+                                ⚖️ Prova oral extrajudicial
+                            </div>
+                            <ul>
+                                <li>Autorização judicial prévia obrigatória</li>
+                                <li>
+                                    Carta de sentença em
+                                    <span class="prazo p-yel">5 dias</span> após
+                                </li>
+                                <li>
+                                    Informar o juízo em
+                                    <span class="prazo p-grn">2 dias</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="alrt a-red">
+                        <span class="alrt-icon">🚫</span>
+                        <span
+                            >O tabelião <strong>recusará</strong> a lavratura se
+                            o solicitante pretender ato contra a moral, ética ou
+                            lei, ou se solicitar que narre conteúdo falso ou
+                            inverídico. (Art. 403)</span
+                        >
+                    </div>
+</div>
+            </div>
+
+            <!-- S8: RECONHECIMENTO DE FIRMA -->
+
+            <div class="sec s8" id="s8">
+                <div class="sec-hdr">
+                    <div class="sec-num">8</div>
+                    <span class="sec-icon">✍️</span>
+                    <span class="sec-title">Reconhecimento de Firma</span>
+                    <span class="sec-arrow">▼</span>
+                </div>
+                <div class="sec-body">
+                    <div class="cg">
+                        <div class="card c-blu">
+                            <div class="card-title">🔒 Por AUTENTICIDADE</div>
+                            <ul>
+                                <li>Comparecimento pessoal do signatário</li>
+                                <li>Documento de identidade válido com foto</li>
+                                <li>
+                                    Assinar o documento <strong>E</strong> o
+                                    livro na presença do tabelião/escrevente
+                                </li>
+                                <li>
+                                    OU declarar que assinatura já lançada é de
+                                    sua autoria + assinar o livro
+                                </li>
+                                <li>
+                                    Certifica: a assinatura
+                                    <strong>pertence</strong> ao signatário
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card c-gry">
+                            <div class="card-title">👁️ Por SEMELHANÇA</div>
+                            <ul>
+                                <li>Confronto visual com ficha depositada</li>
+                                <li>Apresentada por qualquer pessoa</li>
+                                <li>
+                                    Certifica apenas a
+                                    <strong>similitude</strong> das grafias
+                                </li>
+                                <li>Não certifica autoria</li>
+                                <li>
+                                    Tabelião pode recusar ou exigir
+                                    comparecimento pessoal
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+<h3>🚫 Vedações no reconhecimento de firma</h3>
+                    <div class="cg">
+                        <div class="card c-red">
+                            <div class="card-title">
+                                ⛔ NUNCA reconhecer firma em
+                            </div>
+                            <ul>
+                                <li>
+                                    Firma <strong>não depositada</strong> no
+                                    serviço (abonador extinto)
+                                </li>
+                                <li>
+                                    Documento <strong>sem data</strong> ou com
+                                    <strong>data futura</strong>
+                                </li>
+                                <li>
+                                    Documento <strong>incompleto</strong> ou com
+                                    espaços em branco
+                                </li>
+                                <li>
+                                    Assinatura <strong>não original</strong> de
+                                    uma das partes
+                                </li>
+                                <li>
+                                    Relativamente incapaz em documento que exige
+                                    assistência
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card c-yel">
+                            <div class="card-title">✅ Permitido</div>
+                            <ul>
+                                <li>Documento em idioma estrangeiro</li>
+                                <li>
+                                    Firma de apenas um subscritor (se todos os
+                                    elementos do ato constam)
+                                </li>
+                                <li>
+                                    CNH vencida para abertura de firma e
+                                    reconhecimento
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>📂 Abertura de ficha de firma (Art. 505)</h3>
+                    <ul class="dl">
+                        <li>
+                            Dados completos: nome · endereço · profissão ·
+                            nacionalidade · estado civil · filiação · data de
+                            nascimento
+                        </li>
+                        <li>
+                            CPF e número do documento de identidade (data de
+                            emissão e repartição)
+                        </li>
+                        <li>
+                            Assinatura aposta <strong>duas vezes</strong> na
+                            ficha
+                        </li>
+                        <li>
+                            Foto ou biometria obrigatória (facial ou impressão
+                            digital) — <strong>OBRIGATÓRIO</strong> (Art. 273
+                            §6º · Prov. CGJ 74/2025)
+                        </li>
+                        <li>
+                            Consulta de óbito na plataforma da CGJ antes de
+                            abrir a ficha
+                        </li>
+                        <li>
+                            Documento de identidade vencido NÃO aceito — exceto
+                            CNH
+                        </li>
+                        <li>
+                            Ficha digitalizada e arquivada no serviço
+                            permanentemente
+                        </li>
+                    </ul>
+
+                    <div class="alrt a-yel">
+                        <span class="alrt-icon">⚠️</span>
+                        <span
+                            ><strong
+                                >Assinatura do tabelião/preposto +
+                                carimbo</strong
+                            >
+                            devem se sobrepor <em>simultaneamente</em> à
+                            etiqueta do serviço E ao documento. Nome legível do
+                            responsável pelo ato (ou carimbo individualizado)
+                            obrigatório. (Arts. 498 §14 · 508 §1º)</span
+                        >
+                    </div>
+</div>
+            </div>
+
+            <!-- S9: AUTENTICAÇÃO -->
+
+            <div class="sec s9" id="s9">
+                <div class="sec-hdr">
+                    <div class="sec-num">9</div>
+                    <span class="sec-icon">🖨️</span>
+                    <span class="sec-title">Autenticação de Documentos</span>
+                    <span class="sec-arrow">▼</span>
+                </div>
+                <div class="sec-body">
+                    <div class="cg">
+                        <div class="card c-grn">
+                            <div class="card-title">
+                                ✅ Procedimento correto
+                            </div>
+                            <ul>
+                                <li>Confrontar cópia com o original</li>
+                                <li>
+                                    Verificar textos, aspecto morfológico da
+                                    escrita
+                                </li>
+                                <li>Conferir rasuras, adulterações</li>
+                                <li>
+                                    Constar na etiqueta: nome + matrícula +
+                                    assinatura do preposto
+                                </li>
+                                <li>
+                                    Assinatura + carimbo sobrepostos à etiqueta
+                                    E ao documento
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card c-red">
+                            <div class="card-title">🚫 VEDADO autenticar</div>
+                            <ul>
+                                <li>
+                                    <strong>Cópia de cópia</strong> (exceto
+                                    documentos públicos já autenticados ou
+                                    assinados por autoridade)
+                                </li>
+                                <li>
+                                    Documentos extraídos da
+                                    <strong>internet</strong>
+                                </li>
+                                <li>
+                                    Autenticação <strong>parcial</strong> de
+                                    documento com mais de uma folha
+                                </li>
+                                <li>
+                                    Documento com rasura, adulteração ou sinais
+                                    de fraude
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card c-yel">
+                            <div class="card-title">⚠️ Regras especiais</div>
+                            <ul>
+                                <li>
+                                    Mais de um documento por página: cobrar por
+                                    cada um
+                                </li>
+                                <li>
+                                    Documento em língua estrangeira: autenticar
+                                    com menção de que deve ser traduzido e
+                                    registrado no RTD para produzir efeitos no
+                                    Brasil
+                                </li>
+                                <li>
+                                    Sempre que possível: autenticar no anverso
+                                    do documento
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+<h3>📋 Carta de Sentença (Arts. 513–516)</h3>
+                    <div class="flow">
+                        <div class="fstep">
+                            <div class="fnum" style="background: #15803d">
+                                1
+                            </div>
+                            <div class="fcont">
+                                <strong
+                                    >Requerimento da parte ou procurador</strong
+                                >
+                                <p>
+                                    Com acesso ao processo físico ou eletrônico
+                                </p>
+                            </div>
+                        </div>
+                        <div class="fstep">
+                            <div class="fnum" style="background: #15803d">
+                                2
+                            </div>
+                            <div class="fcont">
+                                <strong>Peças obrigatórias</strong>
+                                <p>
+                                    Petição inicial e aditamentos · Decisão de
+                                    gratuidade (se houver) · Sentença e acórdãos
+                                    · Peças referidas na sentença · Certidão de
+                                    trânsito em julgado · Guias de ITBI/ITCMD ·
+                                    Procurações das partes · Outras
+                                    indispensáveis
+                                </p>
+                            </div>
+                        </div>
+                        <div class="fstep">
+                            <div class="fnum" style="background: #15803d">
+                                3
+                            </div>
+                            <div class="fcont">
+                                <strong
+                                    >Formação em
+                                    <span class="prazo p-grn"
+                                        >5 dias</span
+                                    ></strong
+                                >
+                                <p>
+                                    Documento multipágina para prevenir
+                                    subtração/adição de peças
+                                </p>
+                            </div>
+                        </div>
+                        <div class="fstep">
+                            <div class="fnum" style="background: #15803d">
+                                4
+                            </div>
+                            <div class="fcont">
+                                <strong
+                                    >Informar o juízo em
+                                    <span class="prazo p-grn"
+                                        >2 dias</span
+                                    ></strong
+                                >
+                                <p>
+                                    Comunicação da extração ao juízo de origem
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+</div>
+            </div>
+
+            <!-- S10: PRAZOS E CENSEC -->
+
+            <div class="sec s10" id="s10">
+                <div class="sec-hdr">
+                    <div class="sec-num">10</div>
+                    <span class="sec-icon">⏱️</span>
+                    <span class="sec-title"
+                        >Quadro-Resumo de Prazos e Centrais CENSEC</span
+                    >
+                    <span class="sec-arrow">▼</span>
+                </div>
+                <div class="sec-body">
+                    <h3>
+                        📡 Centrais CENSEC — O que enviar e quando (Art. 277)
+                    </h3>
+                    <table class="tbl">
+                        <thead>
+                            <tr>
+                                <th>Central</th>
+                                <th>O que enviar</th>
+                                <th>Prazo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>RCTO</strong></td>
+                                <td>
+                                    Testamentos públicos lavrados, cerrados
+                                    aprovados e revogações
+                                </td>
+                                <td>
+                                    Até dia 5 (2ª quinzena anterior) · Até dia
+                                    20 (1ª quinzena do mesmo mês)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>CESDI</strong></td>
+                                <td>
+                                    Escrituras de separação, divórcio,
+                                    inventário e partilha (ou informação
+                                    negativa)
+                                </td>
+                                <td>Até dia 5 e dia 20</td>
+                            </tr>
+                            <tr>
+                                <td><strong>CEP</strong></td>
+                                <td>
+                                    Escrituras públicas e procurações (exceto as
+                                    da CESDI e RCTO)
+                                </td>
+                                <td>Até dia 5 e dia 20</td>
+                            </tr>
+                            <tr>
+                                <td><strong>CNSIP</strong></td>
+                                <td>
+                                    Autógrafos do tabelião e prepostos
+                                    autorizados
+                                </td>
+                                <td>
+                                    Alteração em
+                                    <span class="prazo p-red">72 horas</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+<div class="resumo-grid" style="margin-top: 14px">
+                        <div
+                            class="rcard"
+                            style="
+                                background: #f0fdf4;
+                                border: 2px solid #86efac;
+                            "
+                        >
+                            <span class="val" style="color: #15803d"
+                                >5 dias</span
+                            ><span class="lbl"
+                                >Formação de carta de sentença</span
+                            >
+                        </div>
+                        <div
+                            class="rcard"
+                            style="
+                                background: #f0fdf4;
+                                border: 2px solid #86efac;
+                            "
+                        >
+                            <span class="val" style="color: #15803d"
+                                >2 dias</span
+                            ><span class="lbl"
+                                >Informar juízo após extração de carta de
+                                sentença</span
+                            >
+                        </div>
+                        <div
+                            class="rcard"
+                            style="
+                                background: #fefce8;
+                                border: 2px solid #fde047;
+                            "
+                        >
+                            <span class="val" style="color: #854d0e">72h</span
+                            ><span class="lbl"
+                                >Traslados e certidões (preferencialmente
+                                eletrônicos)</span
+                            >
+                        </div>
+                        <div
+                            class="rcard"
+                            style="
+                                background: #fefce8;
+                                border: 2px solid #fde047;
+                            "
+                        >
+                            <span class="val" style="color: #854d0e">72h</span
+                            ><span class="lbl"
+                                >Comunicar ao CENSEC mudança nos autógrafos
+                                (CNSIP)</span
+                            >
+                        </div>
+                        <div
+                            class="rcard"
+                            style="
+                                background: #fff7ed;
+                                border: 2px solid #fdba74;
+                            "
+                        >
+                            <span class="val" style="color: #c2410c"
+                                >4 dias</span
+                            ><span class="lbl"
+                                >Comunicar CGJ o encerramento do livro</span
+                            >
+                        </div>
+                        <div
+                            class="rcard"
+                            style="
+                                background: #fff7ed;
+                                border: 2px solid #fdba74;
+                            "
+                        >
+                            <span class="val" style="color: #c2410c"
+                                >30 dias</span
+                            ><span class="lbl"
+                                >Encadernação do livro após encerramento</span
+                            >
+                        </div>
+                        <div
+                            class="rcard"
+                            style="
+                                background: #eff6ff;
+                                border: 2px solid #93c5fd;
+                            "
+                        >
+                            <span class="val" style="color: #1d4ed8"
+                                >30 dias</span
+                            ><span class="lbl"
+                                >Prazo para parte ausente completar ato
+                                incompleto</span
+                            >
+                        </div>
+                        <div
+                            class="rcard"
+                            style="
+                                background: #fff5f5;
+                                border: 2px solid #fca5a5;
+                            "
+                        >
+                            <span class="val" style="color: #b91c1c">1/3</span
+                            ><span class="lbl"
+                                >Emolumentos cobrados se parte não retornar para
+                                ato incompleto</span
+                            >
+                        </div>
+                        <div
+                            class="rcard"
+                            style="
+                                background: #faf5ff;
+                                border: 2px solid #d8b4fe;
+                            "
+                        >
+                            <span class="val" style="color: #6d28d9"
+                                >5 dias</span
+                            ><span class="lbl"
+                                >Confirmar escritura por ofício (se impossível
+                                via eletrônica)</span
+                            >
+                        </div>
+                        <div
+                            class="rcard"
+                            style="
+                                background: #ecfeff;
+                                border: 2px solid #67e8f9;
+                            "
+                        >
+                            <span class="val" style="color: #0e7490"
+                                >10 dias</span
+                            ><span class="lbl"
+                                >Comunicar distribuidor sobre testamento
+                                cerrado</span
+                            >
+                        </div>
+                        <div
+                            class="rcard"
+                            style="
+                                background: #fefce8;
+                                border: 2px solid #fde047;
+                            "
+                        >
+                            <span class="val" style="color: #854d0e"
+                                >Dia 5 e Dia 20</span
+                            ><span class="lbl"
+                                >Envio de dados às Centrais CENSEC</span
+                            >
+                        </div>
+                        <div
+                            class="rcard"
+                            style="
+                                background: #f0fdf4;
+                                border: 2px solid #86efac;
+                            "
+                        >
+                            <span class="val" style="color: #15803d"
+                                >5 dias</span
+                            ><span class="lbl"
+                                >Dúvida de homonímia → enviar ao juiz</span
+                            >
+                        </div>
+                    </div>
+</div>
+            </div>
+        </div>
+        <div
+            style="
+                text-align: center;
+                padding: 22px;
+                color: #94a3b8;
+                font-size: 0.75rem;
+            "
+        >
+            📖 CN/TJRJ Arts. 271–516 · Lei 8.935/1994 · Prov. CNJ 100/2020 ·
+            Prov. CGJ 74/2025 · 79/2024 · 85/2025 · 91/2025 · Atualizado
+            12/02/2026
+        </div>
+    </body>
+</html>
