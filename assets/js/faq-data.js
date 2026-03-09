@@ -1,3 +1,21 @@
+const pricing = window.SitePricing || null;
+const pricingIsUpdating = !(pricing && typeof pricing.isUpdating === "function") || pricing.isUpdating();
+
+const getAmountDisplay = (serviceKey, fallback) => {
+  if (!(pricing && typeof pricing.getAmountDisplay === "function")) {
+    return fallback;
+  }
+  return pricing.getAmountDisplay(serviceKey, fallback);
+};
+
+const getFaqUpdatingText = () =>
+  pricing && typeof pricing.getMessage === "function"
+    ? pricing.getMessage("faqUpdating", "Os valores estão em atualização no momento; consulte nossa equipe pelos canais oficiais.")
+    : "Os valores estão em atualização no momento; consulte nossa equipe pelos canais oficiais.";
+
+const getConditionalPriceLine = (serviceKey, prefix, fallback) =>
+  pricingIsUpdating ? getFaqUpdatingText() : `${prefix}: ${getAmountDisplay(serviceKey, fallback)}.`;
+
 window.FAQ_ITEMS = [
   {
     id: "casamento-documentos-basicos",
@@ -51,9 +69,13 @@ window.FAQ_ITEMS = [
     question: "Quais são os valores para casamento civil e quais formas de pagamento são aceitas?",
     tags: ["valores", "pagamento", "juiz de paz"],
     answer: [
-      "Valores (excluídas despesas de reconhecimento de firmas e autenticações):",
-      "- Habilitação para casamento civil com celebração com Juiz de Paz na sede do cartório: R$ 1.770,73.",
-      "- Habilitação para casamento civil com celebração com Juiz de Paz fora da sede do cartório: R$ 3.925,18.",
+      ...(pricingIsUpdating
+        ? [getFaqUpdatingText()]
+        : [
+            "Valores (excluídas despesas de reconhecimento de firmas e autenticações):",
+            `- Habilitação para casamento civil com celebração com Juiz de Paz na sede do cartório: ${getAmountDisplay("casamentoCivilSede", "")}.`,
+            `- Habilitação para casamento civil com celebração com Juiz de Paz fora da sede do cartório: ${getAmountDisplay("casamentoCivilExterno", "")}.`,
+          ]),
       "Formas de pagamento: Pix, dinheiro, cartão de débito e cartão de crédito.",
       "No cartão de crédito, há opção de parcelamento em até 21 vezes, com incidência de juros da operadora da maquininha."
     ]
@@ -84,9 +106,13 @@ window.FAQ_ITEMS = [
     question: "Quais são os valores para união estável (2026)?",
     tags: ["uniao estavel", "valores", "2026", "regime de bens"],
     answer: [
-      "VALORES (2026):",
-      "- R$ 355,24 - Regime Comum (Comunhão Parcial de Bens ou Separação Legal de bens).",
-      "- R$ 848,16 - Regime Diverso (Separação Total ou Comunhão Universal de Bens)."
+      ...(pricingIsUpdating
+        ? [getFaqUpdatingText()]
+        : [
+            "VALORES (2026):",
+            `- ${getAmountDisplay("uniaoEstavelComum", "")} - Regime Comum (Comunhão Parcial de Bens ou Separação Legal de bens).`,
+            `- ${getAmountDisplay("uniaoEstavelDiverso", "")} - Regime Diverso (Separação Total ou Comunhão Universal de Bens).`,
+          ])
     ]
   },
   {
@@ -110,7 +136,11 @@ window.FAQ_ITEMS = [
     question: "Qual o valor da conversão de união estável em casamento e há celebração com Juiz de Paz?",
     tags: ["valor", "sem celebracao", "juiz de paz"],
     answer: [
-      "Conversão de união estável em casamento (sem celebração com Juiz de Paz): R$ 1.308,29.",
+      getConditionalPriceLine(
+        "conversaoUniaoEstavel",
+        "Conversão de união estável em casamento (sem celebração com Juiz de Paz)",
+        ""
+      ),
       "Formas de pagamento: Pix, dinheiro, cartão de débito e cartão de crédito.",
       "No cartão de crédito, há opção de parcelamento em até 21 vezes, com incidência de juros da operadora da maquininha."
     ]
@@ -123,7 +153,9 @@ window.FAQ_ITEMS = [
     answer: [
       "A conversão, por si só, não menciona a data de início da convivência marital.",
       "Para que a data conste, é necessário registrar previamente a união estável no Livro E.",
-      "Valor informado para registro no Livro E: R$ 471,22 (art. 764 do CNCGJ/RJ)."
+      pricingIsUpdating
+        ? getFaqUpdatingText()
+        : `Valor informado para registro no Livro E: ${getAmountDisplay("livroE", "")} (art. 764 do CNCGJ/RJ).`
     ]
   },
   {
@@ -206,7 +238,7 @@ window.FAQ_ITEMS = [
       "- Documento que comprove a nacionalidade brasileira de um dos genitores.",
       "- Comprovante de residência atualizado do município de Rio das Ostras (água, luz, telefone fixo, gás, internet ou TV a cabo), em cópia e original.",
       "- Requerimento com firma reconhecida por um dos pais ou por procurador.",
-      "Valor informado da transcrição: R$ 983,68."
+      getConditionalPriceLine("transcricaoEstrangeira", "Valor informado da transcrição", "")
     ]
   },
   {
@@ -221,7 +253,7 @@ window.FAQ_ITEMS = [
       "- Certidão de nascimento do cônjuge brasileiro; ou certidão de casamento anterior com averbação de divórcio; ou certidão de óbito do ex-cônjuge falecido(a), quando aplicável.",
       "- Comprovante de residência atualizado do município de Rio das Ostras (água, luz, telefone fixo, gás, internet ou TV a cabo), em cópia e original.",
       "- Requerimento com firma reconhecida por um dos cônjuges ou por procurador.",
-      "Valor informado da transcrição: R$ 983,68."
+      getConditionalPriceLine("transcricaoEstrangeira", "Valor informado da transcrição", "")
     ]
   },
   {
@@ -236,7 +268,7 @@ window.FAQ_ITEMS = [
       "- Certidão do assento de óbito emitida por autoridade consular brasileira; ou certidão estrangeira de óbito legalizada por autoridade consular brasileira ou apostilada pela autoridade competente do país de origem, com tradução por tradutor público juramentado (quando necessária) e registro em Cartório de RTD (art. 148 da Lei 6.015 e art. 904 da CGJ/RJ).",
       "- Comprovante de residência atualizado do município de Rio das Ostras (água, luz, telefone fixo, gás, internet ou TV a cabo), em cópia e original.",
       "- Requerimento com firma reconhecida por familiar ou por procurador.",
-      "Valor informado da transcrição: R$ 983,68."
+      getConditionalPriceLine("transcricaoEstrangeira", "Valor informado da transcrição", "")
     ]
   },
   {
@@ -249,7 +281,7 @@ window.FAQ_ITEMS = [
       "Documentos informados:",
       "- Sentença ou escritura pública de divórcio brasileira; ou escritura pública de divórcio emitida por autoridade consular brasileira; ou cópia integral da sentença estrangeira com comprovação do trânsito em julgado, apostilada no país de origem, traduzida por tradutor público juramentado e registrada em Cartório de RTD (art. 142 da Lei 6.015 e art. 465 do Provimento CNJ nº 149/2023).",
       "- Requerimento com firma reconhecida por um dos cônjuges ou por procurador.",
-      "Valor informado da 2ª via com averbação: R$ 393,56."
+      getConditionalPriceLine("averbacaoDivorcio", "Valor informado da 2ª via com averbação", "")
     ]
   },
   {

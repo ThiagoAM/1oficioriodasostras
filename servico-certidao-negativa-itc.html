@@ -14,6 +14,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <script defer src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script defer src="assets/js/pricing-config.js"></script>
     <script defer src="assets/js/pix-qr.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
     <script defer src="assets/js/service-form-pdf.js"></script>
@@ -47,17 +48,17 @@
               <p class="section-kicker">Serviços Online</p>
               <h1 class="section-title">Certidão negativa de ITC</h1>
               <p class="section-subtitle">
-                Solicitação de certidão negativa de Interdição, Tutela e Curatela (ITC), com envio de comprovante de
-                pagamento para emissão.
+                Solicitação de certidão negativa de Interdição, Tutela e Curatela (ITC), com retorno da equipe sobre
+                valor atualizado e orientações de pagamento.
               </p>
             </header>
 
             <ul class="contact-list">
-              <li class="contact-item">
+              <li class="contact-item" id="infoItcPreco">
                 <span class="iconify contact-icon" data-icon="mdi:cash-multiple" aria-hidden="true"></span>
                 <div>
-                  <strong>Valor (2026): R$ 233,79</strong><br />
-                  A certidão só é emitida após confirmação do pagamento.
+                  <strong>Valores em atualização</strong><br />
+                  Consulte nossa equipe para confirmação e orientações de pagamento.
                 </div>
               </li>
             </ul>
@@ -114,15 +115,15 @@
                 </div>
               </section>
 
-              <section class="form-section">
-                <h2 class="form-section-title">Valor e dados para pagamento</h2>
+              <section class="form-section" id="paymentSectionItc">
+                <h2 class="form-section-title">Valores e pagamento</h2>
 
                 <div class="field-group">
-                  <label for="valorItc" class="field-label">Valor a pagar (2026)</label>
-                  <input type="text" id="valorItc" name="valor_a_pagar" class="field-input" value="R$ 233,79" readonly />
+                  <label for="valorItc" class="field-label">Situação dos valores</label>
+                  <input type="text" id="valorItc" name="valor_a_pagar" class="field-input" value="Sob atualização" readonly />
                 </div>
 
-                <div class="field-grid">
+                <div class="field-grid" id="paymentDataGridItc" hidden>
                   <div class="field-group">
                     <label for="pixItc" class="field-label">PIX (CNPJ)</label>
                     <input type="text" id="pixItc" name="pix_cnpj" class="field-input" value="58.886.764/0001-80" readonly />
@@ -133,7 +134,7 @@
                   </div>
                 </div>
 
-                <div class="field-group">
+                <div class="field-group" id="recebedorGroupItc" hidden>
                   <label for="recebedorItc" class="field-label">Recebedor</label>
                   <input
                     type="text"
@@ -146,25 +147,26 @@
                 </div>
 
                 <div
+                  id="pixQrItc"
                   class="pix-qr-block"
                   data-pix-qr
-                  data-pix-payload-static="00020126580014br.gov.bcb.pix01360692edb8-6f55-4027-91b1-0bc688a185ba5204000053039865802BR5925SERVICO DO 1 OFICIO DE RI6012Porto Alegre62160512naoinformado6304012F"
+                  data-pix-payload-static=""
                   data-pix-key="58886764000180"
                   data-pix-merchant-name="Servico do 1 Oficio de Justica de Rio das Ostras"
                   data-pix-merchant-city="Rio das Ostras"
-                  data-pix-amount="233.79"
-                  data-pix-txid="ITC2026"
+                  data-pix-amount=""
+                  data-pix-txid=""
+                  hidden
                 >
                   <div class="pix-qr-code" data-pix-qr-code aria-label="QR Code PIX para pagamento"></div>
-                  <p class="form-helper pix-qr-helper">Escaneie este QR Code no app do seu banco para pagar R$ 233,79.</p>
+                  <p class="form-helper pix-qr-helper">Escaneie este QR Code no app do seu banco para pagar.</p>
                   <button type="button" class="btn btn-primary pix-qr-copy-btn" data-pix-copy-btn>
                     Copiar Código PIX
                   </button>
                 </div>
 
-                <p class="form-helper">
-                  Importante: a certidão será emitida somente após a validação do comprovante de pagamento pela nossa
-                  equipe.
+                <p class="form-helper" id="paymentHelperItc">
+                  Os dados para pagamento serão enviados pela equipe após a análise da solicitação.
                 </p>
               </section>
 
@@ -172,7 +174,7 @@
                 <h2 class="form-section-title">Comprovante e observações</h2>
 
                 <div class="field-group">
-                  <label for="comprovanteItc" class="field-label">Comprovante de pagamento *</label>
+                  <label for="comprovanteItc" class="field-label" id="comprovanteLabelItc">Comprovante e documentos adicionais (opcional)</label>
                   <input
                     type="file"
                     id="comprovanteItc"
@@ -180,7 +182,6 @@
                     class="field-input file-input"
                     accept=".pdf,.jpg,.jpeg,.png,.webp,.heic,.heif"
                     multiple
-                    required
                   />
                 </div>
 
@@ -198,5 +199,70 @@
         </div>
       </section>
     </main>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const pricing = window.SitePricing;
+        const service = pricing && typeof pricing.getService === "function" ? pricing.getService("itc") : null;
+        const isUpdating = !(pricing && typeof pricing.isUpdating === "function") || pricing.isUpdating();
+        const valorField = document.getElementById("valorItc");
+        const infoItcPreco = document.getElementById("infoItcPreco");
+        const paymentDataGrid = document.getElementById("paymentDataGridItc");
+        const recebedorGroup = document.getElementById("recebedorGroupItc");
+        const pixQrBlock = document.getElementById("pixQrItc");
+        const paymentHelper = document.getElementById("paymentHelperItc");
+        const comprovanteField = document.getElementById("comprovanteItc");
+        const comprovanteLabel = document.getElementById("comprovanteLabelItc");
+
+        if (valorField instanceof HTMLInputElement) {
+          valorField.value = isUpdating ? pricing.getMessage("fieldValueUpdating", "Sob atualização") : pricing.getAmountDisplay("itc");
+        }
+
+        if (infoItcPreco instanceof HTMLElement) {
+          infoItcPreco.querySelector("div").innerHTML = isUpdating
+            ? "<strong>Valores em atualização</strong><br />Consulte nossa equipe para confirmação e orientações de pagamento."
+            : "<strong>Valor atualizado</strong><br />A certidão só é emitida após confirmação do pagamento.";
+        }
+
+        if (paymentDataGrid instanceof HTMLElement) {
+          paymentDataGrid.hidden = isUpdating;
+        }
+
+        if (recebedorGroup instanceof HTMLElement) {
+          recebedorGroup.hidden = isUpdating;
+        }
+
+        if (pixQrBlock instanceof HTMLElement) {
+          pixQrBlock.hidden = isUpdating;
+          if (!isUpdating && service && service.pixAmount) {
+            pixQrBlock.dataset.pixAmount = service.pixAmount;
+            pixQrBlock.dataset.pixTxid = service.txid || "";
+            pixQrBlock.dataset.pixPayloadStatic = "";
+            const qrHelper = pixQrBlock.querySelector(".pix-qr-helper");
+            if (qrHelper) {
+              qrHelper.textContent = `Escaneie este QR Code no app do seu banco para pagar ${service.amountDisplay}.`;
+            }
+            if (window.PixQr && typeof window.PixQr.renderPixQr === "function") {
+              window.PixQr.renderPixQr(pixQrBlock, { amount: service.pixAmount, txid: service.txid || "", staticPayload: "" });
+            }
+          }
+        }
+
+        if (paymentHelper instanceof HTMLElement) {
+          paymentHelper.textContent = isUpdating
+            ? pricing.getMessage("paymentAfterReview", "Os dados para pagamento serão enviados pela equipe após a análise da solicitação.")
+            : "Importante: a certidão será emitida somente após a validação do comprovante de pagamento pela nossa equipe.";
+        }
+
+        if (comprovanteField instanceof HTMLInputElement) {
+          comprovanteField.required = !isUpdating;
+        }
+
+        if (comprovanteLabel instanceof HTMLElement) {
+          comprovanteLabel.textContent = isUpdating
+            ? pricing.getMessage("proofOptional", "Comprovante e documentos adicionais (opcional)")
+            : "Comprovante de pagamento *";
+        }
+      });
+    </script>
   </body>
 </html>

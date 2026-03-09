@@ -9,6 +9,7 @@
   const CARTORIO_NAME = "Cartório do 1º Ofício de Justiça de Rio das Ostras";
   const CARTORIO_SUBTITLE = "Notas • Protesto • Registro Civil de Pessoas Naturais";
   const LOGO_PATH = "assets/images/cartorio-icon.png";
+  const pricing = window.SitePricing || null;
 
   const MONTHS_PT = [
     "janeiro",
@@ -100,6 +101,13 @@
     if (window.Iconify && typeof window.Iconify.scan === "function") {
       window.Iconify.scan();
     }
+  };
+
+  const getReferenceRequirement = (serviceKey, label, fallback) => {
+    if (pricing && typeof pricing.getReferenceText === "function") {
+      return pricing.getReferenceText(serviceKey, label, fallback);
+    }
+    return `${label}: ${fallback}.`;
   };
 
   const downloadPdf = (bytes, fileName) => {
@@ -654,7 +662,7 @@
       requirements: [
         "Certidão com data não inferior a seis meses do ocorrido (cópia autenticada).",
         "Requerimento com firma reconhecida.",
-        "Valor de referência: R$ 176,50.",
+        getReferenceRequirement("anotacaoCasamentoObito", "Valor de referência", ""),
       ],
       requestText: (payload) => {
         return (
@@ -692,7 +700,7 @@
         "Certidão atualizada de registro civil de cônjuge brasileiro anterior ao casamento, atualizada com óbito, quando aplicável.",
         "Comprovante de residência no município (cópia e original).",
         "Requerimento com firma reconhecida por um dos cônjuges ou procurador.",
-        "Valor de referência: R$ 393,56.",
+        getReferenceRequirement("averbacaoDivorcio", "Valor de referência", ""),
       ],
       requestText: (payload) => {
         return (
@@ -733,7 +741,7 @@
         "Ou Escritura Pública de Divórcio emitida por autoridade consular brasileira.",
         "Ou sentença estrangeira com trânsito em julgado, apostilada, traduzida e registrada em Cartório de RTD.",
         "Requerimento com firma reconhecida por um dos cônjuges ou procurador.",
-        "Valor de referência (2ª via com averbação): R$ 393,56.",
+        getReferenceRequirement("averbacaoDivorcio", "Valor de referência (2ª via com averbação)", ""),
       ],
       requestText: (payload) => {
         return (
@@ -771,7 +779,7 @@
         "Certidão de nascimento do cônjuge brasileiro anterior ao casamento e certidão de óbito do ex-cônjuge falecido, quando houver.",
         "Comprovante de residência no município (cópia e original).",
         "Requerimento com firma reconhecida por um dos cônjuges ou procurador.",
-        "Valor de referência da transcrição: R$ 983,68.",
+        getReferenceRequirement("transcricaoEstrangeira", "Valor de referência da transcrição", ""),
       ],
       requestText: (payload) => {
         return (
@@ -807,7 +815,7 @@
         "Certidão de assento estrangeiro de nascimento legalizada/apostilada e traduzida por tradutor público juramentado, quando necessário.",
         "Comprovante de residência no município (cópia autenticada).",
         "Requerimento com firma reconhecida.",
-        "Valor de referência: R$ 983,68.",
+        getReferenceRequirement("transcricaoEstrangeira", "Valor de referência", ""),
       ],
       requestText: (payload) => {
         return (
@@ -844,7 +852,7 @@
         "Certidão de assento de óbito estrangeira legalizada/apostilada e traduzida por tradutor público juramentado, quando aplicável.",
         "Comprovante de residência atualizado no município (cópia).",
         "Requerimento com firma reconhecida por familiar ou procurador.",
-        "Valor de referência da transcrição: R$ 983,68.",
+        getReferenceRequirement("transcricaoEstrangeira", "Valor de referência da transcrição", ""),
       ],
       requestText: (payload) => {
         return (
