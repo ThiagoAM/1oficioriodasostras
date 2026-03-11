@@ -700,7 +700,7 @@
         "Certidão atualizada de registro civil de cônjuge brasileiro anterior ao casamento, atualizada com óbito, quando aplicável.",
         "Comprovante de residência no município (cópia e original).",
         "Requerimento com firma reconhecida por um dos cônjuges ou procurador.",
-        getReferenceRequirement("averbacaoDivorcio", "Valor de referência", ""),
+        getReferenceRequirement("averbacaoRegimeBens", "Valor de referência", ""),
       ],
       requestText: (payload) => {
         return (
@@ -741,7 +741,7 @@
         "Ou Escritura Pública de Divórcio emitida por autoridade consular brasileira.",
         "Ou sentença estrangeira com trânsito em julgado, apostilada, traduzida e registrada em Cartório de RTD.",
         "Requerimento com firma reconhecida por um dos cônjuges ou procurador.",
-        getReferenceRequirement("averbacaoDivorcio", "Valor de referência (2ª via com averbação)", ""),
+        getReferenceRequirement("averbacaoDivorcioUmaVia", "Valor de referência (2ª via com averbação)", ""),
       ],
       requestText: (payload) => {
         return (

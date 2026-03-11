@@ -48,8 +48,8 @@
               <p class="section-kicker">Serviços Online</p>
               <h1 class="section-title">Certidão negativa de ITC</h1>
               <p class="section-subtitle">
-                Solicitação de certidão negativa de Interdição, Tutela e Curatela (ITC), com retorno da equipe sobre
-                valor atualizado e orientações de pagamento.
+                Solicitação de certidão negativa de Interdição, Tutela e Curatela (ITC), com pagamento e envio de
+                comprovante para emissão.
               </p>
             </header>
 
@@ -57,8 +57,8 @@
               <li class="contact-item" id="infoItcPreco">
                 <span class="iconify contact-icon" data-icon="mdi:cash-multiple" aria-hidden="true"></span>
                 <div>
-                  <strong>Valores em atualização</strong><br />
-                  Consulte nossa equipe para confirmação e orientações de pagamento.
+                  <strong>Valor atualizado: R$ 249,90</strong><br />
+                  A certidão só é emitida após confirmação do pagamento.
                 </div>
               </li>
             </ul>
@@ -119,11 +119,11 @@
                 <h2 class="form-section-title">Valores e pagamento</h2>
 
                 <div class="field-group">
-                  <label for="valorItc" class="field-label">Situação dos valores</label>
-                  <input type="text" id="valorItc" name="valor_a_pagar" class="field-input" value="Sob atualização" readonly />
+                  <label for="valorItc" class="field-label">Valor a pagar</label>
+                  <input type="text" id="valorItc" name="valor_a_pagar" class="field-input" value="R$ 249,90" readonly />
                 </div>
 
-                <div class="field-grid" id="paymentDataGridItc" hidden>
+                <div class="field-grid" id="paymentDataGridItc">
                   <div class="field-group">
                     <label for="pixItc" class="field-label">PIX (CNPJ)</label>
                     <input type="text" id="pixItc" name="pix_cnpj" class="field-input" value="58.886.764/0001-80" readonly />
@@ -134,7 +134,7 @@
                   </div>
                 </div>
 
-                <div class="field-group" id="recebedorGroupItc" hidden>
+                <div class="field-group" id="recebedorGroupItc">
                   <label for="recebedorItc" class="field-label">Recebedor</label>
                   <input
                     type="text"
@@ -156,7 +156,6 @@
                   data-pix-merchant-city="Rio das Ostras"
                   data-pix-amount=""
                   data-pix-txid=""
-                  hidden
                 >
                   <div class="pix-qr-code" data-pix-qr-code aria-label="QR Code PIX para pagamento"></div>
                   <p class="form-helper pix-qr-helper">Escaneie este QR Code no app do seu banco para pagar.</p>
@@ -166,7 +165,7 @@
                 </div>
 
                 <p class="form-helper" id="paymentHelperItc">
-                  Os dados para pagamento serão enviados pela equipe após a análise da solicitação.
+                  Importante: a certidão será emitida somente após a validação do comprovante de pagamento pela nossa equipe.
                 </p>
               </section>
 
@@ -174,7 +173,7 @@
                 <h2 class="form-section-title">Comprovante e observações</h2>
 
                 <div class="field-group">
-                  <label for="comprovanteItc" class="field-label" id="comprovanteLabelItc">Comprovante e documentos adicionais (opcional)</label>
+                  <label for="comprovanteItc" class="field-label" id="comprovanteLabelItc">Comprovante de pagamento *</label>
                   <input
                     type="file"
                     id="comprovanteItc"
@@ -182,6 +181,7 @@
                     class="field-input file-input"
                     accept=".pdf,.jpg,.jpeg,.png,.webp,.heic,.heif"
                     multiple
+                    required
                   />
                 </div>
 
@@ -220,7 +220,7 @@
         if (infoItcPreco instanceof HTMLElement) {
           infoItcPreco.querySelector("div").innerHTML = isUpdating
             ? "<strong>Valores em atualização</strong><br />Consulte nossa equipe para confirmação e orientações de pagamento."
-            : "<strong>Valor atualizado</strong><br />A certidão só é emitida após confirmação do pagamento.";
+            : `<strong>Valor atualizado: ${service ? service.amountDisplay : ""}</strong><br />A certidão só é emitida após confirmação do pagamento.`;
         }
 
         if (paymentDataGrid instanceof HTMLElement) {

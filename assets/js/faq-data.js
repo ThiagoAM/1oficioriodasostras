@@ -16,6 +16,11 @@ const getFaqUpdatingText = () =>
 const getConditionalPriceLine = (serviceKey, prefix, fallback) =>
   pricingIsUpdating ? getFaqUpdatingText() : `${prefix}: ${getAmountDisplay(serviceKey, fallback)}.`;
 
+const getContactLine = () =>
+  pricing && typeof pricing.getMessage === "function"
+    ? pricing.getMessage("pendingContact", "Consulte nossa equipe para confirmação do valor atualizado.")
+    : "Consulte nossa equipe para confirmação do valor atualizado.";
+
 window.FAQ_ITEMS = [
   {
     id: "casamento-documentos-basicos",
@@ -72,9 +77,9 @@ window.FAQ_ITEMS = [
       ...(pricingIsUpdating
         ? [getFaqUpdatingText()]
         : [
-            "Valores (excluídas despesas de reconhecimento de firmas e autenticações):",
+            "Valores informados (excluídas despesas de reconhecimento de firmas e autenticações):",
             `- Habilitação para casamento civil com celebração com Juiz de Paz na sede do cartório: ${getAmountDisplay("casamentoCivilSede", "")}.`,
-            `- Habilitação para casamento civil com celebração com Juiz de Paz fora da sede do cartório: ${getAmountDisplay("casamentoCivilExterno", "")}.`,
+            "- Celebração fora da sede do cartório: consulte nossa equipe para confirmar o valor atualizado.",
           ]),
       "Formas de pagamento: Pix, dinheiro, cartão de débito e cartão de crédito.",
       "No cartão de crédito, há opção de parcelamento em até 21 vezes, com incidência de juros da operadora da maquininha."
@@ -227,6 +232,19 @@ window.FAQ_ITEMS = [
     ]
   },
   {
+    id: "segunda-via-valores",
+    category: "Registro Civil",
+    question: "Quais são os valores da 2ª via de certidão no 1º Ofício de Rio das Ostras?",
+    tags: ["2 via", "certidao", "breve relato", "inteiro teor", "interligada", "valor"],
+    answer: [
+      "Valores informados para 2ª via no 1º Ofício:",
+      `- Breve relato: ${getAmountDisplay("segundaViaBreveRelato", "")}.`,
+      `- Inteiro teor: ${getAmountDisplay("segundaViaInteiroTeor", "")}.`,
+      `- Interligada Estado do Rio de Janeiro: ${getAmountDisplay("segundaViaInterligadaRj", "")}.`,
+      "Para registros de outro cartório, consulte a equipe antes de realizar qualquer pagamento."
+    ]
+  },
+  {
     id: "transcricao-nascimento-documentos",
     category: "Registro Civil",
     question: "Quais documentos são necessários para transcrição de nascimento?",
@@ -238,7 +256,7 @@ window.FAQ_ITEMS = [
       "- Documento que comprove a nacionalidade brasileira de um dos genitores.",
       "- Comprovante de residência atualizado do município de Rio das Ostras (água, luz, telefone fixo, gás, internet ou TV a cabo), em cópia e original.",
       "- Requerimento com firma reconhecida por um dos pais ou por procurador.",
-      getConditionalPriceLine("transcricaoEstrangeira", "Valor informado da transcrição", "")
+      getContactLine()
     ]
   },
   {
@@ -253,7 +271,7 @@ window.FAQ_ITEMS = [
       "- Certidão de nascimento do cônjuge brasileiro; ou certidão de casamento anterior com averbação de divórcio; ou certidão de óbito do ex-cônjuge falecido(a), quando aplicável.",
       "- Comprovante de residência atualizado do município de Rio das Ostras (água, luz, telefone fixo, gás, internet ou TV a cabo), em cópia e original.",
       "- Requerimento com firma reconhecida por um dos cônjuges ou por procurador.",
-      getConditionalPriceLine("transcricaoEstrangeira", "Valor informado da transcrição", "")
+      getContactLine()
     ]
   },
   {
@@ -268,7 +286,7 @@ window.FAQ_ITEMS = [
       "- Certidão do assento de óbito emitida por autoridade consular brasileira; ou certidão estrangeira de óbito legalizada por autoridade consular brasileira ou apostilada pela autoridade competente do país de origem, com tradução por tradutor público juramentado (quando necessária) e registro em Cartório de RTD (art. 148 da Lei 6.015 e art. 904 da CGJ/RJ).",
       "- Comprovante de residência atualizado do município de Rio das Ostras (água, luz, telefone fixo, gás, internet ou TV a cabo), em cópia e original.",
       "- Requerimento com firma reconhecida por familiar ou por procurador.",
-      getConditionalPriceLine("transcricaoEstrangeira", "Valor informado da transcrição", "")
+      getContactLine()
     ]
   },
   {
@@ -281,7 +299,174 @@ window.FAQ_ITEMS = [
       "Documentos informados:",
       "- Sentença ou escritura pública de divórcio brasileira; ou escritura pública de divórcio emitida por autoridade consular brasileira; ou cópia integral da sentença estrangeira com comprovação do trânsito em julgado, apostilada no país de origem, traduzida por tradutor público juramentado e registrada em Cartório de RTD (art. 142 da Lei 6.015 e art. 465 do Provimento CNJ nº 149/2023).",
       "- Requerimento com firma reconhecida por um dos cônjuges ou por procurador.",
-      getConditionalPriceLine("averbacaoDivorcio", "Valor informado da 2ª via com averbação", "")
+      `Valor informado da averbação de divórcio com uma via averbada: ${getAmountDisplay("averbacaoDivorcioUmaVia", "")}.`,
+      `Valor informado da averbação de divórcio com duas vias averbadas: ${getAmountDisplay("averbacaoDivorcioDuasVias", "")}.`
+    ]
+  },
+  {
+    id: "notas-procuracoes-valores",
+    category: "Escrituras e Notas",
+    question: "Quais são os valores de procuração pública?",
+    tags: ["procuracao", "notas", "valor"],
+    answer: [
+      `- Procuração sem valor: ${getAmountDisplay("procuracaoSemValor", "")}.`,
+      `- Procuração com valor: ${getAmountDisplay("procuracaoComValor", "")}.`
+    ]
+  },
+  {
+    id: "notas-atos-diversos-valores",
+    category: "Escrituras e Notas",
+    question: "Quais são os valores de união estável, emancipação, divórcio sem bens e ata notarial?",
+    tags: ["uniao estavel", "emancipacao", "divorcio", "ata notarial", "valor"],
+    answer: [
+      `- União Estável - Regime Comum / Disposição Legal: ${getAmountDisplay("uniaoEstavelComum", "")}.`,
+      `- União Estável - Regime Diverso da Disposição Legal: ${getAmountDisplay("uniaoEstavelDiverso", "")}.`,
+      `- Emancipação: ${getAmountDisplay("emancipacao", "")}.`,
+      `- Divórcio/Dissolução de União Estável (sem bens): ${getAmountDisplay("divorcioSemBens", "")}.`,
+      `- Ata Notarial sem folha excedente: ${getAmountDisplay("ataNotarialSemExcedente", "")}.`,
+      `- Cada folha excedente tem custo aproximado de ${getAmountDisplay("ataNotarialFolhaExcedente", "")}.`,
+      "Com diligência, a ata notarial sem folha excedente dobra de valor."
+    ]
+  },
+  {
+    id: "notas-autenticacoes-valores",
+    category: "Escrituras e Notas",
+    question: "Quais são os valores de autenticação, abertura de firma, reconhecimentos, sinal público e materialização?",
+    tags: ["autenticacao", "abertura de firma", "reconhecimento", "sinal publico", "materializacao", "valor"],
+    answer: [
+      `- Autenticação: ${getAmountDisplay("autenticacao", "")}.`,
+      `- Abertura de firma: ${getAmountDisplay("aberturaFirma", "")}.`,
+      "Documentos para abertura de firma: RG e CPF.",
+      `- Reconhecimento por autenticidade: ${getAmountDisplay("reconhecimentoAutenticidade", "")}.`,
+      `- Reconhecimento por semelhança: ${getAmountDisplay("reconhecimentoSemelhanca", "")}.`,
+      `- Sinal Público: ${getAmountDisplay("sinalPublico", "")}.`,
+      `- Materialização: ${getAmountDisplay("materializacao", "")}.`
+    ]
+  },
+  {
+    id: "certidoes-notariais-valores",
+    category: "Escrituras e Notas",
+    question: "Quais são os valores da 2ª via de certidões em notas?",
+    tags: ["certidao", "2 via", "notas", "pagina", "valor"],
+    answer: [
+      `- 1 página: ${getAmountDisplay("certidaoUmaPagina", "")}.`,
+      `- 2 páginas: ${getAmountDisplay("certidaoDuasPaginas", "")}.`,
+      `- 3 páginas: ${getAmountDisplay("certidaoTresPaginas", "")}.`
+    ]
+  },
+  {
+    id: "apostilamento-haia-o-que-e",
+    category: "Apostilamento de Haia",
+    question: "O que é o Apostilamento de Haia?",
+    tags: ["apostilamento", "haia", "o que e", "documento internacional"],
+    answer: [
+      "O Apostilamento de Haia é uma certificação feita pelo cartório que permite que um documento brasileiro tenha validade em outro país que participa da Convenção da Apostila da Haia de 1961.",
+      "Ou seja, o cartório coloca uma apostila (certificado) no documento confirmando que ele é autêntico no Brasil."
+    ]
+  },
+  {
+    id: "apostilamento-haia-para-que-serve",
+    category: "Apostilamento de Haia",
+    question: "Para que serve o Apostilamento de Haia?",
+    tags: ["apostilamento", "haia", "serve", "exterior"],
+    answer: [
+      "Serve para que documentos brasileiros sejam aceitos no exterior, por exemplo para:",
+      "- cidadania estrangeira",
+      "- estudar fora do país",
+      "- trabalhar no exterior",
+      "- casamento em outro país",
+      "- abrir empresa no exterior",
+      "- validar diploma fora do Brasil"
+    ]
+  },
+  {
+    id: "apostilamento-haia-documentos",
+    category: "Apostilamento de Haia",
+    question: "Quais documentos podem ser apostilados?",
+    tags: ["apostilamento", "haia", "documentos"],
+    answer: [
+      "Exemplos mais comuns:",
+      "- certidão de nascimento",
+      "- certidão de casamento",
+      "- certidão de óbito",
+      "- diplomas e históricos escolares",
+      "- procurações",
+      "- escrituras públicas",
+      "- documentos com firma reconhecida"
+    ]
+  },
+  {
+    id: "apostilamento-haia-certifica",
+    category: "Apostilamento de Haia",
+    question: "O que a apostila certifica?",
+    tags: ["apostilamento", "haia", "certifica", "assinatura"],
+    answer: [
+      "A apostila não confirma o conteúdo do documento.",
+      "Ela confirma apenas:",
+      "✔ que a assinatura é verdadeira",
+      "✔ que o documento foi emitido por autoridade válida",
+      "✔ que o carimbo ou selo é autêntico"
+    ]
+  },
+  {
+    id: "apostilamento-haia-paises",
+    category: "Apostilamento de Haia",
+    question: "Em quais países a apostila vale?",
+    tags: ["apostilamento", "haia", "paises", "portugal", "italia"],
+    answer: [
+      "A apostila é aceita em mais de 120 países, como:",
+      "- Portugal",
+      "- Itália",
+      "- Espanha",
+      "- França",
+      "- Estados Unidos",
+      "- Alemanha",
+      "- Japão"
+    ]
+  },
+  {
+    id: "apostilamento-haia-onde-fazer",
+    category: "Apostilamento de Haia",
+    question: "Onde fazer o Apostilamento de Haia?",
+    tags: ["apostilamento", "haia", "onde fazer", "cnj"],
+    answer: [
+      "No Brasil, o apostilamento é feito em cartórios autorizados pelo Conselho Nacional de Justiça (CNJ)."
+    ]
+  },
+  {
+    id: "apostilamento-haia-prazo",
+    category: "Apostilamento de Haia",
+    question: "Quanto tempo demora o Apostilamento de Haia?",
+    tags: ["apostilamento", "haia", "prazo", "tempo"],
+    answer: [
+      "Normalmente o procedimento é rápido e pode ser feito no mesmo dia, dependendo da quantidade de documentos."
+    ]
+  },
+  {
+    id: "apostilamento-haia-importante",
+    category: "Apostilamento de Haia",
+    question: "Qual informação importante devo saber antes de apostilar um documento?",
+    tags: ["apostilamento", "haia", "firma reconhecida", "importante"],
+    answer: [
+      "Se o documento for particular, normalmente será necessário reconhecer a firma antes para depois fazer o apostilamento."
+    ]
+  },
+  {
+    id: "apostilamento-haia-resumo",
+    category: "Apostilamento de Haia",
+    question: "Resumo simples: o que é o Apostilamento de Haia?",
+    tags: ["apostilamento", "haia", "resumo simples"],
+    answer: [
+      "O Apostilamento de Haia é um carimbo internacional que permite que documentos brasileiros sejam aceitos em outros países."
+    ]
+  },
+  {
+    id: "apostilamento-haia-valor",
+    category: "Apostilamento de Haia",
+    question: "Qual é o valor do Apostilamento de Haia?",
+    tags: ["apostilamento", "haia", "valor", "preco"],
+    answer: [
+      `Valor informado do Apostilamento de Haia: ${getAmountDisplay("apostilamentoHaia", "")}.`
     ]
   },
   {

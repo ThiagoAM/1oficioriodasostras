@@ -65,7 +65,7 @@
                 <span class="iconify contact-icon" data-icon="mdi:cash-multiple" aria-hidden="true"></span>
                 <div>
                   <strong>2ª via - registro do 1º Ofício de Rio das Ostras:</strong><br />
-                  Valores em atualização. Consulte nossa equipe para confirmação.
+                  Breve relato: R$ 188,76 • Inteiro teor: R$ 251,57 • Interligada RJ: a partir de R$ 409,24.
                 </div>
               </li>
               <li class="contact-item" id="infoRegistroOutro2Via" hidden>
@@ -186,6 +186,15 @@
                     </div>
                   </div>
 
+                  <div class="field-group">
+                    <label for="modalidade2Via" class="field-label">Modalidade da certidão no 1º Ofício *</label>
+                    <select id="modalidade2Via" name="modalidade_certidao" class="field-input" required>
+                      <option value="breve_relato">Breve relato</option>
+                      <option value="inteiro_teor">Inteiro teor</option>
+                      <option value="interligada_rj">Interligada Estado do RJ</option>
+                    </select>
+                  </div>
+
                   <div class="field-grid">
                     <div class="field-group">
                       <label for="email2Via" class="field-label">E-mail *</label>
@@ -232,11 +241,11 @@
                   <h2 class="form-section-title">Valores e pagamento</h2>
 
                   <div class="field-group">
-                    <label for="valor2ViaInfo" class="field-label" id="valor2ViaLabel">Situação dos valores</label>
-                    <input type="text" id="valor2ViaInfo" name="valor_referencia" class="field-input" value="Sob atualização" readonly />
+                    <label for="valor2ViaInfo" class="field-label" id="valor2ViaLabel">Valor de referência</label>
+                    <input type="text" id="valor2ViaInfo" name="valor_referencia" class="field-input" value="R$ 188,76" readonly />
                   </div>
 
-                  <div class="field-grid" id="paymentDataGrid2Via" hidden>
+                  <div class="field-grid" id="paymentDataGrid2Via">
                     <div class="field-group">
                       <label for="pix2Via" class="field-label">PIX (CNPJ)</label>
                       <input type="text" id="pix2Via" name="pix_cnpj" class="field-input" value="58.886.764/0001-80" readonly />
@@ -247,7 +256,7 @@
                     </div>
                   </div>
 
-                  <div class="field-group" id="recebedorGroup2Via" hidden>
+                  <div class="field-group" id="recebedorGroup2Via">
                     <label for="recebedor2Via" class="field-label">Recebedor</label>
                     <input
                       type="text"
@@ -269,7 +278,6 @@
                     data-pix-merchant-city="Rio das Ostras"
                     data-pix-amount=""
                     data-pix-txid=""
-                    hidden
                   >
                     <div class="pix-qr-code" data-pix-qr-code aria-label="QR Code PIX para pagamento"></div>
                     <p class="form-helper pix-qr-helper">Escaneie este QR Code no app do seu banco para pagar.</p>
@@ -277,10 +285,10 @@
                   </div>
 
                   <p class="form-helper" id="avisoOrigemRegistro2Via">
-                    Valores em atualização para a 2ª via do 1º Ofício. Nossa equipe confirmará o valor e os dados para pagamento.
+                    Para registros do 1º Ofício de Rio das Ostras, realize o pagamento indicado para a modalidade escolhida e anexe o comprovante.
                   </p>
                   <p class="form-helper" id="pagamentoImportante2Via">
-                    Os dados para pagamento serão enviados pela equipe após a análise da solicitação.
+                    Importante: a certidão será emitida somente após a validação do comprovante de pagamento pela nossa equipe.
                   </p>
                 </section>
 
@@ -289,7 +297,7 @@
 
                   <div class="field-group">
                     <label for="comprovante2Via" class="field-label" id="comprovanteLabel2Via">
-                      Comprovante e documentos adicionais (opcional)
+                      Comprovante de pagamento (obrigatório para registro do 1º Ofício)
                     </label>
                     <input
                       type="file"
@@ -298,6 +306,7 @@
                       class="field-input file-input"
                       accept=".pdf,.jpg,.jpeg,.png,.webp,.heic,.heif"
                       multiple
+                      required
                     />
                   </div>
                   <p class="form-helper" id="outroCartorioHelper2Via" hidden>
@@ -510,6 +519,7 @@
         const infoRegistroOutro = document.getElementById("infoRegistroOutro2Via");
 
         const origemField = document.getElementById("origemRegistro2Via");
+        const modalidadeField = document.getElementById("modalidade2Via");
         const comprovanteField = document.getElementById("comprovante2Via");
         const valorField = document.getElementById("valor2ViaInfo");
         const valorLabel = document.getElementById("valor2ViaLabel");
@@ -523,7 +533,20 @@
         const outroCartorioHelper = document.getElementById("outroCartorioHelper2Via");
         const pixQrBlock = document.getElementById("pixQr2Via");
         const pricing = window.SitePricing;
-        const segundaViaPricing = pricing && typeof pricing.getService === "function" ? pricing.getService("segundaViaCertidao") : null;
+        const getSecondViaPricing = () => {
+          if (!(pricing && typeof pricing.getService === "function")) {
+            return null;
+          }
+          if (!(modalidadeField instanceof HTMLSelectElement)) {
+            return pricing.getService("segundaViaBreveRelato");
+          }
+          const serviceMap = {
+            breve_relato: "segundaViaBreveRelato",
+            inteiro_teor: "segundaViaInteiroTeor",
+            interligada_rj: "segundaViaInterligadaRj",
+          };
+          return pricing.getService(serviceMap[modalidadeField.value] || "segundaViaBreveRelato");
+        };
         const pricingIsUpdating = !(pricing && typeof pricing.isUpdating === "function") || pricing.isUpdating();
         const routeServiceMap = {
           segunda_via: {
@@ -618,6 +641,7 @@
         const syncPaymentRules = () => {
           if (
             !(origemField instanceof HTMLSelectElement) ||
+            !(modalidadeField instanceof HTMLSelectElement) ||
             !(comprovanteField instanceof HTMLInputElement) ||
             !(valorField instanceof HTMLInputElement) ||
             !(paymentSection instanceof HTMLElement) ||
@@ -627,43 +651,48 @@
           }
 
           const isLocalRecord = origemField.value === "1_oficio";
+          const selectedSecondViaPricing = getSecondViaPricing();
+          const isReviewOnlySecondVia = Boolean(selectedSecondViaPricing && selectedSecondViaPricing.requiresReview);
           const localReferenceValue = pricingIsUpdating
             ? pricing.getMessage("fieldValueUpdating", "Sob atualização")
-            : pricing.getAmountDisplay("segundaViaCertidao");
+            : selectedSecondViaPricing
+              ? selectedSecondViaPricing.amountDisplay
+              : pricing.getMessage("pendingContact", "Consulte nossa equipe para confirmação do valor atualizado.");
           const remoteReferenceValue = pricingIsUpdating
             ? pricing.getMessage("fieldValueUpdating", "Sob atualização")
             : "A confirmar com escrevente";
 
-          comprovanteField.required = isLocalRecord && !pricingIsUpdating;
+          modalidadeField.disabled = !isLocalRecord;
+          comprovanteField.required = isLocalRecord && !pricingIsUpdating && !isReviewOnlySecondVia;
           paymentSection.hidden = !isLocalRecord;
           setSectionEnabled(paymentSection, isLocalRecord);
           valorField.value = isLocalRecord ? localReferenceValue : remoteReferenceValue;
-          pixQrBlock.hidden = !isLocalRecord || pricingIsUpdating;
+          pixQrBlock.hidden = !isLocalRecord || pricingIsUpdating || isReviewOnlySecondVia;
 
           if (paymentDataGrid instanceof HTMLElement) {
-            paymentDataGrid.hidden = pricingIsUpdating;
+            paymentDataGrid.hidden = pricingIsUpdating || isReviewOnlySecondVia;
           }
 
           if (recebedorGroup instanceof HTMLElement) {
-            recebedorGroup.hidden = pricingIsUpdating;
+            recebedorGroup.hidden = pricingIsUpdating || isReviewOnlySecondVia;
           }
 
           if (valorLabel instanceof HTMLElement) {
             valorLabel.textContent = pricingIsUpdating ? "Situação dos valores" : "Valor de referência";
           }
 
-          if (isLocalRecord && !pricingIsUpdating && segundaViaPricing) {
-            pixQrBlock.dataset.pixAmount = segundaViaPricing.pixAmount || "";
-            pixQrBlock.dataset.pixTxid = segundaViaPricing.txid || "";
+          if (isLocalRecord && !pricingIsUpdating && selectedSecondViaPricing && !isReviewOnlySecondVia) {
+            pixQrBlock.dataset.pixAmount = selectedSecondViaPricing.pixAmount || "";
+            pixQrBlock.dataset.pixTxid = selectedSecondViaPricing.txid || "";
             pixQrBlock.dataset.pixPayloadStatic = "";
             const qrHelper = pixQrBlock.querySelector(".pix-qr-helper");
             if (qrHelper) {
-              qrHelper.textContent = `Escaneie este QR Code no app do seu banco para pagar ${segundaViaPricing.amountDisplay}.`;
+              qrHelper.textContent = `Escaneie este QR Code no app do seu banco para pagar ${selectedSecondViaPricing.amountDisplay}.`;
             }
             if (window.PixQr && typeof window.PixQr.renderPixQr === "function") {
               window.PixQr.renderPixQr(pixQrBlock, {
-                amount: segundaViaPricing.pixAmount || "",
-                txid: segundaViaPricing.txid || "",
+                amount: selectedSecondViaPricing.pixAmount || "",
+                txid: selectedSecondViaPricing.txid || "",
                 staticPayload: "",
               });
             }
@@ -676,7 +705,12 @@
                     "localRecordUpdating",
                     "Valores em atualização para a 2ª via do 1º Ofício. Nossa equipe confirmará o valor e os dados para pagamento."
                   )
-                : `Para registros do 1º Ofício de Rio das Ostras, realize o pagamento de ${pricing.getAmountDisplay("segundaViaCertidao")} e anexe o comprovante.`
+                : isReviewOnlySecondVia
+                  ? pricing.getMessage(
+                      "secondCopyContact",
+                      "Para esta modalidade, consulte nossa equipe antes do pagamento para confirmar o valor final e as orientações."
+                    )
+                  : `Para registros do 1º Ofício de Rio das Ostras, realize o pagamento de ${selectedSecondViaPricing ? selectedSecondViaPricing.amountDisplay : ""} e anexe o comprovante.`
               : pricingIsUpdating
                 ? pricing.getMessage(
                     "remoteRecordUpdating",
@@ -688,15 +722,17 @@
           if (pagamentoImportanteField) {
             pagamentoImportanteField.textContent = pricingIsUpdating
               ? pricing.getMessage("paymentAfterReview", "Os dados para pagamento serão enviados pela equipe após a análise da solicitação.")
+              : isReviewOnlySecondVia
+                ? "Como o valor final depende da análise, aguarde o retorno da equipe antes de efetuar qualquer pagamento."
               : "Importante: a certidão será emitida somente após a validação do comprovante de pagamento pela nossa equipe.";
           }
 
           if (comprovanteSectionTitle) {
-            comprovanteSectionTitle.textContent = isLocalRecord && !pricingIsUpdating ? "Comprovante e observações" : "Documentos e observações";
+            comprovanteSectionTitle.textContent = isLocalRecord && !pricingIsUpdating && !isReviewOnlySecondVia ? "Comprovante e observações" : "Documentos e observações";
           }
 
           if (comprovanteLabel) {
-            comprovanteLabel.textContent = isLocalRecord && !pricingIsUpdating
+            comprovanteLabel.textContent = isLocalRecord && !pricingIsUpdating && !isReviewOnlySecondVia
               ? "Comprovante de pagamento (obrigatório para registro do 1º Ofício)"
               : pricing.getMessage("attachmentsOptional", "Anexos (opcional)");
           }
@@ -776,6 +812,10 @@
 
         if (origemField instanceof HTMLSelectElement) {
           origemField.addEventListener("change", syncPaymentRules);
+        }
+
+        if (modalidadeField instanceof HTMLSelectElement) {
+          modalidadeField.addEventListener("change", syncPaymentRules);
         }
 
         if (servicePicker instanceof HTMLSelectElement) {
