@@ -2,6 +2,7 @@ import { analyticsPromise, db } from "./firebase-app.js";
 import {
   doc,
   getDoc,
+  getDocFromServer,
   increment,
   serverTimestamp,
   setDoc,
@@ -137,7 +138,14 @@ const loadYearlyVisits = async (years) => {
 
   try {
     const snapshots = await Promise.all(
-      uniqueYears.map((year) => getDoc(doc(db, "site_visits_yearly", year))),
+      uniqueYears.map(async (year) => {
+        const reference = doc(db, "site_visits_yearly", year);
+        try {
+          return await getDocFromServer(reference);
+        } catch (error) {
+          return getDoc(reference);
+        }
+      }),
     );
 
     return uniqueYears.reduce((accumulator, year, index) => {
