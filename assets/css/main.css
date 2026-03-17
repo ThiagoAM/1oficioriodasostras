@@ -3105,6 +3105,7 @@ a {
   }
 
   .stats-card--md,
+  .stats-card--feature,
   .stats-card--sm {
     grid-column: span 4;
   }
@@ -3161,6 +3162,7 @@ a {
   }
 
   .stats-card--md,
+  .stats-card--feature,
   .stats-card--sm {
     grid-column: span 3;
   }
@@ -3441,6 +3443,7 @@ a {
   }
 
   .stats-card--md,
+  .stats-card--feature,
   .stats-card--sm {
     grid-column: span 1;
     grid-row: span 1;
@@ -3567,6 +3570,7 @@ a {
   }
 
   .stats-card--md,
+  .stats-card--feature,
   .stats-card--sm {
     grid-column: span 1;
   }
