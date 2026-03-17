@@ -1,0 +1,55 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isNonNegativeInt(value) {
+      return value is int && value >= 0;
+    }
+
+    function isSummaryWrite() {
+      return request.resource.data.keys().hasOnly(["total", "updatedAt"]) &&
+        isNonNegativeInt(request.resource.data.total) &&
+        request.resource.data.updatedAt is timestamp;
+    }
+
+    function isYearlyWrite() {
+      return request.resource.data.keys().hasOnly(["year", "count", "updatedAt"]) &&
+        isNonNegativeInt(request.resource.data.year) &&
+        isNonNegativeInt(request.resource.data.count) &&
+        request.resource.data.updatedAt is timestamp;
+    }
+
+    function isDailyWrite(dateKey) {
+      return request.resource.data.keys().hasOnly(["dateKey", "year", "month", "day", "count", "updatedAt"]) &&
+        request.resource.data.dateKey == dateKey &&
+        isNonNegativeInt(request.resource.data.year) &&
+        isNonNegativeInt(request.resource.data.month) &&
+        request.resource.data.month >= 1 &&
+        request.resource.data.month <= 12 &&
+        isNonNegativeInt(request.resource.data.day) &&
+        request.resource.data.day >= 1 &&
+        request.resource.data.day <= 31 &&
+        isNonNegativeInt(request.resource.data.count) &&
+        request.resource.data.updatedAt is timestamp;
+    }
+
+    match /site_visits_summary/global {
+      allow get: if true;
+      allow list: if false;
+      allow create, update: if isSummaryWrite();
+      allow delete: if false;
+    }
+
+    match /site_visits_yearly/{year} {
+      allow get, list: if true;
+      allow create, update: if isYearlyWrite();
+      allow delete: if false;
+    }
+
+    match /site_visits_daily/{dateKey} {
+      allow get: if false;
+      allow list: if false;
+      allow create, update: if isDailyWrite(dateKey);
+      allow delete: if false;
+    }
+  }
+}

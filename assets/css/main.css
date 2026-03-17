@@ -954,6 +954,12 @@ a {
   background: rgba(91, 33, 182, 0.28);
 }
 
+.stats-card[data-stat-category="site"] .stats-tag {
+  color: #fde68a;
+  border-color: rgba(250, 204, 21, 0.35);
+  background: rgba(161, 98, 7, 0.28);
+}
+
 .stats-card[data-stat-category="notas"] .stats-card-value {
   color: #5eead4;
 }
@@ -964,6 +970,10 @@ a {
 
 .stats-card[data-stat-category="autenticacao"] .stats-card-value {
   color: #c4b5fd;
+}
+
+.stats-card[data-stat-category="site"] .stats-card-value {
+  color: #fde68a;
 }
 
 .stats-grid.is-transitioning {

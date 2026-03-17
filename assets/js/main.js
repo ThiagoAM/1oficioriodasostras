@@ -28,6 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "2025": {
         period: "Período: 01/01/2025 a 31/12/2025.",
         items: [
+          { id: "visitas-site", label: "Visitas ao site", value: 0, category: "site" },
           { id: "nascimentos", label: "Nascimentos", value: 1743, category: "civil" },
           { id: "obitos", label: "Óbitos", value: 994, category: "civil" },
           { id: "habilitacoes-casamento", label: "Habilitações de casamento", value: 800, category: "civil" },
@@ -57,6 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "2026": {
         period: "Período: 01/01/2026 a 19/01/2026.",
         items: [
+          { id: "visitas-site", label: "Visitas ao site", value: 0, category: "site" },
           { id: "nascimentos", label: "Nascimentos", value: 74, category: "civil" },
           { id: "obitos", label: "Óbitos", value: 58, category: "civil" },
           { id: "habilitacoes-casamento", label: "Habilitações de casamento", value: 26, category: "civil" },
@@ -89,6 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
       notas: { label: "Notas e Escrituras", icon: "mdi:file-document-edit-outline" },
       protesto: { label: "Protesto", icon: "mdi:alert-decagram-outline" },
       autenticacao: { label: "Firmas e Cópias", icon: "mdi:signature-freehand" },
+      site: { label: "Site", icon: "mdi:web" },
     };
 
     const layoutByKey = {
@@ -145,6 +148,43 @@ document.addEventListener("DOMContentLoaded", () => {
       if (window.Iconify && typeof window.Iconify.scan === "function") {
         window.Iconify.scan(statsGrid);
       }
+    };
+
+    const getSiteVisitsApi = () =>
+      new Promise((resolve) => {
+        if (window.SiteVisits && typeof window.SiteVisits.loadYearlyVisits === "function") {
+          resolve(window.SiteVisits);
+          return;
+        }
+
+        const timeoutId = window.setTimeout(() => {
+          window.removeEventListener("sitevisits:ready", handleReady);
+          resolve(window.SiteVisits || null);
+        }, 4000);
+
+        const handleReady = () => {
+          window.clearTimeout(timeoutId);
+          resolve(window.SiteVisits || null);
+        };
+
+        window.addEventListener("sitevisits:ready", handleReady, { once: true });
+      });
+
+    const updateSiteVisitCount = (year, value) => {
+      const yearData = statsByYear[year];
+      if (!yearData) {
+        return;
+      }
+
+      yearData.items = yearData.items.map((item) => {
+        if (item.id !== "visitas-site") {
+          return item;
+        }
+        return {
+          ...item,
+          value: Number.isFinite(value) ? value : 0,
+        };
+      });
     };
 
     const buildCardContent = (item) => {
@@ -317,6 +357,23 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     renderState({ year: activeYear, animate: false });
+
+    void (async () => {
+      const siteVisitsApi = await getSiteVisitsApi();
+      if (!siteVisitsApi || typeof siteVisitsApi.loadYearlyVisits !== "function") {
+        return;
+      }
+
+      try {
+        const visitCounts = await siteVisitsApi.loadYearlyVisits(availableYears);
+        availableYears.forEach((year) => {
+          updateSiteVisitCount(year, Number(visitCounts[year]) || 0);
+        });
+        renderState({ year: activeYear, animate: false });
+      } catch (error) {
+        // Keep the static counters visible if Firestore is unavailable.
+      }
+    })();
   };
 
   initStatsSection();
