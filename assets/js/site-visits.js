@@ -1,9 +1,16 @@
 import { analyticsPromise, db } from "./firebase-app.js";
-import { doc, getDoc, runTransaction, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+import {
+  doc,
+  getDoc,
+  increment,
+  serverTimestamp,
+  setDoc,
+} from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 
 const SESSION_WINDOW_MS = 30 * 60 * 1000;
 const STORAGE_KEY = "siteVisit:lastTrackedAt";
 const SITE_TIME_ZONE = "America/Sao_Paulo";
+let lastError = null;
 
 const safeNumber = (value) => (Number.isFinite(value) ? value : 0);
 
@@ -52,64 +59,49 @@ const shouldTrackVisit = (now = Date.now()) => {
   return now - lastTrackedAt >= SESSION_WINDOW_MS;
 };
 
-const getCountValue = (snapshot, fieldName) => {
-  if (!snapshot.exists()) {
-    return 0;
-  }
-  const value = snapshot.data()?.[fieldName];
-  return Number.isFinite(value) ? value : 0;
-};
-
 const incrementVisitCounters = async (now = new Date()) => {
   const visitDate = getVisitDateParts(now);
   const summaryRef = doc(db, "site_visits_summary", "global");
   const yearlyRef = doc(db, "site_visits_yearly", visitDate.year);
   const dailyRef = doc(db, "site_visits_daily", visitDate.dateKey);
 
-  await runTransaction(db, async (transaction) => {
-    const [summarySnapshot, yearlySnapshot, dailySnapshot] = await Promise.all([
-      transaction.get(summaryRef),
-      transaction.get(yearlyRef),
-      transaction.get(dailyRef),
-    ]);
-
-    transaction.set(
+  await Promise.all([
+    setDoc(
       summaryRef,
       {
-        total: getCountValue(summarySnapshot, "total") + 1,
+        total: increment(1),
         updatedAt: serverTimestamp(),
       },
       { merge: true },
-    );
-
-    transaction.set(
+    ),
+    setDoc(
       yearlyRef,
       {
         year: Number.parseInt(visitDate.year, 10),
-        count: getCountValue(yearlySnapshot, "count") + 1,
+        count: increment(1),
         updatedAt: serverTimestamp(),
       },
       { merge: true },
-    );
-
-    transaction.set(
+    ),
+    setDoc(
       dailyRef,
       {
         dateKey: visitDate.dateKey,
         year: Number.parseInt(visitDate.year, 10),
         month: Number.parseInt(visitDate.month, 10),
         day: Number.parseInt(visitDate.day, 10),
-        count: getCountValue(dailySnapshot, "count") + 1,
+        count: increment(1),
         updatedAt: serverTimestamp(),
       },
       { merge: true },
-    );
-  });
+    ),
+  ]);
 };
 
 const recordSiteVisit = async () => {
   const trackedAt = Date.now();
   if (!shouldTrackVisit(trackedAt)) {
+    lastError = null;
     return false;
   }
 
@@ -117,8 +109,15 @@ const recordSiteVisit = async () => {
     void analyticsPromise;
     await incrementVisitCounters(new Date(trackedAt));
     writeLastTrackedAt(trackedAt);
+    lastError = null;
     return true;
   } catch (error) {
+    lastError = {
+      code: error?.code,
+      message: error?.message || "Unknown Firestore error while recording site visit.",
+    };
+    window.SiteVisits.lastError = lastError;
+    console.error("Site visit counter failed.", lastError);
     return false;
   }
 };
@@ -156,6 +155,9 @@ const loadYearlyVisits = async (years) => {
 };
 
 window.SiteVisits = {
+  get lastError() {
+    return lastError;
+  },
   loadYearlyVisits,
   recordSiteVisit,
 };
