@@ -663,6 +663,7 @@
         "Certidão com data não inferior a seis meses do ocorrido (cópia autenticada).",
         "Requerimento com firma reconhecida.",
         getReferenceRequirement("anotacaoCasamentoObito", "Valor de referência", ""),
+        "Observação: a anotação não é cobrada isoladamente; o valor acima corresponde à 2ª via emitida já com a anotação.",
       ],
       requestText: (payload) => {
         return (

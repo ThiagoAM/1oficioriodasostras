@@ -38,8 +38,7 @@
         requiresReview: true,
       },
       anotacaoCasamentoObito: {
-        amountDisplay: "",
-        pending: true,
+        amountDisplay: "R$ 188,76",
       },
       averbacaoDivorcioUmaVia: {
         amountDisplay: "R$ 420,95",
@@ -48,19 +47,16 @@
         amountDisplay: "R$ 609,71",
       },
       averbacaoRegimeBens: {
-        amountDisplay: "",
-        pending: true,
+        amountDisplay: "R$ 420,95",
       },
       transcricaoEstrangeira: {
-        amountDisplay: "",
-        pending: true,
+        amountDisplay: "R$ 1.052,89",
       },
       casamentoCivilSede: {
         amountDisplay: "R$ 1.896,90",
       },
       casamentoCivilExterno: {
-        amountDisplay: "",
-        pending: true,
+        amountDisplay: "R$ 4.125,52",
       },
       uniaoEstavelComum: {
         amountDisplay: "R$ 379,86",

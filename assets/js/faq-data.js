@@ -79,7 +79,7 @@ window.FAQ_ITEMS = [
         : [
             "Valores informados (excluídas despesas de reconhecimento de firmas e autenticações):",
             `- Habilitação para casamento civil com celebração com Juiz de Paz na sede do cartório: ${getAmountDisplay("casamentoCivilSede", "")}.`,
-            "- Celebração fora da sede do cartório: consulte nossa equipe para confirmar o valor atualizado.",
+            `- Habilitação para casamento civil com celebração com Juiz de Paz fora da sede do cartório: ${getAmountDisplay("casamentoCivilExterno", "")}.`,
           ]),
       "Formas de pagamento: Pix, dinheiro, cartão de débito e cartão de crédito.",
       "No cartão de crédito, há opção de parcelamento em até 21 vezes, com incidência de juros da operadora da maquininha."
@@ -256,7 +256,7 @@ window.FAQ_ITEMS = [
       "- Documento que comprove a nacionalidade brasileira de um dos genitores.",
       "- Comprovante de residência atualizado do município de Rio das Ostras (água, luz, telefone fixo, gás, internet ou TV a cabo), em cópia e original.",
       "- Requerimento com firma reconhecida por um dos pais ou por procurador.",
-      getContactLine()
+      getConditionalPriceLine("transcricaoEstrangeira", "Valor informado da transcrição", "")
     ]
   },
   {
@@ -271,7 +271,7 @@ window.FAQ_ITEMS = [
       "- Certidão de nascimento do cônjuge brasileiro; ou certidão de casamento anterior com averbação de divórcio; ou certidão de óbito do ex-cônjuge falecido(a), quando aplicável.",
       "- Comprovante de residência atualizado do município de Rio das Ostras (água, luz, telefone fixo, gás, internet ou TV a cabo), em cópia e original.",
       "- Requerimento com firma reconhecida por um dos cônjuges ou por procurador.",
-      getContactLine()
+      getConditionalPriceLine("transcricaoEstrangeira", "Valor informado da transcrição", "")
     ]
   },
   {
@@ -286,7 +286,17 @@ window.FAQ_ITEMS = [
       "- Certidão do assento de óbito emitida por autoridade consular brasileira; ou certidão estrangeira de óbito legalizada por autoridade consular brasileira ou apostilada pela autoridade competente do país de origem, com tradução por tradutor público juramentado (quando necessária) e registro em Cartório de RTD (art. 148 da Lei 6.015 e art. 904 da CGJ/RJ).",
       "- Comprovante de residência atualizado do município de Rio das Ostras (água, luz, telefone fixo, gás, internet ou TV a cabo), em cópia e original.",
       "- Requerimento com firma reconhecida por familiar ou por procurador.",
-      getContactLine()
+      getConditionalPriceLine("transcricaoEstrangeira", "Valor informado da transcrição", "")
+    ]
+  },
+  {
+    id: "anotacao-casamento-obito-valor",
+    category: "Registro Civil",
+    question: "Qual é o valor para anotação de casamento ou óbito no registro?",
+    tags: ["anotacao", "casamento", "obito", "2 via", "valor"],
+    answer: [
+      "A anotação em si não é cobrada isoladamente.",
+      `O valor informado de ${getAmountDisplay("anotacaoCasamentoObito", "")} refere-se à 2ª via atualizada já com a anotação.`
     ]
   },
   {
