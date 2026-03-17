@@ -28,7 +28,6 @@ document.addEventListener("DOMContentLoaded", () => {
       "2025": {
         period: "Período: 01/01/2025 a 31/12/2025.",
         items: [
-          { id: "visitas-site", label: "Visitas ao site", value: 0, category: "site" },
           { id: "nascimentos", label: "Nascimentos", value: 1743, category: "civil" },
           { id: "obitos", label: "Óbitos", value: 994, category: "civil" },
           { id: "habilitacoes-casamento", label: "Habilitações de casamento", value: 800, category: "civil" },
@@ -176,6 +175,10 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
+      if (!yearData.items.some((item) => item.id === "visitas-site")) {
+        return;
+      }
+
       yearData.items = yearData.items.map((item) => {
         if (item.id !== "visitas-site") {
           return item;
@@ -233,7 +236,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const buildSlots = (items, year) => {
       const rng = createSeededRng(`layout-${year}`);
-      const randomized = shuffle(items, rng);
+      const pinnedItem = items.find((item) => item.id === "visitas-site") || null;
+      const regularItems = pinnedItem ? items.filter((item) => item.id !== pinnedItem.id) : items;
+      const randomized = shuffle(regularItems, rng);
       const sizeKeys = [];
 
       while (sizeKeys.length < randomized.length) {
@@ -241,13 +246,25 @@ document.addEventListener("DOMContentLoaded", () => {
         sizeKeys.push(...template);
       }
 
-      return randomized.map((item, index) => {
+      const slots = randomized.map((item, index) => {
         const sizeKey = sizeKeys[index] || "sm";
         return {
           item,
           sizeClass: layoutByKey[sizeKey] || layoutByKey.sm,
         };
       });
+
+      if (!pinnedItem) {
+        return slots;
+      }
+
+      return [
+        {
+          item: pinnedItem,
+          sizeClass: "stats-card--feature",
+        },
+        ...slots,
+      ];
     };
 
     const preferredDefaultYear = "2026";

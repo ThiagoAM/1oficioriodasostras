@@ -849,6 +849,11 @@ a {
   grid-row: span 1;
 }
 
+.stats-card--feature {
+  grid-column: span 4;
+  grid-row: span 1;
+}
+
 .stats-card--sm {
   grid-column: span 2;
   grid-row: span 1;
@@ -955,9 +960,9 @@ a {
 }
 
 .stats-card[data-stat-category="site"] .stats-tag {
-  color: #fde68a;
-  border-color: rgba(250, 204, 21, 0.35);
-  background: rgba(161, 98, 7, 0.28);
+  color: #d9fff3;
+  border-color: rgba(167, 243, 208, 0.42);
+  background: rgba(6, 95, 70, 0.24);
 }
 
 .stats-card[data-stat-category="notas"] .stats-card-value {
@@ -973,7 +978,40 @@ a {
 }
 
 .stats-card[data-stat-category="site"] .stats-card-value {
-  color: #fde68a;
+  color: #bff7e7;
+}
+
+.stats-card[data-item-id="visitas-site"] .stats-card-face {
+  border: 1px solid rgba(110, 231, 183, 0.42);
+  background:
+    radial-gradient(circle at 18% 0, rgba(167, 243, 208, 0.28), transparent 38%),
+    radial-gradient(circle at 100% 100%, rgba(16, 185, 129, 0.18), transparent 35%),
+    linear-gradient(155deg, rgba(6, 78, 59, 0.98), rgba(6, 95, 70, 0.96));
+  box-shadow:
+    0 18px 34px rgba(4, 120, 87, 0.3),
+    inset 0 1px 0 rgba(209, 250, 229, 0.14);
+}
+
+.stats-card[data-item-id="visitas-site"] .stats-card-content {
+  padding: 0.78rem 0.82rem 0.74rem;
+}
+
+.stats-card[data-item-id="visitas-site"] .stats-card-icon {
+  font-size: 1.25rem;
+  color: #d1fae5;
+  opacity: 1;
+}
+
+.stats-card[data-item-id="visitas-site"] .stats-card-value {
+  margin-top: 0.44rem;
+  font-size: clamp(1.55rem, 1.7vw, 2rem);
+  color: #ecfdf5;
+}
+
+.stats-card[data-item-id="visitas-site"] .stats-card-label {
+  margin-top: 0.28rem;
+  font-size: 0.82rem;
+  color: rgba(220, 252, 231, 0.96);
 }
 
 .stats-grid.is-transitioning {
