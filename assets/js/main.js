@@ -378,18 +378,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     void (async () => {
       const siteVisitsApi = await getSiteVisitsApi();
-      if (!siteVisitsApi || typeof siteVisitsApi.loadYearlyVisits !== "function") {
-        return;
-      }
-
       try {
-        const visitCounts = await siteVisitsApi.loadYearlyVisits(availableYears);
-        availableYears.forEach((year) => {
-          updateSiteVisitCount(year, Number(visitCounts[year]) || 0);
-        });
-        renderState({ year: activeYear, animate: false });
+        if (siteVisitsApi && typeof siteVisitsApi.loadYearlyVisits === "function") {
+          const visitCounts = await siteVisitsApi.loadYearlyVisits(availableYears);
+          availableYears.forEach((year) => {
+            updateSiteVisitCount(year, Number(visitCounts[year]) || 0);
+          });
+          renderState({ year: activeYear, animate: false });
+        }
       } catch (error) {
         // Keep the static counters visible if Firestore is unavailable.
+      } finally {
+        if (siteVisitsApi && typeof siteVisitsApi.startInitialVisitTracking === "function") {
+          void siteVisitsApi.startInitialVisitTracking();
+        }
       }
     })();
   };

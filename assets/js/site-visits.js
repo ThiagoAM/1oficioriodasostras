@@ -12,6 +12,7 @@ const SESSION_WINDOW_MS = 30 * 60 * 1000;
 const STORAGE_KEY = "siteVisit:lastTrackedAt";
 const SITE_TIME_ZONE = "America/Sao_Paulo";
 let lastError = null;
+let initialVisitTrackingPromise = null;
 
 const safeNumber = (value) => (Number.isFinite(value) ? value : 0);
 
@@ -123,6 +124,13 @@ const recordSiteVisit = async () => {
   }
 };
 
+const startInitialVisitTracking = () => {
+  if (!initialVisitTrackingPromise) {
+    initialVisitTrackingPromise = recordSiteVisit();
+  }
+  return initialVisitTrackingPromise;
+};
+
 const loadYearlyVisits = async (years) => {
   const uniqueYears = Array.from(
     new Set(
@@ -168,8 +176,11 @@ window.SiteVisits = {
   },
   loadYearlyVisits,
   recordSiteVisit,
+  startInitialVisitTracking,
 };
 
 window.dispatchEvent(new CustomEvent("sitevisits:ready"));
 
-void recordSiteVisit();
+if (!document.getElementById("statsGrid")) {
+  void startInitialVisitTracking();
+}
