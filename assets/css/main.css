@@ -1583,16 +1583,10 @@ a {
 }
 
 .internal-guide-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   flex-shrink: 0;
-  width: 2.7rem;
-  height: 2.7rem;
-  border-radius: 14px;
-  font-size: 1.35rem;
+  font-size: 1.55rem;
   color: #7eeadf;
-  background: linear-gradient(135deg, rgba(45, 212, 191, 0.18), rgba(125, 211, 252, 0.12));
+  line-height: 1;
 }
 
 .internal-guide-body {
