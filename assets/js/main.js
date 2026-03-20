@@ -36,6 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let marqueeOffset = 0;
     let pointerPaused = false;
     let focusPaused = false;
+    let sectionVisible = true;
 
     const escapeHtml = (value) =>
       String(value ?? "")
@@ -78,6 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const shouldRunMotion = () =>
       root.dataset.animated === "true" &&
+      sectionVisible &&
       !pointerPaused &&
       !focusPaused &&
       !document.hidden;
@@ -248,6 +250,26 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       startMotion();
     });
+
+    if ("IntersectionObserver" in window) {
+      const visibilityObserver = new IntersectionObserver(
+        (entries) => {
+          const entry = entries[0];
+          sectionVisible = Boolean(entry?.isIntersecting && entry.intersectionRatio >= 0.12);
+          if (!sectionVisible) {
+            stopMotion();
+            return;
+          }
+          startMotion();
+        },
+        {
+          threshold: [0, 0.12, 0.24],
+          rootMargin: "0px 0px -6% 0px",
+        },
+      );
+
+      visibilityObserver.observe(root);
+    }
 
     const loadNews = async () => {
       try {

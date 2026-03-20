@@ -425,20 +425,18 @@ a {
     padding: 1rem 1rem 0.95rem;
     border-radius: 20px;
     border: 1px solid transparent;
-    background: rgba(5, 19, 35, 0.56);
+    background: rgba(5, 19, 35, 0.38);
     display: grid;
     gap: 0.72rem;
     color: #f8fbff;
     transition:
-        transform 0.16s ease,
         box-shadow 0.16s ease,
         background 0.16s ease;
 }
 
 .hero-news-card:hover {
-    transform: translateY(-2px);
     box-shadow: inset 0 0 0 1px rgba(94, 234, 212, 0.3);
-    background: rgba(7, 24, 42, 0.64);
+    background: rgba(7, 24, 42, 0.46);
 }
 
 .hero-news-card:focus-visible {
@@ -493,9 +491,11 @@ a {
     font-size: 0.88rem;
     line-height: 1.6;
     color: rgba(206, 223, 240, 0.92);
+    line-clamp: 3;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
+    max-height: calc(0.88rem * 1.6 * 3);
     overflow: hidden;
 }
 
@@ -929,6 +929,18 @@ a {
         var(--section-alt-top) 0,
         rgba(239, 246, 252, 0.8) 100%
     );
+}
+
+.section-group-alt {
+    background: linear-gradient(
+        180deg,
+        var(--section-alt-top) 0,
+        rgba(239, 246, 252, 0.8) 100%
+    );
+}
+
+.section-group-alt > .section {
+    background: transparent;
 }
 
 .section-header {
@@ -1738,22 +1750,7 @@ a {
 /* Formularios para impressao */
 
 .paper-forms-section {
-    background:
-        radial-gradient(
-            circle at 14% 0,
-            rgba(20, 184, 166, 0.14),
-            transparent 42%
-        ),
-        radial-gradient(
-            circle at 90% 4%,
-            rgba(56, 189, 248, 0.14),
-            transparent 38%
-        ),
-        linear-gradient(
-            180deg,
-            rgba(236, 245, 252, 0.62),
-            rgba(241, 247, 253, 0.84)
-        );
+    background: transparent;
 }
 
 .paper-forms-grid {
