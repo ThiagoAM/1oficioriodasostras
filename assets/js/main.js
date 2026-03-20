@@ -64,7 +64,8 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const applyOffset = () => {
-      track.style.transform = `translate3d(${-marqueeOffset}px, 0, 0)`;
+      const roundedOffset = Math.round(marqueeOffset);
+      track.style.transform = `translate3d(${-roundedOffset}px, 0, 0)`;
     };
 
     const stopMotion = () => {
