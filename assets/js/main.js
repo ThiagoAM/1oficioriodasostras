@@ -14,6 +14,311 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  const initHeroNewsCarousel = () => {
+    const root = document.getElementById("heroNews");
+    const status = document.getElementById("heroNewsStatus");
+    const marquee = document.getElementById("heroNewsMarquee");
+    const track = document.getElementById("heroNewsTrack");
+
+    if (!root || !status || !marquee || !track) {
+      return;
+    }
+
+    const NEWS_FEED_URL = "https://thiagoam.github.io/noticias-cartorio-rio-das-ostras/noticias.json";
+    const NEWS_SCROLL_SPEED = 42;
+    const publicationFormatter = new Intl.DateTimeFormat("pt-BR", { dateStyle: "long" });
+    const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let resizeObserver = null;
+    let resizeHandlerAttached = false;
+    let loopDistance = 0;
+    let marqueeRaf = 0;
+    let marqueeLastTs = 0;
+    let marqueeOffset = 0;
+    let pointerPaused = false;
+    let focusPaused = false;
+
+    const escapeHtml = (value) =>
+      String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/\"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+
+    const parseDate = (value) => {
+      const parsed = new Date(value);
+      return Number.isNaN(parsed.getTime()) ? null : parsed;
+    };
+
+    const truncate = (value, maxLength) => {
+      const normalized = String(value ?? "").replace(/\s+/g, " ").trim();
+      if (normalized.length <= maxLength) {
+        return normalized;
+      }
+      return `${normalized.slice(0, maxLength - 1).trimEnd()}…`;
+    };
+
+    const setStatus = (message) => {
+      status.textContent = message;
+      status.hidden = false;
+    };
+
+    const applyOffset = () => {
+      track.style.transform = `translate3d(${-marqueeOffset}px, 0, 0)`;
+    };
+
+    const stopMotion = () => {
+      if (marqueeRaf) {
+        window.cancelAnimationFrame(marqueeRaf);
+        marqueeRaf = 0;
+      }
+      marqueeLastTs = 0;
+    };
+
+    const shouldRunMotion = () =>
+      root.dataset.animated === "true" &&
+      !pointerPaused &&
+      !focusPaused &&
+      !document.hidden;
+
+    const normalizeOffset = () => {
+      if (loopDistance <= 0) {
+        marqueeOffset = 0;
+      } else {
+        marqueeOffset = ((marqueeOffset % loopDistance) + loopDistance) % loopDistance;
+      }
+      applyOffset();
+    };
+
+    const runMotion = (timestamp) => {
+      if (!shouldRunMotion() || loopDistance <= 0) {
+        stopMotion();
+        return;
+      }
+
+      if (!marqueeLastTs) {
+        marqueeLastTs = timestamp;
+      }
+
+      const deltaSeconds = (timestamp - marqueeLastTs) / 1000;
+      marqueeLastTs = timestamp;
+      marqueeOffset = (marqueeOffset + NEWS_SCROLL_SPEED * deltaSeconds) % loopDistance;
+      applyOffset();
+      marqueeRaf = window.requestAnimationFrame(runMotion);
+    };
+
+    const startMotion = () => {
+      if (!shouldRunMotion() || loopDistance <= 0 || marqueeRaf) {
+        return;
+      }
+      marqueeLastTs = 0;
+      marqueeRaf = window.requestAnimationFrame(runMotion);
+    };
+
+    const setFallback = (message) => {
+      root.dataset.state = "fallback";
+      root.dataset.animated = "false";
+      root.style.removeProperty("--hero-news-loop-distance");
+      loopDistance = 0;
+      marqueeOffset = 0;
+      stopMotion();
+      track.innerHTML = "";
+      marquee.hidden = true;
+      applyOffset();
+      setStatus(message);
+    };
+
+    const formatDate = (value, formatter) => {
+      const parsed = parseDate(value);
+      return parsed ? formatter.format(parsed) : "";
+    };
+
+    const buildCardMarkup = (item) => `
+      <a
+        class="hero-news-card"
+        href="${escapeHtml(item.url)}"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <h3 class="hero-news-card-title">${escapeHtml(item.titulo)}</h3>
+        <p class="hero-news-card-text">${escapeHtml(truncate(item.descricao, 220))}</p>
+        <span class="hero-news-card-footer">
+          <time class="hero-news-card-date" datetime="${escapeHtml(item.data_publicacao)}">
+            ${escapeHtml(formatDate(item.data_publicacao, publicationFormatter))}
+          </time>
+        </span>
+      </a>
+    `;
+
+    const updateLoopMetrics = () => {
+      const firstGroup = track.querySelector(".hero-news-track-group");
+      if (!firstGroup) {
+        root.dataset.animated = "false";
+        loopDistance = 0;
+        marqueeOffset = 0;
+        stopMotion();
+        applyOffset();
+        return;
+      }
+
+      const computedTrackStyles = window.getComputedStyle(track);
+      const trackGap = parseFloat(computedTrackStyles.columnGap || computedTrackStyles.gap || "0") || 0;
+      const nextLoopDistance = Math.round(firstGroup.scrollWidth + trackGap);
+      const shouldAnimate =
+        !reducedMotionQuery.matches &&
+        firstGroup.querySelectorAll(".hero-news-card").length > 1 &&
+        nextLoopDistance > marquee.clientWidth + 24;
+
+      loopDistance = nextLoopDistance;
+      root.style.setProperty("--hero-news-loop-distance", `${loopDistance}px`);
+      root.dataset.animated = shouldAnimate ? "true" : "false";
+
+      if (!shouldAnimate) {
+        marqueeOffset = 0;
+        stopMotion();
+        applyOffset();
+        return;
+      }
+
+      normalizeOffset();
+      startMotion();
+    };
+
+    const bindLoopMetrics = () => {
+      updateLoopMetrics();
+
+      if (resizeObserver) {
+        resizeObserver.disconnect();
+      }
+
+      if ("ResizeObserver" in window) {
+        resizeObserver = new ResizeObserver(() => {
+          updateLoopMetrics();
+        });
+        resizeObserver.observe(marquee);
+        const firstGroup = track.querySelector(".hero-news-track-group");
+        if (firstGroup) {
+          resizeObserver.observe(firstGroup);
+        }
+      } else if (!resizeHandlerAttached) {
+        window.addEventListener("resize", updateLoopMetrics, { passive: true });
+        resizeHandlerAttached = true;
+      }
+    };
+
+    const handleMotionChange = () => {
+      window.requestAnimationFrame(updateLoopMetrics);
+    };
+
+    if (typeof reducedMotionQuery.addEventListener === "function") {
+      reducedMotionQuery.addEventListener("change", handleMotionChange);
+    } else if (typeof reducedMotionQuery.addListener === "function") {
+      reducedMotionQuery.addListener(handleMotionChange);
+    }
+
+    marquee.addEventListener("mouseenter", () => {
+      pointerPaused = true;
+      stopMotion();
+    });
+
+    marquee.addEventListener("mouseleave", () => {
+      pointerPaused = false;
+      startMotion();
+    });
+
+    root.addEventListener("focusin", () => {
+      focusPaused = true;
+      stopMotion();
+    });
+
+    root.addEventListener("focusout", (event) => {
+      const nextFocused = event.relatedTarget;
+      if (nextFocused instanceof Node && root.contains(nextFocused)) {
+        return;
+      }
+      focusPaused = false;
+      startMotion();
+    });
+
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        stopMotion();
+        return;
+      }
+      startMotion();
+    });
+
+    const loadNews = async () => {
+      try {
+        const response = await fetch(NEWS_FEED_URL, { cache: "no-store" });
+        if (!response.ok) {
+          throw new Error(`news-feed-${response.status}`);
+        }
+
+        const payload = await response.json();
+        const items = Array.isArray(payload?.noticias) ? payload.noticias : [];
+        const normalizedItems = items
+          .map((item) => {
+            const titulo = String(item?.titulo ?? "").trim();
+            const descricao = String(item?.descricao ?? "").trim();
+            const fonte = String(item?.fonte ?? "").trim();
+            const dataPublicacao = String(item?.data_publicacao ?? "").trim();
+            const url = String(item?.url ?? "").trim();
+            const parsedDate = parseDate(dataPublicacao);
+
+            if (!titulo || !descricao || !fonte || !url || !parsedDate) {
+              return null;
+            }
+
+            try {
+              new URL(url);
+            } catch (_error) {
+              return null;
+            }
+
+            return {
+              titulo,
+              descricao,
+              fonte,
+              url,
+              data_publicacao: dataPublicacao,
+              timestamp: parsedDate.getTime(),
+            };
+          })
+          .filter(Boolean)
+          .sort((first, second) => second.timestamp - first.timestamp);
+
+        if (normalizedItems.length === 0) {
+          setFallback("As notícias estão sendo atualizadas e voltarão a aparecer em instantes.");
+          return;
+        }
+
+        const cardsMarkup = normalizedItems.map((item) => buildCardMarkup(item)).join("");
+        track.innerHTML = `
+          <div class="hero-news-track-group">${cardsMarkup}</div>
+          <div class="hero-news-track-group" aria-hidden="true">${cardsMarkup}</div>
+        `;
+
+        root.dataset.state = "ready";
+        marquee.hidden = false;
+        status.hidden = true;
+
+        bindLoopMetrics();
+        window.requestAnimationFrame(() => {
+          updateLoopMetrics();
+          startMotion();
+        });
+      } catch (_error) {
+        setFallback("Não foi possível carregar as notícias agora.");
+      }
+    };
+
+    setStatus("Carregando notícias...");
+    loadNews();
+  };
+
+  initHeroNewsCarousel();
+
   const initStatsSection = () => {
     const statsGrid = document.getElementById("statsGrid");
     const statsYearControls = document.getElementById("statsYearControls");
