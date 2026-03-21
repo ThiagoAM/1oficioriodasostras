@@ -943,6 +943,25 @@ a {
     background: transparent;
 }
 
+.section-group-dark {
+    background:
+        radial-gradient(
+            circle at 8% 0,
+            rgba(45, 212, 191, 0.2),
+            transparent 36%
+        ),
+        radial-gradient(
+            circle at 92% 8%,
+            rgba(59, 130, 246, 0.18),
+            transparent 34%
+        ),
+        linear-gradient(180deg, #041120 0, #061527 52%, #081b31 100%);
+}
+
+.section-group-dark > .section {
+    background: transparent;
+}
+
 .section-header {
     text-align: center;
     max-width: 40rem;
@@ -985,23 +1004,6 @@ a {
 
 .section-highlight {
     padding-block: 2.8rem 3rem;
-}
-
-/* Estatisticas */
-
-.stats-section {
-    background:
-        radial-gradient(
-            circle at 8% 0,
-            rgba(45, 212, 191, 0.2),
-            transparent 36%
-        ),
-        radial-gradient(
-            circle at 92% 8%,
-            rgba(59, 130, 246, 0.18),
-            transparent 34%
-        ),
-        linear-gradient(180deg, #041120 0, #061527 52%, #081b31 100%);
 }
 
 .stats-section .section-kicker {
@@ -2330,16 +2332,7 @@ a {
     margin: 0 0 0.9rem;
 }
 
-/* Galeria */
-
 .gallery-section {
-    background:
-        radial-gradient(
-            circle at 10% 0,
-            rgba(20, 184, 166, 0.2),
-            transparent 36%
-        ),
-        linear-gradient(180deg, #051426 0, #081a2e 62%, #071624 100%);
     color: #e5e7eb;
     overflow: hidden;
 }

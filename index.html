@@ -53,8 +53,8 @@
           <a href="#horario" class="nav-link">Horário</a>
           <a href="#localizacao" class="nav-link">Localização</a>
           <a href="#sobre" class="nav-link">Sobre</a>
-          <a href="#links-uteis" class="nav-link">Links</a>
           <a href="#estatisticas" class="nav-link">Estatísticas</a>
+          <a href="#links-uteis" class="nav-link">Links</a>
           <a href="#contato" class="nav-link nav-link-primary">Contato</a>
         </nav>
       </div>
@@ -594,48 +594,83 @@
         </div>
       </section>
 
-      <!-- Galeria -->
-      <section class="section gallery-section" id="galeria">
-        <div class="container">
-          <header class="gallery-header">
-            <p class="section-kicker">Cartório e Cidade</p>
-            <h2 class="section-title gallery-title">Cartório e Rio das Ostras em fotos</h2>
-            <p class="section-subtitle gallery-subtitle">
-              Galeria com registros do cartório e também de pontos da cidade de Rio das Ostras, mostrando o
-              contexto local e a nossa região.
-            </p>
-          </header>
+      <div class="section-group section-group-dark">
+        <!-- Galeria -->
+        <section class="section gallery-section" id="galeria">
+          <div class="container">
+            <header class="gallery-header">
+              <p class="section-kicker">Cartório e Cidade</p>
+              <h2 class="section-title gallery-title">Cartório e Rio das Ostras em fotos</h2>
+              <p class="section-subtitle gallery-subtitle">
+                Galeria com registros do cartório e também de pontos da cidade de Rio das Ostras, mostrando o
+                contexto local e a nossa região.
+              </p>
+            </header>
 
-          <div class="gallery-toolbar">
-            <div class="stats-year-switch" id="galleryCategoryControls" role="group" aria-label="Filtrar fotos da galeria">
-              <button type="button" class="stats-year-btn is-active" data-gallery-filter="all" aria-pressed="true">Tudo</button>
-              <button type="button" class="stats-year-btn" data-gallery-filter="cartorio" aria-pressed="false">Cartório</button>
-              <button type="button" class="stats-year-btn" data-gallery-filter="rio-das-ostras" aria-pressed="false">
-                Rio das Ostras
-              </button>
+            <div class="gallery-toolbar">
+              <div class="stats-year-switch" id="galleryCategoryControls" role="group" aria-label="Filtrar fotos da galeria">
+                <button type="button" class="stats-year-btn is-active" data-gallery-filter="all" aria-pressed="true">Tudo</button>
+                <button type="button" class="stats-year-btn" data-gallery-filter="cartorio" aria-pressed="false">Cartório</button>
+                <button type="button" class="stats-year-btn" data-gallery-filter="rio-das-ostras" aria-pressed="false">
+                  Rio das Ostras
+                </button>
+              </div>
             </div>
+
+            <div class="gallery-masonry" id="galleryMasonry" aria-label="Galeria de fotos do cartório e de Rio das Ostras"></div>
           </div>
 
-          <div class="gallery-masonry" id="galleryMasonry" aria-label="Galeria de fotos do cartório e de Rio das Ostras"></div>
-        </div>
+          <div class="gallery-lightbox" id="galleryLightbox" aria-hidden="true">
+            <button class="lightbox-close" id="lightboxClose" aria-label="Fechar visualização">
+              &times;
+            </button>
+            <button class="lightbox-nav lightbox-nav-prev" id="lightboxPrev" aria-label="Imagem anterior">
+              &#10094;
+            </button>
+            <figure class="lightbox-figure">
+              <div class="lightbox-loading" id="lightboxLoading">Carregando imagem...</div>
+              <img id="lightboxImage" alt="Visualização ampliada da galeria" />
+              <figcaption id="lightboxCaption"></figcaption>
+            </figure>
+            <button class="lightbox-nav lightbox-nav-next" id="lightboxNext" aria-label="Próxima imagem">
+              &#10095;
+            </button>
+          </div>
+        </section>
 
-        <div class="gallery-lightbox" id="galleryLightbox" aria-hidden="true">
-          <button class="lightbox-close" id="lightboxClose" aria-label="Fechar visualização">
-            &times;
-          </button>
-          <button class="lightbox-nav lightbox-nav-prev" id="lightboxPrev" aria-label="Imagem anterior">
-            &#10094;
-          </button>
-          <figure class="lightbox-figure">
-            <div class="lightbox-loading" id="lightboxLoading">Carregando imagem...</div>
-            <img id="lightboxImage" alt="Visualização ampliada da galeria" />
-            <figcaption id="lightboxCaption"></figcaption>
-          </figure>
-          <button class="lightbox-nav lightbox-nav-next" id="lightboxNext" aria-label="Próxima imagem">
-            &#10095;
-          </button>
-        </div>
-      </section>
+        <!-- Estatísticas -->
+        <section class="section stats-section" id="estatisticas">
+          <div class="container">
+            <header class="section-header">
+              <p class="section-kicker">Números do Cartório</p>
+              <h2 class="section-title">Indicadores por ano</h2>
+              <p class="section-subtitle">
+                Consulte os principais números do cartório, organizados por ano e por tipo de serviço.
+              </p>
+            </header>
+
+            <div class="stats-toolbar stats-controls">
+              <div class="stats-switches">
+                <div class="stats-year-switch" id="statsYearControls" role="group" aria-label="Selecionar ano dos dados">
+                  <button type="button" class="stats-year-btn" data-stats-year="2025" aria-pressed="false">2025</button>
+                  <button type="button" class="stats-year-btn is-active" data-stats-year="2026" aria-pressed="true">2026</button>
+                </div>
+                <div class="stats-type-switch" id="statsTypeControls" role="group" aria-label="Filtrar por tipo de ato">
+                  <button type="button" class="stats-type-btn is-active" data-stats-type="all" aria-pressed="true">Todos</button>
+                  <button type="button" class="stats-type-btn" data-stats-type="civil" aria-pressed="false">Registro Civil</button>
+                  <button type="button" class="stats-type-btn" data-stats-type="notas" aria-pressed="false">Notas e Escrituras</button>
+                  <button type="button" class="stats-type-btn" data-stats-type="protesto" aria-pressed="false">Protesto</button>
+                  <button type="button" class="stats-type-btn" data-stats-type="autenticacao" aria-pressed="false">Firmas e Cópias</button>
+                  <button type="button" class="stats-type-btn" data-stats-type="site" aria-pressed="false">Site</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="stats-grid" id="statsGrid" aria-live="polite"></div>
+            <p class="stats-period stats-period-bottom" id="statsPeriodLabel" aria-live="polite"></p>
+          </div>
+        </section>
+      </div>
 
       <!-- Links Úteis -->
       <section class="section useful-links-section" id="links-uteis">
@@ -745,39 +780,6 @@
               </span>
             </a>
           </div>
-        </div>
-      </section>
-
-      <!-- Estatísticas -->
-      <section class="section stats-section" id="estatisticas">
-        <div class="container">
-          <header class="section-header">
-            <p class="section-kicker">Números do Cartório</p>
-            <h2 class="section-title">Indicadores por ano</h2>
-            <p class="section-subtitle">
-              Consulte os principais números do cartório, organizados por ano e por tipo de serviço.
-            </p>
-          </header>
-
-          <div class="stats-toolbar stats-controls">
-            <div class="stats-switches">
-              <div class="stats-year-switch" id="statsYearControls" role="group" aria-label="Selecionar ano dos dados">
-                <button type="button" class="stats-year-btn" data-stats-year="2025" aria-pressed="false">2025</button>
-                <button type="button" class="stats-year-btn is-active" data-stats-year="2026" aria-pressed="true">2026</button>
-              </div>
-              <div class="stats-type-switch" id="statsTypeControls" role="group" aria-label="Filtrar por tipo de ato">
-                <button type="button" class="stats-type-btn is-active" data-stats-type="all" aria-pressed="true">Todos</button>
-                <button type="button" class="stats-type-btn" data-stats-type="civil" aria-pressed="false">Registro Civil</button>
-                <button type="button" class="stats-type-btn" data-stats-type="notas" aria-pressed="false">Notas e Escrituras</button>
-                <button type="button" class="stats-type-btn" data-stats-type="protesto" aria-pressed="false">Protesto</button>
-                <button type="button" class="stats-type-btn" data-stats-type="autenticacao" aria-pressed="false">Firmas e Cópias</button>
-                <button type="button" class="stats-type-btn" data-stats-type="site" aria-pressed="false">Site</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="stats-grid" id="statsGrid" aria-live="polite"></div>
-          <p class="stats-period stats-period-bottom" id="statsPeriodLabel" aria-live="polite"></p>
         </div>
       </section>
 
