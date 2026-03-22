@@ -3663,6 +3663,12 @@ a {
         margin-bottom: 1.5rem;
     }
 
+    .hero-news-marquee {
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        margin-right: calc(50% - 50vw);
+    }
+
     .hero-brand {
         grid-column: 1;
         grid-row: 2;
@@ -3798,7 +3804,9 @@ a {
     }
 
     .hero-news-marquee {
-        margin-inline: -0.1rem;
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        margin-right: calc(50% - 50vw);
     }
 
     .hero-news-track {
@@ -3810,7 +3818,7 @@ a {
     }
 
     .hero-news-card {
-        width: min(72vw, 18.25rem);
+        width: min(86vw, 21rem);
         padding: 0.92rem 0.92rem 0.88rem;
     }
 
