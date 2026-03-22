@@ -379,7 +379,7 @@ document.addEventListener("DOMContentLoaded", () => {
       },
       "2026": {
         period:
-          "Atos cartorários: 01/01/2026 a 19/01/2026. Visitas do site: acumulado de 2026.",
+          "Atos cartorários: 01/01/2026 a 19/01/2026. Visitas do site: acumulado a partir de 17/03/2026.",
         items: [
           { id: "visitas-site", label: "Visitas ao site", value: 0, category: "site" },
           { id: "nascimentos", label: "Nascimentos", value: 74, category: "civil" },
