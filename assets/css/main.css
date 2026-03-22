@@ -3370,7 +3370,7 @@ a {
 
 .footer-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.85fr) minmax(0, 0.85fr);
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.85fr);
     gap: 2rem;
     align-items: flex-start;
 }
@@ -3416,7 +3416,6 @@ a {
     margin: 0 0 0.55rem;
 }
 
-.footer-nav,
 .footer-contact-list {
     list-style: none;
     padding: 0;
@@ -3425,14 +3424,6 @@ a {
     flex-direction: column;
     gap: 0.35rem;
     font-size: 0.82rem;
-}
-
-.footer-nav a {
-    color: #b6c2cf;
-}
-
-.footer-nav a:hover {
-    color: #e6eef6;
 }
 
 .footer-contact-list a {
