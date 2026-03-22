@@ -145,11 +145,6 @@ document.addEventListener("DOMContentLoaded", () => {
       >
         <h3 class="hero-news-card-title">${escapeHtml(item.titulo)}</h3>
         <p class="hero-news-card-text">${escapeHtml(truncate(item.descricao, 220))}</p>
-        <span class="hero-news-card-footer">
-          <time class="hero-news-card-date" datetime="${escapeHtml(item.data_publicacao)}">
-            ${escapeHtml(formatDate(item.data_publicacao, publicationFormatter))}
-          </time>
-        </span>
       </a>
     `;
 

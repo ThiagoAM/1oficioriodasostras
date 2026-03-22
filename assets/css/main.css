@@ -470,11 +470,6 @@ a {
     text-overflow: ellipsis;
 }
 
-.hero-news-card-date {
-    font-size: 0.74rem;
-    color: rgba(191, 219, 254, 0.88);
-}
-
 .hero-news-card-title {
     margin: 0;
     font-size: 1rem;
@@ -497,14 +492,6 @@ a {
     -webkit-box-orient: vertical;
     max-height: calc(0.88rem * 1.6 * 3);
     overflow: hidden;
-}
-
-.hero-news-card-footer {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 0.75rem;
-    margin-top: auto;
 }
 
 .hero-emblem-wrap {
