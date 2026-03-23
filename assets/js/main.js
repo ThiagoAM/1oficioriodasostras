@@ -37,6 +37,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let pointerPaused = false;
     let focusPaused = false;
     let sectionVisible = true;
+    let keyboardFocusMode = false;
+    const hoverCapableQuery = window.matchMedia("(hover: hover) and (pointer: fine)");
 
     const escapeHtml = (value) =>
       String(value ?? "")
@@ -92,6 +94,17 @@ document.addEventListener("DOMContentLoaded", () => {
       !pointerPaused &&
       !focusPaused &&
       !document.hidden;
+
+    const shouldPauseForFocus = () => keyboardFocusMode || hoverCapableQuery.matches;
+
+    const clearStaleFocusPause = () => {
+      const activeElement = document.activeElement;
+      if (activeElement instanceof Node && root.contains(activeElement) && shouldPauseForFocus()) {
+        return;
+      }
+
+      focusPaused = false;
+    };
 
     const normalizeOffset = () => {
       if (loopDistance <= 0) {
@@ -223,6 +236,19 @@ document.addEventListener("DOMContentLoaded", () => {
       reducedMotionQuery.addListener(handleMotionChange);
     }
 
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Tab" || event.key.startsWith("Arrow")) {
+        keyboardFocusMode = true;
+      }
+    });
+
+    const disableKeyboardFocusMode = () => {
+      keyboardFocusMode = false;
+    };
+
+    document.addEventListener("pointerdown", disableKeyboardFocusMode, { passive: true });
+    document.addEventListener("touchstart", disableKeyboardFocusMode, { passive: true });
+
     marquee.addEventListener("mouseenter", () => {
       pointerPaused = true;
       stopMotion();
@@ -234,6 +260,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     root.addEventListener("focusin", () => {
+      if (!shouldPauseForFocus()) {
+        focusPaused = false;
+        startMotion();
+        return;
+      }
       focusPaused = true;
       stopMotion();
     });
@@ -252,6 +283,12 @@ document.addEventListener("DOMContentLoaded", () => {
         stopMotion();
         return;
       }
+      clearStaleFocusPause();
+      startMotion();
+    });
+
+    window.addEventListener("pageshow", () => {
+      clearStaleFocusPause();
       startMotion();
     });
 
