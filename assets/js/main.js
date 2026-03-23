@@ -59,6 +59,15 @@ document.addEventListener("DOMContentLoaded", () => {
       return `${normalized.slice(0, maxLength - 1).trimEnd()}…`;
     };
 
+    const shuffleItems = (items) => {
+      const shuffled = [...items];
+      for (let index = shuffled.length - 1; index > 0; index -= 1) {
+        const swapIndex = Math.floor(Math.random() * (index + 1));
+        [shuffled[index], shuffled[swapIndex]] = [shuffled[swapIndex], shuffled[index]];
+      }
+      return shuffled;
+    };
+
     const setStatus = (message) => {
       status.textContent = message;
       status.hidden = false;
@@ -275,7 +284,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const payload = await response.json();
         const items = Array.isArray(payload?.noticias) ? payload.noticias : [];
-        const normalizedItems = items
+        const normalizedItems = shuffleItems(items
           .map((item) => {
             const titulo = String(item?.titulo ?? "").trim();
             const descricao = String(item?.descricao ?? "").trim();
@@ -303,8 +312,7 @@ document.addEventListener("DOMContentLoaded", () => {
               timestamp: parsedDate.getTime(),
             };
           })
-          .filter(Boolean)
-          .sort((first, second) => second.timestamp - first.timestamp);
+          .filter(Boolean));
 
         if (normalizedItems.length === 0) {
           setFallback("As notícias estão sendo atualizadas e voltarão a aparecer em instantes.");
