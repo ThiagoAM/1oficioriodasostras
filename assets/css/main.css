@@ -4047,10 +4047,15 @@ a {
         height: 2.8rem;
         bottom: 1rem;
         right: 1rem;
+        box-shadow: none;
     }
 
     .whatsapp-float span.iconify {
         font-size: 1.4rem;
+    }
+
+    .whatsapp-float:hover {
+        box-shadow: none;
     }
 }
 
