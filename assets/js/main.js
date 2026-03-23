@@ -95,14 +95,8 @@ document.addEventListener("DOMContentLoaded", () => {
       !focusPaused &&
       !document.hidden;
 
-    const shouldPauseForFocus = () => keyboardFocusMode || hoverCapableQuery.matches;
-
-    const clearStaleFocusPause = () => {
-      const activeElement = document.activeElement;
-      if (activeElement instanceof Node && root.contains(activeElement) && shouldPauseForFocus()) {
-        return;
-      }
-
+    const resetInteractionPause = () => {
+      pointerPaused = false;
       focusPaused = false;
     };
 
@@ -237,6 +231,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     document.addEventListener("keydown", (event) => {
+      if (!hoverCapableQuery.matches) {
+        return;
+      }
+
       if (event.key === "Tab" || event.key.startsWith("Arrow")) {
         keyboardFocusMode = true;
       }
@@ -250,17 +248,23 @@ document.addEventListener("DOMContentLoaded", () => {
     document.addEventListener("touchstart", disableKeyboardFocusMode, { passive: true });
 
     marquee.addEventListener("mouseenter", () => {
+      if (!hoverCapableQuery.matches) {
+        return;
+      }
       pointerPaused = true;
       stopMotion();
     });
 
     marquee.addEventListener("mouseleave", () => {
+      if (!hoverCapableQuery.matches) {
+        return;
+      }
       pointerPaused = false;
       startMotion();
     });
 
     root.addEventListener("focusin", () => {
-      if (!shouldPauseForFocus()) {
+      if (!hoverCapableQuery.matches || !keyboardFocusMode) {
         focusPaused = false;
         startMotion();
         return;
@@ -270,6 +274,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     root.addEventListener("focusout", (event) => {
+      if (!hoverCapableQuery.matches) {
+        focusPaused = false;
+        startMotion();
+        return;
+      }
       const nextFocused = event.relatedTarget;
       if (nextFocused instanceof Node && root.contains(nextFocused)) {
         return;
@@ -283,12 +292,19 @@ document.addEventListener("DOMContentLoaded", () => {
         stopMotion();
         return;
       }
-      clearStaleFocusPause();
+
+      if (!hoverCapableQuery.matches) {
+        resetInteractionPause();
+      }
+
       startMotion();
     });
 
     window.addEventListener("pageshow", () => {
-      clearStaleFocusPause();
+      if (!hoverCapableQuery.matches) {
+        resetInteractionPause();
+      }
+
       startMotion();
     });
 
