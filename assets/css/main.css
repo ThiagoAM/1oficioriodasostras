@@ -1910,6 +1910,8 @@ a {
     gap: 0.55rem;
     align-items: center;
     justify-content: center;
+    width: 100%;
+    aspect-ratio: 1 / 1;
     min-height: 100%;
     min-width: 0;
     padding: 0.8rem 0.7rem;
