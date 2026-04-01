@@ -538,27 +538,6 @@ document.addEventListener("DOMContentLoaded", () => {
         .replace(/\"/g, "&quot;")
         .replace(/'/g, "&#39;");
 
-    const createSeededRng = (seedValue) => {
-      let seed = 0;
-      const normalized = String(seedValue ?? "stats");
-      for (let i = 0; i < normalized.length; i += 1) {
-        seed = (seed * 31 + normalized.charCodeAt(i)) >>> 0;
-      }
-      return () => {
-        seed = (seed * 1664525 + 1013904223) >>> 0;
-        return seed / 4294967296;
-      };
-    };
-
-    const shuffle = (items, rng) => {
-      const shuffled = [...items];
-      for (let i = shuffled.length - 1; i > 0; i -= 1) {
-        const randomIndex = Math.floor(rng() * (i + 1));
-        [shuffled[i], shuffled[randomIndex]] = [shuffled[randomIndex], shuffled[i]];
-      }
-      return shuffled;
-    };
-
     const refreshIcons = () => {
       if (window.Iconify && typeof window.Iconify.scan === "function") {
         window.Iconify.scan(statsGrid);
@@ -650,37 +629,14 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     };
 
-    const buildSlots = (items, year) => {
-      const rng = createSeededRng(`layout-${year}`);
-      const pinnedItem = items.find((item) => item.id === "visitas-site") || null;
-      const regularItems = pinnedItem ? items.filter((item) => item.id !== pinnedItem.id) : items;
-      const randomized = shuffle(regularItems, rng);
-      const sizeKeys = [];
+    const buildSlots = (items) => {
+      const siteVisitsItem = items.find((item) => item.id === "visitas-site") || null;
+      const orderedItems = siteVisitsItem ? [siteVisitsItem, ...items.filter((item) => item.id !== "visitas-site")] : items;
 
-      while (sizeKeys.length < randomized.length) {
-        const template = rowTemplates[Math.floor(rng() * rowTemplates.length)] || rowTemplates[0];
-        sizeKeys.push(...template);
-      }
-
-      const slots = randomized.map((item, index) => {
-        const sizeKey = sizeKeys[index] || "sm";
-        return {
-          item,
-          sizeClass: layoutByKey[sizeKey] || layoutByKey.sm,
-        };
-      });
-
-      if (!pinnedItem) {
-        return slots;
-      }
-
-      return [
-        {
-          item: pinnedItem,
-          sizeClass: "stats-card--feature",
-        },
-        ...slots,
-      ];
+      return orderedItems.map((item) => ({
+        item,
+        sizeClass: layoutByKey.sm,
+      }));
     };
 
     const preferredDefaultYear = "2026";
@@ -730,7 +686,7 @@ document.addEventListener("DOMContentLoaded", () => {
         setActiveTypeButton(activeType);
         statsPeriodLabel.textContent = yearData.period;
         const filteredItems = getFilteredItems(yearData.items);
-        const slots = buildSlots(filteredItems, `${year}-${activeType}`);
+        const slots = buildSlots(filteredItems);
         statsGrid.innerHTML = slots.map((slot, index) => buildCardMarkup(slot, index)).join("");
         refreshIcons();
       };

@@ -1282,24 +1282,24 @@ a {
 }
 
 .stats-card[data-item-id="visitas-site"] .stats-card-content {
-    padding: 0.78rem 0.82rem 0.74rem;
+    padding: 0.64rem 0.66rem 0.62rem;
 }
 
 .stats-card[data-item-id="visitas-site"] .stats-card-icon {
-    font-size: 1.25rem;
+    font-size: 0.96rem;
     color: #d1fae5;
     opacity: 1;
 }
 
 .stats-card[data-item-id="visitas-site"] .stats-card-value {
-    margin-top: 0.44rem;
-    font-size: clamp(1.55rem, 1.7vw, 2rem);
+    margin-top: 0.32rem;
+    font-size: clamp(1.2rem, 1.35vw, 1.6rem);
     color: #ecfdf5;
 }
 
 .stats-card[data-item-id="visitas-site"] .stats-card-label {
-    margin-top: 0.28rem;
-    font-size: 0.82rem;
+    margin-top: 0.2rem;
+    font-size: 0.73rem;
     color: rgba(220, 252, 231, 0.96);
 }
 
