@@ -617,13 +617,13 @@ a {
         justify-content: center;
     }
 
-    .hero-news {
+    .hero .hero-news {
         grid-column: 1 / -1;
         grid-row: 1;
         margin-bottom: 1.8rem;
     }
 
-    .hero-news-marquee {
+    .hero .hero-news-marquee {
         width: 100vw;
         margin-inline: calc(50% - 50vw);
     }
@@ -3455,6 +3455,48 @@ a {
     position: relative;
 }
 
+.footer-news-row {
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+}
+
+.footer-news-row .hero-news {
+    margin-bottom: 0;
+    width: 100%;
+    padding-inline: 0;
+}
+
+.site-footer .hero-news-title {
+    margin-bottom: 0.8rem;
+    padding-inline: clamp(1rem, 3vw, 2.4rem);
+    text-align: center;
+    color: #dbeafe;
+}
+
+.site-footer .hero-news-status {
+    padding-inline: clamp(1rem, 3vw, 2.4rem);
+    color: rgba(226, 232, 240, 0.84);
+}
+
+.site-footer .hero-news-card {
+    border-color: rgba(148, 163, 184, 0.16);
+    background: rgba(8, 22, 38, 0.78);
+}
+
+.site-footer .hero-news-card:hover {
+    box-shadow: inset 0 0 0 1px rgba(94, 234, 212, 0.24);
+    background: rgba(10, 27, 46, 0.92);
+}
+
+.site-footer .hero-news-card-source {
+    border-color: rgba(94, 234, 212, 0.24);
+    background: rgba(15, 118, 110, 0.14);
+}
+
+.site-footer .hero-news-card-text {
+    color: rgba(214, 225, 237, 0.9);
+}
+
 .footer-grid {
     display: grid;
     grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.85fr);
@@ -3729,6 +3771,11 @@ a {
     .location-map {
         min-height: 220px;
     }
+
+    .footer-news-row {
+        padding-bottom: 1.7rem;
+        margin-bottom: 1.7rem;
+    }
 }
 
 @media (min-width: 641px) and (max-width: 1024px) {
@@ -3739,13 +3786,13 @@ a {
         align-items: start;
     }
 
-    .hero-news {
+    .hero .hero-news {
         grid-column: 1 / -1;
         grid-row: 1;
         margin-bottom: 1.5rem;
     }
 
-    .hero-news-marquee {
+    .hero .hero-news-marquee {
         width: 100vw;
         margin-left: calc(50% - 50vw);
         margin-right: calc(50% - 50vw);
@@ -3881,11 +3928,11 @@ a {
         padding-block: 1.25rem 3.85rem;
     }
 
-    .hero-news {
+    .hero .hero-news {
         margin-bottom: 1.1rem;
     }
 
-    .hero-news-marquee {
+    .hero .hero-news-marquee {
         width: 100vw;
         margin-left: calc(50% - 50vw);
         margin-right: calc(50% - 50vw);
@@ -3902,6 +3949,11 @@ a {
     .hero-news-card {
         width: min(86vw, 21rem);
         padding: 0.92rem 0.92rem 0.88rem;
+    }
+
+    .footer-news-row {
+        padding-bottom: 1.45rem;
+        margin-bottom: 1.45rem;
     }
 
     .hero-kicker {
