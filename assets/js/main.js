@@ -504,7 +504,7 @@ document.addEventListener("DOMContentLoaded", () => {
       civil: { label: "Registro Civil", icon: "mdi:account-child-outline" },
       notas: { label: "Notas e Escrituras", icon: "mdi:file-document-edit-outline" },
       protesto: { label: "Protesto", icon: "mdi:alert-decagram-outline" },
-      autenticacao: { label: "Firmas e Cópias", icon: "mdi:signature-freehand" },
+      autenticacao: { label: "Firmas", icon: "mdi:signature-freehand" },
       interdicoes: { label: "Interdições e Tutelas", icon: "mdi:scale-balance" },
       site: { label: "Site", icon: "mdi:web" },
     };
