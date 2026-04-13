@@ -127,11 +127,11 @@
                 <div class="field-grid" id="paymentDataGridItc">
                   <div class="field-group">
                     <label for="pixItc" class="field-label">PIX (CNPJ)</label>
-                    <input type="text" id="pixItc" name="pix_cnpj" class="field-input" value="58.886.764/0001-80" readonly />
+                    <input type="text" id="pixItc" name="pix_cnpj" class="field-input" value="56.886.764/0001-80" readonly />
                   </div>
                   <div class="field-group">
                     <label for="cnpjItc" class="field-label">CNPJ</label>
-                    <input type="text" id="cnpjItc" name="cnpj" class="field-input" value="58.886.764/0001-80" readonly />
+                    <input type="text" id="cnpjItc" name="cnpj" class="field-input" value="56.886.764/0001-80" readonly />
                   </div>
                 </div>
 
@@ -142,7 +142,7 @@
                     id="recebedorItc"
                     name="recebedor"
                     class="field-input"
-                    value="Serviço do 1º Ofício de Justiça de Rio das Ostras"
+                    value="Serviço do 1º Ofício de RI"
                     readonly
                   />
                 </div>
@@ -151,15 +151,10 @@
                   id="pixQrItc"
                   class="pix-qr-block"
                   data-pix-qr
-                  data-pix-payload-static=""
-                  data-pix-key="58886764000180"
-                  data-pix-merchant-name="Servico do 1 Oficio de Justica de Rio das Ostras"
-                  data-pix-merchant-city="Rio das Ostras"
-                  data-pix-amount=""
-                  data-pix-txid=""
+                  data-pix-payload-static="00020126360014br.gov.bcb.pix0114568867640001805204000053039865802BR5925SERVICO DO 1 OFICIO DE RI6012Porto Alegre62160512naoinformado6304C9F8"
                 >
                   <div class="pix-qr-code" data-pix-qr-code aria-label="QR Code PIX para pagamento"></div>
-                  <p class="form-helper pix-qr-helper">Escaneie este QR Code no app do seu banco para pagar.</p>
+                  <p class="form-helper pix-qr-helper">Escaneie este QR Code ou copie o código PIX e informe o valor indicado no app do seu banco.</p>
                   <button type="button" class="btn btn-primary pix-qr-copy-btn" data-pix-copy-btn>
                     Copiar Código PIX
                   </button>
@@ -234,16 +229,13 @@
 
         if (pixQrBlock instanceof HTMLElement) {
           pixQrBlock.hidden = isUpdating;
-          if (!isUpdating && service && service.pixAmount) {
-            pixQrBlock.dataset.pixAmount = service.pixAmount;
-            pixQrBlock.dataset.pixTxid = service.txid || "";
-            pixQrBlock.dataset.pixPayloadStatic = "";
+          if (!isUpdating && service) {
             const qrHelper = pixQrBlock.querySelector(".pix-qr-helper");
             if (qrHelper) {
-              qrHelper.textContent = `Escaneie este QR Code no app do seu banco para pagar ${service.amountDisplay}.`;
+              qrHelper.textContent = `Escaneie este QR Code ou copie o código PIX e informe o valor de ${service.amountDisplay} no app do seu banco.`;
             }
             if (window.PixQr && typeof window.PixQr.renderPixQr === "function") {
-              window.PixQr.renderPixQr(pixQrBlock, { amount: service.pixAmount, txid: service.txid || "", staticPayload: "" });
+              window.PixQr.renderPixQr(pixQrBlock);
             }
           }
         }
