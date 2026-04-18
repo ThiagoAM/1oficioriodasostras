@@ -299,6 +299,173 @@ a {
     margin-bottom: 1rem;
 }
 
+.hero-announcement {
+    display: grid;
+    gap: 1rem;
+    width: min(100%, 64rem);
+    justify-self: center;
+    margin-inline: auto;
+    padding: 1.35rem;
+    border-radius: 28px;
+    border: 1px solid rgba(125, 211, 252, 0.24);
+    background:
+        radial-gradient(circle at top, rgba(56, 189, 248, 0.14), transparent 42%),
+        linear-gradient(180deg, rgba(7, 23, 41, 0.96), rgba(8, 20, 34, 0.9)),
+        linear-gradient(135deg, rgba(34, 197, 94, 0.12), rgba(56, 189, 248, 0.14));
+    box-shadow:
+        0 24px 48px rgba(2, 6, 23, 0.34),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    overflow: hidden;
+}
+
+.hero-announcement-kicker {
+    margin: 0;
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-align: center;
+    color: rgba(186, 230, 253, 0.92);
+}
+
+.hero-announcement-title {
+    display: grid;
+    gap: 0.12rem;
+    margin: 0;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.hero-announcement-title-line {
+    font-size: clamp(1.4rem, 1.5vw + 1rem, 2.1rem);
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    color: #f8fbff;
+}
+
+.hero-announcement-title-accent {
+    font-size: clamp(1.45rem, 1.7vw + 1rem, 2.35rem);
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    color: #67e8f9;
+}
+
+.hero-announcement-divider {
+    width: 4.25rem;
+    height: 0.26rem;
+    margin-inline: auto;
+    border-radius: 999px;
+    background: linear-gradient(90deg, rgba(103, 232, 249, 0.2), rgba(103, 232, 249, 0.98), rgba(103, 232, 249, 0.2));
+}
+
+.hero-announcement-days {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.9rem;
+}
+
+.hero-announcement-day {
+    display: grid;
+    align-content: start;
+    gap: 0.32rem;
+    min-height: 11.4rem;
+    padding: 1rem 0.85rem 0.95rem;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.hero-announcement-day--open {
+    border: 1px solid rgba(74, 222, 128, 0.34);
+    background:
+        linear-gradient(180deg, rgba(12, 36, 45, 0.92), rgba(9, 28, 37, 0.84)),
+        linear-gradient(135deg, rgba(34, 197, 94, 0.14), rgba(103, 232, 249, 0.08));
+    box-shadow:
+        0 16px 34px rgba(2, 6, 23, 0.18),
+        inset 0 0 0 1px rgba(134, 239, 172, 0.05);
+}
+
+.hero-announcement-day--holiday {
+    border: 1px solid rgba(244, 114, 182, 0.34);
+    background:
+        linear-gradient(180deg, rgba(45, 16, 43, 0.92), rgba(35, 13, 33, 0.84)),
+        linear-gradient(135deg, rgba(244, 63, 94, 0.14), rgba(192, 132, 252, 0.08));
+    box-shadow:
+        0 16px 34px rgba(2, 6, 23, 0.18),
+        inset 0 0 0 1px rgba(251, 113, 133, 0.05);
+}
+
+.hero-announcement-day-status,
+.hero-announcement-day-date,
+.hero-announcement-day-name,
+.hero-announcement-day-detail {
+    margin: 0;
+}
+
+.hero-announcement-day-status {
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.hero-announcement-day--open .hero-announcement-day-status {
+    color: #86efac;
+}
+
+.hero-announcement-day--holiday .hero-announcement-day-status {
+    color: #fda4af;
+}
+
+.hero-announcement-day-date {
+    font-size: clamp(1.55rem, 1vw + 1.15rem, 2.05rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    color: #f8fbff;
+}
+
+.hero-announcement-day-name {
+    font-size: 1rem;
+    font-weight: 700;
+    color: rgba(241, 245, 249, 0.96);
+}
+
+.hero-announcement-day-detail {
+    margin-top: auto;
+    font-size: 0.88rem;
+    line-height: 1.45;
+    color: rgba(203, 213, 225, 0.9);
+}
+
+.hero-announcement-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin: 0;
+    padding: 1rem 1.05rem;
+    border-radius: 20px;
+    border: 1px solid rgba(96, 165, 250, 0.28);
+    background: linear-gradient(180deg, rgba(10, 30, 53, 0.92), rgba(9, 24, 43, 0.84));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    color: rgba(226, 232, 240, 0.94);
+}
+
+.hero-announcement-note-icon {
+    flex: 0 0 auto;
+    font-size: 1.25rem;
+    color: #bae6fd;
+    margin-top: 0.1rem;
+}
+
+.hero-announcement-note-text {
+    font-size: 0.95rem;
+    line-height: 1.65;
+}
+
+.hero-announcement-note strong {
+    color: #7dd3fc;
+}
+
 /* Hero */
 
 .hero {
@@ -686,6 +853,14 @@ a {
     .hero-highlights {
         grid-column: 1 / -1;
         grid-row: 4;
+    }
+
+    .hero-notice-card {
+        grid-row: 5;
+    }
+
+    .hero-announcement {
+        padding: 1.3rem;
     }
 }
 
@@ -3857,6 +4032,22 @@ a {
         grid-column: 1 / -1;
         grid-row: 4;
     }
+
+    .hero-notice-card {
+        grid-row: 5;
+    }
+
+    .hero-announcement {
+        padding: 1.2rem;
+    }
+
+    .hero-announcement-days {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .hero-announcement-day {
+        min-height: 10.6rem;
+    }
 }
 
 @media (max-width: 640px) {
@@ -3901,6 +4092,46 @@ a {
 
     .hero-notice-card {
         margin-bottom: 0.9rem;
+    }
+
+    .hero-announcement {
+        gap: 0.9rem;
+        padding: 1rem 0.9rem;
+        border-radius: 22px;
+    }
+
+    .hero-announcement-title-line {
+        font-size: 1.25rem;
+    }
+
+    .hero-announcement-title-accent {
+        font-size: 1.45rem;
+    }
+
+    .hero-announcement-days {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.75rem;
+    }
+
+    .hero-announcement-day {
+        min-height: 10.2rem;
+        padding: 0.9rem 0.75rem 0.85rem;
+        border-radius: 18px;
+    }
+
+    .hero-announcement-day-name {
+        font-size: 0.94rem;
+    }
+
+    .hero-announcement-day-detail,
+    .hero-announcement-note-text {
+        font-size: 0.84rem;
+    }
+
+    .hero-announcement-note {
+        gap: 0.6rem;
+        padding: 0.9rem;
+        border-radius: 18px;
     }
 
     .site-notice-icon {
