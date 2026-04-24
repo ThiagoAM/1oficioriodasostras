@@ -2450,8 +2450,8 @@ a {
 }
 
 .contact-list-inline {
-    flex-direction: row;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1rem;
 }
 
@@ -2951,7 +2951,7 @@ a {
 
 .contact-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 2rem;
 }
 
@@ -2960,7 +2960,7 @@ a {
 }
 
 .contact-text {
-    max-width: 31rem;
+    width: 100%;
 }
 
 .contact-form-card {
@@ -4058,6 +4058,10 @@ a {
     .contact-form-card {
         padding: 1.15rem 1rem 1.05rem;
         border-radius: 16px;
+    }
+
+    .contact-list-inline {
+        grid-template-columns: minmax(0, 1fr);
     }
 
     .form-section {
