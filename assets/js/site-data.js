@@ -1,0 +1,355 @@
+(function () {
+  const contact = {
+    phoneLabel: "(22) 3190-0120",
+    phoneHref: "tel:+552231900120",
+    whatsappUrl: "https://wa.me/552231900120",
+    email: "1oficiorioostras@gmail.com",
+    instagramUrl: "https://www.instagram.com/cartorioriodasostras/",
+    instagramLabel: "@cartorioriodasostras",
+    facebookUrl: "https://www.facebook.com/cartorioriodasostras",
+    facebookLabel: "@cartorioriodasostras",
+    addressName: "Ofício de Justiça da Comarca de Rio das Ostras",
+    addressLines: [
+      "Rua Luíza Vianna, nº 87, Loja 1",
+      "Novo Rio das Ostras – Rio das Ostras/RJ",
+      "CEP 28893-470",
+    ],
+    mapsUrl: "https://maps.app.goo.gl/VQS7zjTKEZ4Dpodv5",
+    mapsEmbed:
+      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3677.8397282875484!2d-41.93736!3d-22.523978!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x97b30020fba24b%3A0x220ae06be19b9dec!2s1%C2%B0%20Of%C3%ADcio%20de%20Justi%C3%A7a%20de%20Rio%20das%20Ostras%2FRJ%20-%20Notas%2C%20RCPN%20e%20Protesto!5e0!3m2!1spt-BR!2sbr!4v1725846459574!5m2!1spt-BR!2sbr",
+  };
+
+  window.SiteData = {
+    brand: {
+      name: "1º Ofício de Justiça",
+      shortName: "1º Ofício",
+      subtitle: "Notas · Protesto · RCPN · Rio das Ostras/RJ",
+      logo: "assets/images/cartorio-icon.png",
+      logoAlt: "Logo do Cartório do 1º Ofício de Justiça de Rio das Ostras",
+    },
+    contact,
+    navigation: [
+      { label: "Início", href: "#topo" },
+      { label: "Serviços", href: "#servicos" },
+      { label: "Online", href: "#online" },
+      { label: "Guias", href: "#guias-cidadao" },
+      { label: "FAQ", href: "#faq" },
+      { label: "Localização", href: "#localizacao" },
+      { label: "Sobre", href: "#sobre" },
+      { label: "Contato", href: "#contato" },
+    ],
+    hero: {
+      eyebrow: "",
+      intro:
+        "Notas, protesto e Registro Civil com orientação clara, segurança jurídica e atendimento próximo.",
+      titleLines: ["1º Ofício", "Rio das Ostras"],
+      image: "assets/images/gallery/thumbs/cartorio/3.jpg",
+      imageVariant: "photo",
+      imageAlt: "Fachada do Cartório do 1º Ofício de Justiça de Rio das Ostras",
+      sideNote: "",
+    },
+    philosophy: {
+      kicker: "Nossa filosofia",
+      quote:
+        "Atuar com técnica, transparência e respeito ao cidadão, tornando cada ato cartorário mais claro, seguro e acessível.",
+      image: "assets/images/gallery/cartorio/5.jpg",
+      imageAlt: "Área de atendimento do Cartório do 1º Ofício de Rio das Ostras",
+      link: null,
+    },
+    practiceAreas: {
+      kicker: "Atos do cartório",
+      image: "assets/images/gallery/cartorio/1.jpg",
+      imageAlt: "Ambiente interno do cartório",
+      title:
+        "Serviços notariais, de protesto e de Registro Civil para proteger direitos, formalizar escolhas e dar validade aos atos da vida civil.",
+      text:
+        "A equipe orienta documentos, prazos e procedimentos conforme a legislação e as normas do Poder Judiciário.",
+      items: [
+        {
+          title: "Escrituras públicas",
+          text: "Compra e venda, doação, permuta, inventário, divórcio consensual, união estável e outros atos notariais.",
+        },
+        {
+          title: "Registro Civil",
+          text: "Nascimento, casamento, óbito, averbações e transcrições de registros ocorridos no exterior.",
+        },
+        {
+          title: "Protesto de títulos",
+          text: "Protocolo, intimação, lavratura, pagamento e cancelamento de protestos com observância dos prazos legais.",
+        },
+        {
+          title: "Firmas e autenticações",
+          text: "Reconhecimento de firma, autenticação de cópias, apostilamento de Haia e serviços eletrônicos pelo e-Notariado.",
+        },
+        {
+          title: "Certidões",
+          text: "Certidões de atos notariais, protesto, Registro Civil e certidão negativa de Interdição, Tutela e Curatela.",
+        },
+        {
+          title: "Orientação ao cidadão",
+          text: "Guias práticos e atendimento para esclarecer documentos necessários antes do serviço presencial ou online.",
+        },
+      ],
+    },
+    whyChoose: {
+      kicker: "Por que escolher",
+      title:
+        "Atendimento técnico e humano para transformar procedimentos complexos em etapas compreensíveis.",
+      text:
+        "Cada solicitação é conduzida com atenção aos documentos, à validade jurídica do ato e ao retorno claro para o usuário.",
+      bullets: ["Orientação antes do atendimento", "Serviços presenciais e online", "Integração com plataformas oficiais"],
+      image: "assets/images/gallery/cartorio/11.JPG",
+      imageAlt: "Detalhe do ambiente do cartório",
+      metrics: [
+        { label: "Lavraturas de escritura", key: "lavratura-escritura", value: "0" },
+        { label: "Registros de casamento", key: "registro-casamento", value: "0" },
+        { label: "Visitas ao site", key: "visitas-site", value: "0" },
+      ],
+    },
+    onlineServices: {
+      kicker: "Serviços online",
+      title: "Solicite sem sair de casa e receba orientação da equipe.",
+      text:
+        "Escolha o serviço, preencha os dados e envie a solicitação para análise. Quando necessário, nossa equipe informa documentos, valores e próximos passos.",
+      cards: [
+        {
+          title: "Escrituras e atos notariais",
+          text: "Análise inicial para escrituras, inventários, divórcios consensuais e outros atos de notas.",
+          href: "servico-escrituras.html",
+          meta: "Formulário online",
+        },
+        {
+          title: "Certidões",
+          text: "Pedido de certidões de escritura, procuração, substabelecimento, protesto e demais atos.",
+          href: "servico-certidoes.html",
+          meta: "Formulário online",
+        },
+        {
+          title: "Certidão negativa de ITC",
+          text: "Certidão de Interdição, Tutela e Curatela com envio de comprovante de pagamento.",
+          href: "servico-certidao-negativa-itc.html",
+          meta: "Formulário online",
+        },
+        {
+          title: "Registro Civil e 2ª via digital",
+          text: "Acesso à plataforma oficial para pedir segunda via de certidões e outros serviços do Registro Civil.",
+          href: "https://home.registrocivil.org.br",
+          meta: "Portal oficial",
+          external: true,
+        },
+      ],
+    },
+    paperForms: {
+      kicker: "Formulários para impressão",
+      title: "Ganhe tempo no atendimento presencial.",
+      cards: [
+        {
+          title: "Casamentos em Rio das Ostras",
+          text:
+            "Formulários necessários para dar entrada no processo de casamento civil em Rio das Ostras.",
+          href: "formularios-casamento.html",
+        },
+        {
+          title: "Transcrições e anotações do Registro Civil",
+          text:
+            "Pedidos relacionados a nascimentos, casamentos e óbitos ocorridos no exterior.",
+          href: "formularios-registro-civil.html",
+        },
+      ],
+    },
+    guides: {
+      kicker: "Guias ao cidadão",
+      title: "Consulte orientações práticas antes do seu atendimento.",
+      text:
+        "Materiais organizados por assunto ajudam a entender documentos, etapas e cuidados comuns nos principais serviços.",
+      groups: [
+        {
+          title: "Escrituras, Atas e Procurações",
+          links: [
+            { title: "Tabelionato de Notas", href: "guides/roteiro-notas.html" },
+            { title: "Enotariado", href: "guides/guia-enotariado.pdf" },
+            { title: "Atos Notariais", href: "guides/guia-atos-notariais.pdf" },
+            { title: "Ata Notarial de WhatsApp para Imóveis", href: "guides/guia-ata-notarial-whatsApp-imoveis.pdf" },
+            { title: "Adjudicação Compulsória Extrajudicial", href: "guides/Adjudicacao-Compulsoria-Extrajudicial.pdf" },
+            { title: "Usucapião Extrajudicial", href: "guides/Usucapiao-Extrajudicial Tabelionato.pdf" },
+            { title: "União Estável", href: "guides/guia-uniao-estavel.pdf" },
+            { title: "Procuração Pública", href: "guides/guia-procuracao-publica.pdf" },
+            { title: "Mudança de Regime de Bens", href: "guides/guia-mudanca-regime-bens.pdf" },
+            { title: "Inventário e Partilha", href: "guides/guia-inventario-partilha.pdf" },
+            { title: "Testamento Público", href: "guides/guia-testamento-publico.pdf" },
+            { title: "Escrituras", href: "guides/guia-escrituras.pdf" },
+            { title: "Direitos Possessórios", href: "guides/guia-direitos-possessorios.pdf" },
+            { title: "Incorporação Imobiliária", href: "guides/guia-incorporacao-imobiliaria.pdf" },
+          ],
+        },
+        {
+          title: "Firmas, apostilamento e certificado digital",
+          links: [
+            { title: "Setor de Firmas", href: "guides/guia-setor-firmas.pdf" },
+            { title: "Apostilamento de Haia", href: "guides/guia-apostilamento-haia.pdf" },
+          ],
+        },
+        {
+          title: "Registro Civil",
+          links: [
+            { title: "Registro Civil", href: "guides/roteiro-RCPN.html" },
+            { title: "Habilitação para Casamento", href: "guides/guia-habilitacao casamento.pdf" },
+            { title: "Mudança de Nome e Sobrenome", href: "guides/guia-mudanca-nome-sobrenome.pdf" },
+            { title: "Óbito", href: "guides/guia-obito-ludico.pdf" },
+            { title: "Nascimento", href: "guides/guia-nascimento-ludico.pdf" },
+            { title: "Livro E", href: "guides/guia-livro-e-RCPN.pdf" },
+          ],
+        },
+        {
+          title: "Protesto",
+          links: [{ title: "Protesto de Títulos", href: "guides/roteiro-protesto.html" }],
+        },
+      ],
+    },
+    hours: {
+      kicker: "Horário de atendimento",
+      title: "Horários presenciais e plantão do Registro Civil.",
+      intro: "Atos urgentes de nascimento e óbito contam com plantão em fins de semana e feriados.",
+      items: [
+        { title: "Balcão presencial", text: "Segunda a sexta-feira, das 9h às 17h." },
+        { title: "Plantão de nascimento e óbito", text: "Sábados, domingos e feriados, das 9h às 12h." },
+        { title: "Serviços online", text: "Solicitações podem ser enviadas a qualquer momento, com análise em horário comercial." },
+      ],
+      note:
+        "Atos não urgentes realizados em fins de semana e feriados são direcionados para o próximo dia útil.",
+    },
+    about: {
+      kicker: "Sobre o tabelião",
+      title: "Dr. Robson Martins",
+      image: "assets/images/robson.jpg",
+      imageAlt: "Robson Martins, Tabelião do 1º Ofício de Rio das Ostras",
+      body: [
+        "Titular do Cartório do 1º Ofício de Rio das Ostras, aprovado em concurso público de provas e títulos organizado pelo Tribunal de Justiça do Estado do Rio de Janeiro. Doutor (UERJ) e Mestre (UFRJ) em Direito, com atuação acadêmica e profissional em diversas áreas, possui larga experiência em serviços notariais e de registro, tendo exercido os cargos de Técnico da Justiça Federal, Promotor de Justiça e Procurador da República.",
+        "Com forte compromisso com cidadania, celeridade, segurança jurídica e modernização dos serviços cartorários, lidera uma equipe dedicada a oferecer atendimento eficiente, transparente e próximo da comunidade de Rio das Ostras e região.",
+      ],
+    },
+    location: {
+      kicker: "Localização",
+      title: "Como chegar ao cartório",
+      text: "Estamos em região central e de fácil acesso em Rio das Ostras/RJ.",
+    },
+    usefulLinks: {
+      kicker: "Links úteis",
+      title: "Portais oficiais para consultas e serviços.",
+      links: [
+        { title: "Enotariado", text: "Plataforma nacional para atos notariais eletrônicos e assinatura digital.", href: "https://www.notariado.org.br/" },
+        { title: "Consulta de Abertura de Firmas no RJ", text: "Verifique informações de abertura de firmas no estado do Rio de Janeiro.", href: "https://www3.tjrj.jus.br/PORTALEXTRAJUDICIAL/consultafirma/" },
+        { title: "Consulta on-line de protestos", text: "Pesquise protestos de forma eletrônica em base nacional integrada.", href: "https://www.pesquisaprotesto.com.br/pesquisaProtesto" },
+        { title: "Tribunal de Justiça do Rio de Janeiro", text: "Portal oficial do TJRJ com serviços judiciais e extrajudiciais.", href: "https://www.tjrj.jus.br/" },
+        { title: "Central de Registro Civil", text: "Central oficial para serviços e solicitações de registro civil.", href: "https://home.registrocivil.org.br/login" },
+        { title: "ANOREG", text: "Associação dos Notários e Registradores do Brasil.", href: "https://www.anoreg.org.br/" },
+        { title: "Secretaria da Receita Federal", text: "Portal da Receita Federal para consultas, documentos e serviços fiscais.", href: "https://www.receita.fazenda.gov.br/" },
+      ],
+    },
+    contactForm: {
+      title: "Envie uma mensagem",
+      text:
+        "Use o formulário para tirar dúvidas ou pedir informações sobre serviços e documentos. Após o envio, você receberá uma confirmação por e-mail.",
+      action: "https://api.web3forms.com/submit",
+      accessKey: "2a703f7e-b77b-4478-97f2-c9d8379ad11b",
+      subject: "Novo formulário de contato - Site 1º Ofício Rio das Ostras",
+      redirect: "/sucesso.html",
+      options: [
+        "Dúvida geral",
+        "Certidão",
+        "Escritura / ato notarial",
+        "Registro civil",
+        "Protesto de títulos",
+        "Outro",
+      ],
+    },
+    stats: {
+      preferredYear: "2026",
+      categories: {
+        all: "Todos",
+        civil: "Registro Civil",
+        notas: "Notas e Escrituras",
+        protesto: "Protesto",
+        autenticacao: "Firmas",
+        interdicoes: "Interdições e Tutelas",
+        site: "Site",
+      },
+      years: {
+        "2025": {
+          period: "Período: 01/01/2025 a 31/12/2025.",
+          items: [
+            { id: "nascimentos", label: "Nascimentos", value: 1743, category: "civil" },
+            { id: "obitos", label: "Óbitos", value: 994, category: "civil" },
+            { id: "habilitacoes-casamento", label: "Habilitações de casamento", value: 800, category: "civil" },
+            { id: "registros-casamento", label: "Registros de casamento", value: 866, category: "civil" },
+            { id: "certidoes-outras-cidades", label: "Certidões externas", value: 1355, category: "civil" },
+            { id: "apostilamentos-haia", label: "Apostilamentos de Haia", value: 957, category: "autenticacao" },
+            { id: "total-escrituras", label: "Total de escrituras", value: 2236, category: "notas" },
+            { id: "atas-notariais", label: "Atas notariais", value: 101, category: "notas" },
+            { id: "compra-venda", label: "Escrituras compra e venda", value: 1048, category: "notas" },
+            { id: "inventario", label: "Escrituras de inventário", value: 81, category: "notas" },
+            { id: "uniao-estavel", label: "Declaração de união estável", value: 461, category: "notas" },
+            { id: "dissolucao-uniao-estavel", label: "Dissolução de união estável", value: 40, category: "notas" },
+            { id: "pacto-antenupcial", label: "Pacto antenupcial", value: 42, category: "notas" },
+            { id: "divorcio", label: "Escrituras de divórcio", value: 70, category: "notas" },
+            { id: "doacao", label: "Escrituras de doação", value: 82, category: "notas" },
+            { id: "emancipacao", label: "Emancipações", value: 10, category: "notas" },
+            { id: "procuracoes", label: "Procurações", value: 524, category: "notas" },
+            { id: "testamentos", label: "Testamentos", value: 23, category: "notas" },
+            { id: "autenticacoes", label: "Autenticações", value: 9421, category: "autenticacao" },
+            { id: "reconhecimentos-firma", label: "Reconhecimentos de firma", value: 71095, category: "autenticacao" },
+            { id: "protestados", label: "Títulos protestados", value: 25890, category: "protesto" },
+            { id: "cancelados", label: "Títulos cancelados", value: 3232, category: "protesto" },
+            { id: "pagos", label: "Títulos pagos", value: 2664, category: "protesto" },
+            { id: "total-protestos", label: "Total de títulos em protesto", value: 31142, category: "protesto" },
+          ],
+        },
+        "2026": {
+          period:
+            "Atos cartorários: 01/01/2026 a 31/03/2026. Visitas do site: acumulado a partir de 17/03/2026.",
+          items: [
+            { id: "visitas-site", label: "Visitas ao site", value: 0, category: "site" },
+            { id: "reconhecimento-semelhanca", label: "Reconhecimento por semelhança", value: 9657, category: "autenticacao" },
+            { id: "reconhecimento-autenticidade", label: "Reconhecimento por autenticidade", value: 7462, category: "autenticacao" },
+            { id: "autenticacoes", label: "Autenticação", value: 2449, category: "autenticacao" },
+            { id: "abertura-firma", label: "Abertura de firma", value: 1725, category: "autenticacao" },
+            { id: "lavratura-escritura", label: "Lavratura de escritura", value: 636, category: "notas" },
+            { id: "lavratura-procuracao", label: "Lavratura de procuração", value: 140, category: "notas" },
+            { id: "apostilamento", label: "Apostilamento", value: 260, category: "autenticacao" },
+            { id: "materializacao-documento", label: "Materialização de documento", value: 255, category: "autenticacao" },
+            { id: "assinatura-eletronica-enot", label: "Assinatura eletrônica (e-Not)", value: 246, category: "autenticacao" },
+            { id: "certidoes-notas", label: "Certidões (todas)", value: 108, category: "autenticacao" },
+            { id: "registro-testamento", label: "Registro de testamento", value: 3, category: "notas" },
+            { id: "outros-notas", label: "Outros (Notas)", value: 3, category: "autenticacao" },
+            { id: "instrumento-protesto", label: "Instrumento de protesto", value: 6537, category: "protesto" },
+            { id: "intimacao-protesto", label: "Intimação", value: 6352, category: "protesto" },
+            { id: "protocolizacao-protesto", label: "Protocolização", value: 5405, category: "protesto" },
+            { id: "liquidacao-protesto", label: "Liquidação", value: 1009, category: "protesto" },
+            { id: "cancelamento-protesto", label: "Cancelamento", value: 945, category: "protesto" },
+            { id: "desistencia-protesto", label: "Desistência", value: 157, category: "protesto" },
+            { id: "certidao-protesto", label: "Certidão de protesto", value: 162, category: "protesto" },
+            { id: "outros-protesto", label: "Outros (Protesto)", value: 0, category: "protesto" },
+            { id: "certidao-casamento", label: "Certidão de casamento", value: 257, category: "civil" },
+            { id: "certidao-nascimento", label: "Certidão de nascimento", value: 213, category: "civil" },
+            { id: "certidao-crc", label: "Certidão CRC", value: 240, category: "civil" },
+            { id: "certidao-habilitacao-casamento", label: "Certidão de habilitação de casamento", value: 136, category: "civil" },
+            { id: "certidao-obito", label: "Certidão de óbito", value: 76, category: "civil" },
+            { id: "outras-certidoes-rcpn", label: "Outras certidões", value: 46, category: "civil" },
+            { id: "habilitacao-casamento", label: "Habilitação de casamento", value: 166, category: "civil" },
+            { id: "registro-casamento", label: "Registro de casamento", value: 169, category: "civil" },
+            { id: "averbacao-casamento", label: "Averbação de casamento", value: 57, category: "civil" },
+            { id: "averbacao-nascimento", label: "Averbação de nascimento", value: 24, category: "civil" },
+            { id: "averbacao-obito", label: "Averbação de óbito", value: 8, category: "civil" },
+            { id: "registro-nascimento-gratuito", label: "Registro de nascimento", value: 241, category: "civil" },
+            { id: "registro-obito-gratuito", label: "Registro de óbito", value: 265, category: "civil" },
+            { id: "processos-administrativos", label: "Processos administrativos", value: 29, category: "civil" },
+            { id: "reconhecimento-paternidade", label: "Reconhecimento de paternidade", value: 7, category: "civil" },
+            { id: "certidao-generica-interdicao", label: "Certidão genérica", value: 514, category: "interdicoes" },
+            { id: "certidao-interdicao", label: "Certidão de interdição", value: 5, category: "interdicoes" },
+            { id: "registro-interdicao", label: "Registro de interdição", value: 5, category: "interdicoes" },
+          ],
+        },
+      },
+    },
+  };
+})();
