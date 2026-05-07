@@ -706,7 +706,9 @@ button {
     align-self: center;
     justify-self: center;
     margin: 0 auto;
-    width: min(555px, 100%);
+    width: min(500px, 100%);
+    width: min(500px, 100%, calc((100vh - 76px) * 0.55));
+    width: min(500px, 100%, calc((100svh - 76px) * 0.55));
     max-width: 100%;
     z-index: 2;
     transform: translateY(calc(-60px + var(--hero-image-scroll-y)));
@@ -796,6 +798,13 @@ button {
     max-width: 460px;
     margin: 34px auto 0;
     text-align: center;
+}
+
+@media (min-width: 821px) {
+    .hero-intro,
+    .hero-contact {
+        font-size: 16px;
+    }
 }
 
 .philosophy-grid {
@@ -2573,7 +2582,8 @@ button {
     .hero-portrait {
         grid-column: 2;
         grid-row: 1;
-        width: 390px;
+        width: min(390px, 100%, calc((100vh - 76px) * 0.55));
+        width: min(390px, 100%, calc((100svh - 76px) * 0.55));
         transform: translateY(calc(-60px + var(--hero-image-scroll-y)));
     }
 
