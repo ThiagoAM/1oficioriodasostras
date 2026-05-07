@@ -42,7 +42,7 @@
       eyebrow: "",
       intro:
         "Notas, protesto e Registro Civil com orientação clara, segurança jurídica e atendimento próximo.",
-      titleLines: ["1º Ofício", "Rio das Ostras"],
+      titleLines: ["1º Ofício", "de Justiça"],
       image: "assets/images/gallery/thumbs/cartorio/3.jpg",
       imageVariant: "photo",
       imageAlt: "Fachada do Cartório do 1º Ofício de Justiça de Rio das Ostras",
@@ -52,8 +52,8 @@
       kicker: "Nossa filosofia",
       quote:
         "Atuar com técnica, transparência e respeito ao cidadão, tornando cada ato cartorário mais claro, seguro e acessível.",
-      image: "assets/images/gallery/cartorio/5.jpg",
-      imageAlt: "Área de atendimento do Cartório do 1º Ofício de Rio das Ostras",
+      image: "assets/images/gallery/rio-das-ostras/5.jpg",
+      imageAlt: "Píer de Rio das Ostras ao pôr do sol",
       link: null,
     },
     practiceAreas: {
@@ -221,6 +221,9 @@
     about: {
       kicker: "Sobre o tabelião",
       title: "Dr. Robson Martins",
+      role: "Tabelião titular do 1º Ofício de Justiça",
+      statement:
+        "Com técnica, cidadania, celeridade e segurança jurídica, lidero uma equipe dedicada a oferecer atendimento eficiente, transparente e próximo da comunidade de Rio das Ostras.",
       image: "assets/images/robson.jpg",
       imageAlt: "Robson Martins, Tabelião do 1º Ofício de Rio das Ostras",
       body: [

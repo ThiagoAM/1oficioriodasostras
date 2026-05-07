@@ -22,6 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const numberFormatter = new Intl.NumberFormat("pt-BR");
+  const prefersReducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   const getStatsItems = (statsData) =>
     Object.values(statsData?.years || {}).flatMap((yearData) => (Array.isArray(yearData.items) ? yearData.items : []));
@@ -58,7 +59,52 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!valueElement || total === null) {
         return;
       }
-      valueElement.textContent = numberFormatter.format(total);
+      const finalValue = numberFormatter.format(total);
+      valueElement.dataset.countTarget = String(total);
+      valueElement.dataset.countFinal = finalValue;
+      valueElement.textContent = finalValue;
+    });
+  };
+
+  const animateMetricValues = (section) => {
+    const metrics = Array.from(section.querySelectorAll(".metric"));
+    metrics.forEach((metricElement) => {
+      if (metricElement.dataset.countAnimated === "true") {
+        return;
+      }
+
+      const valueElement = metricElement.querySelector("strong");
+      if (!valueElement) {
+        return;
+      }
+
+      const target = Number(valueElement.dataset.countTarget || String(valueElement.textContent).replace(/[^\d]/g, ""));
+      const finalValue = valueElement.dataset.countFinal || numberFormatter.format(target || 0);
+      metricElement.dataset.countAnimated = "true";
+
+      if (!Number.isFinite(target) || target <= 0 || prefersReducedMotion()) {
+        valueElement.textContent = finalValue;
+        return;
+      }
+
+      const duration = 1200;
+      const start = performance.now();
+      valueElement.textContent = numberFormatter.format(0);
+
+      const tick = (now) => {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        valueElement.textContent = numberFormatter.format(Math.round(target * eased));
+
+        if (progress < 1) {
+          window.requestAnimationFrame(tick);
+          return;
+        }
+
+        valueElement.textContent = finalValue;
+      };
+
+      window.requestAnimationFrame(tick);
     });
   };
 
@@ -69,21 +115,43 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const navLinks = data.navigation
-      .map((item) => `<a class="menu-link" href="${escapeHtml(item.href)}">${escapeHtml(item.label)}</a>`)
+      .map(
+        (item) =>
+          `<a class="menu-link" href="${escapeHtml(item.href)}" data-nav-target="${escapeHtml(item.href)}">${escapeHtml(item.label)}</a>`,
+      )
       .join("");
+    const socialIcon = (name) => {
+      if (name === "Instagram") {
+        return `
+          <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8">
+            <rect x="4" y="4" width="16" height="16" rx="5"></rect>
+            <circle cx="12" cy="12" r="3.6"></circle>
+            <circle cx="16.8" cy="7.2" r="0.8"></circle>
+          </svg>
+        `;
+      }
+
+      if (name === "Facebook") {
+        return `
+          <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
+            <path fill="currentColor" d="M14.2 8.2h2V5h-2.7c-3 0-4.6 1.8-4.6 4.7v2H6.5V15h2.4v6h3.5v-6h3l.5-3.3h-3.5v-1.6c0-1 .4-1.9 1.8-1.9Z"></path>
+          </svg>
+        `;
+      }
+
+      return "";
+    };
     const socialLinks = [
       data.contact.instagramUrl
         ? {
             href: data.contact.instagramUrl,
             label: "Instagram",
-            icon: "IG",
           }
         : null,
       data.contact.facebookUrl
         ? {
             href: data.contact.facebookUrl,
             label: "Facebook",
-            icon: "FB",
           }
         : null,
     ]
@@ -91,7 +159,7 @@ document.addEventListener("DOMContentLoaded", () => {
       .map(
         (item) => `
           <a class="menu-social-link" href="${escapeHtml(item.href)}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(item.label)}">
-            <span aria-hidden="true">${escapeHtml(item.icon)}</span>
+            ${socialIcon(item.label)}
           </a>
         `,
       )
@@ -113,6 +181,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="header-actions">
           <a class="consultation-link" href="#contato"><span aria-hidden="true"></span>Fale conosco</a>
           <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="siteNav" aria-label="Abrir menu">
+            <span class="nav-toggle-bar"></span>
             <span class="nav-toggle-bar"></span>
             <span class="nav-toggle-bar"></span>
           </button>
@@ -146,18 +215,18 @@ document.addEventListener("DOMContentLoaded", () => {
         <p class="hero-intro">${escapeHtml(data.hero.intro)}</p>
         <figure class="hero-portrait${data.hero.imageVariant === "logo" ? " hero-portrait-logo" : ""}">
           <img src="${escapeHtml(data.hero.image)}" alt="${escapeHtml(data.hero.imageAlt)}" fetchpriority="high" decoding="async" />
+          <figcaption class="hero-title-wrap">
+            ${data.hero.eyebrow ? `<p class="hero-kicker">${escapeHtml(data.hero.eyebrow)}</p>` : ""}
+            <h1 class="hero-title" id="heroTitle">
+              ${data.hero.titleLines.map((line) => `<span>${escapeHtml(line)}</span>`).join(" ")}
+            </h1>
+          </figcaption>
         </figure>
         <div class="hero-contact" aria-label="Contato rápido">
           <a href="${escapeHtml(data.contact.phoneHref)}">${escapeHtml(data.contact.phoneLabel)}</a>
           <span>Telefone / WhatsApp</span>
           <a href="mailto:${escapeHtml(data.contact.email)}">${escapeHtml(data.contact.email)}</a>
           <span>E-mail geral</span>
-        </div>
-        <div class="hero-title-wrap">
-          ${data.hero.eyebrow ? `<p class="hero-kicker">${escapeHtml(data.hero.eyebrow)}</p>` : ""}
-          <h1 class="hero-title" id="heroTitle">
-            ${data.hero.titleLines.map((line) => `<span>${escapeHtml(line)}</span>`).join("")}
-          </h1>
         </div>
         ${data.hero.sideNote ? `<p class="hero-note">${escapeHtml(data.hero.sideNote)}</p>` : ""}
       </div>
@@ -273,11 +342,11 @@ document.addEventListener("DOMContentLoaded", () => {
         ${data.paperForms.cards
           .map(
             (item) => `
-              <article class="paper-form-card">
+              <a class="paper-form-card" href="${escapeHtml(item.href)}"${linkAttrs(item.href, item.external)}>
                 <h3 class="paper-form-title">${escapeHtml(item.title)}</h3>
                 <p class="paper-form-meta">${escapeHtml(item.text)}</p>
-                <a class="btn btn-primary paper-form-download" href="${escapeHtml(item.href)}">Preencher e imprimir</a>
-              </article>
+                <span class="btn btn-primary paper-form-download">Preencher e imprimir</span>
+              </a>
             `,
           )
           .join("")}
@@ -357,14 +426,16 @@ document.addEventListener("DOMContentLoaded", () => {
           </ul>
           <a class="btn btn-primary" href="${escapeHtml(data.contact.mapsUrl)}" target="_blank" rel="noopener noreferrer">Abrir no Google Maps</a>
         </div>
-        <a class="location-map-wrapper location-map-link" href="${escapeHtml(data.contact.mapsUrl)}" target="_blank" rel="noopener noreferrer" aria-label="Abrir localização do cartório no Google Maps">
-          <span class="map-pin" aria-hidden="true"></span>
-          <span class="map-label">
-            <strong>1º Ofício de Justiça</strong>
-            <span>${escapeHtml(data.contact.addressLines[0])}</span>
-          </span>
-          <span class="map-action">Abrir no Google Maps <span aria-hidden="true">→</span></span>
-        </a>
+        <div class="location-map-wrapper">
+          <iframe
+            class="location-map-embed"
+            src="${escapeHtml(data.contact.mapsEmbed)}"
+            title="Mapa do Cartório do 1º Ofício de Justiça de Rio das Ostras"
+            loading="lazy"
+            allowfullscreen
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
       </div>
     </section>
   `;
@@ -372,12 +443,18 @@ document.addEventListener("DOMContentLoaded", () => {
   const renderAbout = () => `
     <section class="section section-muted" id="sobre">
       <div class="container about-grid">
-        <p class="section-kicker">${escapeHtml(data.about.kicker)}</p>
+        <div class="about-copy">
+          <p class="section-kicker">${escapeHtml(data.about.kicker)}</p>
+          <blockquote class="about-quote">“${escapeHtml(data.about.statement)}”</blockquote>
+          <div class="about-person">
+            <h2>${escapeHtml(data.about.title)}</h2>
+            <p>${escapeHtml(data.about.role)}</p>
+          </div>
+        </div>
         <figure class="about-image-wrapper">
           <img src="${escapeHtml(data.about.image)}" alt="${escapeHtml(data.about.imageAlt)}" class="about-image" loading="lazy" decoding="async" />
         </figure>
-        <div class="about-text">
-          <h2 class="section-title">${escapeHtml(data.about.title)}</h2>
+        <div class="about-text" aria-label="Resumo sobre ${escapeHtml(data.about.title)}">
           ${data.about.body.map((paragraph) => `<p class="about-body">${escapeHtml(paragraph)}</p>`).join("")}
         </div>
       </div>
@@ -389,8 +466,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <div class="container split-heading">
         <p class="section-kicker">Cartório e cidade</p>
         <div>
-          <h2 class="section-title">Rio das Ostras em fotos.</h2>
-          <p class="section-subtitle">Registros do cartório e de pontos da cidade, preservados em uma galeria leve e filtrável.</p>
+          <h2 class="section-title">Cartório e Rio das Ostras em fotos.</h2>
         </div>
       </div>
       <div class="container gallery-toolbar">
@@ -405,7 +481,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="gallery-masonry" id="galleryMasonry" aria-label="Galeria de fotos do cartório e de Rio das Ostras"></div>
         <button class="gallery-page-btn gallery-page-next" id="galleryPageNext" type="button" aria-label="Próximas fotos">&gt;</button>
       </div>
-      <p class="container gallery-page-status" id="galleryPageStatus" aria-live="polite"></p>
+      <div class="container gallery-page-dots" id="galleryPageStatus" aria-label="Páginas da galeria"></div>
       <div class="gallery-lightbox" id="galleryLightbox" aria-hidden="true">
         <button class="lightbox-close" id="lightboxClose" type="button" aria-label="Fechar visualização">×</button>
         <button class="lightbox-nav lightbox-nav-prev" id="lightboxPrev" type="button" aria-label="Imagem anterior">‹</button>
@@ -568,16 +644,18 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     footer.innerHTML = `
-      <section class="hero-news" id="heroNews" aria-labelledby="heroNewsTitle">
-        <div class="container split-heading">
+      <section class="hero-news" id="heroNews">
+        <div class="container hero-news-heading">
           <p class="section-kicker">Últimas notícias</p>
-          <h2 class="hero-news-title" id="heroNewsTitle">Atualizações do setor extrajudicial.</h2>
         </div>
         <div class="container">
           <p class="hero-news-status" id="heroNewsStatus" role="status" aria-live="polite">Carregando notícias...</p>
-          <div class="hero-news-marquee" id="heroNewsMarquee" hidden>
-            <div class="hero-news-track" id="heroNewsTrack"></div>
+          <div class="hero-news-carousel" id="heroNewsCarousel" hidden>
+            <button class="hero-news-arrow hero-news-prev" id="heroNewsPrev" type="button" aria-label="Notícias anteriores">&lt;</button>
+            <div class="hero-news-page" id="heroNewsPage" aria-live="polite"></div>
+            <button class="hero-news-arrow hero-news-next" id="heroNewsNext" type="button" aria-label="Próximas notícias">&gt;</button>
           </div>
+          <div class="hero-news-dots" id="heroNewsDots" aria-label="Páginas de notícias" hidden></div>
         </div>
       </section>
       <div class="container footer-grid">
@@ -605,6 +683,9 @@ document.addEventListener("DOMContentLoaded", () => {
             <li><strong>Endereço</strong><br />${data.contact.addressLines.map(escapeHtml).join("<br />")}</li>
           </ul>
         </div>
+      </div>
+      <div class="container footer-credit">
+        Criado por <a href="https://owarilabs.com" target="_blank" rel="noopener noreferrer">Owari Labs</a>
       </div>
       <a href="${escapeHtml(data.contact.whatsappUrl)}" target="_blank" rel="noopener" class="whatsapp-float" aria-label="Iniciar conversa no WhatsApp">
         <svg aria-hidden="true" viewBox="0 0 32 32" focusable="false">
@@ -644,22 +725,122 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    const menuLinks = Array.from(siteNav.querySelectorAll(".menu-link"));
+    const navSections = menuLinks
+      .map((link) => {
+        const href = link.getAttribute("href") || "";
+        if (!href.startsWith("#")) {
+          return null;
+        }
+
+        const section = document.getElementById(href.slice(1));
+        return section ? { href, section } : null;
+      })
+      .filter(Boolean);
+    let closeTimer = null;
+    let hashActiveTimer = null;
+    let lockedActiveHash = "";
+    let activeTicking = false;
+
+    const setActiveNav = (activeHref) => {
+      menuLinks.forEach((link) => {
+        const isActive = link.getAttribute("href") === activeHref;
+        link.classList.toggle("is-active", isActive);
+        if (isActive) {
+          link.setAttribute("aria-current", "page");
+        } else {
+          link.removeAttribute("aria-current");
+        }
+      });
+    };
+
+    const setActiveFromHash = () => {
+      const activeHash = window.location.hash;
+      if (!activeHash || !menuLinks.some((link) => link.getAttribute("href") === activeHash)) {
+        return false;
+      }
+
+      setActiveNav(activeHash);
+      lockedActiveHash = activeHash;
+      window.clearTimeout(hashActiveTimer);
+      hashActiveTimer = window.setTimeout(() => {
+        if (lockedActiveHash === activeHash) {
+          lockedActiveHash = "";
+        }
+      }, 800);
+      return true;
+    };
+
+    const refreshActiveNav = () => {
+      if (lockedActiveHash) {
+        setActiveNav(lockedActiveHash);
+        return;
+      }
+
+      if (window.scrollY < 80) {
+        setActiveNav("#topo");
+        return;
+      }
+
+      const headerOffset = 120;
+      const lowerBound = window.innerHeight * 0.72;
+      const activeSection = navSections.reduce((current, item) => {
+        if (item.href === "#topo") {
+          return current;
+        }
+
+        const { section } = item;
+        const rect = section.getBoundingClientRect();
+        if (rect.top > lowerBound || rect.bottom < headerOffset) {
+          return current;
+        }
+
+        const distance = Math.abs(rect.top - headerOffset);
+        return !current || distance < current.distance ? { ...item, distance } : current;
+      }, null);
+
+      if (activeSection) {
+        setActiveNav(activeSection.href);
+      }
+    };
+
     const setOpen = (isOpen) => {
       navToggle.classList.toggle("is-open", isOpen);
       navToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
       navToggle.setAttribute("aria-label", isOpen ? "Fechar menu" : "Abrir menu");
-      siteNav.hidden = !isOpen;
       siteNav.setAttribute("aria-hidden", isOpen ? "false" : "true");
       document.body.classList.toggle("no-scroll", isOpen);
+
+      window.clearTimeout(closeTimer);
+
+      if (isOpen) {
+        siteNav.hidden = false;
+        siteNav.classList.remove("is-closing");
+        siteNav.offsetHeight;
+        siteNav.classList.add("is-open");
+        refreshActiveNav();
+        return;
+      }
+
+      siteNav.classList.remove("is-open");
+      siteNav.classList.add("is-closing");
+      closeTimer = window.setTimeout(() => {
+        siteNav.hidden = true;
+        siteNav.classList.remove("is-closing");
+      }, 360);
     };
 
     navToggle.addEventListener("click", () => {
-      setOpen(siteNav.hidden);
+      setOpen(siteNav.hidden || !siteNav.classList.contains("is-open"));
     });
 
     siteNav.addEventListener("click", (event) => {
       const target = event.target instanceof Element ? event.target.closest("a") : null;
       if (target) {
+        const href = target.getAttribute("href") || "";
+        if (href.startsWith("#")) {
+          setActiveNav(href);
+        }
         setOpen(false);
       }
     });
@@ -669,6 +850,30 @@ document.addEventListener("DOMContentLoaded", () => {
         setOpen(false);
       }
     });
+
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (activeTicking) {
+          return;
+        }
+
+        activeTicking = true;
+        window.requestAnimationFrame(() => {
+          refreshActiveNav();
+          activeTicking = false;
+        });
+      },
+      { passive: true },
+    );
+    window.addEventListener("hashchange", () => {
+      if (!setActiveFromHash()) {
+        refreshActiveNav();
+      }
+    });
+    if (!setActiveFromHash()) {
+      refreshActiveNav();
+    }
   };
 
   const initStatsSection = () => {
@@ -809,7 +1014,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const faqItems = Array.isArray(window.FAQ_ITEMS) ? window.FAQ_ITEMS : [];
-    const maxVisible = 12;
+    const maxVisible = 9;
     let activeCategory = "Todas";
     let searchTerm = "";
     let showAll = false;
@@ -1057,7 +1262,20 @@ document.addEventListener("DOMContentLoaded", () => {
         pageNextBtn.disabled = !hasMultiplePages;
       }
       if (pageStatus) {
-        pageStatus.textContent = hasMultiplePages ? `Página ${galleryPage + 1} de ${pageCount}` : "";
+        pageStatus.innerHTML = hasMultiplePages
+          ? Array.from({ length: pageCount }, (_, index) => {
+              const isActive = index === galleryPage;
+              return `
+                <button
+                  type="button"
+                  class="gallery-page-dot${isActive ? " is-active" : ""}"
+                  data-gallery-page="${index}"
+                  aria-label="Ir para página ${index + 1} de ${pageCount}"
+                  ${isActive ? 'aria-current="page"' : ""}>
+                </button>
+              `;
+            }).join("")
+          : "";
       }
     };
 
@@ -1141,6 +1359,19 @@ document.addEventListener("DOMContentLoaded", () => {
       galleryPage = (galleryPage + 1) % pageCount;
       renderImages();
     });
+    pageStatus?.addEventListener("click", (event) => {
+      const button = event.target instanceof Element ? event.target.closest("[data-gallery-page]") : null;
+      if (!button) {
+        return;
+      }
+      const nextPage = Number(button.getAttribute("data-gallery-page"));
+      const pageCount = Math.max(1, Math.ceil(displayImages.length / currentPageSize));
+      if (!Number.isInteger(nextPage) || nextPage < 0 || nextPage >= pageCount || nextPage === galleryPage) {
+        return;
+      }
+      galleryPage = nextPage;
+      renderImages();
+    });
     window.addEventListener("resize", renderImages);
 
     closeBtn?.addEventListener("click", closeLightbox);
@@ -1169,14 +1400,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const initHeroNews = () => {
     const status = document.getElementById("heroNewsStatus");
-    const marquee = document.getElementById("heroNewsMarquee");
-    const track = document.getElementById("heroNewsTrack");
-    if (!status || !marquee || !track) {
+    const carousel = document.getElementById("heroNewsCarousel");
+    const page = document.getElementById("heroNewsPage");
+    const dots = document.getElementById("heroNewsDots");
+    const prevBtn = document.getElementById("heroNewsPrev");
+    const nextBtn = document.getElementById("heroNewsNext");
+    if (!status || !carousel || !page || !dots || !prevBtn || !nextBtn) {
       return;
     }
 
     const newsFeedUrl = "https://thiagoam.github.io/noticias-cartorio-rio-das-ostras/noticias.json";
     const dateFormatter = new Intl.DateTimeFormat("pt-BR", { dateStyle: "medium" });
+    const pageSizeQuery = window.matchMedia("(max-width: 820px)");
+    const getPageSize = () => (pageSizeQuery.matches ? 1 : 4);
+    let currentPage = 0;
+    let pageCount = 0;
 
     const parseDate = (value) => {
       const parsed = new Date(value);
@@ -1193,22 +1431,71 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const renderNews = (items) => {
       const selectedItems = items.slice(0, 8);
-      const cardsHtml = selectedItems
-        .map(
-          (item) => `
-            <a class="news-card" href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer">
-              <span>${escapeHtml(item.fonte)} · ${escapeHtml(dateFormatter.format(item.date))}</span>
-              <h3>${escapeHtml(item.titulo)}</h3>
-              <p>${escapeHtml(truncate(item.descricao, 150))}</p>
-            </a>
-          `,
-        )
-        .join("");
-      track.innerHTML = `
-        <div class="hero-news-group">${cardsHtml}</div>
-        <div class="hero-news-group" aria-hidden="true">${cardsHtml}</div>
-      `;
-      marquee.hidden = false;
+      let pageSize = getPageSize();
+
+      const renderPage = () => {
+        pageSize = getPageSize();
+        pageCount = Math.max(1, Math.ceil(selectedItems.length / pageSize));
+        currentPage = Math.min(currentPage, pageCount - 1);
+        const pageItems = selectedItems.slice(currentPage * pageSize, currentPage * pageSize + pageSize);
+        page.innerHTML = pageItems
+          .map(
+            (item) => `
+              <a class="news-card" href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer">
+                <span>${escapeHtml(item.fonte)} · ${escapeHtml(dateFormatter.format(item.date))}</span>
+                <h3>${escapeHtml(item.titulo)}</h3>
+                <p>${escapeHtml(truncate(item.descricao, 150))}</p>
+              </a>
+            `,
+          )
+          .join("");
+
+        dots.innerHTML =
+          pageCount > 1
+            ? Array.from({ length: pageCount }, (_, index) => {
+                const isActive = index === currentPage;
+                return `
+                  <button
+                    type="button"
+                    class="hero-news-dot${isActive ? " is-active" : ""}"
+                    data-news-page="${index}"
+                    aria-label="Ir para página ${index + 1} de ${pageCount}"
+                    ${isActive ? 'aria-current="page"' : ""}>
+                  </button>
+                `;
+              }).join("")
+            : "";
+        dots.hidden = pageCount <= 1;
+        prevBtn.disabled = pageCount <= 1;
+        nextBtn.disabled = pageCount <= 1;
+      };
+
+      const goToPage = (nextPage) => {
+        currentPage = (nextPage + pageCount) % pageCount;
+        renderPage();
+      };
+
+      prevBtn.addEventListener("click", () => {
+        goToPage(currentPage - 1);
+      });
+      nextBtn.addEventListener("click", () => {
+        goToPage(currentPage + 1);
+      });
+      dots.addEventListener("click", (event) => {
+        const button = event.target instanceof Element ? event.target.closest("[data-news-page]") : null;
+        if (!button) {
+          return;
+        }
+        const nextPage = Number(button.getAttribute("data-news-page"));
+        if (!Number.isInteger(nextPage) || nextPage < 0 || nextPage >= pageCount || nextPage === currentPage) {
+          return;
+        }
+        goToPage(nextPage);
+      });
+      pageSizeQuery.addEventListener("change", renderPage);
+
+      renderPage();
+      carousel.hidden = false;
       status.hidden = true;
     };
 
@@ -1263,6 +1550,9 @@ document.addEventListener("DOMContentLoaded", () => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add("is-revealed");
+            if (entry.target.classList.contains("why-section")) {
+              animateMetricValues(entry.target);
+            }
             observer.unobserve(entry.target);
           }
         });
