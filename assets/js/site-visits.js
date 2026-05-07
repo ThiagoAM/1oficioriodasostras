@@ -181,6 +181,10 @@ window.SiteVisits = {
 
 window.dispatchEvent(new CustomEvent("sitevisits:ready"));
 
-if (!document.getElementById("statsGrid")) {
+// The homepage renders #statsGrid after this module loads; main.js starts tracking after loading real counts.
+const shouldDeferInitialVisitTracking = () =>
+  document.body?.classList.contains("home-page") || document.getElementById("statsGrid");
+
+if (!shouldDeferInitialVisitTracking()) {
   void startInitialVisitTracking();
 }
