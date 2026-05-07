@@ -156,16 +156,16 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    target.dataset.streamComplete = "true";
-    target.classList.add("is-streaming");
-
     if (prefersReducedMotion()) {
+      target.dataset.streamComplete = "true";
       content.textContent = fullText;
       target.classList.add("is-stream-complete");
       return;
     }
 
+    target.dataset.streamComplete = "true";
     const chars = Array.from(fullText);
+    const startDelay = target.classList.contains("hero-contact-label") ? 1000 : 160;
     let index = 0;
 
     const tick = () => {
@@ -184,7 +184,10 @@ document.addEventListener("DOMContentLoaded", () => {
       window.setTimeout(tick, delay);
     };
 
-    window.setTimeout(tick, 160);
+    window.setTimeout(() => {
+      target.classList.add("is-streaming");
+      tick();
+    }, startDelay);
   };
 
   const setupDetailsDropdownAnimations = (root, { itemSelector, summarySelector, panelSelector }) => {
@@ -533,6 +536,7 @@ document.addEventListener("DOMContentLoaded", () => {
               `,
             )
             .join("")}
+          <a class="btn metric-more-link" href="#estatisticas">Ver mais</a>
         </div>
       </div>
     </section>
@@ -1384,6 +1388,24 @@ document.addEventListener("DOMContentLoaded", () => {
       setupFaqItemAnimations();
     };
 
+    const scrollToFaqAfterCollapse = () => {
+      const faqSection = faqList.closest(".faq-section");
+      if (!faqSection) {
+        return;
+      }
+
+      const behavior = prefersReducedMotion() ? "auto" : "smooth";
+      const delay = prefersReducedMotion() ? 0 : 180;
+
+      window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(() => {
+          window.setTimeout(() => {
+            faqSection.scrollIntoView({ behavior, block: "start" });
+          }, delay);
+        });
+      });
+    };
+
     faqSearchInput.addEventListener("input", () => {
       searchTerm = faqSearchInput.value;
       showAll = false;
@@ -1391,8 +1413,13 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     faqShowMoreBtn.addEventListener("click", () => {
+      const shouldScrollToFaq = showAll;
       showAll = !showAll;
       renderFaqItems();
+
+      if (shouldScrollToFaq) {
+        scrollToFaqAfterCollapse();
+      }
     });
 
     renderCategoryChips();

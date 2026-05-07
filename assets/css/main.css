@@ -37,7 +37,7 @@ body {
     min-width: 320px;
     background: var(--bg-light);
     color: var(--text-dark);
-    font-family: "Manrope", "Segoe UI", Arial, sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 16px;
     line-height: 1.55;
     -webkit-font-smoothing: antialiased;
@@ -369,7 +369,7 @@ button {
 
 .menu-link {
     color: var(--text-light);
-    font-family: "Cormorant Garamond", Georgia, serif;
+    font-family: Arial, sans-serif;
     font-size: 50px;
     line-height: 1;
 }
@@ -490,6 +490,10 @@ button {
     animation: stream-cursor-blink 1s steps(2, start) infinite;
 }
 
+.stream-text:not(.is-streaming):not(.is-stream-complete) .stream-text-cursor {
+    display: none;
+}
+
 .stream-text.is-stream-complete .stream-text-cursor {
     display: none;
 }
@@ -503,7 +507,7 @@ button {
 .section-kicker {
     margin: 0 0 26px;
     color: var(--accent-dark);
-    font-family: "Cormorant Garamond", Georgia, serif;
+    font-family: Arial, sans-serif;
     font-style: italic;
     font-weight: 600;
     font-size: clamp(1.25rem, 1.35vw, 1.5rem);
@@ -521,7 +525,7 @@ button {
     margin: 0;
     max-width: 760px;
     color: inherit;
-    font-family: "Cormorant Garamond", Georgia, serif;
+    font-family: Arial, sans-serif;
     font-size: 3.3rem;
     font-weight: 500;
     line-height: 1;
@@ -672,7 +676,7 @@ button {
     position: relative;
     z-index: 1;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(320px, 430px) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) minmax(480px, 645px) minmax(0, 1fr);
     grid-template-rows: 1fr;
     gap: 18px 64px;
     align-items: center;
@@ -702,20 +706,11 @@ button {
     align-self: center;
     justify-self: center;
     margin: 0 auto;
-    width: min(370px, 100%);
+    width: min(555px, 100%);
     max-width: 100%;
     z-index: 2;
     transform: translateY(calc(-60px + var(--hero-image-scroll-y)));
     will-change: transform;
-}
-
-.hero-portrait::after {
-    content: "";
-    position: absolute;
-    inset: 42% 0 0;
-    z-index: 1;
-    background: linear-gradient(180deg, rgba(18, 24, 23, 0), rgba(18, 24, 23, 0.58));
-    pointer-events: none;
 }
 
 .hero-portrait img {
@@ -724,7 +719,7 @@ button {
     aspect-ratio: 0.68;
     object-fit: cover;
     object-position: center top;
-    filter: saturate(0.55) contrast(0.92);
+    filter: none;
 }
 
 .hero-portrait-logo img {
@@ -767,7 +762,7 @@ button {
 
 .hero-kicker {
     margin: 0 0 18px;
-    font-family: "Cormorant Garamond", Georgia, serif;
+    font-family: Arial, sans-serif;
     font-style: italic;
     font-weight: 600;
 }
@@ -775,7 +770,7 @@ button {
 .hero-title {
     margin: 0;
     color: #e8faf7;
-    font-family: "Manrope", Arial, sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 90px;
     font-weight: 900;
     line-height: 0.92;
@@ -821,7 +816,7 @@ button {
     margin: 0;
     max-width: 660px;
     color: #363a3c;
-    font-family: "Cormorant Garamond", Georgia, serif;
+    font-family: Arial, sans-serif;
     font-style: italic;
     font-size: 50px;
     line-height: 1.06;
@@ -885,7 +880,9 @@ button {
 }
 
 #servicos .editorial-copy {
+    justify-self: end;
     max-width: 630px;
+    text-align: left;
 }
 
 #servicos .editorial-copy .section-title,
@@ -927,7 +924,7 @@ button {
 .info-card-title,
 .service-route-title {
     margin: 0 0 18px;
-    font-family: "Cormorant Garamond", Georgia, serif;
+    font-family: Arial, sans-serif;
     font-size: 1.9rem;
     font-weight: 500;
     line-height: 1.05;
@@ -1000,7 +997,7 @@ button {
     display: inline-flex;
     align-items: baseline;
     color: var(--text-light);
-    font-family: "Cormorant Garamond", Georgia, serif;
+    font-family: Arial, sans-serif;
     font-size: 3.4rem;
     font-weight: 500;
     gap: 8px;
@@ -1010,10 +1007,24 @@ button {
 .metric strong::after {
     content: "+";
     color: var(--accent);
-    font-family: "Manrope", "Segoe UI", Arial, sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 0.46em;
     font-weight: 700;
     line-height: 1;
+}
+
+.metric-more-link {
+    justify-self: end;
+    margin-top: -16px;
+    color: var(--accent);
+}
+
+.metric-more-link:hover,
+.metric-more-link:focus-visible {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: var(--bg-darker);
+    outline: 0;
 }
 
 .case-grid {
@@ -1143,7 +1154,7 @@ button {
     gap: 18px;
     padding: 22px 0;
     color: var(--text-dark);
-    font-family: "Cormorant Garamond", Georgia, serif;
+    font-family: Arial, sans-serif;
     font-size: 2rem;
     line-height: 1;
     list-style: none;
@@ -1173,7 +1184,7 @@ button {
 
 .guide-links a {
     color: var(--text-muted);
-    font-size: 0.92rem;
+    font-size: 18px;
 }
 
 .guide-links a:hover {
@@ -1198,7 +1209,7 @@ button {
 
 .hours-item strong {
     color: var(--text-light);
-    font-family: "Cormorant Garamond", Georgia, serif;
+    font-family: Arial, sans-serif;
     font-size: 1.8rem;
     font-weight: 500;
 }
@@ -1282,7 +1293,7 @@ button {
     max-width: 850px;
     margin: 34px 0 0;
     color: var(--text-dark);
-    font-family: "Cormorant Garamond", Georgia, serif;
+    font-family: Arial, sans-serif;
     font-style: italic;
     font-size: 48px;
     font-weight: 400;
@@ -1308,7 +1319,7 @@ button {
 .about-person h2 {
     margin: 0;
     color: var(--text-dark);
-    font-family: "Manrope", "Segoe UI", Arial, sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 1.02rem;
     font-weight: 700;
     line-height: 1.35;
@@ -1352,12 +1363,18 @@ button {
     margin-top: 38px;
 }
 
+#galeria .split-heading {
+    grid-template-columns: 1fr;
+    gap: 0;
+}
+
 #galeria .split-heading > div {
-    text-align: right;
+    text-align: left;
 }
 
 #galeria .split-heading .section-title {
-    margin-left: auto;
+    margin-left: 0;
+    max-width: none;
 }
 
 .stats-year-switch,
@@ -1429,7 +1446,7 @@ button {
     border: 1px solid rgba(111, 159, 147, 0.55);
     background: transparent;
     color: var(--accent);
-    font-family: "Cormorant Garamond", Georgia, serif;
+    font-family: Arial, sans-serif;
     font-size: 2.4rem;
     line-height: 1;
     transition: background 0.18s ease, color 0.18s ease;
@@ -1650,7 +1667,7 @@ button {
     display: block;
     margin: 16px 0 24px;
     color: var(--text-light);
-    font-family: "Cormorant Garamond", Georgia, serif;
+    font-family: Arial, sans-serif;
     font-size: 3.2rem;
     font-weight: 500;
     line-height: 1;
@@ -1806,7 +1823,7 @@ button {
 }
 
 .faq-question span:first-child {
-    font-family: "Cormorant Garamond", Georgia, serif;
+    font-family: Arial, sans-serif;
     font-size: 40px;
     line-height: 1.15;
 }
@@ -1868,7 +1885,7 @@ button {
 
 .form-section-title {
     margin: 0;
-    font-family: "Cormorant Garamond", Georgia, serif;
+    font-family: Arial, sans-serif;
     font-size: 2rem;
     font-weight: 500;
 }
@@ -2022,7 +2039,7 @@ button {
 
 .news-card h3 {
     margin: 0;
-    font-family: "Cormorant Garamond", Georgia, serif;
+    font-family: Arial, sans-serif;
     font-size: 1.7rem;
     font-weight: 500;
     line-height: 1.05;
@@ -2337,7 +2354,7 @@ button {
 
 .service-flow-title {
     margin: 0;
-    font-family: "Cormorant Garamond", Georgia, serif;
+    font-family: Arial, sans-serif;
     font-size: 2.2rem;
     line-height: 1;
 }
@@ -2514,7 +2531,7 @@ button {
     }
 
     .hero-grid {
-        grid-template-columns: minmax(0, 1fr) minmax(260px, 260px) minmax(0, 1fr);
+        grid-template-columns: minmax(0, 1fr) minmax(390px, 390px) minmax(0, 1fr);
         gap: 18px clamp(26px, 4vw, 48px);
     }
 
@@ -2526,7 +2543,7 @@ button {
     .hero-portrait {
         grid-column: 2;
         grid-row: 1;
-        width: 260px;
+        width: 390px;
         transform: translateY(calc(-60px + var(--hero-image-scroll-y)));
     }
 
@@ -2690,12 +2707,13 @@ button {
         max-width: 320px;
         margin: 34px auto 0;
         text-align: center;
+        transform: translateY(-32px);
     }
 
     .hero-portrait {
         order: 1;
-        width: 200px;
-        transform: translateY(var(--hero-image-scroll-y));
+        width: min(300px, 100%);
+        transform: translateY(calc(-32px + var(--hero-image-scroll-y)));
     }
 
     .hero-title-wrap {
@@ -2725,44 +2743,31 @@ button {
         order: 3;
         align-self: auto;
         display: grid;
-        grid-template-columns: auto auto;
-        column-gap: 12px;
+        grid-template-columns: repeat(2, minmax(0, max-content));
+        column-gap: clamp(14px, 4vw, 22px);
         row-gap: 8px;
         justify-content: center;
-        justify-items: start;
+        justify-items: center;
         width: 100%;
         margin: 2px 0 0;
         font-size: 0.9rem;
-        text-align: left;
-    }
-
-    .hero-contact a,
-    .hero-contact span {
-        white-space: nowrap;
+        text-align: center;
+        transform: translateY(-32px);
     }
 
     .hero-contact a {
-        grid-column: 1;
-        justify-self: end;
+        grid-column: auto;
+        grid-row: auto;
+        justify-self: center;
+        white-space: nowrap;
     }
 
-    .hero-contact span {
-        grid-column: 2;
+    .hero-contact a:nth-of-type(3) {
+        grid-column: 1 / -1;
     }
 
-    .hero-contact a:nth-of-type(1),
-    .hero-contact span:nth-of-type(1) {
-        grid-row: 1;
-    }
-
-    .hero-contact a:nth-of-type(2),
-    .hero-contact span:nth-of-type(2) {
-        grid-row: 2;
-    }
-
-    .hero-contact a:nth-of-type(3),
-    .hero-contact span:nth-of-type(3) {
-        grid-row: 3;
+    .hero-contact .hero-contact-label {
+        display: none;
     }
 
     .case-grid,
@@ -2783,6 +2788,10 @@ button {
         justify-self: center;
         font-size: 80px;
         text-align: center;
+    }
+
+    .metric-more-link {
+        justify-self: center;
     }
 
     .gallery-stage {
@@ -2910,7 +2919,15 @@ button {
         border-top: 1px solid var(--line-light);
     }
 
-    .guide-links,
+    .guide-links {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px 18px;
+    }
+
+    .guide-links a {
+        font-size: 16px;
+    }
+
     .field-grid {
         grid-template-columns: 1fr;
     }
@@ -2981,6 +2998,21 @@ button {
     .hero-news-next {
         grid-area: next;
         justify-self: end;
+    }
+}
+
+@media (max-width: 820px) and (max-height: 760px) {
+    .hero-grid {
+        gap: clamp(12px, 2vh, 18px);
+    }
+
+    .hero-intro {
+        margin-top: clamp(16px, 2.5vh, 24px);
+    }
+
+    .hero-portrait {
+        width: min(300px, 64vw, 36vh);
+        width: min(300px, 64vw, 36svh);
     }
 }
 

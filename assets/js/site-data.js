@@ -43,7 +43,7 @@
       intro:
         "Notas, protesto e Registro Civil com orientação clara, segurança jurídica e atendimento próximo.",
       titleLines: ["1º Ofício", "de Justiça"],
-      image: "assets/images/hero/fachada-cartorio-hero-2026.jpg",
+      image: "assets/images/gallery/thumbs/cartorio/3.jpg",
       imageVariant: "photo",
       imageAlt: "Fachada do Cartório do 1º Ofício de Justiça de Rio das Ostras",
       sideNote: "",
