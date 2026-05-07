@@ -43,7 +43,7 @@
       intro:
         "Notas, protesto e Registro Civil com orientação clara, segurança jurídica e atendimento próximo.",
       titleLines: ["1º Ofício", "de Justiça"],
-      image: "assets/images/gallery/thumbs/cartorio/3.jpg",
+      image: "assets/images/hero/fachada-cartorio-hero-2026.jpg",
       imageVariant: "photo",
       imageAlt: "Fachada do Cartório do 1º Ofício de Justiça de Rio das Ostras",
       sideNote: "",
@@ -58,7 +58,7 @@
     },
     practiceAreas: {
       kicker: "Atos do cartório",
-      image: "assets/images/gallery/cartorio/1.jpg",
+      image: "assets/images/gallery/cartorio/13.jpeg",
       imageAlt: "Ambiente interno do cartório",
       title:
         "Serviços notariais, de protesto e de Registro Civil para proteger direitos, formalizar escolhas e dar validade aos atos da vida civil.",
@@ -223,7 +223,9 @@
       title: "Dr. Robson Martins",
       role: "Tabelião titular do 1º Ofício de Justiça",
       statement:
-        "Com técnica, cidadania, celeridade e segurança jurídica, lidero uma equipe dedicada a oferecer atendimento eficiente, transparente e próximo da comunidade de Rio das Ostras.",
+        "Com forte compromisso com a cidadania, celeridade, segurança jurídica e modernização dos serviços cartorários, lidero uma equipe dedicada a oferecer atendimento eficiente, transparente e próximo da comunidade de Rio das Ostras e região.",
+      bio:
+        "Titular do Cartório do 1º Ofício de Rio das Ostras, aprovado em concurso público de provas e títulos organizado pelo Tribunal de Justiça do Estado do Rio de Janeiro. Doutor (UERJ) e Mestre (UFRJ) em Direito, com atuação acadêmica e profissional em diversas áreas, possui larga experiência em serviços notariais e de registro, tendo exercido os cargos de Técnico da Justiça Federal, Promotor de Justiça e Procurador da República.",
       image: "assets/images/robson.jpg",
       imageAlt: "Robson Martins, Tabelião do 1º Ofício de Rio das Ostras",
       body: [

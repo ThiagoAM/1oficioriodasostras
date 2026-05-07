@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const data = window.SiteData || null;
   const siteRoot = document.getElementById("siteRoot");
+  document.documentElement.classList.add("is-hero-booting");
 
   const escapeHtml = (value) =>
     String(value ?? "")
@@ -108,6 +109,111 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   };
 
+  const prepareStreamText = (target) => {
+    if (target.dataset.streamPrepared === "true") {
+      return;
+    }
+
+    const fullText = target.textContent.trim();
+    if (!fullText) {
+      return;
+    }
+
+    const sizer = document.createElement("span");
+    const output = document.createElement("span");
+    const content = document.createElement("span");
+    const cursor = document.createElement("span");
+
+    target.dataset.streamPrepared = "true";
+    target.dataset.streamText = fullText;
+    target.setAttribute("aria-label", fullText);
+    target.textContent = "";
+    target.classList.add("stream-text", "is-stream-ready");
+
+    sizer.className = "stream-text-sizer";
+    sizer.setAttribute("aria-hidden", "true");
+    sizer.textContent = fullText;
+
+    output.className = "stream-text-output";
+    output.setAttribute("aria-hidden", "true");
+
+    content.className = "stream-text-content";
+    cursor.className = "stream-text-cursor";
+
+    output.append(content, cursor);
+    target.append(sizer, output);
+  };
+
+  const playStreamText = (target) => {
+    if (target.dataset.streamComplete === "true") {
+      return;
+    }
+
+    const content = target.querySelector(".stream-text-content");
+    const fullText = target.dataset.streamText || "";
+    if (!content || !fullText) {
+      return;
+    }
+
+    target.dataset.streamComplete = "true";
+    target.classList.add("is-streaming");
+
+    if (prefersReducedMotion()) {
+      content.textContent = fullText;
+      target.classList.add("is-stream-complete");
+      return;
+    }
+
+    const chars = Array.from(fullText);
+    let index = 0;
+
+    const tick = () => {
+      const previous = chars[index - 1] || "";
+      const step = chars[index] === " " ? 2 : Math.random() > 0.72 ? 2 : 1;
+      index = Math.min(index + step, chars.length);
+      content.textContent = chars.slice(0, index).join("");
+
+      if (index >= chars.length) {
+        target.classList.remove("is-streaming");
+        target.classList.add("is-stream-complete");
+        return;
+      }
+
+      const delay = /[.!?”]/.test(previous) ? 130 : /[,;]/.test(previous) ? 70 : 18 + Math.random() * 30;
+      window.setTimeout(tick, delay);
+    };
+
+    window.setTimeout(tick, 160);
+  };
+
+  const initStreamText = () => {
+    const targets = Array.from(document.querySelectorAll(".hero-intro, .philosophy-quote, .about-quote"));
+    if (targets.length === 0) {
+      return;
+    }
+
+    targets.forEach(prepareStreamText);
+
+    if (prefersReducedMotion() || !("IntersectionObserver" in window)) {
+      targets.forEach(playStreamText);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            playStreamText(entry.target);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.32, rootMargin: "0px 0px -12% 0px" },
+    );
+
+    targets.forEach((target) => observer.observe(target));
+  };
+
   const renderHeader = () => {
     const header = document.querySelector("[data-site-header]");
     if (!header || !data) {
@@ -180,6 +286,15 @@ document.addEventListener("DOMContentLoaded", () => {
         </a>
         <div class="header-actions">
           <a class="consultation-link" href="#contato"><span aria-hidden="true"></span>Fale conosco</a>
+          <a class="consultation-link consultation-link-location" href="#localizacao">
+            <span class="consultation-icon consultation-icon-pin" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <path d="M12 21s7-6.15 7-12a7 7 0 1 0-14 0c0 5.85 7 12 7 12Z"></path>
+                <circle cx="12" cy="9" r="2.4"></circle>
+              </svg>
+            </span>
+            Como chegar
+          </a>
           <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="siteNav" aria-label="Abrir menu">
             <span class="nav-toggle-bar"></span>
             <span class="nav-toggle-bar"></span>
@@ -227,6 +342,8 @@ document.addEventListener("DOMContentLoaded", () => {
           <span>Telefone / WhatsApp</span>
           <a href="mailto:${escapeHtml(data.contact.email)}">${escapeHtml(data.contact.email)}</a>
           <span>E-mail geral</span>
+          <a href="#localizacao">${escapeHtml(data.contact.addressLines[0])}</a>
+          <span>Endereço</span>
         </div>
         ${data.hero.sideNote ? `<p class="hero-note">${escapeHtml(data.hero.sideNote)}</p>` : ""}
       </div>
@@ -446,6 +563,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="about-copy">
           <p class="section-kicker">${escapeHtml(data.about.kicker)}</p>
           <blockquote class="about-quote">“${escapeHtml(data.about.statement)}”</blockquote>
+          ${data.about.bio ? `<p class="about-person-bio">${escapeHtml(data.about.bio)}</p>` : ""}
           <div class="about-person">
             <h2>${escapeHtml(data.about.title)}</h2>
             <p>${escapeHtml(data.about.role)}</p>
@@ -1231,8 +1349,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let currentPageSize = 8;
 
     const getGalleryPageSize = () => {
-      const columns = window.matchMedia("(max-width: 820px)").matches ? 1 : window.matchMedia("(max-width: 1080px)").matches ? 2 : 4;
-      return columns * 2;
+      return window.matchMedia("(max-width: 820px)").matches ? 4 : 8;
     };
 
     const renderImages = () => {
@@ -1538,6 +1655,70 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   };
 
+  const promoteFloatingWhatsApp = () => {
+    const whatsappLink = document.querySelector(".whatsapp-float");
+    if (whatsappLink && whatsappLink.parentElement !== document.body) {
+      document.body.appendChild(whatsappLink);
+    }
+  };
+
+  const initHeroScrollAnimation = () => {
+    const hero = document.querySelector(".hero");
+    if (!hero) {
+      return;
+    }
+
+    const setHeroOffsets = (progress) => {
+      hero.style.setProperty("--hero-image-scroll-y", `${Math.round(progress * 46)}px`);
+      hero.style.setProperty("--hero-title-first-scroll-x", `${Math.round(progress * 58)}px`);
+      hero.style.setProperty("--hero-title-last-scroll-x", `${Math.round(progress * -58)}px`);
+    };
+
+    if (prefersReducedMotion()) {
+      setHeroOffsets(0);
+      return;
+    }
+
+    let ticking = false;
+
+    const update = () => {
+      const animationEnd = Math.max(hero.offsetHeight, 1);
+      const progress = Math.min(Math.max(window.scrollY / animationEnd, 0), 1);
+      setHeroOffsets(progress);
+      ticking = false;
+    };
+
+    const requestUpdate = () => {
+      if (ticking) {
+        return;
+      }
+
+      ticking = true;
+      window.requestAnimationFrame(update);
+    };
+
+    update();
+    window.addEventListener("scroll", requestUpdate, { passive: true });
+    window.addEventListener("resize", requestUpdate);
+  };
+
+  const initHeroLoadReveal = () => {
+    if (prefersReducedMotion()) {
+      document.documentElement.classList.remove("is-hero-booting");
+      return;
+    }
+
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
+        document.documentElement.classList.add("is-hero-ready");
+      });
+    });
+
+    window.setTimeout(() => {
+      document.documentElement.classList.remove("is-hero-booting", "is-hero-ready");
+    }, 1900);
+  };
+
   const initScrollReveal = () => {
     const targets = Array.from(document.querySelectorAll(".section, .practice-card, .case-card, .stats-card"));
     if (targets.length === 0 || !("IntersectionObserver" in window)) {
@@ -1565,7 +1746,11 @@ document.addEventListener("DOMContentLoaded", () => {
   renderHeader();
   renderHomePage();
   renderFooter();
+  promoteFloatingWhatsApp();
   updateWhyMetrics();
+  initStreamText();
+  initHeroScrollAnimation();
+  initHeroLoadReveal();
   initNavigation();
   initStatsSection();
   initFaq();
