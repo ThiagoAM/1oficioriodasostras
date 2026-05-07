@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const numberFormatter = new Intl.NumberFormat("pt-BR");
   const prefersReducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const isMobileViewport = () => window.matchMedia("(max-width: 820px)").matches;
 
   const getStatsItems = (statsData) =>
     Object.values(statsData?.years || {}).flatMap((yearData) => (Array.isArray(yearData.items) ? yearData.items : []));
@@ -186,8 +187,119 @@ document.addEventListener("DOMContentLoaded", () => {
     window.setTimeout(tick, 160);
   };
 
+  const setupDetailsDropdownAnimations = (root, { itemSelector, summarySelector, panelSelector }) => {
+    if (!root) {
+      return;
+    }
+
+    root.querySelectorAll(itemSelector).forEach((item) => {
+      if (item.dataset.dropdownAnimationBound === "true") {
+        return;
+      }
+
+      const summary = item.querySelector(summarySelector);
+      const panel = item.querySelector(panelSelector);
+
+      if (!summary || !panel) {
+        return;
+      }
+
+      let isAnimating = false;
+      item.dataset.dropdownAnimationBound = "true";
+
+      const clearPanelStyles = () => {
+        panel.style.height = "";
+        panel.style.opacity = "";
+        panel.style.overflow = "";
+      };
+
+      summary.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        if (prefersReducedMotion()) {
+          item.open = !item.open;
+          return;
+        }
+
+        if (isAnimating) {
+          return;
+        }
+
+        isAnimating = true;
+
+        if (item.open) {
+          item.classList.add("is-closing");
+          panel.style.height = `${panel.scrollHeight}px`;
+          panel.style.opacity = "1";
+          panel.style.overflow = "hidden";
+          panel.getBoundingClientRect();
+
+          window.requestAnimationFrame(() => {
+            panel.style.height = "0px";
+            panel.style.opacity = "0";
+          });
+
+          const finishClosing = () => {
+            item.open = false;
+            item.classList.remove("is-closing");
+            clearPanelStyles();
+            isAnimating = false;
+          };
+          const handleCloseEnd = (transitionEvent) => {
+            if (transitionEvent.target !== panel || transitionEvent.propertyName !== "height") {
+              return;
+            }
+            panel.removeEventListener("transitionend", handleCloseEnd);
+            finishClosing();
+          };
+
+          panel.addEventListener("transitionend", handleCloseEnd);
+          window.setTimeout(() => {
+            if (isAnimating) {
+              panel.removeEventListener("transitionend", handleCloseEnd);
+              finishClosing();
+            }
+          }, 360);
+          return;
+        }
+
+        item.open = true;
+        item.classList.add("is-opening");
+        panel.style.height = "0px";
+        panel.style.opacity = "0";
+        panel.style.overflow = "hidden";
+
+        window.requestAnimationFrame(() => {
+          panel.style.height = `${panel.scrollHeight}px`;
+          panel.style.opacity = "1";
+        });
+
+        const finishOpening = () => {
+          item.classList.remove("is-opening");
+          clearPanelStyles();
+          isAnimating = false;
+        };
+        const handleOpenEnd = (transitionEvent) => {
+          if (transitionEvent.target !== panel || transitionEvent.propertyName !== "height") {
+            return;
+          }
+          panel.removeEventListener("transitionend", handleOpenEnd);
+          finishOpening();
+        };
+
+        panel.addEventListener("transitionend", handleOpenEnd);
+        window.setTimeout(() => {
+          if (isAnimating) {
+            panel.removeEventListener("transitionend", handleOpenEnd);
+            finishOpening();
+          }
+        }, 360);
+      });
+    });
+  };
+
   const initStreamText = () => {
-    const targets = Array.from(document.querySelectorAll(".hero-intro, .philosophy-quote, .about-quote"));
+    const targets = Array.from(document.querySelectorAll(".hero-intro, .hero-contact-label, .philosophy-quote, .about-quote"));
     if (targets.length === 0) {
       return;
     }
@@ -339,11 +451,11 @@ document.addEventListener("DOMContentLoaded", () => {
         </figure>
         <div class="hero-contact" aria-label="Contato rápido">
           <a href="${escapeHtml(data.contact.phoneHref)}">${escapeHtml(data.contact.phoneLabel)}</a>
-          <span>Telefone / WhatsApp</span>
+          <span class="hero-contact-label">Telefone / WhatsApp</span>
           <a href="mailto:${escapeHtml(data.contact.email)}">${escapeHtml(data.contact.email)}</a>
-          <span>E-mail geral</span>
+          <span class="hero-contact-label">E-mail geral</span>
           <a href="#localizacao">${escapeHtml(data.contact.addressLines[0])}</a>
-          <span>Endereço</span>
+          <span class="hero-contact-label">Endereço</span>
         </div>
         ${data.hero.sideNote ? `<p class="hero-note">${escapeHtml(data.hero.sideNote)}</p>` : ""}
       </div>
@@ -483,8 +595,8 @@ document.addEventListener("DOMContentLoaded", () => {
           ${data.guides.groups
             .map(
               (group, index) => `
-                <details class="guide-group"${index === 0 ? " open" : ""}>
-                  <summary>${escapeHtml(group.title)} <span aria-hidden="true">+</span></summary>
+                <details class="guide-group"${index === 0 && !isMobileViewport() ? " open" : ""}>
+                  <summary>${escapeHtml(group.title)} <span class="dropdown-chevron" aria-hidden="true"></span></summary>
                   <div class="guide-links">
                     ${group.links
                       .map(
@@ -595,9 +707,9 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
       </div>
       <div class="container gallery-stage">
-        <button class="gallery-page-btn gallery-page-prev" id="galleryPagePrev" type="button" aria-label="Fotos anteriores">&lt;</button>
+        <button class="gallery-page-btn gallery-page-prev" id="galleryPagePrev" type="button" aria-label="Fotos anteriores">‹</button>
         <div class="gallery-masonry" id="galleryMasonry" aria-label="Galeria de fotos do cartório e de Rio das Ostras"></div>
-        <button class="gallery-page-btn gallery-page-next" id="galleryPageNext" type="button" aria-label="Próximas fotos">&gt;</button>
+        <button class="gallery-page-btn gallery-page-next" id="galleryPageNext" type="button" aria-label="Próximas fotos">›</button>
       </div>
       <div class="container gallery-page-dots" id="galleryPageStatus" aria-label="Páginas da galeria"></div>
       <div class="gallery-lightbox" id="galleryLightbox" aria-hidden="true">
@@ -676,22 +788,20 @@ document.addEventListener("DOMContentLoaded", () => {
     <section class="section section-muted faq-section" id="faq">
       <div class="container split-heading">
         <p class="section-kicker">Perguntas frequentes</p>
-        <div>
-          <h2 class="section-title">Dúvidas mais comuns.</h2>
-          <p class="section-subtitle">Encontre respostas sobre os serviços, documentos, valores e prazos do atendimento.</p>
-        </div>
       </div>
       <div class="container faq-controls">
-        <div class="faq-search-wrap">
-          <label for="faqSearchInput" class="faq-search-label">Buscar na FAQ</label>
-          <input id="faqSearchInput" type="search" class="faq-search-input" placeholder="Ex.: documentos casamento, valores, óbito..." autocomplete="off" />
-        </div>
-        <div class="faq-chip-row" id="faqCategoryChips" aria-label="Filtrar por categoria"></div>
+        <details class="faq-filter-menu" id="faqFilterMenu">
+          <summary class="faq-filter-toggle">Pesquisar</summary>
+          <div class="faq-filter-panel">
+            <div class="faq-search-wrap">
+              <label for="faqSearchInput" class="faq-search-label">Buscar na FAQ</label>
+              <input id="faqSearchInput" type="search" class="faq-search-input" placeholder="Ex.: documentos casamento, valores, óbito..." autocomplete="off" />
+            </div>
+            <div class="faq-chip-row" id="faqCategoryChips" aria-label="Filtrar por categoria"></div>
+          </div>
+        </details>
       </div>
-      <div class="container faq-meta">
-        <p class="faq-result-count" id="faqResultCount" aria-live="polite"></p>
-        <button type="button" class="faq-reset-btn" id="faqResetBtn">Limpar filtros</button>
-      </div>
+      <p class="sr-only" id="faqResultCount" aria-live="polite"></p>
       <div class="container faq-list" id="faqList"></div>
       <div class="faq-show-more-wrap">
         <button type="button" class="faq-show-more-btn" id="faqShowMoreBtn" hidden>Mostrar mais</button>
@@ -1124,10 +1234,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const faqSearchInput = document.getElementById("faqSearchInput");
     const faqCategoryChips = document.getElementById("faqCategoryChips");
     const faqResultCount = document.getElementById("faqResultCount");
-    const faqResetBtn = document.getElementById("faqResetBtn");
     const faqShowMoreBtn = document.getElementById("faqShowMoreBtn");
 
-    if (!faqList || !faqSearchInput || !faqCategoryChips || !faqResultCount || !faqResetBtn || !faqShowMoreBtn) {
+    if (!faqList || !faqSearchInput || !faqCategoryChips || !faqResultCount || !faqShowMoreBtn) {
       return;
     }
 
@@ -1236,6 +1345,14 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     };
 
+    const setupFaqItemAnimations = () => {
+      setupDetailsDropdownAnimations(faqList, {
+        itemSelector: ".faq-item",
+        summarySelector: ".faq-question",
+        panelSelector: ".faq-answer",
+      });
+    };
+
     const renderFaqItems = () => {
       const filtered = getFilteredItems();
       const visible = showAll ? filtered : filtered.slice(0, maxVisible);
@@ -1256,29 +1373,21 @@ document.addEventListener("DOMContentLoaded", () => {
             <details class="faq-item">
               <summary class="faq-question">
                 <span>${escapeHtml(item.question)}</span>
-                <span aria-hidden="true">+</span>
+                <span class="dropdown-chevron" aria-hidden="true"></span>
               </summary>
               <div class="faq-answer">${buildAnswerHtml(item.answer)}</div>
             </details>
           `,
         )
         .join("");
+
+      setupFaqItemAnimations();
     };
 
     faqSearchInput.addEventListener("input", () => {
       searchTerm = faqSearchInput.value;
       showAll = false;
       renderFaqItems();
-    });
-
-    faqResetBtn.addEventListener("click", () => {
-      activeCategory = "Todas";
-      searchTerm = "";
-      showAll = false;
-      faqSearchInput.value = "";
-      renderCategoryChips();
-      renderFaqItems();
-      faqSearchInput.focus();
     });
 
     faqShowMoreBtn.addEventListener("click", () => {
@@ -1288,6 +1397,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
     renderCategoryChips();
     renderFaqItems();
+  };
+
+  const initGuideGroups = () => {
+    const guideGroups = document.querySelector(".guide-groups");
+
+    if (isMobileViewport()) {
+      guideGroups?.querySelectorAll(".guide-group[open]").forEach((group) => {
+        group.open = false;
+      });
+    }
+
+    setupDetailsDropdownAnimations(guideGroups, {
+      itemSelector: ".guide-group",
+      summarySelector: "summary",
+      panelSelector: ".guide-links",
+    });
   };
 
   const initGallery = () => {
@@ -1348,9 +1473,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let galleryPage = 0;
     let currentPageSize = 8;
 
-    const getGalleryPageSize = () => {
-      return window.matchMedia("(max-width: 820px)").matches ? 4 : 8;
-    };
+    const getGalleryPageSize = () => (isMobileViewport() ? 6 : 8);
 
     const renderImages = () => {
       displayImages =
@@ -1754,6 +1877,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initNavigation();
   initStatsSection();
   initFaq();
+  initGuideGroups();
   initGallery();
   initHeroNews();
   initScrollReveal();
