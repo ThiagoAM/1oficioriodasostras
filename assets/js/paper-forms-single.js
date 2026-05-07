@@ -8,7 +8,7 @@
 
   const CARTORIO_NAME = "Cartório do 1º Ofício de Justiça de Rio das Ostras";
   const CARTORIO_SUBTITLE = "Notas • Protesto • Registro Civil de Pessoas Naturais";
-  const LOGO_PATH = "assets/images/cartorio-icon.png";
+  const LOGO_PATH = "assets/images/display/cartorio-icon-420.png";
   const pricing = window.SitePricing || null;
 
   const MONTHS_PT = [

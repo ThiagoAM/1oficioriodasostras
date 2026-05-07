@@ -24,7 +24,7 @@
       name: "1º Ofício de Justiça",
       shortName: "1º Ofício",
       subtitle: "Notas · Protesto · RCPN · Rio das Ostras/RJ",
-      logo: "assets/images/cartorio-icon.png",
+      logo: "assets/images/display/cartorio-icon-140.png",
       logoAlt: "Logo do Cartório do 1º Ofício de Justiça de Rio das Ostras",
     },
     contact,
@@ -52,13 +52,13 @@
       kicker: "Nossa filosofia",
       quote:
         "Atuar com técnica, transparência e respeito ao cidadão, tornando cada ato cartorário mais claro, seguro e acessível.",
-      image: "assets/images/gallery/rio-das-ostras/5.jpg",
+      image: "assets/images/display/rio-das-ostras-5-1000.jpg",
       imageAlt: "Píer de Rio das Ostras ao pôr do sol",
       link: null,
     },
     practiceAreas: {
       kicker: "Atos do cartório",
-      image: "assets/images/gallery/cartorio/13.jpeg",
+      image: "assets/images/display/cartorio-13-900.jpg",
       imageAlt: "Ambiente interno do cartório",
       title:
         "Serviços notariais, de protesto e de Registro Civil para proteger direitos, formalizar escolhas e dar validade aos atos da vida civil.",
@@ -98,7 +98,7 @@
       text:
         "Cada solicitação é conduzida com atenção aos documentos, à validade jurídica do ato e ao retorno claro para o usuário.",
       bullets: ["Orientação antes do atendimento", "Serviços presenciais e online", "Integração com plataformas oficiais"],
-      image: "assets/images/gallery/cartorio/11.JPG",
+      image: "assets/images/display/cartorio-11-1000.jpg",
       imageAlt: "Detalhe do ambiente do cartório",
       metrics: [
         { label: "Lavraturas de escritura", key: "lavratura-escritura", value: "0" },
@@ -226,7 +226,7 @@
         "Com forte compromisso com a cidadania, celeridade, segurança jurídica e modernização dos serviços cartorários, lidero uma equipe dedicada a oferecer atendimento eficiente, transparente e próximo da comunidade de Rio das Ostras e região.",
       bio:
         "Titular do Cartório do 1º Ofício de Rio das Ostras, aprovado em concurso público de provas e títulos organizado pelo Tribunal de Justiça do Estado do Rio de Janeiro. Doutor (UERJ) e Mestre (UFRJ) em Direito, com atuação acadêmica e profissional em diversas áreas, possui larga experiência em serviços notariais e de registro, tendo exercido os cargos de Técnico da Justiça Federal, Promotor de Justiça e Procurador da República.",
-      image: "assets/images/robson.jpg",
+      image: "assets/images/display/robson-720.jpg",
       imageAlt: "Robson Martins, Tabelião do 1º Ofício de Rio das Ostras",
       body: [
         "Titular do Cartório do 1º Ofício de Rio das Ostras, aprovado em concurso público de provas e títulos organizado pelo Tribunal de Justiça do Estado do Rio de Janeiro. Doutor (UERJ) e Mestre (UFRJ) em Direito, com atuação acadêmica e profissional em diversas áreas, possui larga experiência em serviços notariais e de registro, tendo exercido os cargos de Técnico da Justiça Federal, Promotor de Justiça e Procurador da República.",

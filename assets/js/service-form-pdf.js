@@ -1602,7 +1602,7 @@
         <button type="button" class="service-flow-close-btn" data-flow-close aria-label="Fechar">×</button>
         <div class="service-flow-head">
           <img
-            src="assets/images/cartorio-icon.png"
+            src="assets/images/display/cartorio-icon-420.png"
             alt="Logo do Cartório do 1º Ofício de Justiça de Rio das Ostras"
             class="service-flow-logo"
           />

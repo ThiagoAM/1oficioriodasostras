@@ -310,7 +310,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <nav class="menu-panel" id="siteNav" aria-hidden="true" hidden>
         <div class="container menu-grid">
           <div class="menu-aside">
-            <img src="assets/images/gallery/cartorio/10.jpg" alt="Atendimento do cartório" class="menu-image" loading="lazy" />
+            <img src="assets/images/display/cartorio-10-menu-720.jpg" alt="Atendimento do cartório" class="menu-image" loading="lazy" />
             <a href="${escapeHtml(data.contact.phoneHref)}">${escapeHtml(data.contact.phoneLabel)}</a>
             <span>Atendimento em horário comercial</span>
             <a href="mailto:${escapeHtml(data.contact.email)}">${escapeHtml(data.contact.email)}</a>
