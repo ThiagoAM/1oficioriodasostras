@@ -1821,10 +1821,12 @@ button {
     display: grid;
     gap: 12px;
     margin-top: 22px;
+    min-width: 0;
 }
 
 .faq-item {
     border-top: 1px solid var(--line-light);
+    min-width: 0;
 }
 
 .faq-item:last-child {
@@ -1836,6 +1838,7 @@ button {
     align-items: center;
     justify-content: space-between;
     gap: 20px;
+    min-width: 0;
     padding: 22px 0;
     color: #191e20;
     cursor: pointer;
@@ -1847,9 +1850,12 @@ button {
 }
 
 .faq-question span:first-child {
+    flex: 1 1 auto;
+    min-width: 0;
     font-family: Arial, sans-serif;
     font-size: 40px;
     line-height: 1.15;
+    overflow-wrap: break-word;
 }
 
 .faq-item[open] .dropdown-chevron {
@@ -2868,8 +2874,17 @@ button {
         line-height: 1.25;
     }
 
+    .faq-question {
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .faq-question .dropdown-chevron {
+        margin-right: 4px;
+    }
+
     .faq-question span:first-child {
-        font-size: 40px;
+        font-size: 30px;
     }
 
     .section-title,
