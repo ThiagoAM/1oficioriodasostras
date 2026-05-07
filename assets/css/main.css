@@ -943,6 +943,10 @@ button {
     font-size: 0.94rem;
 }
 
+.practice-card p {
+    font-size: 16px;
+}
+
 .why-grid {
     display: grid;
     grid-template-columns: 1.3fr 0.95fr 0.72fr;
@@ -1105,6 +1109,12 @@ button {
     color: var(--accent);
 }
 
+#online .case-card span,
+#online .case-card p,
+#online .case-card strong {
+    font-size: 16px;
+}
+
 .paper-forms-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1133,6 +1143,10 @@ button {
     grid-template-columns: 0.9fr 1.3fr;
     gap: 64px;
     align-items: start;
+}
+
+#guias-cidadao .guides-intro .section-subtitle {
+    font-size: 18px;
 }
 
 .guide-groups {
