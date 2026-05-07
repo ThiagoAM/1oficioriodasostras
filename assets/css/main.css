@@ -1179,7 +1179,7 @@ button {
     gap: 10px 26px;
     padding: 0 0 24px;
     overflow: hidden;
-    transition: height 0.26s ease, opacity 0.2s ease;
+    transition: height 0.26s ease, opacity 0.2s ease, padding-top 0.26s ease, padding-bottom 0.26s ease;
 }
 
 .guide-links a {
@@ -1361,6 +1361,16 @@ button {
 
 .gallery-toolbar {
     margin-top: 38px;
+}
+
+#links-uteis .split-heading {
+    grid-template-columns: 1fr;
+    gap: 0;
+}
+
+#links-uteis .split-heading .section-title {
+    margin-left: 0;
+    max-width: none;
 }
 
 #galeria .split-heading {
@@ -1841,7 +1851,7 @@ button {
     padding: 0 0 24px 32px;
     color: #363a3c;
     overflow: hidden;
-    transition: height 0.26s ease, opacity 0.2s ease;
+    transition: height 0.26s ease, opacity 0.2s ease, padding-top 0.26s ease, padding-bottom 0.26s ease;
 }
 
 .faq-answer p {

@@ -214,6 +214,16 @@ document.addEventListener("DOMContentLoaded", () => {
         panel.style.height = "";
         panel.style.opacity = "";
         panel.style.overflow = "";
+        panel.style.paddingTop = "";
+        panel.style.paddingBottom = "";
+      };
+
+      const getPanelPadding = () => {
+        const styles = window.getComputedStyle(panel);
+        return {
+          top: styles.paddingTop,
+          bottom: styles.paddingBottom,
+        };
       };
 
       summary.addEventListener("click", (event) => {
@@ -231,15 +241,20 @@ document.addEventListener("DOMContentLoaded", () => {
         isAnimating = true;
 
         if (item.open) {
+          const padding = getPanelPadding();
           item.classList.add("is-closing");
           panel.style.height = `${panel.scrollHeight}px`;
           panel.style.opacity = "1";
           panel.style.overflow = "hidden";
+          panel.style.paddingTop = padding.top;
+          panel.style.paddingBottom = padding.bottom;
           panel.getBoundingClientRect();
 
           window.requestAnimationFrame(() => {
             panel.style.height = "0px";
             panel.style.opacity = "0";
+            panel.style.paddingTop = "0px";
+            panel.style.paddingBottom = "0px";
           });
 
           const finishClosing = () => {
@@ -266,13 +281,18 @@ document.addEventListener("DOMContentLoaded", () => {
           return;
         }
 
+        const padding = getPanelPadding();
         item.open = true;
         item.classList.add("is-opening");
         panel.style.height = "0px";
         panel.style.opacity = "0";
         panel.style.overflow = "hidden";
+        panel.style.paddingTop = "0px";
+        panel.style.paddingBottom = "0px";
 
         window.requestAnimationFrame(() => {
+          panel.style.paddingTop = padding.top;
+          panel.style.paddingBottom = padding.bottom;
           panel.style.height = `${panel.scrollHeight}px`;
           panel.style.opacity = "1";
         });
