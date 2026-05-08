@@ -100,6 +100,14 @@ const incrementVisitCounters = async (now = new Date()) => {
   ]);
 };
 
+const getDocumentSnapshot = async (reference) => {
+  try {
+    return await getDocFromServer(reference);
+  } catch (error) {
+    return getDoc(reference);
+  }
+};
+
 const recordSiteVisit = async () => {
   const trackedAt = Date.now();
   if (!shouldTrackVisit(trackedAt)) {
@@ -118,7 +126,6 @@ const recordSiteVisit = async () => {
       code: error?.code,
       message: error?.message || "Unknown Firestore error while recording site visit.",
     };
-    window.SiteVisits.lastError = lastError;
     console.error("Site visit counter failed.", lastError);
     return false;
   }
@@ -148,32 +155,52 @@ const loadYearlyVisits = async (years) => {
     const snapshots = await Promise.all(
       uniqueYears.map(async (year) => {
         const reference = doc(db, "site_visits_yearly", year);
-        try {
-          return await getDocFromServer(reference);
-        } catch (error) {
-          return getDoc(reference);
-        }
+        return getDocumentSnapshot(reference);
       }),
     );
 
     return uniqueYears.reduce((accumulator, year, index) => {
       const snapshot = snapshots[index];
+      if (!snapshot.exists() && snapshot.metadata?.fromCache) {
+        accumulator[year] = null;
+        return accumulator;
+      }
       const count = snapshot.exists() ? snapshot.data()?.count : 0;
       accumulator[year] = safeNumber(count);
       return accumulator;
     }, {});
   } catch (error) {
     return uniqueYears.reduce((accumulator, year) => {
-      accumulator[year] = 0;
+      accumulator[year] = null;
       return accumulator;
     }, {});
   }
+};
+
+const loadSummaryVisits = async () => {
+  try {
+    const reference = doc(db, "site_visits_summary", "global");
+    const snapshot = await getDocumentSnapshot(reference);
+    if (!snapshot.exists() && snapshot.metadata?.fromCache) {
+      return null;
+    }
+    return snapshot.exists() ? safeNumber(snapshot.data()?.total) : 0;
+  } catch (error) {
+    return null;
+  }
+};
+
+const loadVisitCounts = async (years) => {
+  const [yearly, total] = await Promise.all([loadYearlyVisits(years), loadSummaryVisits()]);
+  return { total, yearly };
 };
 
 window.SiteVisits = {
   get lastError() {
     return lastError;
   },
+  loadSummaryVisits,
+  loadVisitCounts,
   loadYearlyVisits,
   recordSiteVisit,
   startInitialVisitTracking,
@@ -181,9 +208,9 @@ window.SiteVisits = {
 
 window.dispatchEvent(new CustomEvent("sitevisits:ready"));
 
-// The homepage renders #statsGrid after this module loads; main.js starts tracking after loading real counts.
+// Pages that render public visit counters let main.js load the visible counts first.
 const shouldDeferInitialVisitTracking = () =>
-  document.body?.classList.contains("home-page") || document.getElementById("statsGrid");
+  document.body?.classList.contains("home-page") || document.body?.dataset.contentPage === "numeros";
 
 if (!shouldDeferInitialVisitTracking()) {
   void startInitialVisitTracking();

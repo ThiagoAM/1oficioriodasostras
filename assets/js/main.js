@@ -37,12 +37,21 @@ document.addEventListener("DOMContentLoaded", () => {
   const numberFormatter = new Intl.NumberFormat("pt-BR");
   const prefersReducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const isMobileViewport = () => window.matchMedia("(max-width: 820px)").matches;
+  const VISITS_METRIC_KEY = "visitas-site";
+  let siteVisitMetricsLoaded = false;
+  let siteVisitMetricsPromise = null;
+  let refreshStatsSection = null;
 
   const getStatsItems = (statsData) =>
     Object.values(statsData?.years || {}).flatMap((yearData) => (Array.isArray(yearData.items) ? yearData.items : []));
 
   const sumStatsItems = (statsData, predicate) =>
     getStatsItems(statsData).reduce((total, item) => total + (predicate(item) ? Number(item.value) || 0 : 0), 0);
+
+  const toFiniteNumber = (value) => {
+    const number = Number(value);
+    return Number.isFinite(number) ? number : null;
+  };
 
   const getMetricTotal = (key) => {
     const statsData = data?.stats;
@@ -58,8 +67,14 @@ document.addEventListener("DOMContentLoaded", () => {
       return sumStatsItems(statsData, (item) => item.id === "registro-casamento" || item.id === "registros-casamento");
     }
 
-    if (key === "visitas-site") {
-      return sumStatsItems(statsData, (item) => item.id === "visitas-site");
+    if (key === VISITS_METRIC_KEY) {
+      const total = toFiniteNumber(statsData.siteVisitsTotal);
+      if (siteVisitMetricsLoaded && total !== null) {
+        return total;
+      }
+
+      const yearlyTotal = sumStatsItems(statsData, (item) => item.id === VISITS_METRIC_KEY);
+      return siteVisitMetricsLoaded || yearlyTotal > 0 ? yearlyTotal : null;
     }
 
     return null;
@@ -70,10 +85,22 @@ document.addEventListener("DOMContentLoaded", () => {
       const key = metricElement.getAttribute("data-metric-key");
       const valueElement = metricElement.querySelector("strong");
       const total = getMetricTotal(key);
-      if (!valueElement || total === null) {
+      if (!valueElement) {
         return;
       }
+
+      if (total === null) {
+        if (key === VISITS_METRIC_KEY) {
+          valueElement.classList.add("is-loading");
+          valueElement.removeAttribute("data-count-target");
+          valueElement.removeAttribute("data-count-final");
+          valueElement.textContent = "...";
+        }
+        return;
+      }
+
       const finalValue = numberFormatter.format(total);
+      valueElement.classList.remove("is-loading");
       valueElement.dataset.countTarget = String(total);
       valueElement.dataset.countFinal = finalValue;
       valueElement.textContent = finalValue;
@@ -88,7 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       const valueElement = metricElement.querySelector("strong");
-      if (!valueElement) {
+      if (!valueElement || valueElement.classList.contains("is-loading")) {
         return;
       }
 
@@ -120,6 +147,130 @@ document.addEventListener("DOMContentLoaded", () => {
 
       window.requestAnimationFrame(tick);
     });
+  };
+
+  const getSiteVisitYears = () => Object.keys(data?.stats?.years || {});
+
+  const applySiteVisitCounts = (counts) => {
+    const statsData = data?.stats;
+    if (!statsData?.years || !counts) {
+      return false;
+    }
+
+    const yearlyCounts = counts.yearly && typeof counts.yearly === "object" ? counts.yearly : {};
+    const summaryTotal = toFiniteNumber(counts.total);
+    const visitItems = [];
+    let yearlyTotal = 0;
+    let hasYearlyCount = false;
+
+    Object.entries(statsData.years).forEach(([year, yearData]) => {
+      if (!Array.isArray(yearData.items)) {
+        return;
+      }
+
+      const yearlyCount = toFiniteNumber(yearlyCounts[year]);
+      yearData.items = yearData.items.map((item) => {
+        if (item.id !== VISITS_METRIC_KEY) {
+          return item;
+        }
+
+        visitItems.push({ item, year });
+        if (yearlyCount === null) {
+          return item;
+        }
+
+        hasYearlyCount = true;
+        yearlyTotal += yearlyCount;
+        return { ...item, value: yearlyCount };
+      });
+    });
+
+    if (summaryTotal !== null) {
+      statsData.siteVisitsTotal = summaryTotal;
+    } else if (hasYearlyCount) {
+      statsData.siteVisitsTotal = yearlyTotal;
+    }
+
+    if (summaryTotal !== null && summaryTotal > yearlyTotal && visitItems.length === 1) {
+      const [{ year }] = visitItems;
+      const yearData = statsData.years[year];
+      yearData.items = yearData.items.map((item) =>
+        item.id === VISITS_METRIC_KEY ? { ...item, value: summaryTotal } : item,
+      );
+      hasYearlyCount = true;
+      yearlyTotal = summaryTotal;
+    }
+
+    if (summaryTotal !== null && hasYearlyCount) {
+      statsData.siteVisitsTotal = Math.max(summaryTotal, yearlyTotal);
+    }
+
+    siteVisitMetricsLoaded = hasYearlyCount || summaryTotal !== null;
+    return siteVisitMetricsLoaded;
+  };
+
+  const getSiteVisitsApi = () =>
+    new Promise((resolve) => {
+      if (window.SiteVisits && typeof window.SiteVisits.loadYearlyVisits === "function") {
+        resolve(window.SiteVisits);
+        return;
+      }
+
+      const handleReady = () => {
+        window.clearTimeout(timeoutId);
+        resolve(window.SiteVisits || null);
+      };
+
+      const timeoutId = window.setTimeout(() => {
+        window.removeEventListener("sitevisits:ready", handleReady);
+        resolve(window.SiteVisits || null);
+      }, 4000);
+
+      window.addEventListener("sitevisits:ready", handleReady, { once: true });
+    });
+
+  const refreshSiteVisitDisplays = () => {
+    if (typeof refreshStatsSection === "function") {
+      refreshStatsSection();
+      return;
+    }
+
+    updateWhyMetrics();
+  };
+
+  const hydrateSiteVisitMetrics = () => {
+    if (!data?.stats) {
+      return Promise.resolve();
+    }
+
+    if (!siteVisitMetricsPromise) {
+      siteVisitMetricsPromise = (async () => {
+        const siteVisitsApi = await getSiteVisitsApi();
+        if (!siteVisitsApi) {
+          return;
+        }
+
+        try {
+          if (typeof siteVisitsApi.startInitialVisitTracking === "function") {
+            await siteVisitsApi.startInitialVisitTracking();
+          }
+
+          const years = getSiteVisitYears();
+          const counts =
+            typeof siteVisitsApi.loadVisitCounts === "function"
+              ? await siteVisitsApi.loadVisitCounts(years)
+              : { yearly: await siteVisitsApi.loadYearlyVisits(years) };
+
+          if (applySiteVisitCounts(counts)) {
+            refreshSiteVisitDisplays();
+          }
+        } catch (error) {
+          console.error("Site visit metrics failed to load.", error);
+        }
+      })();
+    }
+
+    return siteVisitMetricsPromise;
   };
 
   const prepareStreamText = (target) => {
@@ -678,12 +829,16 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="metric-stack">
           ${data.whyChoose.metrics
             .map(
-              (metric) => `
+              (metric) => {
+                const isVisitMetric = metric.key === VISITS_METRIC_KEY;
+                const value = isVisitMetric ? "..." : metric.value;
+                return `
                 <div class="metric" data-metric-key="${escapeHtml(metric.key || "")}">
                   <span>${escapeHtml(metric.label)}</span>
-                  <strong>${escapeHtml(metric.value)}</strong>
+                  <strong${isVisitMetric ? ' class="is-loading"' : ""}>${escapeHtml(value)}</strong>
                 </div>
-              `,
+              `;
+              },
             )
             .join("")}
           <a class="btn metric-more-link" href="numeros-cartorio.html">Ver mais</a>
@@ -1361,15 +1516,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
       statsGrid.classList.toggle("stats-grid--compact", items.length <= 2);
       statsGrid.innerHTML = items
-        .map(
-          (item) => `
-            <article class="stats-card">
+        .map((item) => {
+          const isVisitMetricLoading = item.id === VISITS_METRIC_KEY && !siteVisitMetricsLoaded;
+          const displayValue = isVisitMetricLoading ? "..." : numberFormatter.format(item.value);
+          return `
+            <article class="stats-card" data-stat-id="${escapeHtml(item.id)}">
               <span>${escapeHtml(statsData.categories[item.category] || item.category)}</span>
-              <strong>${escapeHtml(numberFormatter.format(item.value))}</strong>
+              <strong${isVisitMetricLoading ? ' class="is-loading" aria-busy="true"' : ""}>${escapeHtml(displayValue)}</strong>
               <h3>${escapeHtml(item.label)}</h3>
             </article>
-          `,
-        )
+          `;
+        })
         .join("");
 
       statsPeriodLabel.textContent = yearData.period;
@@ -1400,54 +1557,8 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
+    refreshStatsSection = render;
     render();
-
-    const getSiteVisitsApi = () =>
-      new Promise((resolve) => {
-        if (window.SiteVisits && typeof window.SiteVisits.loadYearlyVisits === "function") {
-          resolve(window.SiteVisits);
-          return;
-        }
-
-        const timeoutId = window.setTimeout(() => {
-          window.removeEventListener("sitevisits:ready", handleReady);
-          resolve(window.SiteVisits || null);
-        }, 4000);
-
-        const handleReady = () => {
-          window.clearTimeout(timeoutId);
-          resolve(window.SiteVisits || null);
-        };
-
-        window.addEventListener("sitevisits:ready", handleReady, { once: true });
-      });
-
-    void (async () => {
-      const siteVisitsApi = await getSiteVisitsApi();
-      try {
-        if (siteVisitsApi && typeof siteVisitsApi.loadYearlyVisits === "function") {
-          const visitCounts = await siteVisitsApi.loadYearlyVisits(years);
-          years.forEach((year) => {
-            const visits = Number(visitCounts[year]) || 0;
-            const yearData = statsData.years[year];
-            if (!yearData) {
-              return;
-            }
-            yearData.items = yearData.items.map((item) =>
-              item.id === "visitas-site" ? { ...item, value: visits } : item,
-            );
-          });
-          render();
-          updateWhyMetrics();
-        }
-      } catch (_error) {
-        render();
-      } finally {
-        if (siteVisitsApi && typeof siteVisitsApi.startInitialVisitTracking === "function") {
-          void siteVisitsApi.startInitialVisitTracking();
-        }
-      }
-    })();
   };
 
   const initFaq = () => {
@@ -2192,6 +2303,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initHeroLoadReveal();
   initNavigation();
   initStatsSection();
+  void hydrateSiteVisitMetrics();
   initFaq();
   initGuideGroups();
   initGallery();
