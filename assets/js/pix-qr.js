@@ -130,8 +130,8 @@
 
     new window.QRCode(target, {
       text: payload,
-      width: 336,
-      height: 336,
+      width: 480,
+      height: 480,
       correctLevel: window.QRCode.CorrectLevel.M,
     });
 

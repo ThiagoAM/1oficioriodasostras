@@ -33,6 +33,7 @@
       { label: "Serviços", href: "#servicos" },
       { label: "Online", href: "#online" },
       { label: "Guias", href: "#guias-cidadao" },
+      { label: "Horário", href: "#horario" },
       { label: "FAQ", href: "#faq" },
       { label: "Localização", href: "#localizacao" },
       { label: "Sobre", href: "#sobre" },

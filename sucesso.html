@@ -28,7 +28,7 @@
         box-shadow: 0 22px 55px rgba(15, 23, 42, 0.26);
         border: 1px solid rgba(148, 163, 184, 0.35);
         text-align: center;
-        font-family: Arial, sans-serif;
+        font-family: var(--font-sans);
       }
       .success-icon {
         width: 52px;
@@ -44,13 +44,16 @@
       }
       .success-title {
         margin: 0 0 0.4rem;
-        font-size: 1.4rem;
+        font-family: var(--font-serif);
+        font-size: var(--type-display);
+        line-height: var(--type-display-line);
         color: #111827;
-        font-weight: 600;
+        font-weight: 300;
       }
       .success-text {
         margin: 0 0 1.4rem;
-        font-size: 0.95rem;
+        font-size: var(--type-body);
+        line-height: var(--type-body-line);
         color: #4b5563;
       }
       .success-link {
@@ -62,8 +65,9 @@
         border: none;
         background: #202841;
         color: #f9fafb;
-        font-size: 0.9rem;
-        font-weight: 500;
+        font-size: var(--type-action);
+        font-weight: 600;
+        line-height: var(--type-action-line);
         text-decoration: none;
       }
       .success-link:hover {

@@ -978,6 +978,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const menuLinks = Array.from(siteNav.querySelectorAll(".menu-link"));
+    const topActionLinks = Array.from(document.querySelectorAll(".header-actions .consultation-link"));
     const navSections = menuLinks
       .map((link) => {
         const href = link.getAttribute("href") || "";
@@ -1082,6 +1083,13 @@ document.addEventListener("DOMContentLoaded", () => {
       }, 360);
     };
 
+    const closeMenu = () => {
+      if (siteNav.hidden && !siteNav.classList.contains("is-open")) {
+        return;
+      }
+      setOpen(false);
+    };
+
     navToggle.addEventListener("click", () => {
       setOpen(siteNav.hidden || !siteNav.classList.contains("is-open"));
     });
@@ -1093,13 +1101,23 @@ document.addEventListener("DOMContentLoaded", () => {
         if (href.startsWith("#")) {
           setActiveNav(href);
         }
-        setOpen(false);
+        closeMenu();
       }
+    });
+
+    topActionLinks.forEach((link) => {
+      link.addEventListener("click", () => {
+        const href = link.getAttribute("href") || "";
+        if (href.startsWith("#")) {
+          setActiveNav(href);
+        }
+        closeMenu();
+      });
     });
 
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape" && !siteNav.hidden) {
-        setOpen(false);
+        closeMenu();
       }
     });
 
@@ -1699,9 +1717,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const newsFeedUrl = "https://thiagoam.github.io/noticias-cartorio-rio-das-ostras/noticias.json";
     const dateFormatter = new Intl.DateTimeFormat("pt-BR", { dateStyle: "medium" });
     const pageSizeQuery = window.matchMedia("(max-width: 820px)");
-    const getPageSize = () => (pageSizeQuery.matches ? 1 : 4);
+    const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const getPageSize = () => (pageSizeQuery.matches ? 1 : 3);
     let currentPage = 0;
     let pageCount = 0;
+    let pageTransitionTimer = null;
 
     const parseDate = (value) => {
       const parsed = new Date(value);
@@ -1720,46 +1740,63 @@ document.addEventListener("DOMContentLoaded", () => {
       const selectedItems = items.slice(0, 8);
       let pageSize = getPageSize();
 
-      const renderPage = () => {
+      const renderPage = ({ animate = false } = {}) => {
+        window.clearTimeout(pageTransitionTimer);
         pageSize = getPageSize();
         pageCount = Math.max(1, Math.ceil(selectedItems.length / pageSize));
         currentPage = Math.min(currentPage, pageCount - 1);
         const pageItems = selectedItems.slice(currentPage * pageSize, currentPage * pageSize + pageSize);
-        page.innerHTML = pageItems
-          .map(
-            (item) => `
-              <a class="news-card" href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer">
-                <span>${escapeHtml(item.fonte)} · ${escapeHtml(dateFormatter.format(item.date))}</span>
-                <h3>${escapeHtml(item.titulo)}</h3>
-                <p>${escapeHtml(truncate(item.descricao, 150))}</p>
-              </a>
-            `,
-          )
-          .join("");
+        const updatePage = () => {
+          page.innerHTML = pageItems
+            .map(
+              (item) => `
+                <a class="news-card" href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer">
+                  <span>${escapeHtml(item.fonte)} · ${escapeHtml(dateFormatter.format(item.date))}</span>
+                  <h3>${escapeHtml(item.titulo)}</h3>
+                  <p>${escapeHtml(truncate(item.descricao, 150))}</p>
+                </a>
+              `,
+            )
+            .join("");
 
-        dots.innerHTML =
-          pageCount > 1
-            ? Array.from({ length: pageCount }, (_, index) => {
-                const isActive = index === currentPage;
-                return `
-                  <button
-                    type="button"
-                    class="hero-news-dot${isActive ? " is-active" : ""}"
-                    data-news-page="${index}"
-                    aria-label="Ir para página ${index + 1} de ${pageCount}"
-                    ${isActive ? 'aria-current="page"' : ""}>
-                  </button>
-                `;
-              }).join("")
-            : "";
-        dots.hidden = pageCount <= 1;
-        prevBtn.disabled = pageCount <= 1;
-        nextBtn.disabled = pageCount <= 1;
+          dots.innerHTML =
+            pageCount > 1
+              ? Array.from({ length: pageCount }, (_, index) => {
+                  const isActive = index === currentPage;
+                  return `
+                    <button
+                      type="button"
+                      class="hero-news-dot${isActive ? " is-active" : ""}"
+                      data-news-page="${index}"
+                      aria-label="Ir para página ${index + 1} de ${pageCount}"
+                      ${isActive ? 'aria-current="page"' : ""}>
+                    </button>
+                  `;
+                }).join("")
+              : "";
+          dots.hidden = pageCount <= 1;
+          prevBtn.disabled = pageCount <= 1;
+          nextBtn.disabled = pageCount <= 1;
+        };
+
+        if (animate && !reducedMotionQuery.matches) {
+          page.classList.add("is-transitioning");
+          pageTransitionTimer = window.setTimeout(() => {
+            updatePage();
+            window.requestAnimationFrame(() => {
+              page.classList.remove("is-transitioning");
+            });
+          }, 180);
+          return;
+        }
+
+        page.classList.remove("is-transitioning");
+        updatePage();
       };
 
       const goToPage = (nextPage) => {
         currentPage = (nextPage + pageCount) % pageCount;
-        renderPage();
+        renderPage({ animate: true });
       };
 
       prevBtn.addEventListener("click", () => {

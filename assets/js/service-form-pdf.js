@@ -285,15 +285,13 @@
     }
 
     if (files.length === 0) {
+      container.hidden = true;
       summaryEl.textContent = "Nenhum arquivo";
-      listEl.innerHTML = `
-        <li class="file-attachment-item file-attachment-item-empty">
-          Nenhum arquivo selecionado.
-        </li>
-      `;
+      listEl.innerHTML = "";
       return;
     }
 
+    container.hidden = false;
     const totalBytes = files.reduce((sum, file) => sum + Number(file.size || 0), 0);
     summaryEl.textContent = `${files.length} arquivo(s) • ${formatBytes(totalBytes)}`;
 

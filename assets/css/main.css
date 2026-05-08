@@ -1,3 +1,101 @@
+@font-face {
+    font-family: "Fraunces";
+    src: url("https://fonts.gstatic.com/s/fraunces/v32/6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIc6RujC_TShUtWNg.woff2") format("woff2");
+    font-display: swap;
+    font-style: normal;
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: "Fraunces";
+    src: url("https://fonts.gstatic.com/s/fraunces/v32/6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIctxujC_TShUtWNg.woff2") format("woff2");
+    font-display: swap;
+    font-style: normal;
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: "Fraunces";
+    src: url("https://fonts.gstatic.com/s/fraunces/v38/6NUu8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib14c7qv8.woff2") format("woff2");
+    font-display: swap;
+    font-style: normal;
+    font-weight: 600;
+}
+
+@font-face {
+    font-family: "Fraunces";
+    src: url("https://fonts.gstatic.com/s/fraunces/v38/6NUu8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib14c7qv8.woff2") format("woff2");
+    font-display: swap;
+    font-style: normal;
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: "Fraunces";
+    src: url("https://fonts.gstatic.com/s/fraunces/v32/6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1gVTf7Tp05GNi3k.woff2") format("woff2");
+    font-display: swap;
+    font-style: italic;
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: "Fraunces";
+    src: url("https://fonts.gstatic.com/s/fraunces/v32/6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1hLTf7Tp05GNi3k.woff2") format("woff2");
+    font-display: swap;
+    font-style: italic;
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: "Inter";
+    src: url("https://framerusercontent.com/assets/vQyevYAyHtARFwPqUzQGpnDs.woff2") format("woff2");
+    font-display: swap;
+    font-style: normal;
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: "Inter";
+    src: url("https://framerusercontent.com/assets/d3tHnaQIAeqiE5hGcRw4mmgWYU.woff2") format("woff2");
+    font-display: swap;
+    font-style: normal;
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: "Inter";
+    src: url("https://framerusercontent.com/assets/1ZFS7N918ojhhd0nQWdj3jz4w.woff2") format("woff2");
+    font-display: swap;
+    font-style: normal;
+    font-weight: 600;
+}
+
+@font-face {
+    font-family: "Inter";
+    src: url("https://framerusercontent.com/assets/DXD0Q7LSl7HEvDzucnyLnGBHM.woff2") format("woff2");
+    font-display: swap;
+    font-style: normal;
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: "Fraunces Placeholder";
+    src: local("Times New Roman");
+    ascent-override: 84.71%;
+    descent-override: 22.09%;
+    line-gap-override: 0%;
+    size-adjust: 115.45%;
+}
+
+@font-face {
+    font-family: "Inter Placeholder";
+    src: local("Arial");
+    ascent-override: 89.79%;
+    descent-override: 22.36%;
+    line-gap-override: 0%;
+    size-adjust: 107.89%;
+}
+
 :root {
     --bg-dark: #162631;
     --bg-darker: #101515;
@@ -15,6 +113,50 @@
     --shadow: 0 24px 70px rgba(16, 21, 21, 0.18);
     --container-width: 1800px;
     --container-gutter: clamp(18px, 2vw, 36px);
+    --font-sans: "Inter", "Inter Placeholder", sans-serif;
+    --font-serif: "Fraunces", "Fraunces Placeholder", serif;
+    --type-body: 16px;
+    --type-body-line: 1.4;
+    --type-body-large: 18px;
+    --type-body-large-line: 1.6;
+    --type-small: 12px;
+    --type-small-line: 1.4;
+    --type-action: 18px;
+    --type-action-line: 1.2;
+    --type-kicker: 24px;
+    --type-display: 52px;
+    --type-heading: 44px;
+    --type-card-title: 36px;
+    --type-hero-title: 100px;
+    --type-counter: 80px;
+    --type-marquee: 152px;
+    --type-display-line: 1.2;
+    --type-hero-line: 1;
+}
+
+@media (min-width: 810px) and (max-width: 1199.98px) {
+    :root {
+        --type-action: 16px;
+        --type-display: 48px;
+        --type-heading: 32px;
+        --type-card-title: 28px;
+        --type-hero-title: 88px;
+        --type-counter: 96px;
+        --type-marquee: 80px;
+    }
+}
+
+@media (max-width: 809.98px) {
+    :root {
+        --type-action: 16px;
+        --type-kicker: 22px;
+        --type-display: 32px;
+        --type-heading: 28px;
+        --type-card-title: 28px;
+        --type-hero-title: 52px;
+        --type-counter: 80px;
+        --type-marquee: 44px;
+    }
 }
 
 *,
@@ -37,9 +179,9 @@ body {
     min-width: 320px;
     background: var(--bg-light);
     color: var(--text-dark);
-    font-family: Arial, sans-serif;
-    font-size: 16px;
-    line-height: 1.55;
+    font-family: var(--font-sans);
+    font-size: var(--type-body);
+    line-height: var(--type-body-line);
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
 }
@@ -141,20 +283,21 @@ button {
 
 .brand-title,
 .footer-brand-title {
-    font-weight: 700;
-    font-size: 0.94rem;
+    font-weight: 600;
+    font-size: var(--type-body);
     text-transform: uppercase;
     color: var(--text-light);
 }
 
 .brand-title {
-    font-weight: 900;
+    font-weight: 600;
 }
 
 .brand-subtitle,
 .footer-brand-subtitle {
     color: var(--text-soft);
-    font-size: 0.7rem;
+    font-size: var(--type-small);
+    line-height: var(--type-small-line);
 }
 
 .header-actions {
@@ -168,8 +311,9 @@ button {
     align-items: center;
     gap: 8px;
     color: var(--accent);
-    font-size: 18px;
-    font-weight: 700;
+    font-size: var(--type-action);
+    font-weight: 600;
+    line-height: var(--type-action-line);
     text-transform: uppercase;
 }
 
@@ -369,9 +513,10 @@ button {
 
 .menu-link {
     color: var(--text-light);
-    font-family: Arial, sans-serif;
-    font-size: 50px;
-    line-height: 1;
+    font-family: var(--font-serif);
+    font-size: var(--type-display);
+    font-weight: 300;
+    line-height: var(--type-display-line);
 }
 
 .menu-link:hover,
@@ -507,11 +652,11 @@ button {
 .section-kicker {
     margin: 0 0 26px;
     color: var(--accent-dark);
-    font-family: Arial, sans-serif;
+    font-family: var(--font-serif);
     font-style: italic;
-    font-weight: 600;
-    font-size: clamp(1.25rem, 1.35vw, 1.5rem);
-    line-height: 1.2;
+    font-weight: 400;
+    font-size: var(--type-kicker);
+    line-height: var(--type-display-line);
 }
 
 .section-dark .section-kicker,
@@ -525,16 +670,18 @@ button {
     margin: 0;
     max-width: 760px;
     color: inherit;
-    font-family: Arial, sans-serif;
-    font-size: 3.3rem;
-    font-weight: 500;
-    line-height: 1;
+    font-family: var(--font-serif);
+    font-size: var(--type-display);
+    font-weight: 300;
+    line-height: var(--type-display-line);
 }
 
 .section-subtitle {
     margin: 22px 0 0;
     max-width: 640px;
     color: var(--text-muted);
+    font-size: var(--type-body-large);
+    line-height: var(--type-body-large-line);
 }
 
 .section-dark .section-subtitle,
@@ -562,9 +709,9 @@ button {
     border-radius: 0;
     background: transparent;
     color: inherit;
-    font-size: 0.78rem;
-    font-weight: 700;
-    line-height: 1.2;
+    font-size: var(--type-action);
+    font-weight: 600;
+    line-height: var(--type-action-line);
     text-transform: uppercase;
     transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
 }
@@ -687,7 +834,8 @@ button {
 .hero-note,
 .hero-contact {
     color: var(--text-soft);
-    font-size: 0.92rem;
+    font-size: var(--type-body);
+    line-height: var(--type-body-line);
 }
 
 .hero-intro {
@@ -764,18 +912,20 @@ button {
 
 .hero-kicker {
     margin: 0 0 18px;
-    font-family: Arial, sans-serif;
+    font-family: var(--font-serif);
     font-style: italic;
-    font-weight: 600;
+    font-weight: 400;
+    font-size: var(--type-kicker);
+    line-height: var(--type-display-line);
 }
 
 .hero-title {
     margin: 0;
     color: #e8faf7;
-    font-family: Arial, sans-serif;
-    font-size: 90px;
-    font-weight: 900;
-    line-height: 0.92;
+    font-family: var(--font-sans);
+    font-size: var(--type-hero-title);
+    font-weight: 600;
+    line-height: var(--type-hero-line);
     text-shadow: 0 16px 30px rgba(0, 0, 0, 0.46);
 }
 
@@ -803,7 +953,7 @@ button {
 @media (min-width: 821px) {
     .hero-intro,
     .hero-contact {
-        font-size: 16px;
+        font-size: var(--type-body);
     }
 }
 
@@ -825,10 +975,11 @@ button {
     margin: 0;
     max-width: 660px;
     color: #363a3c;
-    font-family: Arial, sans-serif;
+    font-family: var(--font-serif);
     font-style: italic;
-    font-size: 50px;
-    line-height: 1.06;
+    font-weight: 300;
+    font-size: var(--type-display);
+    line-height: var(--type-display-line);
 }
 
 .philosophy-media img,
@@ -900,7 +1051,7 @@ button {
 }
 
 #servicos .editorial-copy .section-title {
-    font-size: 48px;
+    font-size: var(--type-display);
 }
 
 .practice-list {
@@ -933,10 +1084,10 @@ button {
 .info-card-title,
 .service-route-title {
     margin: 0 0 18px;
-    font-family: Arial, sans-serif;
-    font-size: 1.9rem;
-    font-weight: 500;
-    line-height: 1.05;
+    font-family: var(--font-serif);
+    font-size: var(--type-card-title);
+    font-weight: 300;
+    line-height: var(--type-display-line);
 }
 
 .practice-card p,
@@ -949,11 +1100,12 @@ button {
 .service-route-text {
     margin: 0;
     color: var(--text-muted);
-    font-size: 0.94rem;
+    font-size: var(--type-body);
+    line-height: var(--type-body-line);
 }
 
 .practice-card p {
-    font-size: 16px;
+    font-size: var(--type-body);
 }
 
 .why-grid {
@@ -1010,20 +1162,20 @@ button {
     display: inline-flex;
     align-items: baseline;
     color: var(--text-light);
-    font-family: Arial, sans-serif;
-    font-size: 3.4rem;
-    font-weight: 500;
+    font-family: var(--font-serif);
+    font-size: var(--type-counter);
+    font-weight: 300;
     gap: 8px;
-    line-height: 1;
+    line-height: normal;
 }
 
 .metric strong::after {
     content: "+";
     color: var(--accent);
-    font-family: Arial, sans-serif;
-    font-size: 0.46em;
-    font-weight: 700;
-    line-height: 1;
+    font-family: var(--font-serif);
+    font-size: 1em;
+    font-weight: 300;
+    line-height: normal;
 }
 
 .metric-more-link {
@@ -1098,8 +1250,9 @@ button {
 .case-card span {
     margin-bottom: 24px;
     color: var(--accent-dark);
-    font-size: 0.78rem;
-    font-weight: 700;
+    font-size: var(--type-small);
+    font-weight: 600;
+    line-height: var(--type-small-line);
     text-transform: uppercase;
 }
 
@@ -1108,8 +1261,9 @@ button {
     margin-top: auto;
     padding-top: 28px;
     color: var(--accent-dark);
-    font-size: 0.78rem;
-    font-weight: 700;
+    font-size: var(--type-action);
+    font-weight: 600;
+    line-height: var(--type-action-line);
     text-transform: uppercase;
 }
 
@@ -1121,7 +1275,7 @@ button {
 #online .case-card span,
 #online .case-card p,
 #online .case-card strong {
-    font-size: 16px;
+    font-size: var(--type-body);
 }
 
 .paper-forms-grid {
@@ -1140,6 +1294,7 @@ button {
     min-height: 220px;
     background: rgba(255, 255, 255, 0.35);
     cursor: pointer;
+    gap: 22px;
 }
 
 .paper-form-download {
@@ -1155,7 +1310,7 @@ button {
 }
 
 #guias-cidadao .guides-intro .section-subtitle {
-    font-size: 18px;
+    font-size: var(--type-body-large);
 }
 
 .guide-groups {
@@ -1177,9 +1332,10 @@ button {
     gap: 18px;
     padding: 22px 0;
     color: var(--text-dark);
-    font-family: Arial, sans-serif;
-    font-size: 2rem;
-    line-height: 1;
+    font-family: var(--font-serif);
+    font-size: var(--type-card-title);
+    font-weight: 300;
+    line-height: var(--type-display-line);
     list-style: none;
     cursor: pointer;
 }
@@ -1207,7 +1363,8 @@ button {
 
 .guide-links a {
     color: var(--text-muted);
-    font-size: 18px;
+    font-size: var(--type-body-large);
+    line-height: var(--type-body-large-line);
 }
 
 .guide-links a:hover {
@@ -1232,9 +1389,10 @@ button {
 
 .hours-item strong {
     color: var(--text-light);
-    font-family: Arial, sans-serif;
-    font-size: 1.8rem;
-    font-weight: 500;
+    font-family: var(--font-serif);
+    font-size: var(--type-card-title);
+    font-weight: 300;
+    line-height: var(--type-display-line);
 }
 
 .hours-item p,
@@ -1316,19 +1474,19 @@ button {
     max-width: 850px;
     margin: 34px 0 0;
     color: var(--text-dark);
-    font-family: Arial, sans-serif;
+    font-family: var(--font-serif);
     font-style: italic;
-    font-size: 48px;
-    font-weight: 400;
-    line-height: 1.08;
+    font-size: var(--type-display);
+    font-weight: 300;
+    line-height: var(--type-display-line);
 }
 
 .about-person-bio {
     max-width: 850px;
     margin: 20px 0 0;
     color: var(--text-muted);
-    font-size: 16px;
-    line-height: 1.6;
+    font-size: var(--type-body);
+    line-height: var(--type-body-line);
     text-align: left;
 }
 
@@ -1342,16 +1500,17 @@ button {
 .about-person h2 {
     margin: 0;
     color: var(--text-dark);
-    font-family: Arial, sans-serif;
-    font-size: 1.02rem;
-    font-weight: 700;
-    line-height: 1.35;
+    font-family: var(--font-sans);
+    font-size: var(--type-body);
+    font-weight: 600;
+    line-height: var(--type-body-line);
 }
 
 .about-person p {
     margin: 4px 0 0;
     color: var(--text-muted);
-    font-size: 0.96rem;
+    font-size: var(--type-body);
+    line-height: var(--type-body-line);
 }
 
 .about-text {
@@ -1430,8 +1589,9 @@ button {
     border-radius: 0;
     background: transparent;
     color: inherit;
-    font-size: 0.75rem;
-    font-weight: 700;
+    font-size: var(--type-small);
+    font-weight: 600;
+    line-height: var(--type-small-line);
     text-transform: uppercase;
 }
 
@@ -1479,9 +1639,10 @@ button {
     border: 1px solid rgba(111, 159, 147, 0.55);
     background: transparent;
     color: var(--accent);
-    font-family: Arial, sans-serif;
-    font-size: 2.4rem;
-    line-height: 1;
+    font-family: var(--font-serif);
+    font-size: var(--type-card-title);
+    font-weight: 300;
+    line-height: var(--type-display-line);
     transition: background 0.18s ease, color 0.18s ease;
 }
 
@@ -1693,29 +1854,32 @@ button {
 
 .stats-card span {
     color: var(--text-soft);
-    font-size: 0.76rem;
+    font-size: var(--type-small);
+    line-height: var(--type-small-line);
 }
 
 .stats-card strong {
     display: block;
     margin: 16px 0 24px;
     color: var(--text-light);
-    font-family: Arial, sans-serif;
-    font-size: 3.2rem;
-    font-weight: 500;
-    line-height: 1;
+    font-family: var(--font-serif);
+    font-size: var(--type-display);
+    font-weight: 300;
+    line-height: var(--type-display-line);
 }
 
 .stats-card h3 {
     margin: 0;
     color: var(--text-soft);
-    font-size: 0.88rem;
-    font-weight: 500;
+    font-size: var(--type-body);
+    font-weight: 400;
+    line-height: var(--type-body-line);
 }
 
 .stats-period {
     color: var(--text-soft);
-    font-size: 0.84rem;
+    font-size: var(--type-small);
+    line-height: var(--type-small-line);
 }
 
 .useful-links-grid {
@@ -1751,9 +1915,9 @@ button {
     padding: 10px 16px;
     border: 1px solid var(--line-light);
     color: var(--text-dark);
-    font-size: 0.78rem;
-    font-weight: 700;
-    line-height: 1;
+    font-size: var(--type-small);
+    font-weight: 600;
+    line-height: var(--type-small-line);
     text-transform: uppercase;
     list-style: none;
     cursor: pointer;
@@ -1803,8 +1967,9 @@ button {
 .faq-search-label,
 .field-label {
     color: var(--text-dark);
-    font-size: 0.76rem;
-    font-weight: 700;
+    font-size: var(--type-small);
+    font-weight: 600;
+    line-height: var(--type-small-line);
     text-transform: uppercase;
 }
 
@@ -1817,6 +1982,8 @@ button {
     border-radius: 0;
     background: rgba(255, 255, 255, 0.7);
     color: var(--text-dark);
+    font-size: var(--type-body-large);
+    line-height: var(--type-action-line);
     outline: none;
 }
 
@@ -1861,9 +2028,10 @@ button {
 .faq-question span:first-child {
     flex: 1 1 auto;
     min-width: 0;
-    font-family: Arial, sans-serif;
-    font-size: 40px;
-    line-height: 1.15;
+    font-family: var(--font-serif);
+    font-size: var(--type-heading);
+    font-weight: 300;
+    line-height: var(--type-display-line);
     overflow-wrap: break-word;
 }
 
@@ -1924,9 +2092,10 @@ button {
 
 .form-section-title {
     margin: 0;
-    font-family: Arial, sans-serif;
-    font-size: 2rem;
-    font-weight: 500;
+    font-family: var(--font-serif);
+    font-size: var(--type-card-title);
+    font-weight: 300;
+    line-height: var(--type-display-line);
 }
 
 .field-group {
@@ -1968,7 +2137,8 @@ button {
 .form-status {
     margin: 0;
     color: var(--text-muted);
-    font-size: 0.88rem;
+    font-size: var(--type-body);
+    line-height: var(--type-body-line);
 }
 
 .form-status--success {
@@ -2002,9 +2172,17 @@ button {
 
 .hero-news-page {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     min-width: 0;
     border-left: 1px solid var(--line-dark);
+    transition: opacity 0.24s ease, transform 0.24s ease;
+    will-change: opacity, transform;
+}
+
+.hero-news-page.is-transitioning {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(12px);
 }
 
 .news-card {
@@ -2072,22 +2250,24 @@ button {
 
 .news-card span {
     color: var(--accent);
-    font-size: 0.74rem;
+    font-size: var(--type-small);
+    line-height: var(--type-small-line);
     text-transform: uppercase;
 }
 
 .news-card h3 {
     margin: 0;
-    font-family: Arial, sans-serif;
-    font-size: 1.7rem;
-    font-weight: 500;
-    line-height: 1.05;
+    font-family: var(--font-serif);
+    font-size: var(--type-card-title);
+    font-weight: 300;
+    line-height: var(--type-display-line);
 }
 
 .news-card p {
     margin: 0;
     color: var(--text-soft);
-    font-size: 0.9rem;
+    font-size: var(--type-body);
+    line-height: var(--type-body-line);
 }
 
 .footer-grid {
@@ -2122,7 +2302,8 @@ button {
 .footer-title {
     margin: 0 0 18px;
     color: var(--text-light);
-    font-size: 0.82rem;
+    font-size: var(--type-small);
+    line-height: var(--type-small-line);
     text-transform: uppercase;
 }
 
@@ -2139,7 +2320,8 @@ button {
     margin-top: 44px;
     padding-top: 24px;
     color: var(--text-soft);
-    font-size: 0.92rem;
+    font-size: var(--type-small);
+    line-height: var(--type-small-line);
 }
 
 .footer-credit a {
@@ -2237,8 +2419,9 @@ button {
     padding: 5px 8px;
     background: rgba(111, 159, 147, 0.18);
     color: var(--accent-dark);
-    font-size: 0.72rem;
-    font-weight: 700;
+    font-size: var(--type-small);
+    font-weight: 600;
+    line-height: var(--type-small-line);
     text-transform: uppercase;
 }
 
@@ -2261,7 +2444,8 @@ button {
 .file-attachments-title,
 .file-attachments-summary,
 .file-attachment-size {
-    font-size: 0.78rem;
+    font-size: var(--type-small);
+    line-height: var(--type-small-line);
     color: var(--text-muted);
 }
 
@@ -2312,22 +2496,25 @@ button {
 .pix-qr-code {
     display: grid;
     place-items: center;
-    width: 184px;
-    min-height: 184px;
+    width: min(504px, 100%);
+    min-height: min(504px, calc(100vw - 72px));
     padding: 12px;
     background: #fff;
+    box-sizing: border-box;
 }
 
 .pix-qr-code img,
 .pix-qr-code canvas {
-    width: 160px;
-    height: 160px;
+    width: min(480px, 100%);
+    height: auto;
+    aspect-ratio: 1;
 }
 
 .pix-qr-helper {
     margin: 0;
     color: var(--text-muted);
-    font-size: 0.86rem;
+    font-size: var(--type-body);
+    line-height: var(--type-body-line);
 }
 
 .pix-qr-copy-btn.is-copied {
@@ -2393,9 +2580,10 @@ button {
 
 .service-flow-title {
     margin: 0;
-    font-family: Arial, sans-serif;
-    font-size: 2.2rem;
-    line-height: 1;
+    font-family: var(--font-serif);
+    font-size: var(--type-card-title);
+    font-weight: 300;
+    line-height: var(--type-display-line);
 }
 
 .service-flow-intro {
@@ -2435,7 +2623,9 @@ button {
     border: 0;
     background: transparent;
     color: var(--text-dark);
-    font-weight: 700;
+    font-size: var(--type-action);
+    font-weight: 600;
+    line-height: var(--type-action-line);
     text-align: left;
 }
 
@@ -2447,7 +2637,8 @@ button {
 
 .service-flow-step-done {
     color: #1f7a4d;
-    font-size: 0.75rem;
+    font-size: var(--type-small);
+    line-height: var(--type-small-line);
     text-transform: uppercase;
 }
 
@@ -2553,12 +2744,12 @@ button {
 
     .metric strong {
         justify-self: end;
-        font-size: 70px;
+        font-size: var(--type-counter);
         text-align: right;
     }
 
     .metric strong::after {
-        font-size: 70px;
+        font-size: 1em;
     }
 }
 
@@ -2612,7 +2803,7 @@ button {
     }
 
     .hero-title {
-        font-size: 3rem;
+        font-size: var(--type-hero-title);
     }
 
     .hero-title span:first-child {
@@ -2634,8 +2825,7 @@ button {
     }
 
     .practice-list,
-    .useful-links-grid,
-    .hero-news-page {
+    .useful-links-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
@@ -2713,7 +2903,7 @@ button {
     }
 
     .menu-link {
-        font-size: 2.1rem;
+        font-size: var(--type-display);
     }
 
     .hero {
@@ -2790,7 +2980,7 @@ button {
         justify-items: center;
         width: 100%;
         margin: 2px 0 0;
-        font-size: 0.9rem;
+        font-size: var(--type-body);
         text-align: center;
         transform: translateY(-32px);
     }
@@ -2821,12 +3011,12 @@ button {
     }
 
     .hero-title {
-        font-size: 50px;
+        font-size: var(--type-hero-title);
     }
 
     .metric strong {
         justify-self: center;
-        font-size: 80px;
+        font-size: var(--type-counter);
         text-align: center;
     }
 
@@ -2871,17 +3061,17 @@ button {
     }
 
     .stats-card span {
-        font-size: 0.66rem;
+        font-size: var(--type-small);
     }
 
     .stats-card strong {
         margin: 10px 0 12px;
-        font-size: 2rem;
+        font-size: var(--type-display);
     }
 
     .stats-card h3 {
-        font-size: 0.72rem;
-        line-height: 1.25;
+        font-size: var(--type-body);
+        line-height: var(--type-body-line);
     }
 
     .faq-question {
@@ -2894,20 +3084,20 @@ button {
     }
 
     .faq-question span:first-child {
-        font-size: 30px;
+        font-size: var(--type-heading);
     }
 
     .section-title,
     .hero-news-title {
-        font-size: 2.45rem;
+        font-size: var(--type-display);
     }
 
     #servicos .editorial-copy .section-title {
-        font-size: 37.6px;
+        font-size: var(--type-display);
     }
 
     .philosophy-quote {
-        font-size: 2.35rem;
+        font-size: var(--type-display);
     }
 
     .philosophy-grid .text-link {
@@ -2927,7 +3117,7 @@ button {
     .about-quote {
         max-width: none;
         margin-top: 28px;
-        font-size: clamp(2.7rem, 11vw, 3.3rem);
+        font-size: var(--type-display);
     }
 
     .about-person {
@@ -2974,7 +3164,7 @@ button {
     }
 
     .guide-links a {
-        font-size: 16px;
+        font-size: var(--type-body);
     }
 
     .field-grid {
@@ -3067,7 +3257,7 @@ button {
 
 @media (max-width: 520px) {
     body {
-        font-size: 15px;
+        font-size: var(--type-body);
     }
 
     .brand-logo {
@@ -3076,21 +3266,21 @@ button {
     }
 
     .brand-title {
-        font-size: 0.78rem;
+        font-size: var(--type-body);
     }
 
     .hero-title {
-        font-size: 50px;
+        font-size: var(--type-hero-title);
     }
 
     .hero-contact {
         column-gap: 8px;
-        font-size: 0.82rem;
+        font-size: var(--type-body);
     }
 
     .section-title,
     .hero-news-title {
-        font-size: 2.15rem;
+        font-size: var(--type-display);
     }
 
     .case-card,

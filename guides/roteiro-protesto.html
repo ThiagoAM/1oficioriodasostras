@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Protesto de Títulos — Guia Completo do Cidadão · 1º Ofício · Rio das Ostras/RJ</title>
 <style>
+@import url("../assets/css/main.css");
 :root{
   --pr:#0077b6;--pr-d:#023e8a;--pr-l:#e0f4ff;
   --am:#f59e0b;--am-l:#fffbeb;
@@ -15,7 +16,7 @@
   --ink:#0f172a;--mid:#64748b;--bg:#f8fafc;--white:#fff;--brd:#e2e8f0;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family: Arial, sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;font-size:14.5px}
+body{font-family:var(--font-sans);background:var(--bg);color:var(--ink);line-height:1.4;font-size:16px}
 
 /* HEADER */
 .hdr{background:linear-gradient(135deg,var(--pr-d) 0%,var(--pr) 60%,#0096c7 100%);color:#fff;position:relative;overflow:hidden}
@@ -23,7 +24,7 @@ body{font-family: Arial, sans-serif;background:var(--bg);color:var(--ink);line-h
 .hdr-in{max-width:980px;margin:0 auto;padding:36px 22px 48px;position:relative;z-index:2}
 .hdr-top{display:flex;align-items:center;gap:16px;margin-bottom:22px}
 .logo-img{width:88px;height:88px;object-fit:contain;border-radius:50%;border:3px solid rgba(255,255,255,.35);background:#fff;flex-shrink:0}
-.hdr-brand h1{font-family: Arial, sans-serif;font-size:1.9rem;line-height:1.1;margin-bottom:4px}
+.hdr-brand h1{font-family:var(--font-serif);font-size:1.9rem;line-height:1.1;margin-bottom:4px}
 .hdr-brand h1 span{color:#90e0ef}
 .hdr-brand p{font-size:.82rem;opacity:.8}
 .hdr-pills{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}
@@ -46,13 +47,13 @@ body{font-family: Arial, sans-serif;background:var(--bg);color:var(--ink);line-h
 /* SECTION */
 .sh{display:flex;align-items:center;gap:10px;margin:28px 0 14px}
 .sh-bar{width:4px;height:28px;border-radius:4px;flex-shrink:0}
-.sh h2{font-family: Arial, sans-serif;font-size:1.15rem}
+.sh h2{font-family:var(--font-serif);font-size:1.15rem}
 .sh small{font-size:.8rem;color:var(--mid);margin-top:2px;display:block}
 
 /* HERO CARD */
 .hc{border-radius:18px;padding:22px 26px;margin-bottom:20px;display:flex;gap:16px;flex-wrap:wrap;align-items:center}
 .hc .em{font-size:2.6rem;flex-shrink:0}
-.hc h2{font-family: Arial, sans-serif;font-size:1.25rem;margin-bottom:6px}
+.hc h2{font-family:var(--font-serif);font-size:1.25rem;margin-bottom:6px}
 .hc p{font-size:.88rem;opacity:.93}
 .blue-hc{background:linear-gradient(135deg,var(--pr-d),var(--pr));color:#fff}
 .green-hc{background:linear-gradient(135deg,#065f46,var(--gr));color:#fff}
@@ -92,7 +93,7 @@ body{font-family: Arial, sans-serif;background:var(--bg);color:var(--ink);line-h
 /* PRAZOS */
 .prazos{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:11px}
 .pbox{border-radius:13px;padding:14px 11px;text-align:center;border:2px solid}
-.pval{font-family: Arial, sans-serif;font-size:1.65rem;display:block;margin-bottom:3px;line-height:1}
+.pval{font-family:var(--font-serif);font-size:1.65rem;display:block;margin-bottom:3px;line-height:1}
 .plbl{font-size:.72rem;font-weight:600;color:var(--mid);line-height:1.4}
 
 /* DOCS */
@@ -140,7 +141,7 @@ body{font-family: Arial, sans-serif;background:var(--bg);color:var(--ink);line-h
 
 /* FOOTER */
 footer{background:#0f172a;color:rgba(255,255,255,.7);text-align:center;padding:32px 18px}
-.fl{font-family: Arial, sans-serif;color:#fff;font-size:1.1rem;margin-bottom:8px}
+.fl{font-family:var(--font-serif);color:#fff;font-size:1.1rem;margin-bottom:8px}
 footer p{font-size:.78rem;line-height:1.8}
 .flogo{width:56px;height:56px;object-fit:contain;border-radius:50%;display:block;margin:0 auto 10px;border:2px solid rgba(255,255,255,.25)}
 
