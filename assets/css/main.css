@@ -653,6 +653,14 @@ button {
     width: 100%;
 }
 
+.faq-answer .stream-text-content {
+    display: block;
+}
+
+.faq-answer .stream-text-cursor {
+    display: none;
+}
+
 .stream-text-cursor {
     display: inline-block;
     width: 0.08em;
@@ -1416,6 +1424,7 @@ button {
 .feature-pages-heading .section-title {
     max-width: none;
     color: #191e20;
+    text-align: right;
 }
 
 .feature-pages-heading .section-subtitle {

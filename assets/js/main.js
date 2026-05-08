@@ -147,6 +147,7 @@ document.addEventListener("DOMContentLoaded", () => {
     target.setAttribute("aria-label", fullText);
     target.textContent = "";
     target.classList.add("stream-text", "is-stream-ready");
+    target.classList.toggle("stream-text-rich", isRichText);
 
     sizer.className = "stream-text-sizer";
     sizer.setAttribute("aria-hidden", "true");
@@ -166,6 +167,42 @@ document.addEventListener("DOMContentLoaded", () => {
     target.append(sizer, output);
   };
 
+  const getTextNodeEntries = (root) => {
+    const entries = [];
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+    let node = walker.nextNode();
+
+    while (node) {
+      const chars = Array.from(node.nodeValue || "");
+      if (chars.length > 0) {
+        entries.push({ node, chars });
+      }
+      node = walker.nextNode();
+    }
+
+    return entries;
+  };
+
+  const renderRichStreamText = (entries, visibleChars) => {
+    let remaining = visibleChars;
+
+    entries.forEach((entry) => {
+      if (remaining <= 0) {
+        entry.node.nodeValue = "";
+        return;
+      }
+
+      if (remaining >= entry.chars.length) {
+        entry.node.nodeValue = entry.chars.join("");
+        remaining -= entry.chars.length;
+        return;
+      }
+
+      entry.node.nodeValue = entry.chars.slice(0, remaining).join("");
+      remaining = 0;
+    });
+  };
+
   const playStreamText = (target) => {
     if (target.dataset.streamComplete === "true") {
       return;
@@ -173,13 +210,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const content = target.querySelector(".stream-text-content");
     const fullText = target.dataset.streamText || "";
+    const isRichText = target.dataset.streamRich === "true" && Boolean(target.dataset.streamHtml);
+    const isFaqStream = target.classList.contains("faq-answer");
     if (!content || !fullText) {
       return;
     }
 
     if (prefersReducedMotion()) {
       target.dataset.streamComplete = "true";
-      if (target.dataset.streamRich === "true" && target.dataset.streamHtml) {
+      if (isRichText) {
         content.innerHTML = target.dataset.streamHtml;
       } else {
         content.textContent = fullText;
@@ -189,18 +228,35 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     target.dataset.streamComplete = "true";
-    const chars = Array.from(fullText);
-    const startDelay = target.classList.contains("hero-contact-label") ? 1000 : 160;
+    const template = document.createElement("template");
+    let richTextEntries = [];
+    let chars = Array.from(fullText);
+
+    if (isRichText) {
+      template.innerHTML = target.dataset.streamHtml;
+      content.textContent = "";
+      content.append(template.content.cloneNode(true));
+      richTextEntries = getTextNodeEntries(content);
+      chars = richTextEntries.flatMap((entry) => entry.chars);
+      renderRichStreamText(richTextEntries, 0);
+    }
+
+    const startDelay = isFaqStream ? 60 : target.classList.contains("hero-contact-label") ? 1000 : 160;
+    const delayMultiplier = isFaqStream ? 0.5 : 1;
     let index = 0;
 
     const tick = () => {
       const previous = chars[index - 1] || "";
       const step = chars[index] === " " ? 2 : Math.random() > 0.72 ? 2 : 1;
       index = Math.min(index + step, chars.length);
-      content.textContent = chars.slice(0, index).join("");
+      if (isRichText) {
+        renderRichStreamText(richTextEntries, index);
+      } else {
+        content.textContent = chars.slice(0, index).join("");
+      }
 
       if (index >= chars.length) {
-        if (target.dataset.streamRich === "true" && target.dataset.streamHtml) {
+        if (isRichText) {
           content.innerHTML = target.dataset.streamHtml;
         }
         target.classList.remove("is-streaming");
@@ -208,7 +264,8 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      const delay = /[.!?”]/.test(previous) ? 130 : /[,;]/.test(previous) ? 70 : 18 + Math.random() * 30;
+      const baseDelay = /[.!?”]/.test(previous) ? 130 : /[,;]/.test(previous) ? 70 : 18 + Math.random() * 30;
+      const delay = Math.max(8, baseDelay * delayMultiplier);
       window.setTimeout(tick, delay);
     };
 
