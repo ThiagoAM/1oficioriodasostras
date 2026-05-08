@@ -1,7 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
   const data = window.SiteData || null;
   const siteRoot = document.getElementById("siteRoot");
-  document.documentElement.classList.add("is-hero-booting");
+  const contentPage = document.body.dataset.contentPage || "home";
+  const isHomePage = contentPage === "home";
+  if (isHomePage) {
+    document.documentElement.classList.add("is-hero-booting");
+  }
 
   const escapeHtml = (value) =>
     String(value ?? "")
@@ -20,6 +24,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const linkAttrs = (href, forceExternal = false) => {
     const isExternal = forceExternal || /^https?:\/\//i.test(String(href || ""));
     return isExternal ? ' target="_blank" rel="noopener noreferrer"' : "";
+  };
+
+  const resolveSiteHref = (href) => {
+    const value = String(href || "");
+    if (!value.startsWith("#")) {
+      return value;
+    }
+    return isHomePage ? value : `index.html${value}`;
   };
 
   const numberFormatter = new Intl.NumberFormat("pt-BR");
@@ -115,7 +127,9 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    const fullText = target.textContent.trim();
+    const isRichText = target.dataset.streamRich === "true";
+    const fullHtml = target.innerHTML.trim();
+    const fullText = (target.dataset.streamText || target.textContent).trim();
     if (!fullText) {
       return;
     }
@@ -127,13 +141,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     target.dataset.streamPrepared = "true";
     target.dataset.streamText = fullText;
+    if (isRichText) {
+      target.dataset.streamHtml = fullHtml;
+    }
     target.setAttribute("aria-label", fullText);
     target.textContent = "";
     target.classList.add("stream-text", "is-stream-ready");
 
     sizer.className = "stream-text-sizer";
     sizer.setAttribute("aria-hidden", "true");
-    sizer.textContent = fullText;
+    if (isRichText) {
+      sizer.innerHTML = fullHtml;
+    } else {
+      sizer.textContent = fullText;
+    }
 
     output.className = "stream-text-output";
     output.setAttribute("aria-hidden", "true");
@@ -158,7 +179,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (prefersReducedMotion()) {
       target.dataset.streamComplete = "true";
-      content.textContent = fullText;
+      if (target.dataset.streamRich === "true" && target.dataset.streamHtml) {
+        content.innerHTML = target.dataset.streamHtml;
+      } else {
+        content.textContent = fullText;
+      }
       target.classList.add("is-stream-complete");
       return;
     }
@@ -175,6 +200,9 @@ document.addEventListener("DOMContentLoaded", () => {
       content.textContent = chars.slice(0, index).join("");
 
       if (index >= chars.length) {
+        if (target.dataset.streamRich === "true" && target.dataset.streamHtml) {
+          content.innerHTML = target.dataset.streamHtml;
+        }
         target.classList.remove("is-streaming");
         target.classList.add("is-stream-complete");
         return;
@@ -190,7 +218,19 @@ document.addEventListener("DOMContentLoaded", () => {
     }, startDelay);
   };
 
-  const setupDetailsDropdownAnimations = (root, { itemSelector, summarySelector, panelSelector }) => {
+  const replayStreamText = (target) => {
+    prepareStreamText(target);
+    const content = target.querySelector(".stream-text-content");
+    if (!content) {
+      return;
+    }
+    delete target.dataset.streamComplete;
+    target.classList.remove("is-streaming", "is-stream-complete");
+    content.textContent = "";
+    playStreamText(target);
+  };
+
+  const setupDetailsDropdownAnimations = (root, { itemSelector, summarySelector, panelSelector, onOpen }) => {
     if (!root) {
       return;
     }
@@ -231,6 +271,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (prefersReducedMotion()) {
           item.open = !item.open;
+          if (item.open && typeof onOpen === "function") {
+            onOpen(item, panel);
+          }
           return;
         }
 
@@ -301,6 +344,9 @@ document.addEventListener("DOMContentLoaded", () => {
           item.classList.remove("is-opening");
           clearPanelStyles();
           isAnimating = false;
+          if (typeof onOpen === "function") {
+            onOpen(item, panel);
+          }
         };
         const handleOpenEnd = (transitionEvent) => {
           if (transitionEvent.target !== panel || transitionEvent.propertyName !== "height") {
@@ -322,7 +368,11 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const initStreamText = () => {
-    const targets = Array.from(document.querySelectorAll(".hero-intro, .hero-contact-label, .philosophy-quote, .about-quote"));
+    const targets = Array.from(
+      document.querySelectorAll(
+        ".hero-intro, .hero-contact-label, .philosophy-quote, .about-quote, #contato .contact-text .section-title, #contato .contact-text .section-subtitle",
+      ),
+    );
     if (targets.length === 0) {
       return;
     }
@@ -349,40 +399,30 @@ document.addEventListener("DOMContentLoaded", () => {
     targets.forEach((target) => observer.observe(target));
   };
 
-  const renderHeader = () => {
-    const header = document.querySelector("[data-site-header]");
-    if (!header || !data) {
-      return;
+  const socialIcon = (name) => {
+    if (name === "Instagram") {
+      return `
+        <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8">
+          <rect x="4" y="4" width="16" height="16" rx="5"></rect>
+          <circle cx="12" cy="12" r="3.6"></circle>
+          <circle cx="16.8" cy="7.2" r="0.8"></circle>
+        </svg>
+      `;
     }
 
-    const navLinks = data.navigation
-      .map(
-        (item) =>
-          `<a class="menu-link" href="${escapeHtml(item.href)}" data-nav-target="${escapeHtml(item.href)}">${escapeHtml(item.label)}</a>`,
-      )
-      .join("");
-    const socialIcon = (name) => {
-      if (name === "Instagram") {
-        return `
-          <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8">
-            <rect x="4" y="4" width="16" height="16" rx="5"></rect>
-            <circle cx="12" cy="12" r="3.6"></circle>
-            <circle cx="16.8" cy="7.2" r="0.8"></circle>
-          </svg>
-        `;
-      }
+    if (name === "Facebook") {
+      return `
+        <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
+          <path fill="currentColor" d="M14.2 8.2h2V5h-2.7c-3 0-4.6 1.8-4.6 4.7v2H6.5V15h2.4v6h3.5v-6h3l.5-3.3h-3.5v-1.6c0-1 .4-1.9 1.8-1.9Z"></path>
+        </svg>
+      `;
+    }
 
-      if (name === "Facebook") {
-        return `
-          <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
-            <path fill="currentColor" d="M14.2 8.2h2V5h-2.7c-3 0-4.6 1.8-4.6 4.7v2H6.5V15h2.4v6h3.5v-6h3l.5-3.3h-3.5v-1.6c0-1 .4-1.9 1.8-1.9Z"></path>
-          </svg>
-        `;
-      }
+    return "";
+  };
 
-      return "";
-    };
-    const socialLinks = [
+  const renderSocialLinks = (linkClass) =>
+    [
       data.contact.instagramUrl
         ? {
             href: data.contact.instagramUrl,
@@ -399,12 +439,26 @@ document.addEventListener("DOMContentLoaded", () => {
       .filter(Boolean)
       .map(
         (item) => `
-          <a class="menu-social-link" href="${escapeHtml(item.href)}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(item.label)}">
+          <a class="${escapeHtml(linkClass)}" href="${escapeHtml(item.href)}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(item.label)}">
             ${socialIcon(item.label)}
           </a>
         `,
       )
       .join("");
+
+  const renderHeader = () => {
+    const header = document.querySelector("[data-site-header]");
+    if (!header || !data) {
+      return;
+    }
+
+    const navLinks = data.navigation
+      .map(
+        (item) =>
+          `<a class="menu-link" href="${escapeHtml(resolveSiteHref(item.href))}" data-nav-target="${escapeHtml(item.href)}">${escapeHtml(item.label)}</a>`,
+      )
+      .join("");
+    const socialLinks = renderSocialLinks("menu-social-link");
     const existingMenu = document.getElementById("siteNav");
     if (existingMenu) {
       existingMenu.remove();
@@ -412,7 +466,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     header.innerHTML = `
       <div class="container header-inner">
-        <a href="#topo" class="brand" aria-label="${escapeHtml(data.brand.name)}">
+        <a href="${escapeHtml(resolveSiteHref("#topo"))}" class="brand" aria-label="${escapeHtml(data.brand.name)}">
           <img src="${escapeHtml(data.brand.logo)}" alt="${escapeHtml(data.brand.logoAlt)}" class="brand-logo" />
           <span class="brand-text">
             <span class="brand-title">${escapeHtml(data.brand.name)}</span>
@@ -420,8 +474,8 @@ document.addEventListener("DOMContentLoaded", () => {
           </span>
         </a>
         <div class="header-actions">
-          <a class="consultation-link" href="#contato"><span aria-hidden="true"></span>Fale conosco</a>
-          <a class="consultation-link consultation-link-location" href="#localizacao">
+          <a class="consultation-link" href="${escapeHtml(resolveSiteHref("#contato"))}"><span aria-hidden="true"></span>Solicitar atendimento</a>
+          <a class="consultation-link consultation-link-location" href="${escapeHtml(resolveSiteHref("#localizacao"))}">
             <span class="consultation-icon consultation-icon-pin" aria-hidden="true">
               <svg viewBox="0 0 24 24" focusable="false">
                 <path d="M12 21s7-6.15 7-12a7 7 0 1 0-14 0c0 5.85 7 12 7 12Z"></path>
@@ -445,7 +499,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <nav class="menu-panel" id="siteNav" aria-hidden="true" hidden>
         <div class="container menu-grid">
           <div class="menu-aside">
-            <img src="assets/images/display/cartorio-10-menu-720.jpg" alt="Atendimento do cartório" class="menu-image" loading="lazy" />
+            <img src="assets/images/gallery/thumbs/rio-das-ostras/2.jpg" alt="Vista de Rio das Ostras ao entardecer" class="menu-image" loading="lazy" />
             <a href="${escapeHtml(data.contact.phoneHref)}">${escapeHtml(data.contact.phoneLabel)}</a>
             <span>Atendimento em horário comercial</span>
             <a href="mailto:${escapeHtml(data.contact.email)}">${escapeHtml(data.contact.email)}</a>
@@ -462,7 +516,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const renderHero = () => `
     <section class="hero" aria-labelledby="heroTitle">
       <div class="container hero-grid">
-        <p class="hero-intro">${escapeHtml(data.hero.intro)}</p>
+        <p class="hero-intro" data-stream-rich="true" data-stream-text="${escapeHtml(data.hero.intro)}">${
+          data.hero.introHtml ? data.hero.introHtml : escapeHtml(data.hero.intro)
+        }</p>
         <figure class="hero-portrait${data.hero.imageVariant === "logo" ? " hero-portrait-logo" : ""}">
           <img src="${escapeHtml(data.hero.image)}" alt="${escapeHtml(data.hero.imageAlt)}" fetchpriority="high" decoding="async" />
           <figcaption class="hero-title-wrap">
@@ -523,6 +579,13 @@ document.addEventListener("DOMContentLoaded", () => {
               <article class="practice-card">
                 <h3>${escapeHtml(item.title)}</h3>
                 <p>${escapeHtml(item.text)}</p>
+                <button
+                  type="button"
+                  class="practice-card-action"
+                  data-faq-jump-category="${escapeHtml(item.faqCategory || "Todas")}"
+                  data-faq-jump-query="${escapeHtml(item.faqQuery || "")}">
+                  Ver orientações <span aria-hidden="true">→</span>
+                </button>
               </article>
             `,
           )
@@ -537,13 +600,23 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="why-copy">
           <p class="section-kicker">${escapeHtml(data.whyChoose.kicker)}</p>
           <h2 class="section-title">${escapeHtml(data.whyChoose.title)}</h2>
-          <p>${escapeHtml(data.whyChoose.text)}</p>
-          <ul class="line-list">
-            ${data.whyChoose.bullets.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
-          </ul>
+          <div class="why-details">
+            <p class="why-text">${escapeHtml(data.whyChoose.text)}</p>
+            <ul class="line-list">
+              ${data.whyChoose.bullets.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
+            </ul>
+          </div>
         </div>
-        <figure class="why-image">
+        <figure class="why-image" tabindex="0">
           <img src="${escapeHtml(data.whyChoose.image)}" alt="${escapeHtml(data.whyChoose.imageAlt)}" loading="lazy" decoding="async" />
+          ${
+            data.whyChoose.imageQuote
+              ? `<figcaption class="why-image-quote">
+                  <blockquote>"${escapeHtml(data.whyChoose.imageQuote)}"</blockquote>
+                  <cite>${escapeHtml(data.whyChoose.imageQuoteAuthor || "")}</cite>
+                </figcaption>`
+              : ""
+          }
         </figure>
         <div class="metric-stack">
           ${data.whyChoose.metrics
@@ -556,8 +629,33 @@ document.addEventListener("DOMContentLoaded", () => {
               `,
             )
             .join("")}
-          <a class="btn metric-more-link" href="#estatisticas">Ver mais</a>
+          <a class="btn metric-more-link" href="numeros-cartorio.html">Ver mais</a>
         </div>
+      </div>
+    </section>
+  `;
+
+  const renderFeaturePages = () => `
+    <section class="feature-pages" id="conteudos">
+      <div class="feature-pages-heading">
+        <p class="section-kicker">${escapeHtml(data.featurePages.kicker)}</p>
+        <div>
+          <h2 class="section-title">${escapeHtml(data.featurePages.title)}</h2>
+          <p class="section-subtitle">${escapeHtml(data.featurePages.text)}</p>
+        </div>
+      </div>
+      <div class="feature-pages-grid" aria-label="Páginas de conteúdo do cartório">
+        ${data.featurePages.cards
+          .map(
+            (card) => `
+              <a class="feature-page-card" href="${escapeHtml(card.href)}">
+                <img src="${escapeHtml(card.image)}" alt="${escapeHtml(card.imageAlt)}" loading="lazy" decoding="async" />
+                <h3>${escapeHtml(card.title)}</h3>
+                <p>${escapeHtml(card.text)}</p>
+              </a>
+            `,
+          )
+          .join("")}
       </div>
     </section>
   `;
@@ -586,11 +684,14 @@ document.addEventListener("DOMContentLoaded", () => {
           .join("")}
       </div>
     </section>
-    <section class="section section-muted" id="formularios-impressao">
-      <div class="container split-heading">
-        <p class="section-kicker">${escapeHtml(data.paperForms.kicker)}</p>
-        <h2 class="section-title">${escapeHtml(data.paperForms.title)}</h2>
-      </div>
+      <section class="section section-muted" id="formularios-impressao">
+        <div class="container split-heading">
+          <p class="section-kicker">${escapeHtml(data.paperForms.kicker)}</p>
+          <div>
+            <h2 class="section-title">${escapeHtml(data.paperForms.title)}</h2>
+            ${data.paperForms.text ? `<p class="section-subtitle">${escapeHtml(data.paperForms.text)}</p>` : ""}
+          </div>
+        </div>
       <div class="container paper-forms-grid">
         ${data.paperForms.cards
           .map(
@@ -880,7 +981,7 @@ document.addEventListener("DOMContentLoaded", () => {
               <label for="mensagem" class="field-label">Mensagem *</label>
               <textarea id="mensagem" name="message" class="field-input field-textarea" rows="5" required></textarea>
             </div>
-            <p class="form-helper">Ao enviar esta mensagem, você concorda com o tratamento dos dados informados exclusivamente para retorno de contato e prestação de informações sobre os serviços do cartório.</p>
+            <p class="form-helper">${escapeHtml(data.contactForm.privacyText)}</p>
             <button type="submit" class="btn btn-primary btn-full">Enviar mensagem</button>
             <p id="formStatus" class="form-status" aria-live="polite"></p>
           </form>
@@ -915,16 +1016,17 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="footer-logo-row">
             <img src="${escapeHtml(data.brand.logo)}" alt="${escapeHtml(data.brand.logoAlt)}" class="footer-logo" />
             <div class="footer-brand-text">
-              <span class="footer-brand-title">${escapeHtml(data.brand.name)} de Rio das Ostras</span>
+              <span class="footer-brand-title">${escapeHtml(data.brand.name)}</span>
               <span class="footer-brand-subtitle">${escapeHtml(data.brand.subtitle)}</span>
             </div>
           </div>
           <p class="footer-copy">&copy; 2026, 1º Ofício de Justiça da Comarca de Rio das Ostras/RJ. Todos os direitos reservados.</p>
+          <div class="footer-social-links" aria-label="Redes sociais">${renderSocialLinks("footer-social-link")}</div>
         </div>
         <div class="footer-column">
           <h3 class="footer-title">Menu</h3>
           <ul class="footer-contact-list">
-            ${data.navigation.map((item) => `<li><a href="${escapeHtml(item.href)}">${escapeHtml(item.label)}</a></li>`).join("")}
+            ${data.navigation.map((item) => `<li><a href="${escapeHtml(resolveSiteHref(item.href))}">${escapeHtml(item.label)}</a></li>`).join("")}
           </ul>
         </div>
         <div class="footer-column">
@@ -958,15 +1060,35 @@ document.addEventListener("DOMContentLoaded", () => {
       renderPracticeAreas(),
       renderWhyChoose(),
       renderOnlineServices(),
-      renderGuides(),
       renderHoursLocation(),
-      renderAbout(),
-      renderGallery(),
-      renderStats(),
-      renderUsefulLinks(),
       renderFaq(),
+      renderFeaturePages(),
       renderContact(),
     ].join("");
+  };
+
+  const renderContentPage = () => {
+    if (!siteRoot || !data) {
+      return;
+    }
+
+    const pageRenderers = {
+      guias: renderGuides,
+      sobre: renderAbout,
+      galeria: renderGallery,
+      numeros: renderStats,
+      links: renderUsefulLinks,
+    };
+    const renderPage = pageRenderers[contentPage];
+    siteRoot.innerHTML = renderPage ? renderPage() : "";
+  };
+
+  const renderSiteContent = () => {
+    if (isHomePage) {
+      renderHomePage();
+      return;
+    }
+    renderContentPage();
   };
 
   const initNavigation = () => {
@@ -1283,7 +1405,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const faqItems = Array.isArray(window.FAQ_ITEMS) ? window.FAQ_ITEMS : [];
-    const maxVisible = 9;
+    const maxVisible = 3;
     let activeCategory = "Todas";
     let searchTerm = "";
     let showAll = false;
@@ -1368,7 +1490,7 @@ document.addEventListener("DOMContentLoaded", () => {
       faqCategoryChips.innerHTML = categories
         .map(
           (category) => `
-            <button type="button" class="faq-chip${category === activeCategory ? " is-active" : ""}" data-faq-category="${escapeHtml(category)}">${escapeHtml(category)}</button>
+            <button type="button" class="faq-chip${category === activeCategory ? " is-active" : ""}" data-faq-category="${escapeHtml(category)}" aria-pressed="${category === activeCategory ? "true" : "false"}">${escapeHtml(category)}</button>
           `,
         )
         .join("");
@@ -1388,10 +1510,18 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const setupFaqItemAnimations = () => {
+      faqList.querySelectorAll(".faq-answer").forEach((answer) => {
+        answer.dataset.streamRich = "true";
+        prepareStreamText(answer);
+      });
+
       setupDetailsDropdownAnimations(faqList, {
         itemSelector: ".faq-item",
         summarySelector: ".faq-question",
         panelSelector: ".faq-answer",
+        onOpen: (_item, panel) => {
+          replayStreamText(panel);
+        },
       });
     };
 
@@ -1443,6 +1573,32 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       });
     };
+
+    const applyExternalFaqFilter = (category, query) => {
+      activeCategory = categories.includes(category) ? category : "Todas";
+      searchTerm = String(query || "");
+      showAll = true;
+      faqSearchInput.value = searchTerm;
+      const filterMenu = document.getElementById("faqFilterMenu");
+      if (filterMenu) {
+        filterMenu.open = true;
+      }
+      renderCategoryChips();
+      renderFaqItems();
+      scrollToFaqAfterCollapse();
+    };
+
+    document.addEventListener("click", (event) => {
+      const trigger = event.target.closest("[data-faq-jump-category]");
+      if (!trigger) {
+        return;
+      }
+      event.preventDefault();
+      applyExternalFaqFilter(
+        trigger.getAttribute("data-faq-jump-category") || "Todas",
+        trigger.getAttribute("data-faq-jump-query") || "",
+      );
+    });
 
     faqSearchInput.addEventListener("input", () => {
       searchTerm = faqSearchInput.value;
@@ -1537,51 +1693,70 @@ document.addEventListener("DOMContentLoaded", () => {
     let activeIndex = 0;
     let galleryPage = 0;
     let currentPageSize = 8;
+    let galleryTransitionTimer = null;
 
     const getGalleryPageSize = () => (isMobileViewport() ? 6 : 8);
 
-    const renderImages = () => {
-      displayImages =
-        activeFilter === "all" ? images : images.filter((image) => image.category === activeFilter);
-      currentPageSize = getGalleryPageSize();
-      const pageCount = Math.max(1, Math.ceil(displayImages.length / currentPageSize));
-      galleryPage = Math.min(galleryPage, pageCount - 1);
-      const start = galleryPage * currentPageSize;
-      const pageImages = displayImages.slice(start, start + currentPageSize);
+    const renderImages = ({ animate = false } = {}) => {
+      window.clearTimeout(galleryTransitionTimer);
 
-      galleryMasonry.innerHTML = pageImages
-        .map(
-          (image, index) => `
-            <button class="gallery-tile" type="button" data-index="${start + index}" aria-label="Abrir foto ${start + index + 1}">
-              <img src="${escapeHtml(image.thumb)}" data-full="${escapeHtml(image.full)}" alt="Foto da galeria do cartório e de Rio das Ostras" loading="${index < 6 ? "eager" : "lazy"}" decoding="async" />
-            </button>
-          `,
-        )
-        .join("");
+      const updatePage = () => {
+        displayImages =
+          activeFilter === "all" ? images : images.filter((image) => image.category === activeFilter);
+        currentPageSize = getGalleryPageSize();
+        const pageCount = Math.max(1, Math.ceil(displayImages.length / currentPageSize));
+        galleryPage = Math.min(galleryPage, pageCount - 1);
+        const start = galleryPage * currentPageSize;
+        const pageImages = displayImages.slice(start, start + currentPageSize);
 
-      const hasMultiplePages = pageCount > 1;
-      if (pagePrevBtn) {
-        pagePrevBtn.disabled = !hasMultiplePages;
+        galleryMasonry.innerHTML = pageImages
+          .map(
+            (image, index) => `
+              <button class="gallery-tile" type="button" data-index="${start + index}" aria-label="Abrir foto ${start + index + 1}">
+                <img src="${escapeHtml(image.thumb)}" data-full="${escapeHtml(image.full)}" alt="Foto da galeria do cartório e de Rio das Ostras" loading="${index < 6 ? "eager" : "lazy"}" decoding="async" />
+              </button>
+            `,
+          )
+          .join("");
+
+        const hasMultiplePages = pageCount > 1;
+        if (pagePrevBtn) {
+          pagePrevBtn.disabled = !hasMultiplePages;
+        }
+        if (pageNextBtn) {
+          pageNextBtn.disabled = !hasMultiplePages;
+        }
+        if (pageStatus) {
+          pageStatus.innerHTML = hasMultiplePages
+            ? Array.from({ length: pageCount }, (_, index) => {
+                const isActive = index === galleryPage;
+                return `
+                  <button
+                    type="button"
+                    class="gallery-page-dot${isActive ? " is-active" : ""}"
+                    data-gallery-page="${index}"
+                    aria-label="Ir para página ${index + 1} de ${pageCount}"
+                    ${isActive ? 'aria-current="page"' : ""}>
+                  </button>
+                `;
+              }).join("")
+            : "";
+        }
+      };
+
+      if (animate && !prefersReducedMotion()) {
+        galleryMasonry.classList.add("is-transitioning");
+        galleryTransitionTimer = window.setTimeout(() => {
+          updatePage();
+          window.requestAnimationFrame(() => {
+            galleryMasonry.classList.remove("is-transitioning");
+          });
+        }, 180);
+        return;
       }
-      if (pageNextBtn) {
-        pageNextBtn.disabled = !hasMultiplePages;
-      }
-      if (pageStatus) {
-        pageStatus.innerHTML = hasMultiplePages
-          ? Array.from({ length: pageCount }, (_, index) => {
-              const isActive = index === galleryPage;
-              return `
-                <button
-                  type="button"
-                  class="gallery-page-dot${isActive ? " is-active" : ""}"
-                  data-gallery-page="${index}"
-                  aria-label="Ir para página ${index + 1} de ${pageCount}"
-                  ${isActive ? 'aria-current="page"' : ""}>
-                </button>
-              `;
-            }).join("")
-          : "";
-      }
+
+      galleryMasonry.classList.remove("is-transitioning");
+      updatePage();
     };
 
     const setFilter = (filter) => {
@@ -1657,12 +1832,12 @@ document.addEventListener("DOMContentLoaded", () => {
     pagePrevBtn?.addEventListener("click", () => {
       const pageCount = Math.max(1, Math.ceil(displayImages.length / currentPageSize));
       galleryPage = (galleryPage - 1 + pageCount) % pageCount;
-      renderImages();
+      renderImages({ animate: true });
     });
     pageNextBtn?.addEventListener("click", () => {
       const pageCount = Math.max(1, Math.ceil(displayImages.length / currentPageSize));
       galleryPage = (galleryPage + 1) % pageCount;
-      renderImages();
+      renderImages({ animate: true });
     });
     pageStatus?.addEventListener("click", (event) => {
       const button = event.target instanceof Element ? event.target.closest("[data-gallery-page]") : null;
@@ -1675,7 +1850,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
       galleryPage = nextPage;
-      renderImages();
+      renderImages({ animate: true });
     });
     window.addEventListener("resize", renderImages);
 
@@ -1951,7 +2126,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   renderHeader();
-  renderHomePage();
+  renderSiteContent();
   renderFooter();
   promoteFloatingWhatsApp();
   updateWhyMetrics();

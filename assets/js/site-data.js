@@ -21,9 +21,9 @@
 
   window.SiteData = {
     brand: {
-      name: "1º Ofício de Justiça",
+      name: "1º Ofício de Justiça de Rio das Ostras",
       shortName: "1º Ofício",
-      subtitle: "Notas · Protesto · RCPN · Rio das Ostras/RJ",
+      subtitle: "Notas · Protesto · Registro Civil",
       logo: "assets/images/display/cartorio-icon-140.png",
       logoAlt: "Logo do Cartório do 1º Ofício de Justiça de Rio das Ostras",
     },
@@ -32,17 +32,62 @@
       { label: "Início", href: "#topo" },
       { label: "Serviços", href: "#servicos" },
       { label: "Online", href: "#online" },
-      { label: "Guias", href: "#guias-cidadao" },
       { label: "Horário", href: "#horario" },
       { label: "FAQ", href: "#faq" },
+      { label: "Explore mais", href: "#conteudos" },
       { label: "Localização", href: "#localizacao" },
-      { label: "Sobre", href: "#sobre" },
       { label: "Contato", href: "#contato" },
     ],
+    featurePages: {
+      kicker: "Explore mais",
+      title:
+        "Mais informações",
+      text:
+        "Acesse guias, links oficiais, fotos e informações sobre o cartório.",
+      cards: [
+        {
+          title: "Guias ao cidadão",
+          text: "Orientações práticas por assunto antes do atendimento.",
+          href: "guias.html",
+          image: "assets/images/display/feature-guias-1100.jpg",
+          imageAlt: "Documentos, chaves e balança em mesa de cartório",
+        },
+        {
+          title: "Sobre o tabelião",
+          text: "Trajetória e atuação do titular do 1º Ofício.",
+          href: "sobre-tabeliao.html",
+          image: "assets/images/display/robson-720.jpg",
+          imageAlt: "Robson Martins, Tabelião do 1º Ofício de Rio das Ostras",
+        },
+        {
+          title: "Galeria de fotos",
+          text: "Fotos do cartório e de Rio das Ostras.",
+          href: "cartorio-e-cidade.html",
+          image: "assets/images/display/rio-das-ostras-5-1000.jpg",
+          imageAlt: "Rio das Ostras ao pôr do sol",
+        },
+        {
+          title: "Números do cartório",
+          text: "Indicadores por ano e tipo de serviço.",
+          href: "numeros-cartorio.html",
+          image: "assets/images/display/feature-numeros-1100.jpg",
+          imageAlt: "Indicadores do cartório em notebook sobre mesa de documentos",
+        },
+        {
+          title: "Links úteis",
+          text: "Portais oficiais para consultas e serviços.",
+          href: "links-uteis.html",
+          image: "assets/images/display/feature-links-1100.jpg",
+          imageAlt: "Cartões com atalhos de serviços oficiais em mesa de cartório",
+        },
+      ],
+    },
     hero: {
       eyebrow: "",
       intro:
-        "Notas, protesto e Registro Civil com orientação clara, segurança jurídica e atendimento próximo.",
+        "Atendimento presencial: segunda a sexta, das 9h às 17h. Plantão para nascimento e óbito: fins de semana e feriados, das 9h às 12h.",
+      introHtml:
+        "<strong>Atendimento presencial:</strong> segunda a sexta, das 9h às 17h.<br><strong>Plantão para nascimento e óbito:</strong> fins de semana e feriados, das 9h às 12h.",
       titleLines: ["1º Ofício", "de Justiça"],
       image: "assets/images/gallery/thumbs/cartorio/3.jpg",
       imageVariant: "photo",
@@ -50,7 +95,7 @@
       sideNote: "",
     },
     philosophy: {
-      kicker: "Nossa filosofia",
+      kicker: "Nosso compromisso",
       quote:
         "Atuar com técnica, transparência e respeito ao cidadão, tornando cada ato cartorário mais claro, seguro e acessível.",
       image: "assets/images/display/rio-das-ostras-5-1000.jpg",
@@ -58,49 +103,63 @@
       link: null,
     },
     practiceAreas: {
-      kicker: "Atos do cartório",
+      kicker: "Serviços do cartório",
       image: "assets/images/display/cartorio-13-900.jpg",
       imageAlt: "Ambiente interno do cartório",
       title:
-        "Serviços notariais, de protesto e de Registro Civil para proteger direitos, formalizar escolhas e dar validade aos atos da vida civil.",
+        "Resolva serviços de notas, protesto e Registro Civil com orientação da equipe.",
       text:
-        "A equipe orienta documentos, prazos e procedimentos conforme a legislação e as normas do Poder Judiciário.",
+        "Antes de iniciar o atendimento, você pode consultar documentos necessários, prazos e formas de solicitação.",
       items: [
         {
           title: "Escrituras públicas",
           text: "Compra e venda, doação, permuta, inventário, divórcio consensual, união estável e outros atos notariais.",
+          faqCategory: "Escrituras e Notas",
+          faqQuery: "escrituras",
         },
         {
           title: "Registro Civil",
           text: "Nascimento, casamento, óbito, averbações e transcrições de registros ocorridos no exterior.",
+          faqCategory: "Registro Civil",
+          faqQuery: "",
         },
         {
           title: "Protesto de títulos",
           text: "Protocolo, intimação, lavratura, pagamento e cancelamento de protestos com observância dos prazos legais.",
+          faqCategory: "Quadros-resumo",
+          faqQuery: "protesto",
         },
         {
           title: "Firmas e autenticações",
           text: "Reconhecimento de firma, autenticação de cópias, apostilamento de Haia e serviços eletrônicos pelo e-Notariado.",
+          faqCategory: "Escrituras e Notas",
+          faqQuery: "autenticação firma",
         },
         {
           title: "Certidões",
           text: "Certidões de atos notariais, protesto, Registro Civil e certidão negativa de Interdição, Tutela e Curatela.",
+          faqCategory: "Todas",
+          faqQuery: "certidões",
         },
         {
           title: "Orientação ao cidadão",
           text: "Guias práticos e atendimento para esclarecer documentos necessários antes do serviço presencial ou online.",
+          faqCategory: "Atendimento",
+          faqQuery: "",
         },
       ],
     },
     whyChoose: {
-      kicker: "Por que escolher",
+      kicker: "Por que escolher nosso cartório",
       title:
         "Atendimento técnico e humano para transformar procedimentos complexos em etapas compreensíveis.",
       text:
-        "Cada solicitação é conduzida com atenção aos documentos, à validade jurídica do ato e ao retorno claro para o usuário.",
+        "Utilizamos canais e sistemas oficiais para dar mais segurança aos serviços digitais.",
       bullets: ["Orientação antes do atendimento", "Serviços presenciais e online", "Integração com plataformas oficiais"],
-      image: "assets/images/display/cartorio-11-1000.jpg",
-      imageAlt: "Detalhe do ambiente do cartório",
+      image: "assets/images/display/jean-cocteau-bust-1100.jpg",
+      imageAlt: "Busto de Jean Cocteau",
+      imageQuote: "A delicadeza da audácia está em saber até que ponto se pode ir longe demais.",
+      imageQuoteAuthor: "Jean Cocteau",
       metrics: [
         { label: "Lavraturas de escritura", key: "lavratura-escritura", value: "0" },
         { label: "Registros de casamento", key: "registro-casamento", value: "0" },
@@ -111,29 +170,29 @@
       kicker: "Serviços online",
       title: "Solicite sem sair de casa e receba orientação da equipe.",
       text:
-        "Escolha o serviço, preencha os dados e envie a solicitação para análise. Quando necessário, nossa equipe informa documentos, valores e próximos passos.",
+        "Após a análise, nossa equipe informa os documentos necessários, valores, prazos e como concluir o serviço.",
       cards: [
         {
           title: "Escrituras e atos notariais",
-          text: "Análise inicial para escrituras, inventários, divórcios consensuais e outros atos de notas.",
+          text: "Inicie pedidos de escrituras, inventários, divórcios consensuais e outros atos de notas.",
           href: "servico-escrituras.html",
           meta: "Formulário online",
         },
         {
           title: "Certidões",
-          text: "Pedido de certidões de escritura, procuração, substabelecimento, protesto e demais atos.",
+          text: "Peça certidões de escritura, procuração, substabelecimento, protesto e outros atos.",
           href: "servico-certidoes.html",
           meta: "Formulário online",
         },
         {
           title: "Certidão negativa de ITC",
-          text: "Certidão de Interdição, Tutela e Curatela com envio de comprovante de pagamento.",
+          text: "Solicite a certidão de Interdição, Tutela e Curatela e envie o comprovante de pagamento.",
           href: "servico-certidao-negativa-itc.html",
           meta: "Formulário online",
         },
         {
           title: "Registro Civil e 2ª via digital",
-          text: "Acesso à plataforma oficial para pedir segunda via de certidões e outros serviços do Registro Civil.",
+          text: "Acesse a plataforma oficial para pedir segunda via de certidões e outros serviços do Registro Civil.",
           href: "https://home.registrocivil.org.br",
           meta: "Portal oficial",
           external: true,
@@ -143,17 +202,18 @@
     paperForms: {
       kicker: "Formulários para impressão",
       title: "Ganhe tempo no atendimento presencial.",
+      text: "Preencha antes de ir ao cartório e agilize o atendimento presencial.",
       cards: [
         {
           title: "Casamentos em Rio das Ostras",
           text:
-            "Formulários necessários para dar entrada no processo de casamento civil em Rio das Ostras.",
+            "Formulários para iniciar o processo de habilitação de casamento civil.",
           href: "formularios-casamento.html",
         },
         {
           title: "Transcrições e anotações do Registro Civil",
           text:
-            "Pedidos relacionados a nascimentos, casamentos e óbitos ocorridos no exterior.",
+            "Pedidos relacionados a nascimento, casamento e óbito ocorridos no exterior.",
           href: "formularios-registro-civil.html",
         },
       ],
@@ -253,9 +313,11 @@
       ],
     },
     contactForm: {
-      title: "Envie uma mensagem",
+      title: "Precisa de orientação?",
       text:
-        "Use o formulário para tirar dúvidas ou pedir informações sobre serviços e documentos. Após o envio, você receberá uma confirmação por e-mail.",
+        "Envie sua mensagem com o serviço desejado. Nossa equipe responderá em horário comercial.",
+      privacyText:
+        "Ao enviar, você autoriza o uso dos dados informados apenas para resposta ao seu contato e orientação sobre os serviços do cartório.",
       action: "https://api.web3forms.com/submit",
       accessKey: "2a703f7e-b77b-4478-97f2-c9d8379ad11b",
       subject: "Novo formulário de contato - Site 1º Ofício Rio das Ostras",
