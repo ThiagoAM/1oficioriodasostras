@@ -2206,17 +2206,59 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    const hero = heroTitle.closest(".hero");
     const mobileQuery = window.matchMedia("(max-width: 820px)");
     const minFontSize = 34;
     const edgePadding = 18;
+    const animationExtremes = [
+      { first: "0px", last: "0px" },
+      { first: "58px", last: "-58px" },
+    ];
+    let fittedWidth = 0;
+    let fittedFontSize = "";
     let fitFrame = 0;
 
-    const fitTitle = () => {
-      heroTitle.style.fontSize = "";
+    const withHeroTitleOffsets = (offsets, measure) => {
+      if (!hero) {
+        return measure();
+      }
+
+      const previousFirst = hero.style.getPropertyValue("--hero-title-first-scroll-x");
+      const previousLast = hero.style.getPropertyValue("--hero-title-last-scroll-x");
+      hero.style.setProperty("--hero-title-first-scroll-x", offsets.first);
+      hero.style.setProperty("--hero-title-last-scroll-x", offsets.last);
+      try {
+        return measure();
+      } finally {
+        if (previousFirst) {
+          hero.style.setProperty("--hero-title-first-scroll-x", previousFirst);
+        } else {
+          hero.style.removeProperty("--hero-title-first-scroll-x");
+        }
+
+        if (previousLast) {
+          hero.style.setProperty("--hero-title-last-scroll-x", previousLast);
+        } else {
+          hero.style.removeProperty("--hero-title-last-scroll-x");
+        }
+      }
+    };
+
+    const fitTitle = (force = false) => {
       if (!mobileQuery.matches) {
+        heroTitle.style.fontSize = "";
+        fittedWidth = 0;
+        fittedFontSize = "";
         return;
       }
 
+      const viewportWidth = window.innerWidth;
+      if (!force && fittedWidth === viewportWidth && fittedFontSize) {
+        heroTitle.style.fontSize = fittedFontSize;
+        return;
+      }
+
+      heroTitle.style.fontSize = "";
       const titleLines = Array.from(heroTitle.querySelectorAll("span"));
       if (titleLines.length === 0) {
         return;
@@ -2224,26 +2266,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
       let fontSize = parseFloat(window.getComputedStyle(heroTitle).fontSize);
       const hasOverflow = () =>
-        titleLines.some((line) => {
-          const rect = line.getBoundingClientRect();
-          return rect.left < edgePadding || rect.right > window.innerWidth - edgePadding;
-        });
+        animationExtremes.some((offsets) =>
+          withHeroTitleOffsets(offsets, () =>
+            titleLines.some((line) => {
+              const rect = line.getBoundingClientRect();
+              return rect.left < edgePadding || rect.right > viewportWidth - edgePadding;
+            }),
+          ),
+        );
 
       while (fontSize > minFontSize && hasOverflow()) {
         fontSize -= 1;
         heroTitle.style.fontSize = `${fontSize}px`;
       }
+
+      fittedWidth = viewportWidth;
+      fittedFontSize = `${fontSize}px`;
+      heroTitle.style.fontSize = fittedFontSize;
     };
 
-    const requestFit = () => {
+    const requestFit = (force = false) => {
       window.cancelAnimationFrame(fitFrame);
-      fitFrame = window.requestAnimationFrame(fitTitle);
+      fitFrame = window.requestAnimationFrame(() => fitTitle(force));
     };
 
     requestFit();
-    window.addEventListener("resize", requestFit);
+    window.addEventListener("resize", () => requestFit());
+    mobileQuery.addEventListener("change", () => requestFit(true));
     if (document.fonts?.ready) {
-      document.fonts.ready.then(requestFit).catch(() => {});
+      document.fonts.ready.then(() => requestFit(true)).catch(() => {});
     }
   };
 

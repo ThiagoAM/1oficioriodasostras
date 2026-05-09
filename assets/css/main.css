@@ -1276,20 +1276,17 @@ button {
     content: "- ";
 }
 
-.why-image:hover img,
 .why-image:focus-visible img,
 .why-image.is-quote-open img {
     filter: saturate(0.7) contrast(0.92) brightness(0.72);
     transform: scale(1.045);
 }
 
-.why-image:hover::after,
 .why-image:focus-visible::after,
 .why-image.is-quote-open::after {
     opacity: 1;
 }
 
-.why-image:hover .why-image-quote,
 .why-image:focus-visible .why-image-quote,
 .why-image.is-quote-open .why-image-quote {
     opacity: 1;
@@ -1298,6 +1295,22 @@ button {
 
 .why-image:focus-visible {
     outline: 2px solid var(--accent);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .why-image:hover img {
+        filter: saturate(0.7) contrast(0.92) brightness(0.72);
+        transform: scale(1.045);
+    }
+
+    .why-image:hover::after {
+        opacity: 1;
+    }
+
+    .why-image:hover .why-image-quote {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .metric-stack {
@@ -3508,6 +3521,8 @@ button {
 
     .gallery-toolbar {
         top: 68px;
+        margin-bottom: 12px;
+        padding-bottom: 24px;
     }
 
     .stats-toolbar {
