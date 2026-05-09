@@ -31,11 +31,10 @@
     navigation: [
       { label: "Início", href: "#topo" },
       { label: "Serviços", href: "#servicos" },
-      { label: "Online", href: "#online" },
-      { label: "Horário", href: "#horario" },
-      { label: "FAQ", href: "#faq" },
-      { label: "Explore mais", href: "#conteudos" },
       { label: "Localização", href: "#localizacao" },
+      { label: "Horário", href: "#horario" },
+      { label: "Perguntas frequentes", href: "perguntas-frequentes.html" },
+      { label: "Explore mais", href: "#conteudos" },
       { label: "Contato", href: "#contato" },
     ],
     featurePages: {
@@ -45,6 +44,27 @@
       text:
         "Acesse guias, links oficiais, fotos e informações sobre o cartório.",
       cards: [
+        {
+          title: "Serviços online",
+          text: "Solicite serviços sem sair de casa e receba orientação da equipe.",
+          href: "servicos-online.html",
+          image: "assets/images/display/feature-servicos-online-1100.jpg",
+          imageAlt: "Notebook com formulário online em mesa de cartório",
+        },
+        {
+          title: "Formulários para impressão",
+          text: "Preencha formulários antes do atendimento presencial.",
+          href: "formularios-impressao.html",
+          image: "assets/images/display/feature-formularios-impressao-1100.jpg",
+          imageAlt: "Formulários impressos em mesa de atendimento",
+        },
+        {
+          title: "Perguntas frequentes",
+          text: "Consulte orientações por assunto, documentos, prazos e valores.",
+          href: "perguntas-frequentes.html",
+          image: "assets/images/display/feature-perguntas-frequentes-1100.jpg",
+          imageAlt: "Atendimento com tablet exibindo perguntas frequentes",
+        },
         {
           title: "Guias ao cidadão",
           text: "Orientações práticas por assunto antes do atendimento.",
@@ -87,7 +107,7 @@
       intro:
         "Atendimento presencial: segunda a sexta, das 9h às 17h. Plantão para nascimento e óbito: fins de semana e feriados, das 9h às 12h.",
       introHtml:
-        "<strong>Atendimento presencial:</strong> segunda a sexta, das 9h às 17h.<br><strong>Plantão para nascimento e óbito:</strong> fins de semana e feriados, das 9h às 12h.",
+        "<strong>Atendimento presencial:</strong><br>segunda a sexta, das 9h às 17h.<br><strong>Plantão para nascimento e óbito:</strong><br>fins de semana e feriados, das 9h às 12h.",
       titleLines: ["1º Ofício", "de Justiça"],
       image: "assets/images/gallery/thumbs/cartorio/3.jpg",
       imageVariant: "photo",
@@ -276,8 +296,7 @@
         { title: "Plantão de nascimento e óbito", text: "Sábados, domingos e feriados, das 9h às 12h." },
         { title: "Serviços online", text: "Solicitações podem ser enviadas a qualquer momento, com análise em horário comercial." },
       ],
-      note:
-        "Atos não urgentes realizados em fins de semana e feriados são direcionados para o próximo dia útil.",
+      note: "",
     },
     about: {
       kicker: "Sobre o tabelião",

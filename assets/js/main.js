@@ -34,6 +34,19 @@ document.addEventListener("DOMContentLoaded", () => {
     return isHomePage ? value : `index.html${value}`;
   };
 
+  const getFaqHref = (category = "Todas", query = "") => {
+    const params = new URLSearchParams();
+    if (category && category !== "Todas") {
+      params.set("categoria", category);
+    }
+    if (query) {
+      params.set("busca", query);
+    }
+
+    const queryString = params.toString();
+    return `perguntas-frequentes.html${queryString ? `?${queryString}` : ""}`;
+  };
+
   const numberFormatter = new Intl.NumberFormat("pt-BR");
   const prefersReducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const isMobileViewport = () => window.matchMedia("(max-width: 820px)").matches;
@@ -438,7 +451,7 @@ document.addEventListener("DOMContentLoaded", () => {
     playStreamText(target);
   };
 
-  const setupDetailsDropdownAnimations = (root, { itemSelector, summarySelector, panelSelector, onOpen }) => {
+  const setupDetailsDropdownAnimations = (root, { itemSelector, summarySelector, panelSelector, onBeforeOpen, onOpen }) => {
     if (!root) {
       return;
     }
@@ -478,8 +491,12 @@ document.addEventListener("DOMContentLoaded", () => {
         event.preventDefault();
 
         if (prefersReducedMotion()) {
-          item.open = !item.open;
-          if (item.open && typeof onOpen === "function") {
+          const willOpen = !item.open;
+          item.open = willOpen;
+          if (willOpen && typeof onBeforeOpen === "function") {
+            onBeforeOpen(item, panel);
+          }
+          if (willOpen && typeof onOpen === "function") {
             onOpen(item, panel);
           }
           return;
@@ -534,6 +551,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const padding = getPanelPadding();
         item.open = true;
+        if (typeof onBeforeOpen === "function") {
+          onBeforeOpen(item, panel);
+        }
         item.classList.add("is-opening");
         panel.style.height = "0px";
         panel.style.opacity = "0";
@@ -787,13 +807,13 @@ document.addEventListener("DOMContentLoaded", () => {
               <article class="practice-card">
                 <h3>${escapeHtml(item.title)}</h3>
                 <p>${escapeHtml(item.text)}</p>
-                <button
-                  type="button"
+                <a
+                  href="${escapeHtml(getFaqHref(item.faqCategory || "Todas", item.faqQuery || ""))}"
                   class="practice-card-action"
                   data-faq-jump-category="${escapeHtml(item.faqCategory || "Todas")}"
                   data-faq-jump-query="${escapeHtml(item.faqQuery || "")}">
                   Ver orientações <span aria-hidden="true">→</span>
-                </button>
+                </a>
               </article>
             `,
           )
@@ -815,7 +835,7 @@ document.addEventListener("DOMContentLoaded", () => {
             </ul>
           </div>
         </div>
-        <figure class="why-image" tabindex="0">
+        <figure class="why-image" tabindex="0" role="button" aria-pressed="false" aria-label="Mostrar ou ocultar citação">
           <img src="${escapeHtml(data.whyChoose.image)}" alt="${escapeHtml(data.whyChoose.imageAlt)}" loading="lazy" decoding="async" />
           ${
             data.whyChoose.imageQuote
@@ -896,14 +916,17 @@ document.addEventListener("DOMContentLoaded", () => {
           .join("")}
       </div>
     </section>
-      <section class="section section-muted" id="formularios-impressao">
-        <div class="container split-heading">
-          <p class="section-kicker">${escapeHtml(data.paperForms.kicker)}</p>
-          <div>
-            <h2 class="section-title">${escapeHtml(data.paperForms.title)}</h2>
-            ${data.paperForms.text ? `<p class="section-subtitle">${escapeHtml(data.paperForms.text)}</p>` : ""}
-          </div>
+  `;
+
+  const renderPaperForms = () => `
+    <section class="section section-muted" id="formularios-impressao">
+      <div class="container split-heading">
+        <p class="section-kicker">${escapeHtml(data.paperForms.kicker)}</p>
+        <div>
+          <h2 class="section-title">${escapeHtml(data.paperForms.title)}</h2>
+          ${data.paperForms.text ? `<p class="section-subtitle">${escapeHtml(data.paperForms.text)}</p>` : ""}
         </div>
+      </div>
       <div class="container paper-forms-grid">
         ${data.paperForms.cards
           .map(
@@ -955,28 +978,6 @@ document.addEventListener("DOMContentLoaded", () => {
   `;
 
   const renderHoursLocation = () => `
-    <section class="section section-dark" id="horario">
-      <div class="container hours-grid">
-        <div>
-          <p class="section-kicker">${escapeHtml(data.hours.kicker)}</p>
-          <h2 class="section-title">${escapeHtml(data.hours.title)}</h2>
-          <p class="section-subtitle">${escapeHtml(data.hours.intro)}</p>
-        </div>
-        <div class="hours-list">
-          ${data.hours.items
-            .map(
-              (item) => `
-                <article class="hours-item">
-                  <strong>${escapeHtml(item.title)}</strong>
-                  <p>${escapeHtml(item.text)}</p>
-                </article>
-              `,
-            )
-            .join("")}
-          <p class="hours-note">${escapeHtml(data.hours.note)}</p>
-        </div>
-      </div>
-    </section>
     <section class="section section-light" id="localizacao">
       <div class="container location-grid">
         <div class="location-text">
@@ -1001,6 +1002,28 @@ document.addEventListener("DOMContentLoaded", () => {
             allowfullscreen
             referrerpolicy="no-referrer-when-downgrade">
           </iframe>
+        </div>
+      </div>
+    </section>
+    <section class="section section-dark" id="horario">
+      <div class="container hours-grid">
+        <div>
+          <p class="section-kicker">${escapeHtml(data.hours.kicker)}</p>
+          <h2 class="section-title">${escapeHtml(data.hours.title)}</h2>
+          <p class="section-subtitle">${escapeHtml(data.hours.intro)}</p>
+        </div>
+        <div class="hours-list">
+          ${data.hours.items
+            .map(
+              (item) => `
+                <article class="hours-item">
+                  <strong>${escapeHtml(item.title)}</strong>
+                  <p>${escapeHtml(item.text)}</p>
+                </article>
+              `,
+            )
+            .join("")}
+          ${data.hours.note ? `<p class="hours-note">${escapeHtml(data.hours.note)}</p>` : ""}
         </div>
       </div>
     </section>
@@ -1038,17 +1061,14 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
       <div class="container gallery-toolbar">
         <div class="stats-year-switch" id="galleryCategoryControls" role="group" aria-label="Filtrar fotos da galeria">
-          <button type="button" class="stats-year-btn is-active" data-gallery-filter="all" aria-pressed="true">Tudo</button>
+          <button type="button" class="stats-year-btn is-active" data-gallery-filter="all" aria-pressed="true">Todos</button>
           <button type="button" class="stats-year-btn" data-gallery-filter="cartorio" aria-pressed="false">Cartório</button>
           <button type="button" class="stats-year-btn" data-gallery-filter="rio-das-ostras" aria-pressed="false">Rio das Ostras</button>
         </div>
       </div>
       <div class="container gallery-stage">
-        <button class="gallery-page-btn gallery-page-prev" id="galleryPagePrev" type="button" aria-label="Fotos anteriores">‹</button>
         <div class="gallery-masonry" id="galleryMasonry" aria-label="Galeria de fotos do cartório e de Rio das Ostras"></div>
-        <button class="gallery-page-btn gallery-page-next" id="galleryPageNext" type="button" aria-label="Próximas fotos">›</button>
       </div>
-      <div class="container gallery-page-dots" id="galleryPageStatus" aria-label="Páginas da galeria"></div>
       <div class="gallery-lightbox" id="galleryLightbox" aria-hidden="true">
         <button class="lightbox-close" id="lightboxClose" type="button" aria-label="Fechar visualização">×</button>
         <button class="lightbox-nav lightbox-nav-prev" id="lightboxPrev" type="button" aria-label="Imagem anterior">‹</button>
@@ -1225,13 +1245,13 @@ document.addEventListener("DOMContentLoaded", () => {
       </section>
       <div class="container footer-grid">
         <div class="footer-brand">
-          <div class="footer-logo-row">
+          <a href="${escapeHtml(resolveSiteHref("#topo"))}" class="footer-logo-row" aria-label="Voltar ao início">
             <img src="${escapeHtml(data.brand.logo)}" alt="${escapeHtml(data.brand.logoAlt)}" class="footer-logo" />
             <div class="footer-brand-text">
               <span class="footer-brand-title">${escapeHtml(data.brand.name)}</span>
               <span class="footer-brand-subtitle">${escapeHtml(data.brand.subtitle)}</span>
             </div>
-          </div>
+          </a>
           <p class="footer-copy">&copy; 2026, 1º Ofício de Justiça da Comarca de Rio das Ostras/RJ. Todos os direitos reservados.</p>
           <div class="footer-social-links" aria-label="Redes sociais">${renderSocialLinks("footer-social-link")}</div>
         </div>
@@ -1271,9 +1291,7 @@ document.addEventListener("DOMContentLoaded", () => {
       renderPhilosophy(),
       renderPracticeAreas(),
       renderWhyChoose(),
-      renderOnlineServices(),
       renderHoursLocation(),
-      renderFaq(),
       renderFeaturePages(),
       renderContact(),
     ].join("");
@@ -1290,6 +1308,9 @@ document.addEventListener("DOMContentLoaded", () => {
       galeria: renderGallery,
       numeros: renderStats,
       links: renderUsefulLinks,
+      online: renderOnlineServices,
+      formularios: renderPaperForms,
+      faq: renderFaq,
     };
     const renderPage = pageRenderers[contentPage];
     siteRoot.innerHTML = renderPage ? renderPage() : "";
@@ -1496,6 +1517,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const years = Object.keys(statsData.years);
     let activeYear = statsData.years[statsData.preferredYear] ? statsData.preferredYear : years[0];
     let activeType = "all";
+    let statsTransitionTimer = null;
 
     const setPressed = (buttons, attr, value) => {
       buttons.forEach((button) => {
@@ -1505,7 +1527,8 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     };
 
-    const render = () => {
+    const render = ({ animate = false } = {}) => {
+      window.clearTimeout(statsTransitionTimer);
       const yearData = statsData.years[activeYear];
       if (!yearData) {
         return;
@@ -1514,25 +1537,42 @@ document.addEventListener("DOMContentLoaded", () => {
       const items =
         activeType === "all" ? yearData.items : yearData.items.filter((item) => item.category === activeType);
 
-      statsGrid.classList.toggle("stats-grid--compact", items.length <= 2);
-      statsGrid.innerHTML = items
-        .map((item) => {
-          const isVisitMetricLoading = item.id === VISITS_METRIC_KEY && !siteVisitMetricsLoaded;
-          const displayValue = isVisitMetricLoading ? "..." : numberFormatter.format(item.value);
-          return `
-            <article class="stats-card" data-stat-id="${escapeHtml(item.id)}">
-              <span>${escapeHtml(statsData.categories[item.category] || item.category)}</span>
-              <strong${isVisitMetricLoading ? ' class="is-loading" aria-busy="true"' : ""}>${escapeHtml(displayValue)}</strong>
-              <h3>${escapeHtml(item.label)}</h3>
-            </article>
-          `;
-        })
-        .join("");
-
-      statsPeriodLabel.textContent = yearData.period;
       setPressed(yearButtons, "data-stats-year", activeYear);
       setPressed(typeButtons, "data-stats-type", activeType);
-      updateWhyMetrics();
+
+      const updateStatsContent = () => {
+        statsGrid.classList.toggle("stats-grid--compact", items.length <= 2);
+        statsGrid.innerHTML = items
+          .map((item) => {
+            const isVisitMetricLoading = item.id === VISITS_METRIC_KEY && !siteVisitMetricsLoaded;
+            const displayValue = isVisitMetricLoading ? "..." : numberFormatter.format(item.value);
+            return `
+              <article class="stats-card" data-stat-id="${escapeHtml(item.id)}">
+                <span>${escapeHtml(statsData.categories[item.category] || item.category)}</span>
+                <strong${isVisitMetricLoading ? ' class="is-loading" aria-busy="true"' : ""}>${escapeHtml(displayValue)}</strong>
+                <h3>${escapeHtml(item.label)}</h3>
+              </article>
+            `;
+          })
+          .join("");
+
+        statsPeriodLabel.textContent = yearData.period;
+        updateWhyMetrics();
+      };
+
+      if (animate && !prefersReducedMotion()) {
+        statsGrid.classList.add("is-transitioning");
+        statsTransitionTimer = window.setTimeout(() => {
+          updateStatsContent();
+          window.requestAnimationFrame(() => {
+            statsGrid.classList.remove("is-transitioning");
+          });
+        }, 180);
+        return;
+      }
+
+      statsGrid.classList.remove("is-transitioning");
+      updateStatsContent();
     };
 
     yearButtons.forEach((button) => {
@@ -1542,7 +1582,7 @@ document.addEventListener("DOMContentLoaded", () => {
           return;
         }
         activeYear = year;
-        render();
+        render({ animate: true });
       });
     });
 
@@ -1553,7 +1593,7 @@ document.addEventListener("DOMContentLoaded", () => {
           return;
         }
         activeType = type;
-        render();
+        render({ animate: true });
       });
     });
 
@@ -1687,7 +1727,7 @@ document.addEventListener("DOMContentLoaded", () => {
         itemSelector: ".faq-item",
         summarySelector: ".faq-question",
         panelSelector: ".faq-answer",
-        onOpen: (_item, panel) => {
+        onBeforeOpen: (_item, panel) => {
           replayStreamText(panel);
         },
       });
@@ -1785,6 +1825,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     renderCategoryChips();
+    const params = new URLSearchParams(window.location.search);
+    const initialCategory = params.get("categoria") || params.get("category") || "Todas";
+    const initialQuery = params.get("busca") || params.get("q") || params.get("query") || "";
+    if (initialCategory !== "Todas" || initialQuery) {
+      applyExternalFaqFilter(initialCategory, initialQuery);
+      return;
+    }
+
     renderFaqItems();
   };
 
@@ -1807,9 +1855,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const initGallery = () => {
     const galleryMasonry = document.getElementById("galleryMasonry");
     const controls = document.getElementById("galleryCategoryControls");
-    const pagePrevBtn = document.getElementById("galleryPagePrev");
-    const pageNextBtn = document.getElementById("galleryPageNext");
-    const pageStatus = document.getElementById("galleryPageStatus");
     const lightbox = document.getElementById("galleryLightbox");
     const lightboxImage = document.getElementById("lightboxImage");
     const lightboxLoading = document.getElementById("lightboxLoading");
@@ -1859,63 +1904,30 @@ document.addEventListener("DOMContentLoaded", () => {
     let activeFilter = "all";
     let displayImages = images;
     let activeIndex = 0;
-    let galleryPage = 0;
-    let currentPageSize = 8;
     let galleryTransitionTimer = null;
-
-    const getGalleryPageSize = () => (isMobileViewport() ? 6 : 8);
 
     const renderImages = ({ animate = false } = {}) => {
       window.clearTimeout(galleryTransitionTimer);
 
-      const updatePage = () => {
+      const updateImages = () => {
         displayImages =
           activeFilter === "all" ? images : images.filter((image) => image.category === activeFilter);
-        currentPageSize = getGalleryPageSize();
-        const pageCount = Math.max(1, Math.ceil(displayImages.length / currentPageSize));
-        galleryPage = Math.min(galleryPage, pageCount - 1);
-        const start = galleryPage * currentPageSize;
-        const pageImages = displayImages.slice(start, start + currentPageSize);
 
-        galleryMasonry.innerHTML = pageImages
+        galleryMasonry.innerHTML = displayImages
           .map(
             (image, index) => `
-              <button class="gallery-tile" type="button" data-index="${start + index}" aria-label="Abrir foto ${start + index + 1}">
-                <img src="${escapeHtml(image.thumb)}" data-full="${escapeHtml(image.full)}" alt="Foto da galeria do cartório e de Rio das Ostras" loading="${index < 6 ? "eager" : "lazy"}" decoding="async" />
+              <button class="gallery-tile" type="button" data-index="${index}" aria-label="Abrir foto ${index + 1}">
+                <img src="${escapeHtml(image.thumb)}" data-full="${escapeHtml(image.full)}" alt="Foto da galeria do cartório e de Rio das Ostras" loading="${index < 8 ? "eager" : "lazy"}" decoding="async" />
               </button>
             `,
           )
           .join("");
-
-        const hasMultiplePages = pageCount > 1;
-        if (pagePrevBtn) {
-          pagePrevBtn.disabled = !hasMultiplePages;
-        }
-        if (pageNextBtn) {
-          pageNextBtn.disabled = !hasMultiplePages;
-        }
-        if (pageStatus) {
-          pageStatus.innerHTML = hasMultiplePages
-            ? Array.from({ length: pageCount }, (_, index) => {
-                const isActive = index === galleryPage;
-                return `
-                  <button
-                    type="button"
-                    class="gallery-page-dot${isActive ? " is-active" : ""}"
-                    data-gallery-page="${index}"
-                    aria-label="Ir para página ${index + 1} de ${pageCount}"
-                    ${isActive ? 'aria-current="page"' : ""}>
-                  </button>
-                `;
-              }).join("")
-            : "";
-        }
       };
 
       if (animate && !prefersReducedMotion()) {
         galleryMasonry.classList.add("is-transitioning");
         galleryTransitionTimer = window.setTimeout(() => {
-          updatePage();
+          updateImages();
           window.requestAnimationFrame(() => {
             galleryMasonry.classList.remove("is-transitioning");
           });
@@ -1924,18 +1936,17 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       galleryMasonry.classList.remove("is-transitioning");
-      updatePage();
+      updateImages();
     };
 
     const setFilter = (filter) => {
       activeFilter = filter === "cartorio" || filter === "rio-das-ostras" ? filter : "all";
-      galleryPage = 0;
       controls?.querySelectorAll("[data-gallery-filter]").forEach((button) => {
         const isActive = button.getAttribute("data-gallery-filter") === activeFilter;
         button.classList.toggle("is-active", isActive);
         button.setAttribute("aria-pressed", isActive ? "true" : "false");
       });
-      renderImages();
+      renderImages({ animate: true });
     };
 
     const loadLightboxImage = (index) => {
@@ -1997,29 +2008,6 @@ document.addEventListener("DOMContentLoaded", () => {
       setFilter(button.getAttribute("data-gallery-filter") || "all");
     });
 
-    pagePrevBtn?.addEventListener("click", () => {
-      const pageCount = Math.max(1, Math.ceil(displayImages.length / currentPageSize));
-      galleryPage = (galleryPage - 1 + pageCount) % pageCount;
-      renderImages({ animate: true });
-    });
-    pageNextBtn?.addEventListener("click", () => {
-      const pageCount = Math.max(1, Math.ceil(displayImages.length / currentPageSize));
-      galleryPage = (galleryPage + 1) % pageCount;
-      renderImages({ animate: true });
-    });
-    pageStatus?.addEventListener("click", (event) => {
-      const button = event.target instanceof Element ? event.target.closest("[data-gallery-page]") : null;
-      if (!button) {
-        return;
-      }
-      const nextPage = Number(button.getAttribute("data-gallery-page"));
-      const pageCount = Math.max(1, Math.ceil(displayImages.length / currentPageSize));
-      if (!Number.isInteger(nextPage) || nextPage < 0 || nextPage >= pageCount || nextPage === galleryPage) {
-        return;
-      }
-      galleryPage = nextPage;
-      renderImages({ animate: true });
-    });
     window.addEventListener("resize", renderImages);
 
     closeBtn?.addEventListener("click", closeLightbox);
@@ -2212,6 +2200,87 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
+  const initHeroTitleFit = () => {
+    const heroTitle = document.getElementById("heroTitle");
+    if (!heroTitle) {
+      return;
+    }
+
+    const mobileQuery = window.matchMedia("(max-width: 820px)");
+    const minFontSize = 34;
+    const edgePadding = 18;
+    let fitFrame = 0;
+
+    const fitTitle = () => {
+      heroTitle.style.fontSize = "";
+      if (!mobileQuery.matches) {
+        return;
+      }
+
+      const titleLines = Array.from(heroTitle.querySelectorAll("span"));
+      if (titleLines.length === 0) {
+        return;
+      }
+
+      let fontSize = parseFloat(window.getComputedStyle(heroTitle).fontSize);
+      const hasOverflow = () =>
+        titleLines.some((line) => {
+          const rect = line.getBoundingClientRect();
+          return rect.left < edgePadding || rect.right > window.innerWidth - edgePadding;
+        });
+
+      while (fontSize > minFontSize && hasOverflow()) {
+        fontSize -= 1;
+        heroTitle.style.fontSize = `${fontSize}px`;
+      }
+    };
+
+    const requestFit = () => {
+      window.cancelAnimationFrame(fitFrame);
+      fitFrame = window.requestAnimationFrame(fitTitle);
+    };
+
+    requestFit();
+    window.addEventListener("resize", requestFit);
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(requestFit).catch(() => {});
+    }
+  };
+
+  const initWhyImageQuoteToggle = () => {
+    const whyImage = document.querySelector(".why-image");
+    if (!whyImage) {
+      return;
+    }
+
+    const touchQuery = window.matchMedia("(max-width: 1080px)");
+    const closeQuote = () => {
+      whyImage.classList.remove("is-quote-open");
+      whyImage.setAttribute("aria-pressed", "false");
+    };
+
+    const toggleQuote = () => {
+      const isOpen = whyImage.classList.toggle("is-quote-open");
+      whyImage.setAttribute("aria-pressed", isOpen ? "true" : "false");
+    };
+
+    whyImage.addEventListener("click", () => {
+      if (touchQuery.matches) {
+        toggleQuote();
+      }
+    });
+
+    whyImage.addEventListener("keydown", (event) => {
+      if (!touchQuery.matches || (event.key !== "Enter" && event.key !== " ")) {
+        return;
+      }
+      event.preventDefault();
+      toggleQuote();
+    });
+
+    touchQuery.addEventListener("change", closeQuote);
+  };
+
   const initHeroScrollAnimation = () => {
     const hero = document.querySelector(".hero");
     if (!hero) {
@@ -2299,6 +2368,8 @@ document.addEventListener("DOMContentLoaded", () => {
   promoteFloatingWhatsApp();
   updateWhyMetrics();
   initStreamText();
+  initHeroTitleFit();
+  initWhyImageQuoteToggle();
   initHeroScrollAnimation();
   initHeroLoadReveal();
   initNavigation();
