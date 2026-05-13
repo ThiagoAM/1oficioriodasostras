@@ -1210,10 +1210,26 @@ button {
 }
 
 .why-flag-row {
-    display: block;
+    display: flex;
+    gap: 7px;
+    align-items: center;
     margin-bottom: 8px;
-    font-size: 22px;
     line-height: 1;
+}
+
+.why-flag-icon {
+    display: block;
+    width: auto;
+    height: 18px;
+}
+
+.why-flag-icon-us {
+    width: 27px;
+    object-fit: cover;
+}
+
+.why-secondary-copy {
+    display: block;
 }
 
 .line-list {

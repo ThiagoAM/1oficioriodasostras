@@ -844,8 +844,12 @@ document.addEventListener("DOMContentLoaded", () => {
               ? `<div class="why-secondary-block">
                   <hr class="why-divider" aria-hidden="true" />
                   <p class="why-text why-text-secondary">
-                    <span class="why-flag-row" role="img" aria-label="Brasil, Estados Unidos e China">🇧🇷 🇺🇸 🇨🇳</span>
-                    <span>${renderWhySecondaryText(data.whyChoose.secondaryText)}</span>
+                    <span class="why-flag-row" aria-label="Bandeiras do Brasil, Estados Unidos e China">
+                      <img class="why-flag-icon" src="assets/images/flags/br.png" alt="Brasil" loading="eager" decoding="async" />
+                      <img class="why-flag-icon why-flag-icon-us" src="assets/images/flags/us.png" alt="Estados Unidos" loading="eager" decoding="async" />
+                      <img class="why-flag-icon" src="assets/images/flags/cn.png" alt="China" loading="eager" decoding="async" />
+                    </span>
+                    <span class="why-secondary-copy">${renderWhySecondaryText(data.whyChoose.secondaryText)}</span>
                   </p>
                 </div>`
               : ""
