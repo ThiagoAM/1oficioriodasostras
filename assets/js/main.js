@@ -15,6 +15,11 @@ document.addEventListener("DOMContentLoaded", () => {
       .replace(/"/g, "&quot;")
       .replace(/'/g, "&#39;");
 
+  const renderWhySecondaryText = (value) =>
+    escapeHtml(value)
+      .replace(/inglês/g, "<strong>inglês</strong>")
+      .replace(/chinês/g, "<strong>chinês</strong>");
+
   const normalize = (value) =>
     String(value ?? "")
       .normalize("NFD")
@@ -834,6 +839,14 @@ document.addEventListener("DOMContentLoaded", () => {
               ${data.whyChoose.bullets.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
             </ul>
           </div>
+          ${
+            data.whyChoose.secondaryText
+              ? `<div class="why-secondary-block">
+                  <hr class="why-divider" aria-hidden="true" />
+                  <p class="why-text why-text-secondary">${renderWhySecondaryText(data.whyChoose.secondaryText)}</p>
+                </div>`
+              : ""
+          }
         </div>
         <figure class="why-image" tabindex="0" role="button" aria-pressed="false" aria-label="Mostrar ou ocultar citação">
           <img src="${escapeHtml(data.whyChoose.image)}" alt="${escapeHtml(data.whyChoose.imageAlt)}" loading="lazy" decoding="async" />

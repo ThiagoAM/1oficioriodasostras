@@ -175,6 +175,8 @@
         "Atendimento técnico e humano para transformar procedimentos complexos em etapas compreensíveis.",
       text:
         "Utilizamos canais e sistemas oficiais para dar mais segurança aos serviços digitais.",
+      secondaryText:
+        "Nossa equipe também conta com profissionais qualificados para atender estrangeiros em inglês e chinês.",
       bullets: ["Orientação antes do atendimento", "Serviços presenciais e online", "Integração com plataformas oficiais"],
       image: "assets/images/display/jean-cocteau-bust-1100.jpg",
       imageAlt: "Busto de Jean Cocteau",

@@ -1192,6 +1192,23 @@ button {
     color: var(--text-soft);
 }
 
+.why-secondary-block {
+    max-width: 520px;
+    margin-top: 28px;
+}
+
+.why-divider {
+    width: 100%;
+    height: 1px;
+    margin: 22px 0;
+    border: 0;
+    background: rgba(111, 159, 147, 0.5);
+}
+
+.why-text strong {
+    font-weight: 700;
+}
+
 .line-list {
     display: grid;
     gap: 10px;
