@@ -1193,7 +1193,7 @@ button {
 }
 
 .why-secondary-block {
-    max-width: 520px;
+    width: 100%;
     margin-top: 28px;
 }
 
