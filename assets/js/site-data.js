@@ -178,10 +178,6 @@
       secondaryText:
         "Nossa equipe também conta com profissionais qualificados para atender estrangeiros em inglês e chinês.",
       bullets: ["Orientação antes do atendimento", "Serviços presenciais e online", "Integração com plataformas oficiais"],
-      image: "assets/images/display/jean-cocteau-bust-1100.jpg",
-      imageAlt: "Busto de Jean Cocteau",
-      imageQuote: "A delicadeza da audácia está em saber até que ponto se pode ir longe demais.",
-      imageQuoteAuthor: "Jean Cocteau",
       metrics: [
         { label: "Lavraturas de escritura", key: "lavratura-escritura", value: "0" },
         { label: "Registros de casamento", key: "registro-casamento", value: "0" },

@@ -855,17 +855,6 @@ document.addEventListener("DOMContentLoaded", () => {
               : ""
           }
         </div>
-        <figure class="why-image" tabindex="0" role="button" aria-pressed="false" aria-label="Mostrar ou ocultar citação">
-          <img src="${escapeHtml(data.whyChoose.image)}" alt="${escapeHtml(data.whyChoose.imageAlt)}" loading="lazy" decoding="async" />
-          ${
-            data.whyChoose.imageQuote
-              ? `<figcaption class="why-image-quote">
-                  <blockquote>"${escapeHtml(data.whyChoose.imageQuote)}"</blockquote>
-                  <cite>${escapeHtml(data.whyChoose.imageQuoteAuthor || "")}</cite>
-                </figcaption>`
-              : ""
-          }
-        </figure>
         <div class="metric-stack">
           ${data.whyChoose.metrics
             .map(
@@ -2318,40 +2307,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  const initWhyImageQuoteToggle = () => {
-    const whyImage = document.querySelector(".why-image");
-    if (!whyImage) {
-      return;
-    }
-
-    const touchQuery = window.matchMedia("(max-width: 1080px)");
-    const closeQuote = () => {
-      whyImage.classList.remove("is-quote-open");
-      whyImage.setAttribute("aria-pressed", "false");
-    };
-
-    const toggleQuote = () => {
-      const isOpen = whyImage.classList.toggle("is-quote-open");
-      whyImage.setAttribute("aria-pressed", isOpen ? "true" : "false");
-    };
-
-    whyImage.addEventListener("click", () => {
-      if (touchQuery.matches) {
-        toggleQuote();
-      }
-    });
-
-    whyImage.addEventListener("keydown", (event) => {
-      if (!touchQuery.matches || (event.key !== "Enter" && event.key !== " ")) {
-        return;
-      }
-      event.preventDefault();
-      toggleQuote();
-    });
-
-    touchQuery.addEventListener("change", closeQuote);
-  };
-
   const initHeroScrollAnimation = () => {
     const hero = document.querySelector(".hero");
     if (!hero) {
@@ -2440,7 +2395,6 @@ document.addEventListener("DOMContentLoaded", () => {
   updateWhyMetrics();
   initStreamText();
   initHeroTitleFit();
-  initWhyImageQuoteToggle();
   initHeroScrollAnimation();
   initHeroLoadReveal();
   initNavigation();

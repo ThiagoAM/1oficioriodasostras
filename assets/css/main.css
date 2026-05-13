@@ -1024,7 +1024,6 @@ button {
 
 .philosophy-media img,
 .editorial-image img,
-.why-image img,
 .about-image,
 .menu-image {
     background: #ccd3d1;
@@ -1173,7 +1172,7 @@ button {
 
 .why-grid {
     display: grid;
-    grid-template-columns: 1.3fr 0.95fr 0.72fr;
+    grid-template-columns: minmax(0, 1fr) minmax(290px, 0.48fr);
     gap: 50px;
     align-items: center;
 }
@@ -1244,113 +1243,6 @@ button {
 .line-list li::before {
     content: "• ";
     color: var(--accent);
-}
-
-.why-image {
-    position: relative;
-    margin: 0;
-    overflow: hidden;
-    background: #24302e;
-    outline-offset: 4px;
-}
-
-.why-image img {
-    position: relative;
-    z-index: 0;
-    display: block;
-    width: 100%;
-    aspect-ratio: 4 / 5;
-    object-fit: cover;
-    object-position: center 28%;
-    filter: saturate(0.72) contrast(0.94);
-    transition: filter 0.24s ease, transform 0.24s ease;
-}
-
-.why-image::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    background: linear-gradient(180deg, rgba(8, 17, 20, 0.42), rgba(8, 17, 20, 0.9));
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.24s ease;
-}
-
-.why-image-quote {
-    position: absolute;
-    right: 20px;
-    bottom: 20px;
-    left: 20px;
-    z-index: 2;
-    padding: 20px;
-    border: 1px solid rgba(111, 159, 147, 0.4);
-    background: rgba(8, 17, 20, 0.9);
-    opacity: 0;
-    pointer-events: none;
-    transform: translateY(14px);
-    transition: opacity 0.24s ease, transform 0.24s ease;
-}
-
-.why-image-quote blockquote {
-    margin: 0;
-    color: var(--text-light);
-    font-family: var(--font-serif);
-    font-size: clamp(20px, 1.6vw, 25px);
-    font-weight: 300;
-    line-height: 1.12;
-    text-shadow: 0 2px 18px rgba(0, 0, 0, 0.72);
-}
-
-.why-image-quote cite {
-    margin-top: 16px;
-    color: var(--accent);
-    font-size: var(--type-body);
-    font-style: normal;
-    font-weight: 600;
-    line-height: var(--type-body-line);
-    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.72);
-}
-
-.why-image-quote cite::before {
-    content: "- ";
-}
-
-.why-image:focus-visible img,
-.why-image.is-quote-open img {
-    filter: saturate(0.7) contrast(0.92) brightness(0.72);
-    transform: scale(1.045);
-}
-
-.why-image:focus-visible::after,
-.why-image.is-quote-open::after {
-    opacity: 1;
-}
-
-.why-image:focus-visible .why-image-quote,
-.why-image.is-quote-open .why-image-quote {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.why-image:focus-visible {
-    outline: 2px solid var(--accent);
-}
-
-@media (hover: hover) and (pointer: fine) {
-    .why-image:hover img {
-        filter: saturate(0.7) contrast(0.92) brightness(0.72);
-        transform: scale(1.045);
-    }
-
-    .why-image:hover::after {
-        opacity: 1;
-    }
-
-    .why-image:hover .why-image-quote {
-        opacity: 1;
-        transform: translateY(0);
-    }
 }
 
 .metric-stack {
@@ -3639,18 +3531,6 @@ button {
     #servicos .editorial-copy .section-subtitle {
         max-width: calc(100% - 40px);
         margin-left: 40px;
-    }
-
-    .why-image {
-        width: min(250px, 100%);
-        margin-right: auto;
-        margin-left: auto;
-    }
-
-    .why-image img {
-        height: auto;
-        aspect-ratio: auto;
-        object-fit: contain;
     }
 
     .philosophy-quote {
