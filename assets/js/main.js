@@ -843,7 +843,10 @@ document.addEventListener("DOMContentLoaded", () => {
             data.whyChoose.secondaryText
               ? `<div class="why-secondary-block">
                   <hr class="why-divider" aria-hidden="true" />
-                  <p class="why-text why-text-secondary">${renderWhySecondaryText(data.whyChoose.secondaryText)}</p>
+                  <p class="why-text why-text-secondary">
+                    <span class="why-flag-row" role="img" aria-label="Brasil, Estados Unidos e China">🇧🇷 🇺🇸 🇨🇳</span>
+                    <span>${renderWhySecondaryText(data.whyChoose.secondaryText)}</span>
+                  </p>
                 </div>`
               : ""
           }

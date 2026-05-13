@@ -1209,6 +1209,13 @@ button {
     font-weight: 700;
 }
 
+.why-flag-row {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 22px;
+    line-height: 1;
+}
+
 .line-list {
     display: grid;
     gap: 10px;
