@@ -2774,7 +2774,7 @@ button {
     border-radius: 50%;
     background: #25d366;
     color: #fff;
-    box-shadow: 0 14px 34px rgba(16, 21, 21, 0.28);
+    box-shadow: none;
 }
 
 .whatsapp-float svg {
@@ -2786,6 +2786,29 @@ button {
 #owari-robo-widget {
     right: 96px !important;
     bottom: 22px !important;
+    width: 58px !important;
+    height: 58px !important;
+}
+
+#owari-robo-widget .owari-robo-widget-launcher {
+    width: 58px !important;
+    min-width: 58px !important;
+    max-width: 58px !important;
+    height: 58px !important;
+    min-height: 58px !important;
+    max-height: 58px !important;
+    border-radius: 50% !important;
+    overflow: hidden !important;
+}
+
+#owari-robo-widget .owari-robo-widget-launcher img {
+    display: block;
+    width: 58px !important;
+    height: 58px !important;
+    border-radius: 50% !important;
+    object-fit: cover;
+    transform: scale(1.32);
+    transform-origin: center;
 }
 
 .section-header {
@@ -3834,6 +3857,22 @@ button {
     #owari-robo-widget {
         right: 82px !important;
         bottom: calc(16px + env(safe-area-inset-bottom)) !important;
+        width: 54px !important;
+        height: 54px !important;
+    }
+
+    #owari-robo-widget .owari-robo-widget-launcher {
+        width: 54px !important;
+        min-width: 54px !important;
+        max-width: 54px !important;
+        height: 54px !important;
+        min-height: 54px !important;
+        max-height: 54px !important;
+    }
+
+    #owari-robo-widget .owari-robo-widget-launcher img {
+        width: 54px !important;
+        height: 54px !important;
     }
 
     .hero-news {
