@@ -3875,6 +3875,10 @@ button {
         height: 54px !important;
     }
 
+    #owari-robo-widget .owari-robo-widget-launcher {
+        display: none !important;
+    }
+
     .hero-news {
         padding: 62px 0;
     }
