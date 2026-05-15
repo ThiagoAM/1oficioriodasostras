@@ -1054,44 +1054,63 @@ button {
 .ai-assistance-inner {
     display: grid;
     justify-items: stretch;
-    gap: 34px;
+    gap: 18px;
     text-align: left;
+}
+
+.ai-assistance-inner > .section-kicker {
+    margin-bottom: 0;
+}
+
+.ai-assistance-layout {
+    display: grid;
+    grid-template-columns: minmax(360px, 0.92fr) minmax(360px, 1.08fr);
+    gap: clamp(44px, 7vw, 120px);
+    align-items: center;
+}
+
+.ai-starter-panel {
+    display: grid;
+    justify-items: center;
+    align-content: center;
+    gap: 0;
+}
+
+.ai-assistance-logo {
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
 }
 
 .ai-assistance-copy {
     display: grid;
     justify-items: start;
-}
-
-.ai-assistance-copy .section-kicker {
-    margin-bottom: 18px;
+    align-content: center;
+    width: min(100%, 600px);
 }
 
 .ai-assistance-title {
-    justify-self: center;
-    max-width: 1060px;
+    max-width: 640px;
     margin: 0;
-    color: inherit;
+    color: #000;
     font-family: var(--font-serif);
     font-size: var(--type-display);
     font-weight: 300;
     line-height: var(--type-display-line);
-    text-align: center;
+    text-align: left;
 }
 
 .ai-assistance-text {
-    justify-self: center;
-    max-width: 940px;
+    max-width: 600px;
     margin: 22px 0 0;
     color: var(--text-muted);
     font-size: var(--type-body-large);
     line-height: var(--type-body-large-line);
-    text-align: center;
+    text-align: left;
 }
 
 .ai-starter-form {
-    justify-self: center;
-    width: min(100%, 760px);
+    width: min(100%, 620px);
 }
 
 .ai-starter-field {
@@ -1116,7 +1135,7 @@ button {
 }
 
 .ai-starter-input::placeholder {
-    color: #737373;
+    color: #636363;
 }
 
 .ai-starter-send {
@@ -3743,7 +3762,31 @@ button {
     }
 
     .ai-assistance-inner {
-        gap: 26px;
+        gap: 22px;
+    }
+
+    .ai-assistance-layout {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+
+    .ai-starter-panel {
+        gap: 0;
+    }
+
+    .ai-assistance-logo {
+        width: 160px;
+        height: 160px;
+    }
+
+    .ai-assistance-copy {
+        justify-items: center;
+        width: 100%;
+    }
+
+    .ai-assistance-title,
+    .ai-assistance-text {
+        text-align: center;
     }
 
     .ai-starter-field {

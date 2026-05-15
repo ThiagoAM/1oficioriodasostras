@@ -803,32 +803,37 @@ document.addEventListener("DOMContentLoaded", () => {
   const renderAiAssistance = () => `
     <section class="section ai-assistance-section" aria-labelledby="aiAssistanceTitle">
       <div class="container ai-assistance-inner">
-        <div class="ai-assistance-copy">
-          <p class="section-kicker">${escapeHtml(data.aiAssistance.kicker)}</p>
-          <h2 class="ai-assistance-title" id="aiAssistanceTitle">${escapeHtml(data.aiAssistance.title)}</h2>
-          <p class="ai-assistance-text">${escapeHtml(data.aiAssistance.text)}</p>
-        </div>
-        <form class="ai-starter-form" data-owari-robo-starter data-robo-target="widget">
-          <div class="ai-starter-field">
-            <input
-              class="ai-starter-input"
-              type="text"
-              name="message"
-              data-robo-starter-input
-              placeholder="${escapeHtml(data.aiAssistance.placeholder)}"
-              aria-label="${escapeHtml(data.aiAssistance.placeholder)}"
-              autocomplete="off"
-              maxlength="2000"
-            />
-            <button class="ai-starter-send" type="submit" aria-label="${escapeHtml(data.aiAssistance.submitLabel)}" disabled>
-              <svg class="ai-starter-send-icon" aria-hidden="true" focusable="false" viewBox="0 0 18 18">
-                <path d="M9 14.4V3.6"></path>
-                <path d="m4.8 7.8 4.2-4.2 4.2 4.2"></path>
-              </svg>
-            </button>
+        <p class="section-kicker">${escapeHtml(data.aiAssistance.kicker)}</p>
+        <div class="ai-assistance-layout">
+          <div class="ai-assistance-copy">
+            <h2 class="ai-assistance-title" id="aiAssistanceTitle">${escapeHtml(data.aiAssistance.title)}</h2>
+            <p class="ai-assistance-text">${escapeHtml(data.aiAssistance.text)}</p>
           </div>
-          <p class="ai-starter-status" data-robo-starter-status aria-live="polite"></p>
-        </form>
+          <div class="ai-starter-panel">
+            <img class="ai-assistance-logo" src="${escapeHtml(data.aiAssistance.logo)}" alt="${escapeHtml(data.aiAssistance.logoAlt)}" loading="lazy" decoding="async" />
+            <form class="ai-starter-form" data-owari-robo-starter data-robo-target="widget">
+              <div class="ai-starter-field">
+                <input
+                  class="ai-starter-input"
+                  type="text"
+                  name="message"
+                  data-robo-starter-input
+                  placeholder="${escapeHtml(data.aiAssistance.placeholder)}"
+                  aria-label="${escapeHtml(data.aiAssistance.placeholder)}"
+                  autocomplete="off"
+                  maxlength="2000"
+                />
+                <button class="ai-starter-send" type="submit" aria-label="${escapeHtml(data.aiAssistance.submitLabel)}" disabled>
+                  <svg class="ai-starter-send-icon" aria-hidden="true" focusable="false" viewBox="0 0 18 18">
+                    <path d="M9 14.4V3.6"></path>
+                    <path d="m4.8 7.8 4.2-4.2 4.2 4.2"></path>
+                  </svg>
+                </button>
+              </div>
+              <p class="ai-starter-status" data-robo-starter-status aria-live="polite"></p>
+            </form>
+          </div>
+        </div>
       </div>
     </section>
   `;

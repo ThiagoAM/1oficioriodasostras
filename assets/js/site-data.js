@@ -127,6 +127,8 @@
       title: "Atendimento com inteligência artificial 24h",
       text:
         "Este cartório está entre os poucos no Brasil que oferecem serviços com inteligência artificial. Usuários podem tirar dúvidas ou iniciar um serviço a qualquer hora, com nossos atendentes dando prosseguimento em horário comercial.",
+      logo: "assets/images/cartorio-icon.png",
+      logoAlt: "Logo do Cartório do 1º Ofício de Justiça de Rio das Ostras",
       placeholder: "Pergunte qualquer coisa",
       submitLabel: "Enviar pergunta",
     },
