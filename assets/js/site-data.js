@@ -122,6 +122,14 @@
       imageAlt: "Píer de Rio das Ostras ao pôr do sol",
       link: null,
     },
+    aiAssistance: {
+      kicker: "Inteligência Artificial",
+      title: "Atendimento com inteligência artificial 24h",
+      text:
+        "Este cartório está entre os poucos no Brasil que oferecem serviços com inteligência artificial. Usuários podem tirar dúvidas ou iniciar um serviço a qualquer hora, com nossos atendentes dando prosseguimento em horário comercial.",
+      placeholder: "Pergunte qualquer coisa",
+      submitLabel: "Enviar pergunta",
+    },
     practiceAreas: {
       kicker: "Serviços do cartório",
       image: "assets/images/display/cartorio-13-900.jpg",

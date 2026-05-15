@@ -56,9 +56,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const prefersReducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const isMobileViewport = () => window.matchMedia("(max-width: 820px)").matches;
   const VISITS_METRIC_KEY = "visitas-site";
+  const OWARI_ROBO_WIDGET = {
+    scriptUrl: "https://dev-robo.owarilabs.com/widget.js?v=v1",
+    slug: "cartorio-1-oficio-rio-das-ostras",
+    version: "v1",
+    locale: "pt-BR",
+  };
   let siteVisitMetricsLoaded = false;
   let siteVisitMetricsPromise = null;
   let refreshStatsSection = null;
+  let owariRoboWidgetPromise = null;
 
   const getStatsItems = (statsData) =>
     Object.values(statsData?.years || {}).flatMap((yearData) => (Array.isArray(yearData.items) ? yearData.items : []));
@@ -793,6 +800,39 @@ document.addEventListener("DOMContentLoaded", () => {
     </section>
   `;
 
+  const renderAiAssistance = () => `
+    <section class="section ai-assistance-section" aria-labelledby="aiAssistanceTitle">
+      <div class="container ai-assistance-inner">
+        <div class="ai-assistance-copy">
+          <p class="section-kicker">${escapeHtml(data.aiAssistance.kicker)}</p>
+          <h2 class="ai-assistance-title" id="aiAssistanceTitle">${escapeHtml(data.aiAssistance.title)}</h2>
+          <p class="ai-assistance-text">${escapeHtml(data.aiAssistance.text)}</p>
+        </div>
+        <form class="ai-starter-form" data-owari-robo-starter data-robo-target="widget">
+          <div class="ai-starter-field">
+            <input
+              class="ai-starter-input"
+              type="text"
+              name="message"
+              data-robo-starter-input
+              placeholder="${escapeHtml(data.aiAssistance.placeholder)}"
+              aria-label="${escapeHtml(data.aiAssistance.placeholder)}"
+              autocomplete="off"
+              maxlength="2000"
+            />
+            <button class="ai-starter-send" type="submit" aria-label="${escapeHtml(data.aiAssistance.submitLabel)}" disabled>
+              <svg class="ai-starter-send-icon" aria-hidden="true" focusable="false" viewBox="0 0 18 18">
+                <path d="M9 14.4V3.6"></path>
+                <path d="m4.8 7.8 4.2-4.2 4.2 4.2"></path>
+              </svg>
+            </button>
+          </div>
+          <p class="ai-starter-status" data-robo-starter-status aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  `;
+
   const renderPracticeAreas = () => `
     <section class="section section-light" id="servicos">
       <div class="container editorial-grid">
@@ -1298,6 +1338,7 @@ document.addEventListener("DOMContentLoaded", () => {
     siteRoot.innerHTML = [
       renderHero(),
       renderPhilosophy(),
+      renderAiAssistance(),
       renderPracticeAreas(),
       renderWhyChoose(),
       renderHoursLocation(),
@@ -2209,6 +2250,120 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
+  const isOwariRoboReady = () =>
+    Boolean(window.OwariRobo && typeof window.OwariRobo.open === "function");
+
+  const loadOwariRoboWidget = () => {
+    if (!document.querySelector(".whatsapp-float")) {
+      return Promise.resolve(false);
+    }
+
+    if (isOwariRoboReady()) {
+      return Promise.resolve(true);
+    }
+
+    if (owariRoboWidgetPromise) {
+      return owariRoboWidgetPromise;
+    }
+
+    owariRoboWidgetPromise = new Promise((resolve) => {
+      let settled = false;
+      let script = document.querySelector(`script[data-robo="${OWARI_ROBO_WIDGET.slug}"]`);
+
+      const finish = () => {
+        if (settled) {
+          return;
+        }
+        settled = true;
+        resolve(isOwariRoboReady());
+      };
+
+      if (!script) {
+        script = document.createElement("script");
+        script.defer = true;
+        script.src = OWARI_ROBO_WIDGET.scriptUrl;
+        script.dataset.robo = OWARI_ROBO_WIDGET.slug;
+        script.dataset.roboVersion = OWARI_ROBO_WIDGET.version;
+        script.dataset.roboLocale = OWARI_ROBO_WIDGET.locale;
+      }
+
+      script.addEventListener("load", finish, { once: true });
+      script.addEventListener("error", finish, { once: true });
+      if (!script.parentElement) {
+        document.body.appendChild(script);
+      }
+      window.setTimeout(finish, 5000);
+    });
+
+    return owariRoboWidgetPromise;
+  };
+
+  const initOwariRoboStarterForms = () => {
+    const starterForms = Array.from(document.querySelectorAll("[data-owari-robo-starter]"));
+    starterForms.forEach((form) => {
+      if (!(form instanceof HTMLFormElement) || form.dataset.starterControllerBound === "true") {
+        return;
+      }
+
+      const input = form.querySelector("[data-robo-starter-input]");
+      const button = form.querySelector("button[type='submit']");
+      const status = form.querySelector("[data-robo-starter-status]");
+
+      if (!(input instanceof HTMLInputElement || input instanceof HTMLTextAreaElement) || !(button instanceof HTMLButtonElement)) {
+        return;
+      }
+
+      form.dataset.starterControllerBound = "true";
+
+      const setStatus = (message) => {
+        if (status) {
+          status.textContent = message;
+        }
+      };
+      const syncStarterButton = () => {
+        button.disabled = input.value.trim().length === 0;
+      };
+
+      input.addEventListener("input", () => {
+        setStatus("");
+        syncStarterButton();
+      });
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        const message = input.value.trim();
+        if (!message) {
+          syncStarterButton();
+          return;
+        }
+
+        button.disabled = true;
+        setStatus("");
+
+        const isReady = await loadOwariRoboWidget();
+        const didOpen = isReady && window.OwariRobo.open({ target: form.dataset.roboTarget || "widget", message });
+
+        if (didOpen) {
+          input.value = "";
+        } else {
+          setStatus("Não foi possível abrir a IA agora. Tente novamente em instantes.");
+        }
+
+        syncStarterButton();
+      });
+
+      syncStarterButton();
+    });
+
+    window.addEventListener("owari-robo:starter-error", () => {
+      document.querySelectorAll("[data-robo-starter-status]").forEach((status) => {
+        status.textContent = "Não foi possível abrir a IA agora. Tente novamente em instantes.";
+      });
+    });
+  };
+
   const initHeroTitleFit = () => {
     const heroTitle = document.getElementById("heroTitle");
     if (!heroTitle) {
@@ -2392,6 +2547,7 @@ document.addEventListener("DOMContentLoaded", () => {
   renderSiteContent();
   renderFooter();
   promoteFloatingWhatsApp();
+  void loadOwariRoboWidget();
   updateWhyMetrics();
   initStreamText();
   initHeroTitleFit();
@@ -2404,5 +2560,6 @@ document.addEventListener("DOMContentLoaded", () => {
   initGuideGroups();
   initGallery();
   initHeroNews();
+  initOwariRoboStarterForms();
   initScrollReveal();
 });
