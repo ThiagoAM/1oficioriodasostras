@@ -30,6 +30,7 @@
     contact,
     navigation: [
       { label: "Início", href: "#topo" },
+      { label: "Inteligência Artificial 24h", href: "#inteligencia-artificial" },
       { label: "Serviços do cartório", href: "#servicos" },
       { label: "Localização", href: "#localizacao" },
       { label: "Horário de atendimento", href: "#horario" },

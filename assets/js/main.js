@@ -800,39 +800,58 @@ document.addEventListener("DOMContentLoaded", () => {
     </section>
   `;
 
+  const renderAiAssistanceTitle = (title) => {
+    const highlight = "inteligência artificial";
+    const highlightIndex = title.toLowerCase().indexOf(highlight);
+
+    if (highlightIndex === -1) {
+      return escapeHtml(title);
+    }
+
+    const before = title.slice(0, highlightIndex);
+    const highlighted = title.slice(highlightIndex, highlightIndex + highlight.length);
+    const after = title.slice(highlightIndex + highlight.length);
+
+    return `${escapeHtml(before)}<span class="ai-assistance-title-gradient">${escapeHtml(highlighted)}</span>${escapeHtml(after)}`;
+  };
+
+  const renderAiStarterPanel = (className = "") => `
+    <div class="ai-starter-panel${className ? ` ${escapeHtml(className)}` : ""}">
+      <img class="ai-assistance-logo" src="${escapeHtml(data.aiAssistance.logo)}" alt="${escapeHtml(data.aiAssistance.logoAlt)}" loading="lazy" decoding="async" />
+      <form class="ai-starter-form" data-owari-robo-starter data-robo-target="widget">
+        <div class="ai-starter-field">
+          <input
+            class="ai-starter-input"
+            type="text"
+            name="message"
+            data-robo-starter-input
+            placeholder="${escapeHtml(data.aiAssistance.placeholder)}"
+            aria-label="${escapeHtml(data.aiAssistance.placeholder)}"
+            autocomplete="off"
+            maxlength="2000"
+          />
+          <button class="ai-starter-send" type="submit" aria-label="${escapeHtml(data.aiAssistance.submitLabel)}" disabled>
+            <svg class="ai-starter-send-icon" aria-hidden="true" focusable="false" viewBox="0 0 18 18">
+              <path d="M9 14.4V3.6"></path>
+              <path d="m4.8 7.8 4.2-4.2 4.2 4.2"></path>
+            </svg>
+          </button>
+        </div>
+        <p class="ai-starter-status" data-robo-starter-status aria-live="polite"></p>
+      </form>
+    </div>
+  `;
+
   const renderAiAssistance = () => `
-    <section class="section ai-assistance-section" aria-labelledby="aiAssistanceTitle">
+    <section class="section ai-assistance-section" id="inteligencia-artificial" aria-labelledby="aiAssistanceTitle">
       <div class="container ai-assistance-inner">
         <p class="section-kicker">${escapeHtml(data.aiAssistance.kicker)}</p>
         <div class="ai-assistance-layout">
           <div class="ai-assistance-copy">
-            <h2 class="ai-assistance-title" id="aiAssistanceTitle">${escapeHtml(data.aiAssistance.title)}</h2>
+            <h2 class="ai-assistance-title" id="aiAssistanceTitle">${renderAiAssistanceTitle(data.aiAssistance.title)}</h2>
             <p class="ai-assistance-text">${escapeHtml(data.aiAssistance.text)}</p>
           </div>
-          <div class="ai-starter-panel">
-            <img class="ai-assistance-logo" src="${escapeHtml(data.aiAssistance.logo)}" alt="${escapeHtml(data.aiAssistance.logoAlt)}" loading="lazy" decoding="async" />
-            <form class="ai-starter-form" data-owari-robo-starter data-robo-target="widget">
-              <div class="ai-starter-field">
-                <input
-                  class="ai-starter-input"
-                  type="text"
-                  name="message"
-                  data-robo-starter-input
-                  placeholder="${escapeHtml(data.aiAssistance.placeholder)}"
-                  aria-label="${escapeHtml(data.aiAssistance.placeholder)}"
-                  autocomplete="off"
-                  maxlength="2000"
-                />
-                <button class="ai-starter-send" type="submit" aria-label="${escapeHtml(data.aiAssistance.submitLabel)}" disabled>
-                  <svg class="ai-starter-send-icon" aria-hidden="true" focusable="false" viewBox="0 0 18 18">
-                    <path d="M9 14.4V3.6"></path>
-                    <path d="m4.8 7.8 4.2-4.2 4.2 4.2"></path>
-                  </svg>
-                </button>
-              </div>
-              <p class="ai-starter-status" data-robo-starter-status aria-live="polite"></p>
-            </form>
-          </div>
+          ${renderAiStarterPanel()}
         </div>
       </div>
     </section>
@@ -1195,6 +1214,15 @@ document.addEventListener("DOMContentLoaded", () => {
     </section>
   `;
 
+  const renderFaqAiAssistance = () => `
+    <section class="section section-light faq-ai-section" aria-label="Atendimento com inteligência artificial">
+      <div class="container faq-ai-inner">
+        <p class="section-kicker faq-ai-title">Inteligência artificial</p>
+        ${renderAiStarterPanel("faq-ai-starter-panel")}
+      </div>
+    </section>
+  `;
+
   const renderFaq = () => `
     <section class="section section-muted faq-section" id="faq">
       <div class="container split-heading">
@@ -1365,7 +1393,7 @@ document.addEventListener("DOMContentLoaded", () => {
       links: renderUsefulLinks,
       online: renderOnlineServices,
       formularios: renderPaperForms,
-      faq: renderFaq,
+      faq: () => `${renderFaqAiAssistance()}${renderFaq()}`,
     };
     const renderPage = pageRenderers[contentPage];
     siteRoot.innerHTML = renderPage ? renderPage() : "";

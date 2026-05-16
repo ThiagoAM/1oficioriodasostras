@@ -510,7 +510,7 @@ button {
 .menu-links {
     display: grid;
     align-content: start;
-    gap: 36px;
+    gap: clamp(24px, 3vh, 36px);
     justify-items: end;
     padding-right: calc(clamp(180px, 18vw, 380px) + 100px);
     text-align: right;
@@ -1100,6 +1100,14 @@ button {
     text-align: left;
 }
 
+.ai-assistance-title-gradient {
+    background: linear-gradient(90deg, #75AEE8 0%, #BACE64 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+}
+
 .ai-assistance-text {
     max-width: 600px;
     margin: 22px 0 0;
@@ -1183,6 +1191,33 @@ button {
 
 .ai-starter-status:empty {
     display: none;
+}
+
+.faq-ai-section {
+    background: #fcfcfc;
+}
+
+.faq-ai-inner {
+    display: grid;
+    justify-items: center;
+}
+
+.faq-ai-title {
+    justify-self: start;
+}
+
+.faq-ai-starter-panel {
+    width: 100%;
+    max-width: 800px;
+}
+
+.faq-ai-starter-panel .ai-starter-form {
+    width: 100%;
+    max-width: 800px;
+}
+
+.faq-ai-starter-panel .ai-starter-field {
+    width: 100%;
 }
 
 .editorial-grid {
