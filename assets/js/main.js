@@ -61,6 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
     slug: "cartorio-1-oficio-rio-das-ostras",
     version: "v1",
     locale: "pt-BR",
+    host: "https://dev-robo.owarilabs.com/",
   };
   let siteVisitMetricsLoaded = false;
   let siteVisitMetricsPromise = null;
@@ -2318,6 +2319,7 @@ document.addEventListener("DOMContentLoaded", () => {
         script.dataset.robo = OWARI_ROBO_WIDGET.slug;
         script.dataset.roboVersion = OWARI_ROBO_WIDGET.version;
         script.dataset.roboLocale = OWARI_ROBO_WIDGET.locale;
+        script.dataset.roboHost = OWARI_ROBO_WIDGET.host;
       }
 
       script.addEventListener("load", finish, { once: true });
