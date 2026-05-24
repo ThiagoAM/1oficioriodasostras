@@ -269,6 +269,8 @@
             { title: "Testamento Público", href: "guides/guia-testamento-publico.pdf" },
             { title: "Escrituras", href: "guides/guia-escrituras.pdf" },
             { title: "Direitos Possessórios", href: "guides/guia-direitos-possessorios.pdf" },
+            { title: "Escritura de Estremação", href: "guides/guia-estremacao.pdf" },
+            { title: "Escritura de Investidura", href: "guides/guia-investidura.pdf" },
             { title: "Incorporação Imobiliária", href: "guides/guia-incorporacao-imobiliaria.pdf" },
           ],
         },
