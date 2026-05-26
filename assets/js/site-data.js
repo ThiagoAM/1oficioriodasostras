@@ -268,6 +268,7 @@
             { title: "Inventário e Partilha", href: "guides/guia-inventario-partilha.pdf" },
             { title: "Testamento Público", href: "guides/guia-testamento-publico.pdf" },
             { title: "Escrituras", href: "guides/guia-escrituras.pdf" },
+            { title: "Escritura de Compra e Venda e Dação em Pagamento", href: "guides/guia-escritura-compra-venda-dacao-pagamento.pdf" },
             { title: "Direitos Possessórios", href: "guides/guia-direitos-possessorios.pdf" },
             { title: "Escritura de Estremação", href: "guides/guia-estremacao.pdf" },
             { title: "Escritura de Investidura", href: "guides/guia-investidura.pdf" },
