@@ -1061,6 +1061,52 @@ document.addEventListener("DOMContentLoaded", () => {
     </section>
   `;
 
+  const renderCivilConsultation = () => `
+    <div class="container civil-consultation-wrap">
+      <section class="civil-consultation-panel" id="consulta-habilitacao-casamento" data-civil-consultation aria-labelledby="civilConsultationTitle">
+        <div class="civil-consultation-copy">
+          <p class="section-kicker">Consulta de casamento</p>
+          <h3 class="civil-consultation-title" id="civilConsultationTitle">Consulte seu processo de habilitação.</h3>
+          <p class="civil-consultation-text">Acompanhe a situação cadastrada pelo cartório usando o número do processo e o CPF de um dos nubentes.</p>
+        </div>
+        <form class="civil-consultation-form" data-civil-consultation-form novalidate>
+          <div class="civil-consultation-fields">
+            <label class="civil-field">
+              <span>Número do processo</span>
+              <input
+                class="civil-input"
+                data-civil-process-input
+                name="numeroProcesso"
+                type="text"
+                inputmode="numeric"
+                autocomplete="off"
+                placeholder="Ex.: 17730"
+                required />
+            </label>
+            <label class="civil-field">
+              <span>CPF de um dos nubentes</span>
+              <input
+                class="civil-input"
+                data-civil-cpf-input
+                name="cpf"
+                type="text"
+                inputmode="numeric"
+                autocomplete="off"
+                placeholder="000.000.000-00"
+                maxlength="14"
+                required />
+            </label>
+          </div>
+          <button class="btn btn-primary civil-consultation-submit" type="submit" data-civil-submit>
+            Consultar processo
+          </button>
+          <p class="civil-consultation-status" data-civil-status aria-live="polite"></p>
+        </form>
+        <div class="civil-consultation-result" data-civil-result hidden></div>
+      </section>
+    </div>
+  `;
+
   const renderOnlineServices = () => `
     <section class="section section-light" id="online">
       <div class="container split-heading">
@@ -1084,6 +1130,7 @@ document.addEventListener("DOMContentLoaded", () => {
           )
           .join("")}
       </div>
+      ${renderCivilConsultation()}
     </section>
   `;
 

@@ -1853,6 +1853,302 @@ button {
     font-size: var(--type-body);
 }
 
+.civil-consultation-wrap {
+    margin-top: 48px;
+}
+
+.civil-consultation-panel {
+    display: grid;
+    grid-template-columns: minmax(0, 0.86fr) minmax(320px, 1fr);
+    gap: 32px 44px;
+    align-items: start;
+    padding: 36px;
+    border: 1px solid var(--line-light);
+    background: #fff;
+}
+
+.civil-consultation-copy {
+    min-width: 0;
+}
+
+.civil-consultation-title {
+    max-width: 520px;
+    margin: 0;
+    color: var(--text-dark);
+    font-family: var(--font-display);
+    font-size: var(--type-h3);
+    font-weight: 600;
+    line-height: var(--type-h3-line);
+}
+
+.civil-consultation-text {
+    max-width: 520px;
+    margin: 18px 0 0;
+    color: var(--text-muted);
+}
+
+.civil-consultation-form {
+    display: grid;
+    gap: 18px;
+    min-width: 0;
+}
+
+.civil-consultation-fields {
+    display: grid;
+    grid-template-columns: minmax(0, 0.78fr) minmax(0, 1fr);
+    gap: 16px;
+}
+
+.civil-field {
+    display: grid;
+    gap: 8px;
+    min-width: 0;
+}
+
+.civil-field span {
+    color: var(--text-muted);
+    font-size: var(--type-small);
+    font-weight: 600;
+    line-height: var(--type-small-line);
+}
+
+.civil-input {
+    width: 100%;
+    min-height: 48px;
+    padding: 12px 14px;
+    border: 1px solid rgba(34, 38, 37, 0.24);
+    border-radius: 0;
+    background: var(--bg-light);
+    color: var(--text-dark);
+    font: inherit;
+    outline: 0;
+    box-shadow: inset 0 0 0 1px rgba(34, 38, 37, 0.04);
+    transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.civil-input::placeholder {
+    color: rgba(34, 38, 37, 0.56);
+    opacity: 1;
+}
+
+.civil-input:focus {
+    border-color: var(--accent);
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(184, 151, 90, 0.18);
+}
+
+.civil-consultation-submit {
+    justify-self: start;
+}
+
+.civil-consultation-status {
+    min-height: 20px;
+    margin: 0;
+    color: #8a4b12;
+    font-size: var(--type-small);
+    line-height: var(--type-small-line);
+}
+
+.civil-consultation-result {
+    grid-column: 1 / -1;
+    min-width: 0;
+}
+
+.civil-found-alert,
+.civil-result-card {
+    border: 1px solid var(--line-light);
+    background: #fff;
+}
+
+.civil-found-alert {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    padding: 12px 14px;
+    color: #1f6b3a;
+    font-size: var(--type-action);
+    line-height: var(--type-action-line);
+}
+
+.civil-found-alert span,
+.civil-result-dot {
+    width: 10px;
+    height: 10px;
+    flex: 0 0 auto;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+.civil-tabs {
+    border: 1px solid var(--line-light);
+    background: #fff;
+}
+
+.civil-tabs-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-bottom: 1px solid var(--line-light);
+    background: var(--bg-light);
+}
+
+.civil-tabs-list button {
+    min-width: 0;
+    min-height: 48px;
+    padding: 12px 10px;
+    border: 0;
+    border-right: 1px solid var(--line-light);
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    font: inherit;
+    font-size: var(--type-small);
+    font-weight: 700;
+    line-height: var(--type-small-line);
+}
+
+.civil-tabs-list button:last-child {
+    border-right: 0;
+}
+
+.civil-tabs-list button.is-active {
+    background: #fff;
+    color: var(--accent-dark);
+}
+
+.civil-tab-panel {
+    padding: 24px;
+}
+
+.civil-info-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px 24px;
+    margin: 0;
+}
+
+.civil-info-list div {
+    min-width: 0;
+}
+
+.civil-info-list dt {
+    margin: 0 0 3px;
+    color: var(--text-muted);
+    font-size: var(--type-small);
+    line-height: var(--type-small-line);
+}
+
+.civil-info-list dd {
+    margin: 0;
+    color: var(--text-dark);
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.civil-info-parties {
+    margin-top: 24px;
+    padding-top: 22px;
+    border-top: 1px solid var(--line-light);
+}
+
+.civil-info-parties h4 {
+    margin: 0 0 14px;
+    color: var(--text-dark);
+    font-size: var(--type-action);
+    font-weight: 700;
+    line-height: var(--type-action-line);
+}
+
+.civil-parties-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.civil-party-card,
+.civil-timeline-item {
+    padding: 18px;
+    border: 1px solid var(--line-light);
+    background: var(--bg-light);
+}
+
+.civil-party-card span,
+.civil-timeline-meta {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--text-muted);
+    font-size: var(--type-small);
+    line-height: var(--type-small-line);
+}
+
+.civil-party-card strong {
+    color: var(--text-dark);
+}
+
+.civil-party-card p {
+    margin: 8px 0 0;
+    color: var(--text-muted);
+}
+
+.civil-timeline {
+    display: grid;
+    gap: 14px;
+}
+
+.civil-timeline-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 12px;
+}
+
+.civil-timeline-meta strong {
+    color: var(--accent-dark);
+}
+
+.civil-timeline-item p {
+    margin: 0;
+    color: var(--text-dark);
+}
+
+.civil-timeline-item small {
+    display: block;
+    margin-top: 8px;
+    color: var(--text-muted);
+    font-size: var(--type-small);
+    line-height: var(--type-small-line);
+}
+
+.civil-empty {
+    margin: 0;
+    color: var(--text-muted);
+}
+
+.civil-result-card {
+    padding: 22px;
+}
+
+.civil-result-card-warning {
+    color: #8a4b12;
+    background: #fff8e8;
+    border-color: rgba(184, 151, 90, 0.45);
+}
+
+.civil-result-heading {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.civil-result-message p {
+    margin: 0 0 8px;
+    color: var(--text-dark);
+}
+
+.civil-result-message p:last-child {
+    margin-bottom: 0;
+}
+
 .paper-forms-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -3523,6 +3819,10 @@ button {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
+    .civil-consultation-panel {
+        grid-template-columns: 1fr;
+    }
+
     .practice-card:nth-child(-n + 3) {
         border-top: 0;
     }
@@ -3989,6 +4289,22 @@ button {
         border-top: 1px solid var(--line-light);
     }
 
+    .civil-consultation-panel {
+        grid-template-columns: 1fr;
+        padding: 24px;
+    }
+
+    .civil-consultation-fields,
+    .civil-info-list,
+    .civil-parties-list {
+        grid-template-columns: 1fr;
+    }
+
+    .civil-tabs-list button {
+        min-height: 46px;
+        padding: 10px 6px;
+    }
+
     .guide-links {
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 12px 18px;
@@ -4191,6 +4507,24 @@ button {
     .service-route-card,
     .contact-form-card {
         padding: 20px;
+    }
+
+    .civil-consultation-panel,
+    .civil-tab-panel {
+        padding: 20px;
+    }
+
+    .civil-tabs-list {
+        grid-template-columns: 1fr;
+    }
+
+    .civil-tabs-list button {
+        border-right: 0;
+        border-bottom: 1px solid var(--line-light);
+    }
+
+    .civil-tabs-list button:last-child {
+        border-bottom: 0;
     }
 
     .gallery-lightbox {
