@@ -797,6 +797,180 @@ button {
     width: 100%;
 }
 
+.temporary-notice {
+    position: relative;
+    z-index: 2;
+    padding: 18px 0;
+    border-bottom: 1px solid rgba(34, 38, 37, 0.12);
+    background: #edf3f0;
+    color: var(--text-dark);
+}
+
+.temporary-notice-inner {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) minmax(280px, 0.84fr) auto;
+    gap: clamp(18px, 2.3vw, 34px);
+    align-items: center;
+}
+
+.temporary-notice-date {
+    display: grid;
+    width: 76px;
+    min-height: 82px;
+    place-items: center;
+    padding: 10px 8px;
+    border: 1px solid rgba(238, 242, 239, 0.22);
+    background: #16583d;
+    color: #f7fbf8;
+    text-align: center;
+}
+
+.temporary-notice-date span {
+    font-family: var(--font-serif);
+    font-size: 34px;
+    font-weight: 600;
+    line-height: 0.92;
+}
+
+.temporary-notice-date small,
+.temporary-notice-date em {
+    display: block;
+    font-style: normal;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.1;
+    text-transform: uppercase;
+}
+
+.temporary-notice-date em {
+    margin-top: 2px;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.temporary-notice-kicker {
+    margin: 0 0 6px;
+    color: var(--accent-dark);
+    font-size: var(--type-small);
+    font-weight: 700;
+    line-height: var(--type-small-line);
+    text-transform: uppercase;
+}
+
+.temporary-notice-copy h2 {
+    margin: 0;
+    color: var(--text-dark);
+    font-family: var(--font-serif);
+    font-size: clamp(24px, 2.1vw, 34px);
+    font-weight: 400;
+    line-height: 1.15;
+}
+
+.temporary-notice-copy p:not(.temporary-notice-kicker) {
+    margin: 7px 0 0;
+    color: var(--text-muted);
+    font-size: var(--type-body);
+    line-height: var(--type-body-line);
+}
+
+.temporary-notice-details {
+    display: grid;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    color: var(--text-muted);
+    font-size: 15px;
+    line-height: 1.35;
+    list-style: none;
+}
+
+.temporary-notice-details li {
+    position: relative;
+    padding-left: 15px;
+}
+
+.temporary-notice-details li::before {
+    content: "";
+    position: absolute;
+    top: 0.6em;
+    left: 0;
+    width: 5px;
+    height: 5px;
+    background: var(--accent-dark);
+}
+
+.temporary-notice-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    padding: 10px 16px;
+    border: 1px solid var(--accent-dark);
+    color: var(--accent-dark);
+    font-size: var(--type-action);
+    font-weight: 600;
+    line-height: var(--type-action-line);
+    text-align: center;
+    white-space: nowrap;
+    transition: background-color 0.18s ease, color 0.18s ease;
+}
+
+.temporary-notice-action:hover,
+.temporary-notice-action:focus-visible {
+    background: var(--accent-dark);
+    color: #f7fbf8;
+    outline: 0;
+}
+
+@media (max-width: 1080px) {
+    .temporary-notice-inner {
+        grid-template-columns: auto minmax(0, 1fr);
+    }
+
+    .temporary-notice-details,
+    .temporary-notice-action {
+        grid-column: 2;
+    }
+
+    .temporary-notice-action {
+        justify-self: start;
+    }
+}
+
+@media (max-width: 620px) {
+    .temporary-notice {
+        padding: 16px 0 18px;
+    }
+
+    .temporary-notice-inner {
+        grid-template-columns: auto minmax(0, 1fr);
+        gap: 14px;
+    }
+
+    .temporary-notice-date {
+        width: 64px;
+        min-height: 72px;
+    }
+
+    .temporary-notice-date span {
+        font-size: 30px;
+    }
+
+    .temporary-notice-copy h2 {
+        font-size: 24px;
+    }
+
+    .temporary-notice-details,
+    .temporary-notice-action {
+        grid-column: 1 / -1;
+    }
+
+    .temporary-notice-action {
+        width: 100%;
+        white-space: normal;
+    }
+}
+
 .is-hero-booting .site-header .brand,
 .is-hero-booting .site-header .header-actions,
 .is-hero-booting .hero-intro,
@@ -1799,6 +1973,24 @@ button {
 .hours-item p,
 .hours-note {
     margin: 8px 0 0;
+    color: var(--text-soft);
+}
+
+.hours-item-alert {
+    padding: 20px;
+    border: 1px solid rgba(111, 159, 147, 0.48);
+    background: rgba(111, 159, 147, 0.1);
+}
+
+.hours-item-alert strong {
+    color: #e8faf7;
+}
+
+.hours-item-alert ul {
+    display: grid;
+    gap: 6px;
+    margin: 12px 0 0;
+    padding-left: 18px;
     color: var(--text-soft);
 }
 
