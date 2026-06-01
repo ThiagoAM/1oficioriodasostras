@@ -97,20 +97,61 @@ const getSeloRow = (processo) => {
   return null;
 };
 
+const getUltimoAndamentoText = (processo) => {
+  const ultimo = processo.ultimoAndamento;
+  return [ultimo?.data, ultimo?.tipo, ultimo?.descricao].filter(Boolean).join(" - ");
+};
+
+const normalizeSearchText = (value) =>
+  String(value ?? "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
+
+const getProcessStatus = (processo) => {
+  const ultimoText = normalizeSearchText(getUltimoAndamentoText(processo));
+  const isExpedido = ultimoText.includes("certidao de habilitacao expedida");
+
+  return {
+    label: isExpedido ? "Expedido" : "Em andamento",
+    tone: isExpedido ? "success" : "pending",
+    icon: isExpedido ? "&#10003;" : "",
+  };
+};
+
+const renderStatusValue = (processo) => {
+  const status = getProcessStatus(processo);
+  return `
+    <span class="civil-process-status civil-process-status-${escapeHtml(status.tone)}">
+      ${status.icon ? `<span class="civil-process-status-icon" aria-hidden="true">${status.icon}</span>` : ""}
+      <span>${escapeHtml(status.label)}</span>
+    </span>
+  `;
+};
+
+const getAndamentoTipoLabel = (andamento) => {
+  const andamentoText = normalizeSearchText([andamento?.descricao, andamento?.complemento].filter(Boolean).join(" "));
+  if (andamentoText.includes("certidao de habilitacao expedida")) {
+    return "Expedido";
+  }
+  return andamento?.tipo || "";
+};
+
 const renderInfoRows = (processo) => {
   const seloRow = getSeloRow(processo);
   const rows = [
-    ["Processo", processo.numero],
-    ["Natureza", processo.natureza],
-    ["Data de cadastro", processo.dataCadastro],
-    ["Situação", processo.situacao],
-    seloRow,
-    ["Observação", processo.observacao],
-  ].filter((row) => row?.[1]);
+    { label: "Status", html: renderStatusValue(processo), value: getProcessStatus(processo).label },
+    { label: "Processo", value: processo.numero },
+    { label: "Natureza", value: processo.natureza },
+    { label: "Data de cadastro", value: processo.dataCadastro },
+    { label: "Situação", value: processo.situacao },
+    seloRow ? { label: seloRow[0], value: seloRow[1] } : null,
+    { label: "Observação", value: processo.observacao },
+  ].filter((row) => row?.value || row?.html);
 
-  const ultimo = processo.ultimoAndamento;
-  if (ultimo?.data || ultimo?.tipo || ultimo?.descricao) {
-    rows.push(["Último andamento", [ultimo.data, ultimo.tipo, ultimo.descricao].filter(Boolean).join(" - ")]);
+  const ultimoText = getUltimoAndamentoText(processo);
+  if (ultimoText) {
+    rows.push({ label: "Último andamento", value: ultimoText });
   }
 
   if (!rows.length) {
@@ -121,10 +162,10 @@ const renderInfoRows = (processo) => {
     <dl class="civil-info-list">
       ${rows
         .map(
-          ([label, value]) => `
+          ({ label, value, html }) => `
             <div>
               <dt>${escapeHtml(label)}</dt>
-              <dd>${escapeHtml(value)}</dd>
+              <dd>${html || escapeHtml(value)}</dd>
             </div>
           `,
         )
@@ -172,17 +213,20 @@ const renderAndamentos = (andamentos) => {
     <div class="civil-timeline">
       ${andamentos
         .map(
-          (andamento) => `
+          (andamento) => {
+            const tipoLabel = getAndamentoTipoLabel(andamento);
+            return `
             <article class="civil-timeline-item">
               <div class="civil-timeline-meta">
                 ${andamento.data ? `<span>${escapeHtml(andamento.data)}</span>` : ""}
                 ${andamento.hora ? `<span>${escapeHtml(andamento.hora)}</span>` : ""}
-                ${andamento.tipo ? `<strong>${escapeHtml(andamento.tipo)}</strong>` : ""}
+                ${tipoLabel ? `<strong>${escapeHtml(tipoLabel)}</strong>` : ""}
               </div>
               <p>${escapeHtml(andamento.descricao || "Andamento registrado")}</p>
               ${andamento.complemento ? `<small>${escapeHtml(andamento.complemento)}</small>` : ""}
             </article>
-          `,
+          `;
+          },
         )
         .join("")}
     </div>

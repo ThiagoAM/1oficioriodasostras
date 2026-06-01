@@ -1080,7 +1080,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 type="text"
                 inputmode="numeric"
                 autocomplete="off"
-                placeholder="Ex.: 17730"
+                placeholder="10000"
                 required />
             </label>
             <label class="civil-field">

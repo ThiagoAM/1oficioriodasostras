@@ -2045,6 +2045,35 @@ button {
     overflow-wrap: anywhere;
 }
 
+.civil-process-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 28px;
+    padding: 4px 10px;
+    border: 1px solid var(--line-light);
+    background: var(--bg-light);
+    color: var(--text-dark);
+}
+
+.civil-process-status-success {
+    border-color: rgba(31, 107, 58, 0.3);
+    background: rgba(31, 107, 58, 0.08);
+    color: #1f6b3a;
+}
+
+.civil-process-status-icon {
+    display: inline-grid;
+    width: 18px;
+    height: 18px;
+    place-items: center;
+    border-radius: 50%;
+    background: currentColor;
+    color: #fff;
+    font-size: 12px;
+    line-height: 1;
+}
+
 .civil-info-parties {
     margin-top: 24px;
     padding-top: 22px;

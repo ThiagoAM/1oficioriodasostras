@@ -277,6 +277,7 @@ try {
   await assert.equal(await page.getByText("HABILITAÇÃO DE CASAMENTO").isVisible(), true);
   await assert.equal(await page.getByText("Nenhum andamento registrado neste processo.").isVisible(), false);
   await assert.equal(await page.getByRole("tab", { name: /partes/i }).count(), 0);
+  await assert.equal(await page.locator("[data-civil-panel='informacoes']").getByText("Em andamento").isVisible(), true);
   await assert.equal(await page.getByText("ADEMILSON SILVA DE OLIVEIRA").isVisible(), true);
 
   await page.getByRole("tab", { name: /andamentos/i }).click();
@@ -295,6 +296,8 @@ try {
   assert.equal(informacoesText.includes("Selo / código"), true);
   assert.equal(informacoesText.includes("EFDB05432-MID"), true);
   assert.equal(informacoesText.includes("Código aleatório"), false);
+  assert.equal(informacoesText.includes("Expedido"), true);
+  assert.equal(informacoesText.includes("Em andamento"), false);
   assert.equal(informacoesText.includes("ARTHUR MOREIRA DE CASTRO SANTOS"), true);
   assert.equal(informacoesText.includes("EVELLYN JULIANNE TARGINO DE SOUZA"), true);
   assert.equal(informacoesText.includes("00:00:00"), false);
@@ -309,6 +312,9 @@ try {
     .filter({ hasText: "Verificação pelo Juíz de Paz - CCT GAWQ78640-WQT" })
     .waitFor();
   const andamentosText = await page.locator("[data-civil-panel='andamentos']").innerText();
+  const primeiroAndamentoText = await page.locator("[data-civil-panel='andamentos'] .civil-timeline-item").first().innerText();
+  assert.equal(primeiroAndamentoText.includes("Expedido"), true);
+  assert.equal(primeiroAndamentoText.includes("Andamento"), false);
   assert.equal(andamentosText.includes("00:00:00"), false);
   assert.equal(andamentosText.includes("30/12/1899"), false);
   assert.equal(andamentosText.includes("01/06/2026"), true);
