@@ -298,6 +298,15 @@ try {
   assert.equal(informacoesText.includes("Código aleatório"), false);
   assert.equal(informacoesText.includes("Expedido"), true);
   assert.equal(informacoesText.includes("Em andamento"), false);
+  const statusIconStyles = await page.locator("[data-civil-panel='informacoes'] .civil-process-status-icon").evaluate((node) => {
+    const style = getComputedStyle(node);
+    return {
+      backgroundColor: style.backgroundColor,
+      color: style.color,
+    };
+  });
+  assert.equal(statusIconStyles.backgroundColor, "rgb(31, 107, 58)");
+  assert.equal(statusIconStyles.color, "rgb(255, 255, 255)");
   assert.equal(informacoesText.includes("ARTHUR MOREIRA DE CASTRO SANTOS"), true);
   assert.equal(informacoesText.includes("EVELLYN JULIANNE TARGINO DE SOUZA"), true);
   assert.equal(informacoesText.includes("00:00:00"), false);
