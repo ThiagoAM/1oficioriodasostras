@@ -38,23 +38,6 @@
       { label: "Explore mais", href: "#conteudos" },
       { label: "Fale conosco", href: "#contato" },
     ],
-    temporaryNotice: {
-      activeFrom: "2026-06-01T00:00:00-03:00",
-      activeUntil: "2026-06-05T00:00:00-03:00",
-      label: "Comunicado temporário",
-      title: "Quinta-feira, 04/06/2026, será feriado de Corpus Christi.",
-      text: "Não haverá expediente normal no cartório nesta data.",
-      dateDay: "04",
-      dateMonth: "JUN",
-      dateLabel: "Quinta-feira",
-      details: [
-        "Plantão exclusivo para registros de nascimento e óbito, das 9h às 12h.",
-        "O expediente normal retorna na sexta-feira, 05/06/2026, das 9h às 17h.",
-      ],
-      href: "#horario",
-      actionLabel: "Ver horários",
-      hoursTitle: "Feriado de Corpus Christi",
-    },
     featurePages: {
       kicker: "Explore mais",
       title:

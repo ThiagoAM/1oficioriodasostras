@@ -39,38 +39,6 @@ document.addEventListener("DOMContentLoaded", () => {
     return isHomePage ? value : `index.html${value}`;
   };
 
-  const parseNoticeDate = (value) => {
-    if (!value) {
-      return null;
-    }
-
-    const date = new Date(value);
-    return Number.isNaN(date.getTime()) ? null : date;
-  };
-
-  const isTemporaryNoticeActive = (notice) => {
-    if (!notice) {
-      return false;
-    }
-
-    const now = new Date();
-    const activeFrom = parseNoticeDate(notice.activeFrom);
-    const activeUntil = parseNoticeDate(notice.activeUntil);
-
-    if (activeFrom && now < activeFrom) {
-      return false;
-    }
-
-    if (activeUntil && now >= activeUntil) {
-      return false;
-    }
-
-    return true;
-  };
-
-  const getActiveTemporaryNotice = () =>
-    isTemporaryNoticeActive(data?.temporaryNotice) ? data.temporaryNotice : null;
-
   const getFaqHref = (category = "Todas", query = "") => {
     const params = new URLSearchParams();
     if (category && category !== "Todas") {
@@ -814,69 +782,6 @@ document.addEventListener("DOMContentLoaded", () => {
     </section>
   `;
 
-  const renderTemporaryNotice = () => {
-    const notice = getActiveTemporaryNotice();
-    if (!notice) {
-      return "";
-    }
-
-    const details = Array.isArray(notice.details) ? notice.details : [];
-
-    return `
-      <section class="temporary-notice" aria-labelledby="temporaryNoticeTitle">
-        <div class="container temporary-notice-inner">
-          <div class="temporary-notice-date" aria-hidden="true">
-            <span>${escapeHtml(notice.dateDay || "")}</span>
-            <small>${escapeHtml(notice.dateMonth || "")}</small>
-            ${notice.dateLabel ? `<em>${escapeHtml(notice.dateLabel)}</em>` : ""}
-          </div>
-          <div class="temporary-notice-copy">
-            ${notice.label ? `<p class="temporary-notice-kicker">${escapeHtml(notice.label)}</p>` : ""}
-            <h2 id="temporaryNoticeTitle">${escapeHtml(notice.title)}</h2>
-            ${notice.text ? `<p>${escapeHtml(notice.text)}</p>` : ""}
-          </div>
-          ${
-            details.length
-              ? `<ul class="temporary-notice-details">
-                  ${details.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
-                </ul>`
-              : ""
-          }
-          ${
-            notice.href && notice.actionLabel
-              ? `<a class="temporary-notice-action" href="${escapeHtml(resolveSiteHref(notice.href))}">${escapeHtml(
-                  notice.actionLabel,
-                )}</a>`
-              : ""
-          }
-        </div>
-      </section>
-    `;
-  };
-
-  const renderHoursTemporaryNotice = () => {
-    const notice = getActiveTemporaryNotice();
-    if (!notice) {
-      return "";
-    }
-
-    const details = Array.isArray(notice.details) ? notice.details : [];
-
-    return `
-      <article class="hours-item hours-item-alert">
-        <strong>${escapeHtml(notice.hoursTitle || notice.title)}</strong>
-        ${notice.text ? `<p>${escapeHtml(notice.title)} ${escapeHtml(notice.text)}</p>` : ""}
-        ${
-          details.length
-            ? `<ul>
-                ${details.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
-              </ul>`
-            : ""
-        }
-      </article>
-    `;
-  };
-
   const renderPhilosophy = () => `
     <section class="section section-light philosophy-section">
       <div class="container philosophy-grid">
@@ -1229,7 +1134,6 @@ document.addEventListener("DOMContentLoaded", () => {
           <p class="section-subtitle">${escapeHtml(data.hours.intro)}</p>
         </div>
         <div class="hours-list">
-          ${renderHoursTemporaryNotice()}
           ${data.hours.items
             .map(
               (item) => `
@@ -1513,7 +1417,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     siteRoot.innerHTML = [
-      renderTemporaryNotice(),
       renderHero(),
       renderPhilosophy(),
       renderAiAssistance(),
@@ -1541,7 +1444,7 @@ document.addEventListener("DOMContentLoaded", () => {
       faq: () => `${renderFaqAiAssistance()}${renderFaq()}`,
     };
     const renderPage = pageRenderers[contentPage];
-    siteRoot.innerHTML = [renderTemporaryNotice(), renderPage ? renderPage() : ""].join("");
+    siteRoot.innerHTML = renderPage ? renderPage() : "";
   };
 
   const renderSiteContent = () => {
