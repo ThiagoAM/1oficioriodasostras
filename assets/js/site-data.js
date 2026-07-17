@@ -185,7 +185,7 @@
       title:
         "Atendimento técnico e humano para transformar procedimentos complexos em etapas compreensíveis.",
       text:
-        "Utilizamos canais e sistemas oficiais para dar mais segurança aos serviços digitais.",
+        "No setor de Notas, todos os escreventes são pós-graduados em Direito Imobiliário e Registral, reunindo conhecimento especializado, segurança jurídica e atenção em cada atendimento.",
       secondaryText:
         "Nossa equipe também conta com profissionais qualificados para atender estrangeiros em inglês e chinês.",
       bullets: ["Orientação antes do atendimento", "Serviços presenciais e online", "Integração com plataformas oficiais"],

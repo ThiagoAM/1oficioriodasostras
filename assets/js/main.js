@@ -899,7 +899,14 @@ document.addEventListener("DOMContentLoaded", () => {
           <p class="section-kicker">${escapeHtml(data.whyChoose.kicker)}</p>
           <h2 class="section-title">${escapeHtml(data.whyChoose.title)}</h2>
           <div class="why-details">
-            <p class="why-text">${escapeHtml(data.whyChoose.text)}</p>
+            <div class="why-qualification">
+              <svg class="why-graduation-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2 8.75 12 4l10 4.75L12 13.5 2 8.75Z"></path>
+                <path d="M6 10.75v5.15c3.45 2.8 8.55 2.8 12 0v-5.15"></path>
+                <path d="M22 8.75v6"></path>
+              </svg>
+              <p class="why-text">${escapeHtml(data.whyChoose.text)}</p>
+            </div>
             <ul class="line-list">
               ${data.whyChoose.bullets.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
             </ul>
