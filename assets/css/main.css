@@ -1001,7 +1001,7 @@ button {
     position: relative;
     z-index: 2;
     display: grid;
-    grid-template-columns: minmax(0, 1.15fr) minmax(260px, 0.75fr);
+    grid-template-columns: minmax(0, 1fr) minmax(360px, calc(39.473684% + 66.842105px));
     gap: 84px;
     align-items: center;
 }
@@ -1029,16 +1029,109 @@ button {
     background: #ccd3d1;
 }
 
-.philosophy-media {
-    margin: 0;
+.reviews-card {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
-.philosophy-media img {
-    width: 100%;
-    aspect-ratio: 16 / 10;
-    object-fit: cover;
-    object-position: center top;
-    filter: saturate(0.65) contrast(0.92);
+.reviews-head {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.reviews-score-line {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.reviews-score-value {
+    font-family: var(--font-serif);
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--text-dark);
+}
+
+.review-stars {
+    display: inline-flex;
+    color: #c9971c;
+    font-size: 14px;
+    letter-spacing: 2px;
+    line-height: 1;
+}
+
+.reviews-count {
+    margin: 0;
+    font-size: var(--type-small);
+    color: #5b6360;
+}
+
+.reviews-stream-viewport {
+    height: 300px;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(transparent, #000 12%, #000 88%, transparent);
+    mask-image: linear-gradient(transparent, #000 12%, #000 88%, transparent);
+}
+
+.reviews-stream {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    animation: reviews-flow 48s linear infinite;
+}
+
+.reviews-stream-viewport:hover .reviews-stream {
+    animation-play-state: paused;
+}
+
+.review-item {
+    padding: 15px 0;
+    border-bottom: 1px solid var(--line-light);
+}
+
+.review-item .review-stars {
+    display: flex;
+    margin-bottom: 8px;
+}
+
+.review-text {
+    margin: 0 0 8px;
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--text-muted);
+}
+
+.review-name {
+    margin: 0;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #5b6360;
+}
+
+.reviews-cta {
+    align-self: start;
+}
+
+@keyframes reviews-flow {
+    from {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(-50%);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .reviews-stream {
+        animation: none;
+    }
 }
 
 .philosophy-grid .text-link {
@@ -4080,6 +4173,19 @@ button {
 
     .philosophy-quote {
         font-size: var(--type-display);
+    }
+
+    .reviews-card {
+        margin-top: 20px;
+    }
+
+    .reviews-cta {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .reviews-stream-viewport {
+        height: 260px;
     }
 
     .philosophy-grid .text-link {

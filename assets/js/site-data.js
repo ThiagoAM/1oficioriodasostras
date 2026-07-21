@@ -119,9 +119,88 @@
       kicker: "Nosso compromisso",
       quote:
         "Atuar com técnica, transparência e respeito ao cidadão, tornando cada ato cartorário mais claro, seguro e acessível.",
-      image: "assets/images/display/rio-das-ostras-5-1000.jpg",
-      imageAlt: "Píer de Rio das Ostras ao pôr do sol",
       link: null,
+      reviews: {
+        rating: "4,9",
+        totalLabel: "1.161 avaliações no Google",
+        rateUrl: "https://maps.app.goo.gl/4ah3aHAuX1gf2aVs5",
+        items: [
+          {
+            name: "Lene Barcelos",
+            text:
+              "Minha experiência foi ótima! Atendimento impecável e humanizado. Sou de outra cidade e moro aqui há 11 anos, e consegui resolver minha demanda de maneira prática, rápida e muito respeitosa.",
+          },
+          {
+            name: "José Luiz Costa da Silva",
+            text:
+              "Gostaria de registrar um elogio ao atendimento prestado pela colaboradora Maria Eduarda durante o processo de certificação digital realizado recentemente.",
+          },
+          {
+            name: "Patrícia Pathy",
+            text:
+              "Excelente atendimento! Rápido e eficiente. A atendente super pró-ativa e educada. Sempre tenho ótimas experiências nesse cartório. Todos sempre são bem atenciosos.",
+          },
+          {
+            name: "Eduardo Hygino",
+            text:
+              "Atendimento extremamente rápido e eficiente. Entrei em contato por volta de 12h e antes das 16h meu problema já estava totalmente resolvido, incluindo a baixa do protesto.",
+          },
+          {
+            name: "Gleiciane Santiago",
+            text:
+              "Profissionais atenciosos, educados e com boa vontade. Sempre que preciso de um serviço faço contato pelo WhatsApp e sou muito bem atendida.",
+          },
+          {
+            name: "Vanderlam Xavier",
+            text:
+              "Parabéns pelo excelente serviço. Agora temos um cartório que respeita o cidadão.",
+          },
+          {
+            name: "Patricinha Mercedes",
+            text:
+              "Quero agradecer o atendimento da Vitória da Silva Borges por toda atenção, esclarecimentos e auxílio, sendo essencial para que eu pudesse resolver o que precisava. Agradeço também a todos os demais por tamanha gentileza e educação. Estão de parabéns por exercer tão bem os seus ofícios. Gratidão!",
+          },
+          {
+            name: "David Rodrigues",
+            text:
+              "Excelente atendimento realizado pela colaboradora Letícia Rosa!",
+          },
+          {
+            name: "Taiane Cardial",
+            text:
+              "Ótimo atendimento! O Dr. Robson é super prestativo!",
+          },
+          {
+            name: "Joyce Hellen",
+            text:
+              "Venho parabenizar o cartório pelo excelente trabalho prestado com a sociedade! E também quero parabenizar a funcionária Kamily Ferreira, que me atendeu e prestou um ótimo serviço, com toda atenção e carinho com o meu caso. Novamente parabéns a todos!",
+          },
+          {
+            name: "Mouriel",
+            text: "Melhor cartório da região!",
+          },
+          {
+            name: "Gerson Junio Arantes",
+            text:
+              "Fui atendido pela Letícia Rosa, muito solícita!",
+          },
+          {
+            name: "Idenir da Silva",
+            text:
+              "Fui muito bem atendida pela atendente Ana Carolina Dantas!",
+          },
+          {
+            name: "Renato Madruga Fernandes",
+            text:
+              "Atendimento cordial, funcionários muito educados e atenciosos, local limpo e organizado. Estão de parabéns, Deus os abençoe sempre.",
+          },
+          {
+            name: "Cileymar Borges",
+            text:
+              "O cartório está modernizado, está lindo! Sem contar o atendimento, que é nota 10! Ressalto o atendimento do funcionário Willian, que me atendeu na entrada e me direcionou para o setor responsável. Muito simpático e atencioso! Com funcionários assim, Rio das Ostras só tem a ganhar!",
+          },
+        ],
+      },
     },
     aiAssistance: {
       kicker: "Inteligência Artificial",

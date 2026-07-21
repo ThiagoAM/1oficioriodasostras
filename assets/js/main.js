@@ -782,6 +782,74 @@ document.addEventListener("DOMContentLoaded", () => {
     </section>
   `;
 
+  const reviewStars = '<span class="review-stars" aria-hidden="true">★★★★★</span>';
+
+  const renderReviewItem = (item, cloned = false) => `
+          <li class="review-item"${cloned ? ' aria-hidden="true"' : ""}>
+            ${reviewStars}
+            <p class="review-text">“${escapeHtml(item.text)}”</p>
+            <p class="review-name">${escapeHtml(item.name)}</p>
+          </li>`;
+
+  const shuffled = (arr) => {
+    const copy = arr.slice();
+    for (let i = copy.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy;
+  };
+
+  const reviewSetKey = (list) =>
+    list
+      .map((item) => `${item.name}|${item.text}`)
+      .sort()
+      .join("~~");
+
+  // Pick `count` distinct reviews at random, avoiding the exact set shown on the previous load.
+  const pickReviews = (items, count) => {
+    const size = Math.min(count, items.length);
+    let previous = null;
+    try {
+      previous = window.localStorage.getItem("reviewsLastSet");
+    } catch (error) {
+      previous = null;
+    }
+    let selection = shuffled(items).slice(0, size);
+    if (items.length > size) {
+      for (let attempt = 0; attempt < 10 && reviewSetKey(selection) === previous; attempt++) {
+        selection = shuffled(items).slice(0, size);
+      }
+    }
+    try {
+      window.localStorage.setItem("reviewsLastSet", reviewSetKey(selection));
+    } catch (error) {
+      /* localStorage unavailable — nothing to persist */
+    }
+    return selection;
+  };
+
+  const renderGoogleReviews = (reviews) => {
+    const selected = pickReviews(reviews.items, 6);
+    const items = selected.map((item) => renderReviewItem(item)).join("");
+    const clones = selected.map((item) => renderReviewItem(item, true)).join("");
+    return `
+    <aside class="reviews-card" aria-label="Avaliações no Google">
+      <div class="reviews-head">
+        <div class="reviews-score-line">
+          <span class="reviews-score-value">${escapeHtml(reviews.rating)}</span>
+          ${reviewStars}
+        </div>
+        <p class="reviews-count">${escapeHtml(reviews.totalLabel)}</p>
+      </div>
+      <div class="reviews-stream-viewport">
+        <ul class="reviews-stream">${items}${clones}</ul>
+      </div>
+      <a class="btn btn-primary reviews-cta" href="${escapeHtml(reviews.rateUrl)}" target="_blank" rel="noopener noreferrer">Avaliar no Google</a>
+    </aside>
+  `;
+  };
+
   const renderPhilosophy = () => `
     <section class="section section-light philosophy-section">
       <div class="container philosophy-grid">
@@ -789,9 +857,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <p class="section-kicker">${escapeHtml(data.philosophy.kicker)}</p>
           <blockquote class="philosophy-quote">“${escapeHtml(data.philosophy.quote)}”</blockquote>
         </div>
-        <figure class="philosophy-media">
-          <img src="${escapeHtml(data.philosophy.image)}" alt="${escapeHtml(data.philosophy.imageAlt)}" loading="lazy" decoding="async" />
-        </figure>
+        ${data.philosophy.reviews ? renderGoogleReviews(data.philosophy.reviews) : ""}
         ${
           data.philosophy.link
             ? `<a class="text-link" href="${escapeHtml(data.philosophy.link.href)}">${escapeHtml(data.philosophy.link.label)} <span aria-hidden="true">→</span></a>`
