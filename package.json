@@ -1,0 +1,23 @@
+{
+  "name": "1oficioriodasostras",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Site do Cartório do 1º Ofício de Justiça da Comarca de Rio das Ostras/RJ",
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/civil-dev-server.mjs",
+    "test": "node tests/civil-consultation-core.mjs && node tests/civil-consultation-smoke.mjs && node tests/site-visits-hydration.mjs"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.5",
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.59.1",
+    "eslint": "^10.2.0",
+    "globals": "^17.4.0",
+    "http-server": "^14.1.1",
+    "playwright": "^1.59.1",
+    "prettier": "^3.8.1",
+    "stylelint": "^17.6.0",
+    "stylelint-config-standard": "^40.0.0"
+  }
+}
