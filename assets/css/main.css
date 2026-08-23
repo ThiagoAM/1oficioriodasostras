@@ -617,6 +617,19 @@ button {
     scroll-margin-top: 92px;
 }
 
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    overflow: hidden;
+    white-space: nowrap;
+}
+
 .section-light {
     background: var(--bg-light);
     color: var(--text-dark);
@@ -996,6 +1009,351 @@ button {
         font-size: var(--type-body);
     }
 }
+
+/* ---------------------------------------------------------- Boas-vindas */
+
+.welcome-section {
+    position: relative;
+    z-index: 2;
+    border-top: 1px solid var(--line-dark);
+    background: #162631;
+    color: var(--text-light);
+    overflow: hidden;
+}
+
+.welcome-section::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(42% 62% at 86% 8%, rgba(111, 159, 147, 0.22), transparent 72%),
+        radial-gradient(34% 52% at 2% 96%, rgba(111, 159, 147, 0.14), transparent 74%);
+    pointer-events: none;
+}
+
+.welcome-inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(280px, 0.85fr);
+    gap: 48px 56px;
+    align-items: center;
+}
+
+.welcome-copy {
+    min-width: 0;
+}
+
+.welcome-title {
+    margin: 0;
+    max-width: 760px;
+    font-family: var(--font-serif);
+    font-size: var(--type-display);
+    font-weight: 300;
+    line-height: var(--type-display-line);
+    text-wrap: balance;
+}
+
+.welcome-title-greeting {
+    color: var(--accent);
+    font-style: italic;
+    font-weight: 400;
+}
+
+.welcome-text {
+    margin: 24px 0 0;
+    max-width: 620px;
+    color: var(--text-soft);
+    font-size: var(--type-body-large);
+    line-height: var(--type-body-large-line);
+}
+
+.welcome-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 32px;
+    min-width: 0;
+}
+
+.welcome-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    min-height: 44px;
+    padding: 10px 14px;
+    border: 1px solid rgba(238, 242, 239, 0.4);
+    background: rgba(238, 242, 239, 0.05);
+    color: var(--text-light);
+    transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.welcome-action:hover,
+.welcome-action:focus-visible {
+    border-color: var(--accent);
+    background: rgba(111, 159, 147, 0.12);
+}
+
+.welcome-action-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    width: 18px;
+    height: 18px;
+    color: var(--accent);
+}
+
+.welcome-action-icon svg {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
+}
+
+.welcome-action-label {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    line-height: 1.2;
+}
+
+.welcome-action-arrow {
+    flex: 0 0 auto;
+    color: var(--accent);
+    font-size: 14px;
+    line-height: 1;
+    transition: transform 0.2s ease;
+}
+
+.welcome-action:hover .welcome-action-arrow {
+    transform: translateX(3px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .welcome-action:hover .welcome-action-arrow {
+        transform: none;
+    }
+}
+
+/* Cena animada do cartório digital */
+
+.welcome-visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+}
+
+.welcome-scene {
+    width: 100%;
+    max-width: 460px;
+    height: auto;
+    overflow: visible;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.wa-ring {
+    fill: none;
+    stroke: rgba(111, 159, 147, 0.28);
+    stroke-width: 1;
+    stroke-dasharray: 2 12;
+    transform-box: fill-box;
+    transform-origin: 50% 50%;
+}
+
+.wa-ring-outer {
+    animation: wa-spin 46s linear infinite;
+}
+
+.wa-ring-inner {
+    stroke: rgba(111, 159, 147, 0.18);
+    stroke-dasharray: 1 9;
+    animation: wa-spin-reverse 34s linear infinite;
+}
+
+.wa-node {
+    fill: var(--accent);
+    transform-box: fill-box;
+    animation: wa-float 7s ease-in-out infinite;
+}
+
+.wa-node-2 {
+    animation-duration: 9s;
+    animation-delay: -2s;
+}
+
+.wa-node-3 {
+    animation-duration: 8s;
+    animation-delay: -4s;
+}
+
+.wa-node-4 {
+    animation-duration: 10s;
+    animation-delay: -6s;
+}
+
+.wa-sheet-body {
+    fill: rgba(238, 242, 239, 0.04);
+    stroke: rgba(238, 242, 239, 0.28);
+    stroke-width: 1.4;
+}
+
+.wa-title,
+.wa-line,
+.wa-sign {
+    fill: none;
+    stroke: rgba(238, 242, 239, 0.6);
+}
+
+.wa-title {
+    stroke: var(--accent);
+    stroke-width: 4;
+    stroke-dasharray: 90;
+    stroke-dashoffset: 90;
+    animation: wa-draw 9s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+.wa-line {
+    stroke-width: 2.4;
+    stroke-dasharray: 140;
+    stroke-dashoffset: 140;
+    animation: wa-draw-line 9s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+.wa-line-1 { animation-delay: 0.28s; }
+.wa-line-2 { animation-delay: 0.52s; }
+.wa-line-3 { animation-delay: 0.76s; }
+.wa-line-4 { animation-delay: 1s; }
+.wa-line-5 { animation-delay: 1.24s; }
+
+.wa-sign {
+    stroke: var(--accent);
+    stroke-width: 2.2;
+    stroke-dasharray: 150;
+    stroke-dashoffset: 150;
+    animation: wa-draw-sign 9s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+.wa-seal {
+    transform-box: fill-box;
+    transform-origin: 50% 50%;
+    animation: wa-seal 9s cubic-bezier(0.34, 1.25, 0.64, 1) infinite;
+}
+
+.wa-seal-outer {
+    fill: #162631;
+    stroke: var(--accent);
+    stroke-width: 2;
+}
+
+.wa-seal-inner {
+    fill: none;
+    stroke: rgba(111, 159, 147, 0.55);
+    stroke-width: 1;
+    stroke-dasharray: 3 6;
+}
+
+.wa-check {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 3.4;
+    stroke-dasharray: 60;
+    stroke-dashoffset: 60;
+    animation: wa-check 9s ease-out infinite;
+}
+
+.wa-pulse {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 1.4;
+    opacity: 0;
+    transform-box: fill-box;
+    transform-origin: 50% 50%;
+    animation: wa-pulse 9s ease-out infinite;
+}
+
+.wa-pulse-2 {
+    animation-delay: 0.7s;
+}
+
+@keyframes wa-spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes wa-spin-reverse {
+    to { transform: rotate(-360deg); }
+}
+
+@keyframes wa-float {
+    0%, 100% { transform: translateY(0); opacity: 0.35; }
+    50% { transform: translateY(-14px); opacity: 0.9; }
+}
+
+@keyframes wa-draw {
+    0% { stroke-dashoffset: 90; opacity: 0; }
+    4% { opacity: 1; }
+    20%, 84% { stroke-dashoffset: 0; opacity: 1; }
+    93%, 100% { stroke-dashoffset: 0; opacity: 0; }
+}
+
+@keyframes wa-draw-line {
+    0% { stroke-dashoffset: 140; opacity: 0; }
+    5% { opacity: 1; }
+    24%, 82% { stroke-dashoffset: 0; opacity: 1; }
+    91%, 100% { stroke-dashoffset: 0; opacity: 0; }
+}
+
+@keyframes wa-draw-sign {
+    0%, 32% { stroke-dashoffset: 150; opacity: 0; }
+    36% { opacity: 1; }
+    46%, 84% { stroke-dashoffset: 0; opacity: 1; }
+    93%, 100% { stroke-dashoffset: 0; opacity: 0; }
+}
+
+@keyframes wa-seal {
+    0%, 46% { opacity: 0; transform: scale(0.5) rotate(-28deg); }
+    58% { opacity: 1; transform: scale(1) rotate(0deg); }
+    86% { opacity: 1; transform: scale(1) rotate(0deg); }
+    95%, 100% { opacity: 0; transform: scale(1) rotate(0deg); }
+}
+
+@keyframes wa-check {
+    0%, 58% { stroke-dashoffset: 60; }
+    70%, 100% { stroke-dashoffset: 0; }
+}
+
+@keyframes wa-pulse {
+    0%, 58% { transform: scale(1); opacity: 0; }
+    62% { opacity: 0.5; }
+    84%, 100% { transform: scale(2.4); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .wa-ring,
+    .wa-node,
+    .wa-title,
+    .wa-line,
+    .wa-sign,
+    .wa-seal,
+    .wa-check {
+        animation: none;
+        stroke-dashoffset: 0;
+        opacity: 1;
+        transform: none;
+    }
+
+    .wa-node {
+        opacity: 0.6;
+    }
+
+    .wa-pulse {
+        animation: none;
+        opacity: 0;
+    }
+}
+
 
 .philosophy-grid {
     position: relative;
@@ -1790,96 +2148,15 @@ button {
     margin-top: 48px;
 }
 
-.civil-consultation-panel {
-    display: grid;
-    grid-template-columns: minmax(0, 0.86fr) minmax(320px, 1fr);
-    gap: 32px 44px;
-    align-items: start;
-    padding: 36px;
-    border: 1px solid var(--line-light);
-    background: #fff;
-}
-
-.civil-consultation-copy {
-    min-width: 0;
-}
-
-.civil-consultation-title {
-    max-width: 520px;
-    margin: 0;
-    color: var(--text-dark);
-    font-family: var(--font-display);
-    font-size: var(--type-h3);
-    font-weight: 600;
-    line-height: var(--type-h3-line);
-}
-
-.civil-consultation-text {
-    max-width: 520px;
-    margin: 18px 0 0;
-    color: var(--text-muted);
-}
-
-.civil-consultation-form {
-    display: grid;
-    gap: 18px;
-    min-width: 0;
-}
-
-.civil-consultation-fields {
-    display: grid;
-    grid-template-columns: minmax(0, 0.78fr) minmax(0, 1fr);
-    gap: 16px;
-}
-
-.civil-field {
-    display: grid;
-    gap: 8px;
-    min-width: 0;
-}
-
-.civil-field span {
-    color: var(--text-muted);
-    font-size: var(--type-small);
-    font-weight: 600;
-    line-height: var(--type-small-line);
-}
-
-.civil-input {
-    width: 100%;
-    min-height: 48px;
-    padding: 12px 14px;
-    border: 1px solid rgba(34, 38, 37, 0.24);
-    border-radius: 0;
-    background: var(--bg-light);
-    color: var(--text-dark);
-    font: inherit;
-    outline: 0;
-    box-shadow: inset 0 0 0 1px rgba(34, 38, 37, 0.04);
-    transition: border-color 0.18s ease, box-shadow 0.18s ease;
-}
-
-.civil-input::placeholder {
-    color: rgba(34, 38, 37, 0.56);
-    opacity: 1;
-}
-
-.civil-input:focus {
-    border-color: var(--accent);
-    background: #fff;
-    box-shadow: 0 0 0 3px rgba(184, 151, 90, 0.18);
-}
-
-.civil-consultation-submit {
-    justify-self: start;
-}
-
 .civil-consultation-status {
-    min-height: 20px;
     margin: 0;
     color: #8a4b12;
-    font-size: var(--type-small);
-    line-height: var(--type-small-line);
+    font-size: var(--type-body);
+    line-height: var(--type-body-line);
+}
+
+.civil-consultation-status:empty {
+    display: none;
 }
 
 .civil-consultation-result {
@@ -2954,6 +3231,863 @@ button {
     color: var(--text-muted);
 }
 
+/* ------------------------------------------- Calculadora de emolumentos */
+
+.emolument-section {
+    position: relative;
+    z-index: 2;
+}
+
+.emolument-wrap {
+    margin-top: 48px;
+    scroll-margin-top: 92px;
+}
+
+.emolument-panel,
+.civil-consultation-panel {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(360px, 0.84fr);
+    gap: 30px 56px;
+    align-items: start;
+    padding: 40px;
+    border: 1px solid var(--line-light);
+    background: #fff;
+}
+
+.emolument-copy,
+.civil-consultation-copy {
+    min-width: 0;
+}
+
+.emolument-panel .section-kicker,
+.civil-consultation-panel .section-kicker {
+    margin-bottom: 18px;
+}
+
+.emolument-title,
+.civil-consultation-title {
+    margin: 0;
+    max-width: 520px;
+    color: var(--text-dark);
+    font-family: var(--font-serif);
+    font-size: var(--type-heading);
+    font-weight: 300;
+    line-height: var(--type-display-line);
+}
+
+.emolument-text,
+.civil-consultation-text {
+    margin: 20px 0 0;
+    max-width: 560px;
+    color: var(--text-muted);
+    font-size: var(--type-body-large);
+    line-height: var(--type-body-large-line);
+}
+
+.emolument-steps,
+.civil-consultation-steps {
+    display: grid;
+    gap: 14px;
+    margin: 28px 0 0;
+    padding: 0;
+    max-width: 540px;
+    list-style: none;
+    counter-reset: emolument-step;
+}
+
+.civil-consultation-submit {
+    margin-top: 4px;
+}
+
+.emolument-steps li,
+.civil-consultation-steps li {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 14px;
+    align-items: center;
+    color: var(--text-muted);
+    font-size: var(--type-body);
+    line-height: var(--type-body-line);
+}
+
+.emolument-steps li::before,
+.civil-consultation-steps li::before {
+    counter-increment: emolument-step;
+    content: counter(emolument-step);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border: 1px solid var(--accent-dark);
+    color: var(--accent-dark);
+    font-family: var(--font-serif);
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.emolument-form-card,
+.civil-consultation-form-card {
+    min-width: 0;
+    padding: 30px;
+    border: 1px solid var(--line-light);
+    background: var(--bg-light);
+}
+
+.emolument-form-title,
+.civil-consultation-form-title {
+    margin: 0 0 22px;
+    color: var(--text-dark);
+    font-family: var(--font-serif);
+    font-size: var(--type-card-title);
+    font-weight: 300;
+    line-height: var(--type-display-line);
+}
+
+.emolument-form,
+.civil-consultation-form {
+    display: grid;
+    gap: 18px;
+}
+
+.emolument-field,
+.civil-field {
+    display: grid;
+    gap: 8px;
+    min-width: 0;
+}
+
+.emolument-label,
+.civil-label {
+    color: var(--text-muted);
+}
+
+.emolument-input-wrap,
+.civil-input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-width: 0;
+}
+
+.emolument-input-icon,
+.civil-input-icon {
+    position: absolute;
+    left: 15px;
+    display: inline-flex;
+    width: 20px;
+    height: 20px;
+    color: var(--accent-dark);
+    pointer-events: none;
+}
+
+.emolument-input-icon svg,
+.civil-input-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.emolument-currency-prefix {
+    position: absolute;
+    left: 45px;
+    color: var(--text-muted);
+    font-size: var(--type-body-large);
+    font-weight: 600;
+    pointer-events: none;
+}
+
+.emolument-input,
+.civil-input {
+    width: 100%;
+    min-height: 50px;
+    padding: 12px 14px 12px 45px;
+    border: 1px solid rgba(34, 38, 37, 0.46);
+    border-radius: 0;
+    background: #fff;
+    color: var(--text-dark);
+    font-family: inherit;
+    font-size: var(--type-body-large);
+    line-height: var(--type-action-line);
+    outline: 0;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.emolument-input-currency {
+    padding-left: 76px;
+}
+
+.emolument-input::placeholder,
+.civil-input::placeholder {
+    color: rgba(34, 38, 37, 0.66);
+    opacity: 1;
+}
+
+.emolument-input:focus,
+.civil-input:focus {
+    border-color: var(--accent-dark);
+    box-shadow: 0 0 0 3px rgba(111, 159, 147, 0.18);
+}
+
+.emolument-submit {
+    margin-top: 4px;
+}
+
+.emolument-submit[aria-disabled="true"] {
+    opacity: 0.7;
+    cursor: progress;
+}
+
+.emolument-error-link {
+    justify-self: start;
+    color: var(--accent-dark);
+    font-size: var(--type-body);
+    font-weight: 600;
+    line-height: var(--type-body-line);
+    text-decoration: underline;
+}
+
+.emolument-error-link[hidden] {
+    display: none;
+}
+
+.emolument-privacy {
+    font-size: var(--type-small);
+    line-height: var(--type-small-line);
+}
+
+.emolument-status:empty {
+    display: none;
+}
+
+.emolument-success {
+    display: grid;
+    justify-items: start;
+    gap: 14px;
+    outline: 0;
+}
+
+.emolument-success-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    border: 1px solid var(--accent-dark);
+    background: rgba(111, 159, 147, 0.14);
+    color: var(--accent-dark);
+}
+
+.emolument-success-icon svg {
+    width: 26px;
+    height: 26px;
+}
+
+.emolument-success-title {
+    margin: 0;
+    color: var(--text-dark);
+    font-family: var(--font-serif);
+    font-size: var(--type-card-title);
+    font-weight: 300;
+    line-height: var(--type-display-line);
+}
+
+.emolument-success-text {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: var(--type-body-large);
+    line-height: var(--type-body-large-line);
+}
+
+.emolument-success-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 6px;
+}
+
+.emolument-reset {
+    border-color: var(--line-light);
+    color: var(--text-muted);
+}
+
+.emolument-reset:hover {
+    border-color: var(--accent-dark);
+    color: var(--accent-dark);
+}
+
+.emolument-note,
+.civil-consultation-note {
+    grid-column: 1 / -1;
+    margin: 4px 0 0;
+    padding-top: 24px;
+    border-top: 1px solid var(--line-light);
+    color: #5b6360;
+    font-size: var(--type-small);
+    line-height: 1.6;
+}
+
+/* ------------------------------------------------- Agenda 2030 da ONU */
+
+.agenda-section {
+    position: relative;
+    z-index: 2;
+    background: var(--bg-muted);
+    color: var(--text-dark);
+}
+
+.agenda-body {
+    display: grid;
+    gap: 26px;
+    margin-top: 48px;
+}
+
+.agenda-block-title {
+    margin: 0;
+    color: var(--text-dark);
+    font-family: var(--font-serif);
+    font-size: var(--type-card-title);
+    font-weight: 300;
+    line-height: var(--type-display-line);
+}
+
+/* Declaração do Provimento 85/2019 */
+
+.agenda-statement {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(320px, 1fr);
+    gap: 20px 48px;
+    align-items: start;
+    padding: 34px 38px;
+    background: var(--bg-dark);
+    color: var(--text-light);
+}
+
+.agenda-statement-badge {
+    justify-self: start;
+    margin: 0;
+    padding: 6px 12px;
+    border: 1px solid rgba(111, 159, 147, 0.5);
+    color: var(--accent);
+    font-size: var(--type-small);
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    line-height: var(--type-small-line);
+    text-transform: uppercase;
+}
+
+.agenda-statement-title {
+    grid-column: 1;
+    margin: 0;
+    max-width: 420px;
+    font-family: var(--font-serif);
+    font-size: var(--type-card-title);
+    font-weight: 300;
+    line-height: var(--type-display-line);
+}
+
+.agenda-quote {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    margin: 0;
+    padding-left: 24px;
+    border-left: 2px solid var(--accent);
+}
+
+.agenda-quote blockquote {
+    margin: 0;
+    color: var(--text-light);
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 19px;
+    font-weight: 300;
+    line-height: 1.5;
+}
+
+.agenda-quote figcaption {
+    margin-top: 14px;
+    color: var(--accent);
+    font-size: var(--type-small);
+    font-weight: 600;
+    line-height: var(--type-small-line);
+}
+
+.agenda-statement-link {
+    grid-column: 1;
+    justify-self: start;
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.agenda-statement-link:hover {
+    background: var(--accent);
+    color: var(--bg-darker);
+}
+
+/* Mosaico dos 17 ODS */
+
+.agenda-goals-block {
+    padding: 30px 34px;
+    border: 1px solid var(--line-light);
+    background: rgba(255, 255, 255, 0.55);
+}
+
+.ods-legend {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 12px 0 22px;
+    color: var(--text-muted);
+    font-size: var(--type-small);
+    line-height: var(--type-small-line);
+}
+
+.ods-legend-dot {
+    width: 9px;
+    height: 9px;
+    flex: 0 0 auto;
+    margin-top: 5px;
+    border-radius: 50%;
+    background: var(--text-dark);
+}
+
+.ods-grid {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.ods-tile {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-height: 104px;
+    padding: 13px;
+    background: var(--ods-color);
+    transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.ods-tile:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 30px rgba(16, 21, 21, 0.18);
+}
+
+.ods-tile.is-focus::after {
+    content: "";
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+.ods-ink-light {
+    color: #ffffff;
+}
+
+.ods-ink-dark {
+    color: #0b1114;
+}
+
+.ods-tile-number {
+    font-family: var(--font-serif);
+    font-size: 26px;
+    font-weight: 600;
+    line-height: 1;
+}
+
+.ods-tile-name {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+    text-transform: uppercase;
+}
+
+/* Blocos recolhíveis */
+
+.agenda-disclosures {
+    display: grid;
+    gap: 10px;
+}
+
+.agenda-disclosure {
+    border: 1px solid var(--line-light);
+    background: rgba(255, 255, 255, 0.55);
+}
+
+.agenda-disclosure[open] {
+    background: #fff;
+}
+
+.agenda-disclosure-summary {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 26px;
+    color: var(--text-dark);
+    cursor: pointer;
+    list-style: none;
+}
+
+.agenda-disclosure-summary::-webkit-details-marker {
+    display: none;
+}
+
+.agenda-disclosure-summary:hover .agenda-disclosure-title {
+    color: var(--accent-dark);
+}
+
+.agenda-disclosure-title {
+    flex: 1 1 auto;
+    min-width: 0;
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 1.25;
+}
+
+.agenda-disclosure-meta {
+    flex: 0 0 auto;
+    color: var(--text-muted);
+    font-size: var(--type-small);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.agenda-disclosure[open] .dropdown-chevron {
+    transform: translateY(2px) rotate(225deg);
+}
+
+.agenda-disclosure-body {
+    padding: 0 26px 26px;
+}
+
+.agenda-disclosure-intro {
+    margin: 0 0 22px;
+    max-width: 760px;
+    color: var(--text-muted);
+    font-size: var(--type-body);
+    line-height: 1.55;
+}
+
+/* Correlação atos x ODS */
+
+.agenda-matrix {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 48px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid rgba(34, 38, 37, 0.16);
+}
+
+.agenda-matrix-row {
+    display: grid;
+    align-content: start;
+    gap: 12px;
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(34, 38, 37, 0.16);
+}
+
+.agenda-matrix-main {
+    min-width: 0;
+}
+
+.agenda-matrix-activity {
+    margin: 0;
+    color: var(--text-dark);
+    font-family: var(--font-serif);
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 1.25;
+}
+
+.agenda-matrix-text {
+    margin: 8px 0 0;
+    color: var(--text-muted);
+    font-size: var(--type-body);
+    line-height: 1.55;
+}
+
+.agenda-matrix-norm {
+    margin: 8px 0 0;
+    color: #5b6360;
+    font-size: var(--type-small);
+    font-style: italic;
+    line-height: var(--type-small-line);
+}
+
+.agenda-matrix-goals {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.ods-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 11px;
+    background: var(--ods-color);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    line-height: 1;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+/* Destaque da meta 16.9 */
+
+.agenda-spotlight {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 0.8fr);
+    gap: 28px 48px;
+    align-items: start;
+}
+
+.agenda-spotlight-quote {
+    margin: 0;
+    max-width: 520px;
+    color: var(--text-dark);
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: var(--type-card-title);
+    font-weight: 300;
+    line-height: var(--type-display-line);
+}
+
+.agenda-spotlight-source {
+    margin: 14px 0 0;
+    color: var(--accent-dark);
+    font-size: var(--type-small);
+    font-weight: 600;
+    line-height: var(--type-small-line);
+}
+
+.agenda-spotlight-text {
+    margin: 20px 0 0;
+    max-width: 560px;
+    color: var(--text-muted);
+    font-size: var(--type-body);
+    line-height: 1.6;
+}
+
+.agenda-stat-grid {
+    display: grid;
+    gap: 18px;
+    min-width: 0;
+}
+
+.agenda-stat {
+    display: grid;
+    gap: 5px;
+    padding-left: 20px;
+    border-left: 3px solid #00689D;
+}
+
+.agenda-stat-value {
+    font-family: var(--font-serif);
+    font-size: 38px;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--text-dark);
+}
+
+.agenda-stat-label {
+    color: var(--text-dark);
+    font-size: var(--type-body);
+    font-weight: 600;
+    line-height: var(--type-body-line);
+}
+
+.agenda-stat-note {
+    color: var(--text-muted);
+    font-size: var(--type-small);
+    line-height: 1.5;
+}
+
+.agenda-stat-source {
+    margin: 0;
+    color: #5b6360;
+    font-size: var(--type-small);
+    line-height: 1.5;
+}
+
+/* Fontes oficiais */
+
+.agenda-sources {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 12px;
+}
+
+.agenda-source-card {
+    display: grid;
+    align-content: start;
+    gap: 8px;
+    padding: 20px;
+    border: 1px solid var(--line-light);
+    background: var(--bg-light);
+    color: var(--text-dark);
+    transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+.agenda-source-card:hover {
+    border-color: var(--accent-dark);
+    background: #fff;
+    transform: translateY(-2px);
+}
+
+.agenda-source-card strong {
+    font-family: var(--font-serif);
+    font-size: 19px;
+    font-weight: 400;
+    line-height: 1.25;
+}
+
+.agenda-source-card span {
+    color: var(--text-muted);
+    font-size: var(--type-small);
+    line-height: 1.5;
+}
+
+.agenda-source-card em {
+    color: var(--accent-dark);
+    font-size: var(--type-small);
+    font-style: normal;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+/* Rodapé da seção */
+
+.agenda-footnote {
+    display: grid;
+    gap: 10px;
+    padding-top: 6px;
+}
+
+.agenda-support-line {
+    margin: 0;
+    color: var(--text-dark);
+    font-family: var(--font-serif);
+    font-size: 24px;
+    font-style: italic;
+    font-weight: 300;
+    line-height: var(--type-display-line);
+}
+
+.agenda-disclaimer {
+    margin: 0;
+    max-width: 860px;
+    color: #5b6360;
+    font-size: var(--type-small);
+    line-height: 1.6;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ods-tile:hover,
+    .agenda-source-card:hover {
+        transform: none;
+    }
+}
+
+
+/* ------------------------------ Estado de êxito do formulário de contato */
+
+.contact-form[hidden] {
+    display: none;
+}
+
+.contact-form .btn[aria-disabled="true"] {
+    opacity: 0.7;
+    cursor: progress;
+}
+
+.form-error-link {
+    justify-self: start;
+    color: var(--accent-dark);
+    font-size: var(--type-body);
+    font-weight: 600;
+    line-height: var(--type-body-line);
+    text-decoration: underline;
+}
+
+.form-error-link[hidden] {
+    display: none;
+}
+
+.form-success {
+    display: grid;
+    justify-items: start;
+    gap: 14px;
+    outline: 0;
+}
+
+.form-success[hidden] {
+    display: none;
+}
+
+.form-success-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    border: 1px solid var(--accent-dark);
+    background: rgba(111, 159, 147, 0.14);
+    color: var(--accent-dark);
+}
+
+.form-success-icon svg {
+    width: 26px;
+    height: 26px;
+}
+
+.form-success-title {
+    margin: 0;
+    color: var(--text-dark);
+    font-family: var(--font-serif);
+    font-size: var(--type-card-title);
+    font-weight: 300;
+    line-height: var(--type-display-line);
+}
+
+.form-success-text {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: var(--type-body-large);
+    line-height: var(--type-body-large-line);
+}
+
+.form-success-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 6px;
+}
+
+.form-success-reset {
+    border-color: var(--line-light);
+    color: var(--text-muted);
+}
+
+.form-success-reset:hover {
+    border-color: var(--accent-dark);
+    color: var(--accent-dark);
+}
+
 .contact-form-card {
     border: 1px solid var(--line-light);
     background: rgba(255, 255, 255, 0.62);
@@ -3676,6 +4810,26 @@ button {
 }
 
 @media (max-width: 1080px) {
+    .emolument-panel,
+    .civil-consultation-panel {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 30px;
+    }
+
+    .welcome-inner {
+        grid-template-columns: minmax(0, 1fr) minmax(260px, 0.66fr);
+        gap: 40px 48px;
+    }
+
+    .agenda-matrix {
+        grid-template-columns: minmax(0, 1fr);
+        column-gap: 0;
+    }
+
+    .ods-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
     .why-grid,
     .case-grid,
     .stats-grid {
@@ -4246,12 +5400,88 @@ button {
         border-top: 1px solid var(--line-light);
     }
 
-    .civil-consultation-panel {
-        grid-template-columns: 1fr;
+    .civil-consultation-form-card {
+        padding: 22px;
+    }
+
+    .emolument-panel {
         padding: 24px;
     }
 
-    .civil-consultation-fields,
+    .agenda-statement {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 26px;
+    }
+
+    .agenda-spotlight {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+
+    .agenda-quote,
+    .agenda-statement-title,
+    .agenda-statement-link {
+        grid-column: 1;
+        grid-row: auto;
+    }
+
+    .agenda-body {
+        margin-top: 36px;
+    }
+
+    .agenda-goals-block {
+        padding: 24px 22px;
+    }
+
+    .agenda-disclosure-summary {
+        gap: 12px;
+        padding: 18px 20px;
+    }
+
+    .agenda-disclosure-title {
+        font-size: 21px;
+    }
+
+    .agenda-disclosure-meta {
+        display: none;
+    }
+
+    .agenda-disclosure-body {
+        padding: 0 20px 22px;
+    }
+
+    .ods-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+
+    .emolument-form-card {
+        padding: 22px;
+    }
+
+    .emolument-wrap {
+        margin-top: 32px;
+    }
+
+    .welcome-inner {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 34px;
+    }
+
+    .welcome-visual {
+        order: -1;
+    }
+
+    .welcome-scene {
+        max-width: 300px;
+    }
+
+    .welcome-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
     .civil-info-list,
     .civil-parties-list {
         grid-template-columns: 1fr;
@@ -4469,6 +5699,37 @@ button {
     .civil-consultation-panel,
     .civil-tab-panel {
         padding: 20px;
+    }
+
+    .emolument-panel {
+        padding: 20px;
+    }
+
+    .agenda-statement {
+        padding: 20px;
+    }
+
+    .agenda-goals-block {
+        padding: 20px 18px;
+    }
+
+    .ods-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .agenda-stat-value {
+        font-size: 38px;
+    }
+
+    .emolument-form-card,
+    .civil-consultation-form-card {
+        padding: 18px;
+    }
+
+
+    .emolument-success-actions .btn,
+    .form-success-actions .btn {
+        width: 100%;
     }
 
     .civil-tabs-list {

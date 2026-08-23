@@ -31,12 +31,21 @@ document.addEventListener("DOMContentLoaded", () => {
     return isExternal ? ' target="_blank" rel="noopener noreferrer"' : "";
   };
 
+  // Âncoras que a própria página interna também possui não devem levar para a home.
+  const PAGE_LOCAL_ANCHORS = {
+    online: ["#calculadora-emolumentos"],
+  };
+
   const resolveSiteHref = (href) => {
     const value = String(href || "");
     if (!value.startsWith("#")) {
       return value;
     }
-    return isHomePage ? value : `index.html${value}`;
+    if (isHomePage) {
+      return value;
+    }
+    const localAnchors = PAGE_LOCAL_ANCHORS[contentPage] || [];
+    return localAnchors.indexOf(value) !== -1 ? value : `index.html${value}`;
   };
 
   const getFaqHref = (category = "Todas", query = "") => {
@@ -850,6 +859,193 @@ document.addEventListener("DOMContentLoaded", () => {
   `;
   };
 
+  const WELCOME_ICONS = {
+    whatsapp:
+      '<svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M16 4.2A11.6 11.6 0 0 0 6.1 21.8L4.7 27.3l5.6-1.4A11.6 11.6 0 1 0 16 4.2Zm0 2.3a9.3 9.3 0 0 1 0 18.6 9.1 9.1 0 0 1-4.7-1.3l-.4-.2-3.1.8.8-3-.3-.5A9.3 9.3 0 0 1 16 6.5Zm-3.6 4.7c-.2 0-.5.1-.7.4-.2.3-.9 1-.9 2.3 0 1.4 1 2.7 1.1 2.9.1.2 2 3.2 5 4.3 2.4.9 3 .7 3.5.6.5-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.1-.3-.2-.6-.4l-1.9-.9c-.3-.1-.5-.2-.7.1l-.9 1.1c-.2.2-.4.3-.7.1-.3-.1-1.2-.4-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.7l.4-.5c.1-.2.2-.3.3-.5.1-.2.1-.4 0-.6l-.8-1.9c-.2-.4-.4-.4-.6-.4h-.8Z" /></svg>',
+    online:
+      '<svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M4.6 6.2h22.8a1.6 1.6 0 0 1 1.6 1.6v13a1.6 1.6 0 0 1-1.6 1.6H4.6A1.6 1.6 0 0 1 3 20.8v-13a1.6 1.6 0 0 1 1.6-1.6Z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" /><path d="M11 26.4h10" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" /><path d="M16 22.4v4" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" /><path d="m12.6 11.4 3.4 3.4 3.4-3.4" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" /><path d="M16 14.8V9" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" /></svg>',
+    ai:
+      '<svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M26.2 5.8H5.8A2.8 2.8 0 0 0 3 8.6v10.8a2.8 2.8 0 0 0 2.8 2.8h3.4v5.2l5.8-5.2h11.2a2.8 2.8 0 0 0 2.8-2.8V8.6a2.8 2.8 0 0 0-2.8-2.8Z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" /><path d="M16 8.9l1.35 3.65L21 13.9l-3.65 1.35L16 18.9l-1.35-3.65L11 13.9l3.65-1.35L16 8.9Z" /></svg>',
+  };
+
+  // Cena animada: o ato sendo lavrado, selado digitalmente e transmitido.
+  const WELCOME_VISUAL = `
+    <svg class="welcome-scene" viewBox="0 0 420 420" role="img" aria-label="Ilustração animada de um documento sendo lavrado e recebendo um selo digital">
+      <g class="wa-rings" aria-hidden="true">
+        <circle class="wa-ring wa-ring-outer" cx="210" cy="210" r="178" />
+        <circle class="wa-ring wa-ring-inner" cx="210" cy="210" r="150" />
+      </g>
+
+      <g class="wa-nodes" aria-hidden="true">
+        <circle class="wa-node wa-node-1" cx="66" cy="146" r="4.5" />
+        <circle class="wa-node wa-node-2" cx="358" cy="126" r="3.5" />
+        <circle class="wa-node wa-node-3" cx="84" cy="322" r="3.5" />
+        <circle class="wa-node wa-node-4" cx="366" cy="292" r="4.5" />
+      </g>
+
+      <g class="wa-sheet">
+        <rect class="wa-sheet-body" x="120" y="88" width="180" height="244" rx="3" />
+        <line class="wa-title" x1="145" y1="126" x2="232" y2="126" />
+        <line class="wa-line wa-line-1" x1="145" y1="160" x2="275" y2="160" />
+        <line class="wa-line wa-line-2" x1="145" y1="184" x2="275" y2="184" />
+        <line class="wa-line wa-line-3" x1="145" y1="208" x2="258" y2="208" />
+        <line class="wa-line wa-line-4" x1="145" y1="232" x2="275" y2="232" />
+        <line class="wa-line wa-line-5" x1="145" y1="256" x2="232" y2="256" />
+        <path class="wa-sign" d="M148 296c10-14 17-14 21-4s7 16 13 8 9-14 15-10 8 10 16 4 11-12 18-8" />
+      </g>
+
+      <circle class="wa-pulse wa-pulse-1" cx="300" cy="306" r="36" aria-hidden="true" />
+      <circle class="wa-pulse wa-pulse-2" cx="300" cy="306" r="36" aria-hidden="true" />
+
+      <g class="wa-seal">
+        <circle class="wa-seal-outer" cx="300" cy="306" r="36" />
+        <circle class="wa-seal-inner" cx="300" cy="306" r="28" />
+        <path class="wa-check" d="M287 306l9 9 18-19" />
+      </g>
+    </svg>
+  `;
+
+  const renderWelcome = () => {
+    const welcome = data.welcome;
+    if (!welcome) {
+      return "";
+    }
+
+    return `
+    <section class="section welcome-section" id="boas-vindas" aria-labelledby="welcomeTitle">
+      <div class="container welcome-inner">
+        <div class="welcome-copy">
+          <h2 class="welcome-title" id="welcomeTitle">
+            <span class="welcome-title-greeting">${escapeHtml(welcome.titleGreeting)}</span>
+            ${escapeHtml(welcome.titleRest)}
+          </h2>
+          <p class="welcome-text">${escapeHtml(welcome.text)}</p>
+          <div class="welcome-actions">
+            ${(welcome.actions || [])
+              .map(
+                (action) => `
+                <a
+                  class="welcome-action welcome-action-${escapeHtml(action.kind)}"
+                  href="${escapeHtml(resolveSiteHref(action.href))}"${action.roboOpen ? ` data-robo-open="${escapeHtml(action.roboOpen)}"` : ""}${linkAttrs(action.href, action.external)}>
+                  <span class="welcome-action-icon" aria-hidden="true">${WELCOME_ICONS[action.kind] || ""}</span>
+                  <span class="welcome-action-label">${escapeHtml(action.label)}</span>
+                  <span class="welcome-action-arrow" aria-hidden="true">&rarr;</span>
+                </a>
+                `,
+              )
+              .join("")}
+          </div>
+        </div>
+        <div class="welcome-visual">${WELCOME_VISUAL}</div>
+      </div>
+    </section>
+  `;
+  };
+
+  const EMOLUMENT_ICONS = {
+    name:
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="3.6"></circle><path d="M4.8 20.2a7.2 7.2 0 0 1 14.4 0"></path></svg>',
+    phone:
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="6.5" y="2.6" width="11" height="18.8" rx="2.4"></rect><path d="M10.6 18.4h2.8"></path></svg>',
+    value:
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3.6 12 12 4.4l8.4 7.6"></path><path d="M5.8 10.4v9.2h12.4v-9.2"></path><path d="M10 19.6v-4.6h4v4.6"></path></svg>',
+  };
+
+  const renderEmolumentPanel = ({ titleTag = "h2", subTitleTag = "h3" } = {}) => {
+    const calc = data.emolumentCalculator;
+    if (!calc) {
+      return "";
+    }
+
+    const field = (icon, id, name, label, placeholder, extraAttrs) => `
+      <div class="emolument-field">
+        <label class="field-label emolument-label" for="${escapeHtml(id)}">${escapeHtml(label)} *</label>
+        <div class="emolument-input-wrap">
+          <span class="emolument-input-icon" aria-hidden="true">${icon}</span>
+          <input
+            class="emolument-input"
+            id="${escapeHtml(id)}"
+            name="${escapeHtml(name)}"
+            placeholder="${escapeHtml(placeholder)}"
+            required
+            ${extraAttrs} />
+        </div>
+      </div>
+    `;
+
+    return `
+      <section class="emolument-panel" data-emolument-calculator aria-labelledby="emolumentTitle">
+        <div class="emolument-copy">
+          <p class="section-kicker">${escapeHtml(calc.kicker)}</p>
+          <${titleTag} class="emolument-title" id="emolumentTitle">${escapeHtml(calc.title)}</${titleTag}>
+          <p class="emolument-text">${escapeHtml(calc.text)}</p>
+          <ol class="emolument-steps">
+            ${(calc.steps || []).map((step) => `<li>${escapeHtml(step)}</li>`).join("")}
+          </ol>
+        </div>
+        <div class="emolument-form-card">
+          <${subTitleTag} class="emolument-form-title" data-emolument-form-title>${escapeHtml(calc.formTitle)}</${subTitleTag}>
+          <form class="emolument-form" data-emolument-form novalidate>
+            ${field(EMOLUMENT_ICONS.name, "emolumentName", "Nome completo", calc.nameLabel, calc.namePlaceholder, 'type="text" autocomplete="name" maxlength="120"')}
+            ${field(EMOLUMENT_ICONS.phone, "emolumentPhone", "WhatsApp", calc.phoneLabel, calc.phonePlaceholder, 'type="tel" inputmode="numeric" autocomplete="tel" maxlength="16"')}
+            <div class="emolument-field">
+              <label class="field-label emolument-label" for="emolumentValue">${escapeHtml(calc.valueLabel)} *</label>
+              <div class="emolument-input-wrap emolument-input-wrap-currency">
+                <span class="emolument-input-icon" aria-hidden="true">${EMOLUMENT_ICONS.value}</span>
+                <span class="emolument-currency-prefix" aria-hidden="true">R$</span>
+                <input
+                  class="emolument-input emolument-input-currency"
+                  id="emolumentValue"
+                  name="Valor do imóvel"
+                  type="text"
+                  inputmode="numeric"
+                  autocomplete="off"
+                  placeholder="${escapeHtml(calc.valuePlaceholder)}"
+                  maxlength="18"
+                  required />
+              </div>
+            </div>
+            <button class="btn btn-primary btn-full emolument-submit" type="submit" data-emolument-submit>${escapeHtml(calc.submitLabel)}</button>
+            <p class="form-helper emolument-privacy">${escapeHtml(calc.privacyText)}</p>
+            <p class="form-status emolument-status" data-emolument-status role="status" aria-live="polite"></p>
+            <a
+              class="emolument-error-link"
+              data-emolument-error-link
+              href="${escapeHtml(data.contact.whatsappServiceUrl || data.contact.whatsappUrl)}"
+              target="_blank"
+              rel="noopener noreferrer"
+              hidden>${escapeHtml(calc.whatsappLabel)}</a>
+          </form>
+          <div class="emolument-success" data-emolument-success tabindex="-1" hidden>
+            <span class="emolument-success-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="m5 12.6 4.4 4.4L19 7.4"></path></svg>
+            </span>
+            <${subTitleTag} class="emolument-success-title">${escapeHtml(calc.successTitle)}</${subTitleTag}>
+            <p class="emolument-success-text">${escapeHtml(calc.successText)}</p>
+            <div class="emolument-success-actions">
+              <a class="btn btn-primary" href="${escapeHtml(data.contact.whatsappServiceUrl || data.contact.whatsappUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(calc.whatsappLabel)}</a>
+              <button class="btn emolument-reset" type="button" data-emolument-reset>${escapeHtml(calc.successAgainLabel)}</button>
+            </div>
+          </div>
+        </div>
+        <p class="emolument-note">${escapeHtml(calc.note)}</p>
+      </section>
+    `;
+  };
+
+  const renderEmolumentSection = () => {
+    const panel = renderEmolumentPanel();
+    if (!panel) {
+      return "";
+    }
+
+    return `
+    <section class="section section-muted emolument-section" id="calculadora-emolumentos">
+      <div class="container">${panel}</div>
+    </section>
+  `;
+  };
+
   const renderPhilosophy = () => `
     <section class="section section-light philosophy-section">
       <div class="container philosophy-grid">
@@ -1039,51 +1235,76 @@ document.addEventListener("DOMContentLoaded", () => {
     </section>
   `;
 
-  const renderCivilConsultation = () => `
-    <div class="container civil-consultation-wrap">
-      <section class="civil-consultation-panel" id="consulta-habilitacao-casamento" data-civil-consultation aria-labelledby="civilConsultationTitle">
+  const CIVIL_ICONS = {
+    process:
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 2.8H6.6A1.8 1.8 0 0 0 4.8 4.6v14.8a1.8 1.8 0 0 0 1.8 1.8h10.8a1.8 1.8 0 0 0 1.8-1.8V7.8L14 2.8Z"></path><path d="M13.8 2.9v5.2h5.3"></path><path d="M8.4 13.2h7.2"></path><path d="M8.4 16.8h4.8"></path></svg>',
+    cpf:
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="2.8" y="5.2" width="18.4" height="13.6" rx="2"></rect><circle cx="8.6" cy="11" r="2.1"></circle><path d="M5.4 15.8a3.4 3.4 0 0 1 6.4 0"></path><path d="M14.8 10.4h4"></path><path d="M14.8 13.8h4"></path></svg>',
+  };
+
+  const renderCivilConsultation = () => {
+    const civil = data.civilConsultation;
+    if (!civil) {
+      return "";
+    }
+
+    return `
+    <div class="container civil-consultation-wrap" id="consulta-habilitacao-casamento">
+      <section class="civil-consultation-panel" data-civil-consultation aria-labelledby="civilConsultationTitle">
         <div class="civil-consultation-copy">
-          <p class="section-kicker">Consulta de casamento</p>
-          <h3 class="civil-consultation-title" id="civilConsultationTitle">Consulte seu processo de habilitação.</h3>
-          <p class="civil-consultation-text">Acompanhe a situação cadastrada pelo cartório usando o número do processo e o CPF de um dos nubentes.</p>
+          <p class="section-kicker">${escapeHtml(civil.kicker)}</p>
+          <h3 class="civil-consultation-title" id="civilConsultationTitle">${escapeHtml(civil.title)}</h3>
+          <p class="civil-consultation-text">${escapeHtml(civil.text)}</p>
+          <ol class="civil-consultation-steps">
+            ${(civil.steps || []).map((step) => `<li>${escapeHtml(step)}</li>`).join("")}
+          </ol>
         </div>
-        <form class="civil-consultation-form" data-civil-consultation-form novalidate>
-          <div class="civil-consultation-fields">
-            <label class="civil-field">
-              <span>Número do processo</span>
-              <input
-                class="civil-input"
-                data-civil-process-input
-                name="numeroProcesso"
-                type="text"
-                inputmode="numeric"
-                autocomplete="off"
-                placeholder="10000"
-                required />
-            </label>
-            <label class="civil-field">
-              <span>CPF de um dos nubentes</span>
-              <input
-                class="civil-input"
-                data-civil-cpf-input
-                name="cpf"
-                type="text"
-                inputmode="numeric"
-                autocomplete="off"
-                placeholder="000.000.000-00"
-                maxlength="14"
-                required />
-            </label>
-          </div>
-          <button class="btn btn-primary civil-consultation-submit" type="submit" data-civil-submit>
-            Consultar processo
-          </button>
-          <p class="civil-consultation-status" data-civil-status aria-live="polite"></p>
-        </form>
+        <div class="civil-consultation-form-card">
+          <h4 class="civil-consultation-form-title">${escapeHtml(civil.formTitle)}</h4>
+          <form class="civil-consultation-form" data-civil-consultation-form novalidate>
+            <div class="civil-field">
+              <label class="field-label civil-label" for="civilProcess">${escapeHtml(civil.processLabel)} *</label>
+              <div class="civil-input-wrap">
+                <span class="civil-input-icon" aria-hidden="true">${CIVIL_ICONS.process}</span>
+                <input
+                  class="civil-input"
+                  id="civilProcess"
+                  data-civil-process-input
+                  name="numeroProcesso"
+                  type="text"
+                  inputmode="numeric"
+                  autocomplete="off"
+                  placeholder="${escapeHtml(civil.processPlaceholder)}"
+                  required />
+              </div>
+            </div>
+            <div class="civil-field">
+              <label class="field-label civil-label" for="civilCpf">${escapeHtml(civil.cpfLabel)} *</label>
+              <div class="civil-input-wrap">
+                <span class="civil-input-icon" aria-hidden="true">${CIVIL_ICONS.cpf}</span>
+                <input
+                  class="civil-input"
+                  id="civilCpf"
+                  data-civil-cpf-input
+                  name="cpf"
+                  type="text"
+                  inputmode="numeric"
+                  autocomplete="off"
+                  placeholder="${escapeHtml(civil.cpfPlaceholder)}"
+                  maxlength="14"
+                  required />
+              </div>
+            </div>
+            <button class="btn btn-primary btn-full civil-consultation-submit" type="submit" data-civil-submit>${escapeHtml(civil.submitLabel)}</button>
+            <p class="civil-consultation-status" data-civil-status role="status" aria-live="polite"></p>
+          </form>
+        </div>
         <div class="civil-consultation-result" data-civil-result hidden></div>
+        <p class="civil-consultation-note">${escapeHtml(civil.note)}</p>
       </section>
     </div>
   `;
+  };
 
   const renderOnlineServices = () => `
     <section class="section section-light" id="online">
@@ -1108,6 +1329,7 @@ document.addEventListener("DOMContentLoaded", () => {
           )
           .join("")}
       </div>
+      <div class="container emolument-wrap" id="calculadora-emolumentos">${renderEmolumentPanel({ titleTag: "h3", subTitleTag: "h4" })}</div>
       ${renderCivilConsultation()}
     </section>
   `;
@@ -1388,42 +1610,210 @@ document.addEventListener("DOMContentLoaded", () => {
           <form id="contactForm" action="${escapeHtml(data.contactForm.action)}" method="POST" class="contact-form">
             <input type="hidden" name="access_key" value="${escapeHtml(data.contactForm.accessKey)}" />
             <input type="hidden" name="subject" value="${escapeHtml(data.contactForm.subject)}" />
-            <input type="hidden" name="from_name" value="Site 1º Ofício Rio das Ostras" />
-            <input type="hidden" name="redirect" value="${escapeHtml(data.contactForm.redirect)}" />
+            <input type="hidden" name="from_name" value="${escapeHtml(data.contactForm.fromName)}" />
             <input type="checkbox" name="botcheck" class="hidden" style="display:none" />
             <div class="field-group">
               <label for="nome" class="field-label">Nome completo *</label>
-              <input type="text" id="nome" name="name" class="field-input" required />
+              <input type="text" id="nome" name="Nome completo" class="field-input" autocomplete="name" required />
             </div>
             <div class="field-grid">
               <div class="field-group">
                 <label for="email" class="field-label">E-mail *</label>
-                <input type="email" id="email" name="email" class="field-input" required />
+                <input type="email" id="email" name="email" class="field-input" autocomplete="email" required />
               </div>
               <div class="field-group">
                 <label for="telefone" class="field-label">Telefone / WhatsApp *</label>
-                <input type="tel" id="telefone" name="phone" class="field-input" placeholder="(22) 99999-9999" required />
+                <input type="tel" id="telefone" name="Telefone / WhatsApp" class="field-input" placeholder="(22) 99999-9999" autocomplete="tel" required />
               </div>
             </div>
             <div class="field-group">
               <label for="tipo" class="field-label">Assunto / tipo de serviço *</label>
-              <select id="tipo" name="tipo_de_servico" class="field-input" required>
+              <select id="tipo" name="Assunto" class="field-input" required>
                 <option value="">Selecione uma opção</option>
                 ${data.contactForm.options.map((option) => `<option value="${escapeHtml(option)}">${escapeHtml(option)}</option>`).join("")}
               </select>
             </div>
             <div class="field-group">
               <label for="mensagem" class="field-label">Mensagem *</label>
-              <textarea id="mensagem" name="message" class="field-input field-textarea" rows="5" required></textarea>
+              <textarea id="mensagem" name="Mensagem" class="field-input field-textarea" rows="5" required></textarea>
             </div>
             <p class="form-helper">${escapeHtml(data.contactForm.privacyText)}</p>
-            <button type="submit" class="btn btn-primary btn-full">Enviar mensagem</button>
-            <p id="formStatus" class="form-status" aria-live="polite"></p>
+            <button type="submit" class="btn btn-primary btn-full" data-contact-submit>${escapeHtml(data.contactForm.submitLabel)}</button>
+            <p id="formStatus" class="form-status" role="status" aria-live="polite"></p>
+            <a
+              class="form-error-link"
+              data-contact-error-link
+              href="${escapeHtml(data.contact.whatsappServiceUrl || data.contact.whatsappUrl)}"
+              target="_blank"
+              rel="noopener noreferrer"
+              hidden>${escapeHtml(data.contactForm.whatsappLabel)}</a>
           </form>
+          <div class="form-success" data-contact-success tabindex="-1" hidden>
+            <span class="form-success-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="m5 12.6 4.4 4.4L19 7.4"></path></svg>
+            </span>
+            <h3 class="form-success-title">${escapeHtml(data.contactForm.successTitle)}</h3>
+            <p class="form-success-text">${escapeHtml(data.contactForm.successText)}</p>
+            <div class="form-success-actions">
+              <a class="btn btn-primary" href="${escapeHtml(data.contact.whatsappServiceUrl || data.contact.whatsappUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(data.contactForm.whatsappLabel)}</a>
+              <button class="btn form-success-reset" type="button" data-contact-reset>${escapeHtml(data.contactForm.successAgainLabel)}</button>
+            </div>
+          </div>
         </div>
       </div>
     </section>
   `;
+
+  const renderAgenda2030 = () => {
+    const agenda = data.agenda2030;
+    if (!agenda) {
+      return "";
+    }
+
+    const goalsByNumber = new Map((agenda.goals || []).map((goal) => [goal.number, goal]));
+
+    const goalChip = (number) => {
+      const goal = goalsByNumber.get(number);
+      if (!goal) {
+        return "";
+      }
+
+      return `<span class="ods-chip ods-ink-${escapeHtml(goal.ink)}" style="--ods-color:${escapeHtml(goal.color)}" title="ODS ${escapeHtml(goal.number)} - ${escapeHtml(goal.name)}"><span aria-hidden="true">ODS ${escapeHtml(goal.number)}</span><span class="visually-hidden">ODS ${escapeHtml(goal.number)}: ${escapeHtml(goal.name)}</span></span>`;
+    };
+
+    const disclosure = (title, meta, body) => `
+      <details class="agenda-disclosure">
+        <summary class="agenda-disclosure-summary">
+          <h3 class="agenda-disclosure-title">${escapeHtml(title)}</h3>
+          ${meta ? `<span class="agenda-disclosure-meta">${escapeHtml(meta)}</span>` : ""}
+          <span class="dropdown-chevron" aria-hidden="true"></span>
+        </summary>
+        <div class="agenda-disclosure-body">${body}</div>
+      </details>
+    `;
+
+    const statement = agenda.statement || {};
+    const spotlight = agenda.spotlight || {};
+
+    const matrixBody = `
+      <p class="agenda-disclosure-intro">${escapeHtml(agenda.matrixText)}</p>
+      <ul class="agenda-matrix">
+        ${(agenda.matrix || [])
+          .map(
+            (item) => `
+              <li class="agenda-matrix-row">
+                <div class="agenda-matrix-main">
+                  <h4 class="agenda-matrix-activity">${escapeHtml(item.activity)}</h4>
+                  <p class="agenda-matrix-text">${escapeHtml(item.text)}</p>
+                  <p class="agenda-matrix-norm">${escapeHtml(item.norm)}</p>
+                </div>
+                <div class="agenda-matrix-goals">${(item.goals || []).map(goalChip).join("")}</div>
+              </li>
+            `,
+          )
+          .join("")}
+      </ul>
+    `;
+
+    const spotlightBody = `
+      <div class="agenda-spotlight">
+        <div class="agenda-spotlight-copy">
+          <blockquote class="agenda-spotlight-quote">“${escapeHtml(spotlight.quote)}”</blockquote>
+          <p class="agenda-spotlight-source">${escapeHtml(spotlight.quoteSource)}</p>
+          <p class="agenda-spotlight-text">${escapeHtml(spotlight.text)}</p>
+        </div>
+        <div class="agenda-stat-grid">
+          ${(spotlight.stats || [])
+            .map(
+              (stat) => `
+                <div class="agenda-stat">
+                  <strong class="agenda-stat-value">${escapeHtml(stat.value)}</strong>
+                  <span class="agenda-stat-label">${escapeHtml(stat.label)}</span>
+                  <span class="agenda-stat-note">${escapeHtml(stat.note)}</span>
+                </div>
+              `,
+            )
+            .join("")}
+          <p class="agenda-stat-source">${escapeHtml(spotlight.source)}</p>
+        </div>
+      </div>
+    `;
+
+    const sourcesBody = `
+      <div class="agenda-sources">
+        ${(agenda.sources || [])
+          .map(
+            (source) => `
+              <a class="agenda-source-card" href="${escapeHtml(source.href)}" target="_blank" rel="noopener noreferrer">
+                <strong>${escapeHtml(source.label)}</strong>
+                <span>${escapeHtml(source.text)}</span>
+                <em>Abrir <span aria-hidden="true">&rarr;</span></em>
+              </a>
+            `,
+          )
+          .join("")}
+      </div>
+    `;
+
+    return `
+    <section class="section agenda-section" id="agenda-2030" aria-labelledby="agendaTitle">
+      <div class="container split-heading agenda-heading">
+        <p class="section-kicker">${escapeHtml(agenda.kicker)}</p>
+        <div>
+          <h2 class="section-title" id="agendaTitle">${escapeHtml(agenda.title)}</h2>
+          <p class="section-subtitle">${escapeHtml(agenda.intro)}</p>
+        </div>
+      </div>
+
+      <div class="container agenda-body">
+        <article class="agenda-statement">
+          <p class="agenda-statement-badge">${escapeHtml(statement.badge)}</p>
+          <h3 class="agenda-statement-title">${escapeHtml(statement.title)}</h3>
+          <figure class="agenda-quote">
+            <blockquote>“${escapeHtml(statement.quote)}”</blockquote>
+            <figcaption>${escapeHtml(statement.quoteSource)}</figcaption>
+          </figure>
+          ${
+            statement.link
+              ? `<a class="text-link agenda-statement-link" href="${escapeHtml(statement.link.href)}" target="_blank" rel="noopener noreferrer">${escapeHtml(statement.link.label)} <span aria-hidden="true">&rarr;</span></a>`
+              : ""
+          }
+        </article>
+
+        <div class="agenda-goals-block">
+          <h3 class="agenda-block-title">${escapeHtml(agenda.goalsTitle)}</h3>
+          <p class="ods-legend"><span class="ods-legend-dot" aria-hidden="true"></span>${escapeHtml(agenda.goalsLegend)}</p>
+          <ul class="ods-grid" aria-label="${escapeHtml(agenda.goalsTitle)}">
+            ${(agenda.goals || [])
+              .map(
+                (goal) => `
+                  <li
+                    class="ods-tile ods-ink-${escapeHtml(goal.ink)}${goal.focus ? " is-focus" : ""}"
+                    style="--ods-color:${escapeHtml(goal.color)}"
+                    aria-label="ODS ${escapeHtml(goal.number)}: ${escapeHtml(goal.name)}${goal.focus ? ". Objetivo com relação direta com os atos desta serventia." : ""}">
+                    <span class="ods-tile-number" aria-hidden="true">${escapeHtml(String(goal.number).padStart(2, "0"))}</span>
+                    <span class="ods-tile-name" aria-hidden="true">${escapeHtml(goal.name)}</span>
+                  </li>
+                `,
+              )
+              .join("")}
+          </ul>
+        </div>
+
+        <div class="agenda-disclosures">
+          ${disclosure(agenda.matrixTitle, `${(agenda.matrix || []).length} atividades`, matrixBody)}
+          ${disclosure(spotlight.title, spotlight.badge, spotlightBody)}
+          ${disclosure(agenda.sourcesTitle, `${(agenda.sources || []).length} links`, sourcesBody)}
+        </div>
+
+        <div class="agenda-footnote">
+          <p class="agenda-support-line">${escapeHtml(agenda.supportLine)}</p>
+          <p class="agenda-disclaimer">${escapeHtml(agenda.disclaimer)}</p>
+        </div>
+      </div>
+    </section>
+  `;
+  };
 
   const renderFooter = () => {
     const footer = document.querySelector("[data-site-footer]");
@@ -1491,13 +1881,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     siteRoot.innerHTML = [
       renderHero(),
+      renderWelcome(),
       renderPhilosophy(),
       renderAiAssistance(),
       renderPracticeAreas(),
+      renderEmolumentSection(),
       renderWhyChoose(),
       renderHoursLocation(),
       renderFeaturePages(),
       renderContact(),
+      renderAgenda2030(),
     ].join("");
   };
 
@@ -2519,6 +2912,34 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   };
 
+  // Qualquer elemento com data-robo-open abre o widget de IA; o href continua
+  // valendo como alternativa caso o widget não carregue.
+  const initRoboOpenTriggers = () => {
+    Array.from(document.querySelectorAll("[data-robo-open]")).forEach((trigger) => {
+      if (trigger.dataset.roboOpenBound === "true") {
+        return;
+      }
+
+      trigger.dataset.roboOpenBound = "true";
+      trigger.addEventListener("click", async (event) => {
+        event.preventDefault();
+
+        const isReady = await loadOwariRoboWidget();
+        const didOpen =
+          isReady && window.OwariRobo.open({ target: trigger.dataset.roboOpen || "widget" });
+
+        if (didOpen) {
+          return;
+        }
+
+        const fallbackHref = trigger.getAttribute("href");
+        if (fallbackHref) {
+          window.location.assign(fallbackHref);
+        }
+      });
+    });
+  };
+
   const initHeroTitleFit = () => {
     const heroTitle = document.getElementById("heroTitle");
     if (!heroTitle) {
@@ -2674,6 +3095,360 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 1900);
   };
 
+  const initContactForm = () => {
+    const form = document.getElementById("contactForm");
+    const config = data && data.contactForm;
+    if (!form || !config) {
+      return;
+    }
+
+    const card = form.parentElement;
+    const status = document.getElementById("formStatus");
+    const errorLink = card.querySelector("[data-contact-error-link]");
+    const submitButton = card.querySelector("[data-contact-submit]");
+    const success = card.querySelector("[data-contact-success]");
+    const resetButton = card.querySelector("[data-contact-reset]");
+
+    if (!status || !submitButton || !success) {
+      return;
+    }
+
+    const SUBMIT_TIMEOUT = 20000;
+    let isSubmitting = false;
+
+    const setStatus = (message, tone = "") => {
+      status.textContent = message;
+      status.classList.toggle("form-status--error", tone === "error");
+      if (errorLink) {
+        errorLink.hidden = tone !== "error";
+      }
+    };
+
+    // O formulário não usa novalidate: o submit só dispara depois da validação nativa.
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      if (isSubmitting) {
+        return;
+      }
+
+      const originalLabel = submitButton.textContent;
+      // aria-disabled em vez de disabled: o botão não perde o foco durante o envio.
+      isSubmitting = true;
+      form.setAttribute("aria-busy", "true");
+      submitButton.setAttribute("aria-disabled", "true");
+      submitButton.textContent = config.sendingLabel || "Enviando...";
+      // Texto diferente do rótulo do botão: no envio por Enter o foco fica no campo,
+      // e a live region é o único canal que anuncia o progresso.
+      setStatus(config.sendingText || "Enviando sua mensagem, aguarde.");
+
+      const controller = typeof AbortController === "function" ? new AbortController() : null;
+      const timeoutId = controller ? window.setTimeout(() => controller.abort(), SUBMIT_TIMEOUT) : null;
+      const payload = Object.fromEntries(new FormData(form).entries());
+
+      try {
+        const response = await fetch(config.action, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(payload),
+          signal: controller ? controller.signal : undefined,
+        });
+        const result = await response.json().catch(() => null);
+
+        // Só é sucesso quando a resposta pôde ser lida e não nega o envio.
+        if (!response.ok || !result || result.success === false) {
+          throw new Error("Envio recusado pelo serviço de e-mail.");
+        }
+
+        form.reset();
+        form.hidden = true;
+        success.hidden = false;
+        success.focus();
+      } catch (error) {
+        // Abortar o fetch não desfaz um POST já entregue: a mensagem pode ter saído.
+        const timedOut = error && error.name === "AbortError";
+        setStatus(
+          (timedOut ? config.timeoutText : config.errorText) ||
+            "Não foi possível enviar sua mensagem agora.",
+          "error",
+        );
+      } finally {
+        if (timeoutId) {
+          window.clearTimeout(timeoutId);
+        }
+        isSubmitting = false;
+        form.removeAttribute("aria-busy");
+        submitButton.removeAttribute("aria-disabled");
+        submitButton.textContent = originalLabel;
+      }
+    });
+
+    if (resetButton) {
+      resetButton.addEventListener("click", () => {
+        success.hidden = true;
+        form.hidden = false;
+        setStatus("");
+        // Pula os campos ocultos (access_key, subject, from_name, botcheck).
+        const firstField = form.querySelector(
+          'input:not([type="hidden"]):not([type="checkbox"]), select, textarea',
+        );
+        if (firstField) {
+          firstField.focus();
+        }
+      });
+    }
+  };
+
+  const initEmolumentCalculator = () => {
+    const panel = document.querySelector("[data-emolument-calculator]");
+    const calc = data && data.emolumentCalculator;
+    if (!panel || !calc) {
+      return;
+    }
+
+    const form = panel.querySelector("[data-emolument-form]");
+    const success = panel.querySelector("[data-emolument-success]");
+    const status = panel.querySelector("[data-emolument-status]");
+    const errorLink = panel.querySelector("[data-emolument-error-link]");
+    const submitButton = panel.querySelector("[data-emolument-submit]");
+    const resetButton = panel.querySelector("[data-emolument-reset]");
+    const formTitle = panel.querySelector("[data-emolument-form-title]");
+    const nameInput = panel.querySelector("#emolumentName");
+    const phoneInput = panel.querySelector("#emolumentPhone");
+    const valueInput = panel.querySelector("#emolumentValue");
+
+    if (!form || !success || !status || !submitButton || !nameInput || !phoneInput || !valueInput) {
+      return;
+    }
+
+    const SUBMIT_TIMEOUT = 20000;
+    const currencyFormatter = new Intl.NumberFormat("pt-BR", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+
+    const onlyDigits = (value) => String(value ?? "").replace(/\D/g, "");
+
+    // Zeros à esquerda são descartados para que o campo possa ser esvaziado com backspace.
+    const currencyDigits = (value) => onlyDigits(value).replace(/^0+/, "").slice(0, 13);
+
+    const formatCurrency = (digits) => (digits ? currencyFormatter.format(Number(digits) / 100) : "");
+
+    // Aceita colagem com DDI (55) e mantém no máximo DDD + 9 dígitos.
+    const phoneDigitsOf = (value) => {
+      const digits = onlyDigits(value);
+      const local = digits.length > 11 && digits.startsWith("55") ? digits.slice(2) : digits;
+      return local.slice(0, 11);
+    };
+
+    const formatPhone = (digits) => {
+      if (!digits) {
+        return "";
+      }
+      if (digits.length <= 2) {
+        return `(${digits}`;
+      }
+      if (digits.length <= 6) {
+        return `(${digits.slice(0, 2)}) ${digits.slice(2)}`;
+      }
+      if (digits.length <= 10) {
+        return `(${digits.slice(0, 2)}) ${digits.slice(2, 6)}-${digits.slice(6)}`;
+      }
+      return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`;
+    };
+
+    // Mantém o cursor depois da mesma quantidade de dígitos que havia antes da máscara.
+    const restoreCaret = (input, digitsBeforeCaret) => {
+      const masked = input.value;
+      if (digitsBeforeCaret <= 0) {
+        input.setSelectionRange(0, 0);
+        return;
+      }
+
+      let seen = 0;
+      for (let index = 0; index < masked.length; index += 1) {
+        if (/\d/.test(masked[index])) {
+          seen += 1;
+          if (seen === digitsBeforeCaret) {
+            input.setSelectionRange(index + 1, index + 1);
+            return;
+          }
+        }
+      }
+      input.setSelectionRange(masked.length, masked.length);
+    };
+
+    const setStatus = (message, tone = "") => {
+      status.textContent = message;
+      status.classList.toggle("form-status--error", tone === "error");
+      if (errorLink) {
+        errorLink.hidden = tone !== "error-send";
+      }
+      if (tone === "error-send") {
+        status.classList.add("form-status--error");
+      }
+    };
+
+    valueInput.addEventListener("input", () => {
+      // Moeda é preenchida da direita para a esquerda: o cursor permanece no fim.
+      valueInput.value = formatCurrency(currencyDigits(valueInput.value));
+    });
+
+    phoneInput.addEventListener("input", () => {
+      const caret = typeof phoneInput.selectionEnd === "number" ? phoneInput.selectionEnd : phoneInput.value.length;
+      const digitsBeforeCaret = onlyDigits(phoneInput.value.slice(0, caret)).length;
+      phoneInput.value = formatPhone(phoneDigitsOf(phoneInput.value));
+      restoreCaret(phoneInput, digitsBeforeCaret);
+    });
+
+    let isSubmitting = false;
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      if (isSubmitting) {
+        return;
+      }
+
+      const fullName = nameInput.value.trim().replace(/\s+/g, " ");
+      const phoneDigits = phoneDigitsOf(phoneInput.value);
+      const valueDigits = currencyDigits(valueInput.value);
+
+      if (fullName.length < 3) {
+        nameInput.focus();
+        setStatus("Informe seu nome para que possamos entrar em contato.", "error");
+        return;
+      }
+
+      if (phoneDigits.length < 10) {
+        phoneInput.focus();
+        setStatus("Informe um número de WhatsApp com DDD.", "error");
+        return;
+      }
+
+      if (!valueDigits || Number(valueDigits) <= 0) {
+        valueInput.focus();
+        setStatus("Informe o valor do imóvel.", "error");
+        return;
+      }
+
+      const originalLabel = submitButton.textContent;
+      // aria-disabled em vez de disabled: o botão não perde o foco durante o envio.
+      isSubmitting = true;
+      submitButton.setAttribute("aria-disabled", "true");
+      submitButton.textContent = calc.sendingLabel || "Enviando...";
+      setStatus("");
+
+      const controller = typeof AbortController === "function" ? new AbortController() : null;
+      const timeoutId = controller ? window.setTimeout(() => controller.abort(), SUBMIT_TIMEOUT) : null;
+
+      const payload = {
+        access_key: calc.accessKey,
+        subject: calc.subject,
+        from_name: calc.fromName || "Site 1º Ofício Rio das Ostras",
+        "Nome completo": fullName,
+        WhatsApp: formatPhone(phoneDigits),
+        "Valor do imóvel": `R$ ${formatCurrency(valueDigits)}`,
+        Origem: `Calculadora de emolumentos - ${isHomePage ? "Página inicial" : "Serviços online"}`,
+      };
+
+      try {
+        const response = await fetch(calc.action, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(payload),
+          signal: controller ? controller.signal : undefined,
+        });
+        const result = await response.json().catch(() => null);
+
+        // Só é sucesso quando a resposta pôde ser lida e não nega o envio.
+        if (!response.ok || !result || result.success === false) {
+          throw new Error("Envio recusado pelo serviço de e-mail.");
+        }
+
+        form.reset();
+        form.hidden = true;
+        if (formTitle) {
+          formTitle.hidden = true;
+        }
+        success.hidden = false;
+        success.focus();
+      } catch (error) {
+        setStatus(calc.errorText || "Não foi possível enviar agora. Tente novamente.", "error-send");
+      } finally {
+        if (timeoutId) {
+          window.clearTimeout(timeoutId);
+        }
+        isSubmitting = false;
+        submitButton.removeAttribute("aria-disabled");
+        submitButton.textContent = originalLabel;
+      }
+    });
+
+    if (resetButton) {
+      resetButton.addEventListener("click", () => {
+        success.hidden = true;
+        form.hidden = false;
+        if (formTitle) {
+          formTitle.hidden = false;
+        }
+        setStatus("");
+        nameInput.focus();
+      });
+    }
+  };
+
+  // O conteúdo é renderizado por JS, então a âncora da URL só existe depois do render.
+  const scrollToInitialHash = () => {
+    const hash = window.location.hash;
+    if (!hash || hash.length < 2) {
+      return;
+    }
+
+    let target = null;
+    try {
+      target = document.querySelector(hash);
+    } catch (error) {
+      return;
+    }
+
+    if (!target) {
+      return;
+    }
+
+    let lastAppliedTop = -1;
+
+    const jumpToTarget = () => {
+      // O html tem scroll-behavior: smooth; aqui o salto precisa ser imediato.
+      const root = document.documentElement;
+      const previousBehavior = root.style.scrollBehavior;
+      root.style.scrollBehavior = "auto";
+      target.scrollIntoView({ block: "start" });
+      root.style.scrollBehavior = previousBehavior;
+      lastAppliedTop = Math.round(window.scrollY);
+    };
+
+    // Imagens acima da âncora deslocam o layout depois do primeiro quadro,
+    // então a posição é reaplicada até a página estabilizar.
+    const reapply = () => {
+      if (lastAppliedTop >= 0 && Math.abs(window.scrollY - lastAppliedTop) > 4) {
+        return; // a pessoa já rolou a página por conta própria
+      }
+      jumpToTarget();
+    };
+
+    window.requestAnimationFrame(jumpToTarget);
+    window.setTimeout(reapply, 250);
+    window.setTimeout(reapply, 900);
+    window.addEventListener("load", () => window.requestAnimationFrame(reapply), { once: true });
+  };
+
   const initScrollReveal = () => {
     const targets = Array.from(document.querySelectorAll(".section, .practice-card, .case-card, .stats-card"));
     if (targets.length === 0 || !("IntersectionObserver" in window)) {
@@ -2716,5 +3491,9 @@ document.addEventListener("DOMContentLoaded", () => {
   initGallery();
   initHeroNews();
   initOwariRoboStarterForms();
+  initRoboOpenTriggers();
+  initContactForm();
+  initEmolumentCalculator();
   initScrollReveal();
+  scrollToInitialHash();
 });

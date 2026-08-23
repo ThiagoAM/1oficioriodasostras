@@ -3,6 +3,8 @@
     phoneLabel: "(22) 3190-0120",
     phoneHref: "tel:+552231900120",
     whatsappUrl: "https://wa.me/552231900120",
+    whatsappServiceUrl:
+      "https://wa.me/552231900120?text=Ol%C3%A1%21%20Vim%20pelo%20site%20do%201%C2%BA%20Of%C3%ADcio%20e%20gostaria%20de%20solicitar%20um%20servi%C3%A7o%20do%20cart%C3%B3rio.",
     email: "1oficiorioostras@gmail.com",
     instagramUrl: "https://www.instagram.com/cartorioderiodasostras",
     instagramLabel: "@cartorioderiodasostras",
@@ -32,11 +34,13 @@
       { label: "Início", href: "#topo" },
       { label: "Inteligência Artificial 24h", href: "#inteligencia-artificial" },
       { label: "Serviços do cartório", href: "#servicos" },
+      { label: "Calculadora de emolumentos", href: "#calculadora-emolumentos" },
       { label: "Localização", href: "#localizacao" },
       { label: "Horário de atendimento", href: "#horario" },
       { label: "Perguntas frequentes", href: "perguntas-frequentes.html" },
       { label: "Explore mais", href: "#conteudos" },
       { label: "Fale conosco", href: "#contato" },
+      { label: "Agenda 2030", href: "#agenda-2030" },
     ],
     featurePages: {
       kicker: "Explore mais",
@@ -114,6 +118,33 @@
       imageVariant: "photo",
       imageAlt: "Fachada do Cartório do 1º Ofício de Justiça de Rio das Ostras",
       sideNote: "",
+    },
+    welcome: {
+      titleGreeting: "Bem-vindo(a)",
+      titleRest: "ao cartório mais digital do Rio de Janeiro",
+      text:
+        "Aqui boa parte do atendimento começa — e muitas vezes termina — sem sair de casa. Fale com a nossa equipe pelo WhatsApp de segunda a sexta, das 9h às 17h, tire dúvidas a qualquer hora com o nosso assistente de inteligência artificial ou resolva você mesmo pelos serviços online.",
+      actions: [
+        {
+          kind: "whatsapp",
+          label: "Solicitar pelo WhatsApp",
+          href: contact.whatsappServiceUrl,
+          external: true,
+        },
+        {
+          kind: "ai",
+          label: "Tirar dúvidas 24h com IA",
+          href: "#inteligencia-artificial",
+          external: false,
+          roboOpen: "widget",
+        },
+        {
+          kind: "online",
+          label: "Serviços online",
+          href: "servicos-online.html",
+          external: false,
+        },
+      ],
     },
     philosophy: {
       kicker: "Nosso compromisso",
@@ -432,7 +463,19 @@
       action: "https://api.web3forms.com/submit",
       accessKey: "2a703f7e-b77b-4478-97f2-c9d8379ad11b",
       subject: "Novo formulário de contato - Site 1º Ofício Rio das Ostras",
-      redirect: "/sucesso.html",
+      fromName: "Site 1º Ofício Rio das Ostras",
+      submitLabel: "Enviar mensagem",
+      sendingLabel: "Enviando...",
+      sendingText: "Enviando sua mensagem, aguarde.",
+      successTitle: "Mensagem enviada",
+      successText:
+        "Obrigado por entrar em contato com o 1º Ofício de Justiça de Rio das Ostras. Nossa equipe responderá pelos dados informados, de segunda a sexta-feira, das 9h às 17h.",
+      successAgainLabel: "Enviar outra mensagem",
+      errorText:
+        "Não foi possível enviar sua mensagem agora. Tente novamente em instantes ou fale conosco pelo WhatsApp.",
+      timeoutText:
+        "O envio demorou mais que o esperado e pode ter sido concluído mesmo assim. Antes de enviar de novo, confirme conosco pelo WhatsApp.",
+      whatsappLabel: "Falar no WhatsApp agora",
       options: [
         "Dúvida geral",
         "Certidão",
@@ -441,6 +484,261 @@
         "Protesto de títulos",
         "Outro",
       ],
+    },
+    civilConsultation: {
+      kicker: "Consulta de casamento",
+      title: "Acompanhe seu processo de habilitação",
+      text:
+        "Veja a situação registrada pelo cartório sem precisar ligar ou vir até o balcão. Basta o número do processo e o CPF de um dos nubentes.",
+      steps: [
+        "Tenha em mãos o número do processo informado pelo cartório.",
+        "Informe o CPF de um dos nubentes.",
+        "Veja a situação atual, as datas e o que ainda falta.",
+      ],
+      formTitle: "Consultar agora",
+      processLabel: "Número do processo",
+      processPlaceholder: "10000",
+      cpfLabel: "CPF de um dos nubentes",
+      cpfPlaceholder: "000.000.000-00",
+      submitLabel: "Consultar processo",
+      note:
+        "A consulta mostra a situação registrada no processo de habilitação deste cartório. Em caso de divergência ou dúvida sobre alguma etapa, fale com a nossa equipe pelo WhatsApp.",
+    },
+    emolumentCalculator: {
+      kicker: "Calculadora de emolumentos",
+      title: "Simule o custo da escritura do seu imóvel",
+      text:
+        "Informe o valor do imóvel e o seu WhatsApp. Nossa equipe calcula os emolumentos com base na tabela vigente no Estado do Rio de Janeiro e envia a simulação para você, junto com a lista de documentos necessários.",
+      steps: [
+        "Você informa o valor do imóvel e o seu contato.",
+        "A equipe calcula pela tabela de emolumentos vigente no Estado do Rio de Janeiro.",
+        "Você recebe a simulação e a lista de documentos pelo WhatsApp.",
+      ],
+      action: "https://api.web3forms.com/submit",
+      accessKey: "2a703f7e-b77b-4478-97f2-c9d8379ad11b",
+      subject: "Calculadora de emolumentos - Site 1º Ofício Rio das Ostras",
+      fromName: "Calculadora de emolumentos - Site 1º Ofício",
+      formTitle: "Peça sua simulação",
+      nameLabel: "Seu nome",
+      namePlaceholder: "Nome completo",
+      phoneLabel: "Seu WhatsApp",
+      phonePlaceholder: "(22) 99999-9999",
+      valueLabel: "Valor do imóvel (R$)",
+      valuePlaceholder: "0,00",
+      submitLabel: "Solicitar cálculo",
+      sendingLabel: "Enviando...",
+      successTitle: "Recebemos seus dados",
+      successText:
+        "O cartório entrará em contato pelo WhatsApp em breve com a simulação dos emolumentos. Nosso atendimento é de segunda a sexta-feira, das 9h às 17h.",
+      successAgainLabel: "Fazer nova simulação",
+      whatsappLabel: "Falar no WhatsApp agora",
+      errorText:
+        "Não foi possível enviar agora. Tente novamente em instantes ou fale conosco pelo WhatsApp.",
+      privacyText:
+        "Ao enviar, você autoriza o uso dos dados informados apenas para o cálculo solicitado e para o contato da equipe do cartório.",
+      note:
+        "A simulação é uma estimativa calculada pela tabela de emolumentos vigente no Estado do Rio de Janeiro, já com os acréscimos legais e os tributos incidentes sobre o ato notarial. Não inclui o ITBI devido ao município nem os custos de registro no Cartório de Registro de Imóveis. O valor final pode variar conforme as particularidades de cada escritura.",
+    },
+    agenda2030: {
+      kicker: "Agenda 2030",
+      title: "Nosso compromisso com os Objetivos de Desenvolvimento Sustentável",
+      intro:
+        "Adotada em 2015 pelos 193 Estados-membros da ONU, a Agenda 2030 reúne 17 Objetivos de Desenvolvimento Sustentável e 169 metas. O trabalho de um cartório está no centro desse compromisso: é do registro civil que nasce a identidade jurídica de uma pessoa, e é da atividade notarial e de protesto que vem boa parte da segurança jurídica e da solução de conflitos fora do Judiciário.",
+      statement: {
+        badge: "Provimento CNJ nº 85/2019",
+        title: "Esta serventia internalizou a Agenda 2030",
+        quote:
+          "As Corregedorias e as Serventias Extrajudiciais deverão inserir em seus portais ou sites, expressamente, a informação de que internalizaram a Agenda 2030, bem como a correspondência dos respectivos assuntos e atos normativos à cada um dos ODS.",
+        quoteSource:
+          "Art. 3º do Provimento nº 85, de 19 de agosto de 2019, da Corregedoria Nacional de Justiça do CNJ",
+        link: {
+          label: "Ler o Provimento nº 85/2019",
+          href: "https://atos.cnj.jus.br/atos/detalhar/2988",
+        },
+      },
+      goalsTitle: "Os 17 Objetivos de Desenvolvimento Sustentável",
+      goalsText:
+        "Adotados por todos os países membros da ONU, os 17 objetivos formam a estrutura da Agenda 2030. A atividade notarial, de protesto e de registro civil se conecta de forma direta a boa parte deles.",
+      goalsLegend: "O ponto no canto do quadro marca os objetivos a que os atos praticados por esta serventia se relacionam diretamente.",
+      goals: [
+        { number: 1, name: "Erradicação da pobreza", color: "#E5243B", ink: "light" },
+        { number: 2, name: "Fome zero e agricultura sustentável", color: "#DDA63A", ink: "dark" },
+        { number: 3, name: "Saúde e bem-estar", color: "#4C9F38", ink: "dark", focus: true },
+        { number: 4, name: "Educação de qualidade", color: "#C5192D", ink: "light", focus: true },
+        { number: 5, name: "Igualdade de gênero", color: "#FF3A21", ink: "dark", focus: true },
+        { number: 6, name: "Água potável e saneamento", color: "#26BDE2", ink: "dark" },
+        { number: 7, name: "Energia limpa e acessível", color: "#FCC30B", ink: "dark" },
+        { number: 8, name: "Trabalho decente e crescimento econômico", color: "#A21942", ink: "light", focus: true },
+        { number: 9, name: "Indústria, inovação e infraestrutura", color: "#FD6925", ink: "dark", focus: true },
+        { number: 10, name: "Redução das desigualdades", color: "#DD1367", ink: "light", focus: true },
+        { number: 11, name: "Cidades e comunidades sustentáveis", color: "#FD9D24", ink: "dark", focus: true },
+        { number: 12, name: "Consumo e produção responsáveis", color: "#BF8B2E", ink: "dark", focus: true },
+        { number: 13, name: "Ação contra a mudança global do clima", color: "#3F7E44", ink: "light", focus: true },
+        { number: 14, name: "Vida na água", color: "#0A97D9", ink: "dark" },
+        { number: 15, name: "Vida terrestre", color: "#56C02B", ink: "dark" },
+        { number: 16, name: "Paz, justiça e instituições eficazes", color: "#00689D", ink: "light", focus: true },
+        { number: 17, name: "Parcerias e meios de implementação", color: "#19486A", ink: "light", focus: true },
+      ],
+      matrixTitle: "Como os atos deste cartório se relacionam aos ODS",
+      matrixText:
+        "Correspondência entre as atividades desta serventia, o fundamento de cada uma e os Objetivos de Desenvolvimento Sustentável, na forma do Anexo I do Provimento nº 85/2019.",
+      matrix: [
+        {
+          activity: "Registro civil de nascimento",
+          text:
+            "Ato gratuito para todos, que dá à pessoa sua identidade jurídica e abre o acesso a documentos, escola, saúde e programas sociais.",
+          norm: "Art. 30 da Lei nº 6.015/1973, com a redação dada pela Lei nº 9.534/1997",
+          goals: [16, 10, 4],
+        },
+        {
+          activity: "Registro de nascimento em maternidade",
+          text:
+            "Rio das Ostras conta com unidade interligada em maternidade: o registro é feito no próprio hospital e a família recebe alta já com a certidão de nascimento em mãos.",
+          norm: "Art. 54, § 5º, da Lei nº 6.015/1973, incluído pela Lei nº 14.382/2022",
+          goals: [3, 16],
+        },
+        {
+          activity: "Registro de óbito e estatísticas vitais",
+          text:
+            "Os dados enviados pelos cartórios alimentam as estatísticas oficiais de mortalidade do país e orientam políticas públicas de saúde.",
+          norm: "Lei nº 6.015/1973 e Sistema de Estatísticas Vitais do IBGE",
+          goals: [3, 16, 17],
+        },
+        {
+          activity: "Reconhecimento de paternidade",
+          text:
+            "Feito diretamente no cartório, sem processo judicial, garantindo à criança o nome do pai no registro e os direitos que dele decorrem.",
+          norm: "Art. 1.609 do Código Civil, Lei nº 8.560/1992 e programa Pai Presente, do CNJ",
+          goals: [5, 10, 16],
+        },
+        {
+          activity: "Alteração de prenome e gênero",
+          text:
+            "A pessoa maior de 18 anos pode adequar prenome e gênero à identidade autopercebida diretamente no registro civil, sem autorização judicial.",
+          norm: "Código Nacional de Normas do Foro Extrajudicial (Provimento CNJ nº 149/2023)",
+          goals: [5, 10, 16],
+        },
+        {
+          activity: "Gratuidades e isenções",
+          text:
+            "O registro de nascimento, o assento de óbito e a primeira certidão de cada um são gratuitos para todos. Os reconhecidamente pobres são isentos das demais certidões do registro civil.",
+          norm: "Art. 30, caput e § 1º, da Lei nº 6.015/1973 e art. 5º, LXXVI, da Constituição Federal",
+          goals: [10, 1, 16],
+        },
+        {
+          activity: "Escrituras públicas e atas notariais",
+          text:
+            "Formalizam a compra e venda, a doação e os demais negócios sobre imóveis e produzem a prova que instrui a regularização fundiária e a usucapião extrajudicial, processadas no Registro de Imóveis. É a base da segurança da moradia.",
+          norm: "Lei nº 8.935/1994 e Código Nacional de Normas do Foro Extrajudicial (Provimento CNJ nº 149/2023)",
+          goals: [11, 16, 8],
+        },
+        {
+          activity: "Inventário, divórcio e demais atos extrajudiciais",
+          text:
+            "Resolvem no cartório, de forma consensual, o que antes exigia processo judicial — menos litígio, menos custo e menos tempo de espera.",
+          norm: "Código de Processo Civil (Lei nº 13.105/2015)",
+          goals: [16, 5],
+        },
+        {
+          activity: "Protesto de títulos",
+          text:
+            "Recupera créditos e resolve a inadimplência fora do Judiciário, com custo menor para quem cobra e caminho simples de regularização para quem deve.",
+          norm: "Lei nº 9.492/1997",
+          goals: [8, 16],
+        },
+        {
+          activity: "Atos eletrônicos e certidões digitais",
+          text:
+            "Escrituras, procurações e certidões por meio digital reduzem consumo de papel, deslocamentos e emissões associadas ao transporte.",
+          norm: "Sistema Eletrônico dos Registros Públicos (Lei nº 14.382/2022) e Provimento CNJ nº 149/2023",
+          goals: [12, 13, 9],
+        },
+        {
+          activity: "Atendimento por WhatsApp e inteligência artificial 24h",
+          text:
+            "Amplia o acesso ao serviço público delegado a qualquer hora do dia, inclusive fins de semana, sem exigir deslocamento até o balcão.",
+          norm: "Iniciativa de modernização da serventia",
+          goals: [9, 10, 16],
+        },
+        {
+          activity: "Guias ao cidadão, perguntas frequentes e formulários online",
+          text:
+            "Informação clara e gratuita sobre documentos, prazos e valores antes do atendimento, para que ninguém perca uma viagem ao cartório.",
+          norm: "Iniciativa de transparência da serventia",
+          goals: [4, 16],
+        },
+        {
+          activity: "Integração com centrais nacionais e órgãos públicos",
+          text:
+            "A serventia opera conectada às centrais eletrônicas do registro civil e do notariado e a outros órgãos, o que evita retrabalho e novas viagens do cidadão.",
+          norm: "Centrais de serviços eletrônicos compartilhados do foro extrajudicial",
+          goals: [17, 9],
+        },
+      ],
+      spotlight: {
+        title: "A meta 16.9 e o registro civil de nascimento",
+        badge: "Meta 16.9",
+        quote: "Até 2030, fornecer identidade legal para todos, incluindo o registro de nascimento.",
+        quoteSource: "Meta 16.9 do ODS 16, da Agenda 2030 das Nações Unidas",
+        text:
+          "O registro civil de nascimento é o ato que faz uma pessoa existir juridicamente. Sem ele não há CPF, matrícula escolar, atendimento previdenciário nem acesso a programas sociais. É a meta da Agenda 2030 que mais diretamente depende do trabalho dos cartórios de registro civil — e o Brasil vem se aproximando dela.",
+        stats: [
+          {
+            value: "0,95%",
+            label: "Sub-registro de nascimentos no Brasil em 2024",
+            note: "Primeira vez abaixo de 1% desde o início da série, em 2015, quando era 4,21%.",
+          },
+          {
+            value: "22.902",
+            label: "Crianças nascidas em 2024 sem registro no ano",
+            note: "É o que a taxa de 0,95% representa em números absolutos, segundo o IBGE.",
+          },
+          {
+            value: "0,14%",
+            label: "Sub-registro de óbitos no Rio de Janeiro em 2024",
+            note: "A menor taxa entre todas as unidades da federação.",
+          },
+        ],
+        source:
+          "Fonte: IBGE, Estimativas de Sub-Registro de Nascimentos e Óbitos 2024, divulgadas em 20 de maio de 2026.",
+      },
+      sourcesTitle: "Fontes oficiais",
+      sources: [
+        {
+          label: "Provimento CNJ nº 85/2019",
+          text: "Adoção dos ODS pelas Corregedorias e pelo Serviço Extrajudicial.",
+          href: "https://atos.cnj.jus.br/atos/detalhar/2988",
+        },
+        {
+          label: "CNJ · Agenda 2030 no Poder Judiciário",
+          text: "Programa, atos normativos e ações do Conselho Nacional de Justiça.",
+          href: "https://www.cnj.jus.br/programas-e-acoes/agenda-2030/",
+        },
+        {
+          label: "ONU Brasil · Os 17 ODS",
+          text: "Objetivos, metas e indicadores da Agenda 2030 em português.",
+          href: "https://brasil.un.org/pt-br/sdgs",
+        },
+        {
+          label: "Nações Unidas · ODS 16",
+          text: "Texto oficial do objetivo e de todas as suas metas, incluindo a meta 16.9.",
+          href: "https://sdgs.un.org/goals/goal16",
+        },
+        {
+          label: "IBGE · Estimativas de Sub-Registro",
+          text: "Série histórica do sub-registro de nascimentos e óbitos no Brasil.",
+          href: "https://www.ibge.gov.br/estatisticas/sociais/populacao/26176-estimativa-do-sub-registro.html",
+        },
+        {
+          label: "ANOREG/BR · ODS nos cartórios",
+          text: "Como as serventias extrajudiciais brasileiras atuam em cada objetivo.",
+          href: "https://www.anoreg.org.br/ods/",
+        },
+      ],
+      supportLine:
+        "O 1º Ofício de Justiça de Rio das Ostras apoia os Objetivos de Desenvolvimento Sustentável.",
+      disclaimer:
+        "As denominações e as cores dos Objetivos de Desenvolvimento Sustentável seguem o padrão das Nações Unidas. Este site não é uma publicação das Nações Unidas e seu conteúdo não reflete a posição oficial da organização.",
     },
     stats: {
       preferredYear: "2026",
