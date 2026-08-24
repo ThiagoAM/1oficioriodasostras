@@ -108,16 +108,66 @@
       ],
     },
     hero: {
-      eyebrow: "",
+      eyebrow: "Notas · Protesto · Registro Civil",
+      titleLines: ["1º Ofício", "de Justiça"],
+      place: "Rio das Ostras · Rio de Janeiro",
       intro:
         "Atendimento presencial: segunda a sexta, das 9h às 17h. Plantão para nascimento e óbito: fins de semana e feriados, das 9h às 12h.",
       introHtml:
-        "<strong>Atendimento presencial:</strong><br>segunda a sexta, das 9h às 17h.<br><strong>Plantão para nascimento e óbito:</strong><br>fins de semana e feriados, das 9h às 12h.",
-      titleLines: ["1º Ofício", "de Justiça"],
-      image: "assets/images/gallery/thumbs/cartorio/3.jpg",
-      imageVariant: "photo",
-      imageAlt: "Fachada do Cartório do 1º Ofício de Justiça de Rio das Ostras",
-      sideNote: "",
+        "<strong>Atendimento presencial:</strong> segunda a sexta, das 9h às 17h.<br><strong>Plantão para nascimento e óbito:</strong> fins de semana e feriados, das 9h às 12h.",
+      actions: [
+        {
+          kind: "whatsapp",
+          label: "Solicitar atendimento",
+          href: contact.whatsappServiceUrl,
+          external: true,
+        },
+        {
+          kind: "location",
+          label: "Como chegar",
+          href: "#localizacao",
+          external: false,
+        },
+      ],
+      slideInterval: 6500,
+      slides: [
+        {
+          image: "assets/images/hero/slides/rio-das-ostras-1-1800.jpg",
+          imageSmall: "assets/images/hero/slides/rio-das-ostras-1-1000.jpg",
+          alt: "Vista aérea de uma praia de Rio das Ostras, com costões de pedra e mar esverdeado",
+          caption: "Praias e costões",
+        },
+        {
+          image: "assets/images/hero/slides/rio-das-ostras-2-1800.jpg",
+          imageSmall: "assets/images/hero/slides/rio-das-ostras-2-1000.jpg",
+          alt: "Píer avançando sobre o mar de Rio das Ostras sob um céu rosado no fim da tarde",
+          caption: "Entardecer no píer",
+        },
+        {
+          image: "assets/images/hero/slides/rio-das-ostras-3-1800.jpg",
+          imageSmall: "assets/images/hero/slides/rio-das-ostras-3-1000.jpg",
+          alt: "Vista aérea do encontro do rio com o mar em Rio das Ostras, com morro coberto de mata",
+          caption: "Onde o rio encontra o mar",
+        },
+        {
+          image: "assets/images/hero/slides/rio-das-ostras-4-1800.jpg",
+          imageSmall: "assets/images/hero/slides/rio-das-ostras-4-1000.jpg",
+          alt: "Silhueta do monumento da ostra recortada contra o céu alaranjado do pôr do sol",
+          caption: "Pôr do sol na cidade das ostras",
+        },
+        {
+          image: "assets/images/hero/slides/rio-das-ostras-5-1800.jpg",
+          imageSmall: "assets/images/hero/slides/rio-das-ostras-5-1000.jpg",
+          alt: "Praia de Rio das Ostras ao amanhecer, com píer ao fundo e reflexo dourado na areia",
+          caption: "Amanhecer na orla",
+        },
+        {
+          image: "assets/images/hero/slides/rio-das-ostras-6-1800.jpg",
+          imageSmall: "assets/images/hero/slides/rio-das-ostras-6-1000.jpg",
+          alt: "Vista aérea da orla urbana de Rio das Ostras, com praia, ruas e casas à beira-mar",
+          caption: "A cidade à beira-mar",
+        },
+      ],
     },
     welcome: {
       titleGreeting: "Bem-vindo(a)",

@@ -430,7 +430,7 @@ document.addEventListener("DOMContentLoaded", () => {
       renderRichStreamText(richTextEntries, 0);
     }
 
-    const startDelay = isFaqStream ? 60 : target.classList.contains("hero-contact-label") ? 1000 : 160;
+    const startDelay = isFaqStream ? 60 : 160;
     const delayMultiplier = isFaqStream ? 0.5 : 1;
     let index = 0;
 
@@ -623,7 +623,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const initStreamText = () => {
     const targets = Array.from(
       document.querySelectorAll(
-        ".hero-intro, .hero-contact-label, .philosophy-quote, .about-quote, #contato .contact-text .section-title, #contato .contact-text .section-subtitle",
+        ".hero-intro, .philosophy-quote, .about-quote, #contato .contact-text .section-title, #contato .contact-text .section-subtitle",
       ),
     );
     if (targets.length === 0) {
@@ -766,33 +766,97 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   };
 
-  const renderHero = () => `
+  const heroSlides = () => (Array.isArray(data.hero.slides) ? data.hero.slides : []);
+
+  // Só a primeira foto entra com src no HTML; as demais são carregadas pelo carrossel.
+  const renderHeroSlide = (slide, index) => `
+          <figure class="hero-slide${index === 0 ? " is-active" : ""}" data-hero-slide="${index}" aria-hidden="${index === 0 ? "false" : "true"}">
+            <img
+              class="hero-slide-image"
+              ${index === 0 ? `src="${escapeHtml(slide.image)}"` : `data-src="${escapeHtml(slide.image)}"`}
+              ${index === 0 ? `srcset="${escapeHtml(slide.imageSmall)} 1000w, ${escapeHtml(slide.image)} 1800w"` : `data-srcset="${escapeHtml(slide.imageSmall)} 1000w, ${escapeHtml(slide.image)} 1800w"`}
+              sizes="100vw"
+              alt="${escapeHtml(slide.alt)}"
+              ${index === 0 ? 'fetchpriority="high"' : 'loading="lazy"'}
+              decoding="async" />
+          </figure>`;
+
+  const renderHeroAction = (action, index) => `
+            <a
+              class="btn hero-action${index === 0 ? " btn-primary" : " btn-ghost"}"
+              href="${escapeHtml(resolveSiteHref(action.href))}"${action.roboOpen ? ` data-robo-open="${escapeHtml(action.roboOpen)}"` : ""}${linkAttrs(action.href, action.external)}>
+              <span class="hero-action-icon" aria-hidden="true">${WELCOME_ICONS[action.kind] || ""}</span>
+              ${escapeHtml(action.label)}
+            </a>`;
+
+  const renderHero = () => {
+    const slides = heroSlides();
+    const actions = Array.isArray(data.hero.actions) ? data.hero.actions : [];
+
+    return `
     <section class="hero" aria-labelledby="heroTitle">
-      <div class="container hero-grid">
-        <p class="hero-intro" data-stream-rich="true" data-stream-text="${escapeHtml(data.hero.intro)}">${
-          data.hero.introHtml ? data.hero.introHtml : escapeHtml(data.hero.intro)
-        }</p>
-        <figure class="hero-portrait${data.hero.imageVariant === "logo" ? " hero-portrait-logo" : ""}">
-          <img src="${escapeHtml(data.hero.image)}" alt="${escapeHtml(data.hero.imageAlt)}" fetchpriority="high" decoding="async" />
-          <figcaption class="hero-title-wrap">
-            ${data.hero.eyebrow ? `<p class="hero-kicker">${escapeHtml(data.hero.eyebrow)}</p>` : ""}
-            <h1 class="hero-title" id="heroTitle">
-              ${data.hero.titleLines.map((line) => `<span>${escapeHtml(line)}</span>`).join(" ")}
-            </h1>
-          </figcaption>
-        </figure>
-        <div class="hero-contact" aria-label="Contato rápido">
-          <a href="${escapeHtml(data.contact.phoneHref)}">${escapeHtml(data.contact.phoneLabel)}</a>
-          <span class="hero-contact-label">Telefone / WhatsApp</span>
-          <a href="mailto:${escapeHtml(data.contact.email)}">${escapeHtml(data.contact.email)}</a>
-          <span class="hero-contact-label">E-mail geral</span>
-          <a href="#localizacao">${escapeHtml(data.contact.addressLines[0])}</a>
-          <span class="hero-contact-label">Endereço</span>
+      <div class="hero-stage">
+        <div class="hero-slides" data-hero-slides>
+          ${slides.map(renderHeroSlide).join("")}
         </div>
-        ${data.hero.sideNote ? `<p class="hero-note">${escapeHtml(data.hero.sideNote)}</p>` : ""}
+        <div class="hero-scrim" aria-hidden="true"></div>
+
+        <div class="container hero-content">
+          ${data.hero.eyebrow ? `<p class="hero-kicker">${escapeHtml(data.hero.eyebrow)}</p>` : ""}
+          <h1 class="hero-title" id="heroTitle">
+            ${data.hero.titleLines.map((line) => `<span>${escapeHtml(line)}</span>`).join(" ")}
+          </h1>
+          ${data.hero.place ? `<p class="hero-place">${escapeHtml(data.hero.place)}</p>` : ""}
+          ${actions.length ? `<div class="hero-actions">${actions.map(renderHeroAction).join("")}</div>` : ""}
+          <p class="hero-intro" data-stream-rich="true" data-stream-text="${escapeHtml(data.hero.intro)}">${
+            data.hero.introHtml ? data.hero.introHtml : escapeHtml(data.hero.intro)
+          }</p>
+        </div>
+
+        ${
+          slides.length > 1
+            ? `
+        <div class="container hero-bar">
+          <p class="hero-caption">
+            <span class="hero-caption-index" data-hero-index aria-hidden="true">01</span>
+            <span class="hero-caption-text" data-hero-caption>${escapeHtml(slides[0].caption || "")}</span>
+          </p>
+          <div class="hero-controls" role="group" aria-label="Fotos de Rio das Ostras">
+            <button class="hero-arrow" type="button" data-hero-prev aria-label="Foto anterior">
+              <span aria-hidden="true"></span>
+            </button>
+            <div class="hero-dots" data-hero-dots>
+              ${slides
+                .map(
+                  (slide, index) => `
+              <button
+                class="hero-dot${index === 0 ? " is-active" : ""}"
+                type="button"
+                data-hero-dot="${index}"
+                aria-label="Foto ${index + 1} de ${slides.length}: ${escapeHtml(slide.caption || "")}"
+                aria-current="${index === 0 ? "true" : "false"}">
+                <span class="hero-dot-track"><span class="hero-dot-fill"></span></span>
+              </button>`,
+                )
+                .join("")}
+            </div>
+            <button class="hero-arrow" type="button" data-hero-next aria-label="Próxima foto">
+              <span aria-hidden="true"></span>
+            </button>
+          </div>
+        </div>
+        `
+            : ""
+        }
+
+        <a class="hero-scroll" href="${escapeHtml(resolveSiteHref("#boas-vindas"))}" aria-label="Ir para o conteúdo do site">
+          <span class="hero-scroll-label">Role a página</span>
+          <span class="hero-scroll-line" aria-hidden="true"></span>
+        </a>
       </div>
     </section>
   `;
+  };
 
   const reviewStars = '<span class="review-stars" aria-hidden="true">★★★★★</span>';
 
@@ -867,6 +931,8 @@ document.addEventListener("DOMContentLoaded", () => {
       '<svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M16 4.2A11.6 11.6 0 0 0 6.1 21.8L4.7 27.3l5.6-1.4A11.6 11.6 0 1 0 16 4.2Zm0 2.3a9.3 9.3 0 0 1 0 18.6 9.1 9.1 0 0 1-4.7-1.3l-.4-.2-3.1.8.8-3-.3-.5A9.3 9.3 0 0 1 16 6.5Zm-3.6 4.7c-.2 0-.5.1-.7.4-.2.3-.9 1-.9 2.3 0 1.4 1 2.7 1.1 2.9.1.2 2 3.2 5 4.3 2.4.9 3 .7 3.5.6.5-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.1-.3-.2-.6-.4l-1.9-.9c-.3-.1-.5-.2-.7.1l-.9 1.1c-.2.2-.4.3-.7.1-.3-.1-1.2-.4-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.7l.4-.5c.1-.2.2-.3.3-.5.1-.2.1-.4 0-.6l-.8-1.9c-.2-.4-.4-.4-.6-.4h-.8Z" /></svg>',
     online:
       '<svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M4.6 6.2h22.8a1.6 1.6 0 0 1 1.6 1.6v13a1.6 1.6 0 0 1-1.6 1.6H4.6A1.6 1.6 0 0 1 3 20.8v-13a1.6 1.6 0 0 1 1.6-1.6Z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" /><path d="M11 26.4h10" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" /><path d="M16 22.4v4" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" /><path d="m12.6 11.4 3.4 3.4 3.4-3.4" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" /><path d="M16 14.8V9" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" /></svg>',
+    location:
+      '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s7-6.15 7-12a7 7 0 1 0-14 0c0 5.85 7 12 7 12Z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" /><circle cx="12" cy="9" r="2.4" fill="none" stroke="currentColor" stroke-width="1.9" /></svg>',
     ai:
       '<svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M26.2 5.8H5.8A2.8 2.8 0 0 0 3 8.6v10.8a2.8 2.8 0 0 0 2.8 2.8h3.4v5.2l5.8-5.2h11.2a2.8 2.8 0 0 0 2.8-2.8V8.6a2.8 2.8 0 0 0-2.8-2.8Z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" /><path d="M16 8.9l1.35 3.65L21 13.9l-3.65 1.35L16 18.9l-1.35-3.65L11 13.9l3.65-1.35L16 8.9Z" /></svg>',
   };
@@ -2043,6 +2109,10 @@ document.addEventListener("DOMContentLoaded", () => {
       navToggle.setAttribute("aria-label", isOpen ? "Fechar menu" : "Abrir menu");
       siteNav.setAttribute("aria-hidden", isOpen ? "false" : "true");
       document.body.classList.toggle("no-scroll", isOpen);
+      // Sem isto o conteúdo atrás do painel continua alcançável por Tab e pelas setas.
+      document.querySelectorAll("main, .site-footer").forEach((region) => {
+        region.toggleAttribute("inert", isOpen);
+      });
 
       window.clearTimeout(closeTimer);
 
@@ -2968,102 +3038,274 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   };
 
-  const initHeroTitleFit = () => {
-    const heroTitle = document.getElementById("heroTitle");
-    if (!heroTitle) {
+  const initHeroCarousel = () => {
+    const hero = document.querySelector(".hero");
+    const track = hero ? hero.querySelector("[data-hero-slides]") : null;
+    if (!hero || !track) {
       return;
     }
 
-    const hero = heroTitle.closest(".hero");
-    const mobileQuery = window.matchMedia("(max-width: 820px)");
-    const minFontSize = 34;
-    const edgePadding = 18;
-    const animationExtremes = [
-      { first: "0px", last: "0px" },
-      { first: "58px", last: "-58px" },
-    ];
-    let fittedWidth = 0;
-    let fittedFontSize = "";
-    let fitFrame = 0;
-
-    const withHeroTitleOffsets = (offsets, measure) => {
-      if (!hero) {
-        return measure();
-      }
-
-      const previousFirst = hero.style.getPropertyValue("--hero-title-first-scroll-x");
-      const previousLast = hero.style.getPropertyValue("--hero-title-last-scroll-x");
-      hero.style.setProperty("--hero-title-first-scroll-x", offsets.first);
-      hero.style.setProperty("--hero-title-last-scroll-x", offsets.last);
-      try {
-        return measure();
-      } finally {
-        if (previousFirst) {
-          hero.style.setProperty("--hero-title-first-scroll-x", previousFirst);
-        } else {
-          hero.style.removeProperty("--hero-title-first-scroll-x");
-        }
-
-        if (previousLast) {
-          hero.style.setProperty("--hero-title-last-scroll-x", previousLast);
-        } else {
-          hero.style.removeProperty("--hero-title-last-scroll-x");
-        }
-      }
-    };
-
-    const fitTitle = (force = false) => {
-      if (!mobileQuery.matches) {
-        heroTitle.style.fontSize = "";
-        fittedWidth = 0;
-        fittedFontSize = "";
-        return;
-      }
-
-      const viewportWidth = window.innerWidth;
-      if (!force && fittedWidth === viewportWidth && fittedFontSize) {
-        heroTitle.style.fontSize = fittedFontSize;
-        return;
-      }
-
-      heroTitle.style.fontSize = "";
-      const titleLines = Array.from(heroTitle.querySelectorAll("span"));
-      if (titleLines.length === 0) {
-        return;
-      }
-
-      let fontSize = parseFloat(window.getComputedStyle(heroTitle).fontSize);
-      const hasOverflow = () =>
-        animationExtremes.some((offsets) =>
-          withHeroTitleOffsets(offsets, () =>
-            titleLines.some((line) => {
-              const rect = line.getBoundingClientRect();
-              return rect.left < edgePadding || rect.right > viewportWidth - edgePadding;
-            }),
-          ),
-        );
-
-      while (fontSize > minFontSize && hasOverflow()) {
-        fontSize -= 1;
-        heroTitle.style.fontSize = `${fontSize}px`;
-      }
-
-      fittedWidth = viewportWidth;
-      fittedFontSize = `${fontSize}px`;
-      heroTitle.style.fontSize = fittedFontSize;
-    };
-
-    const requestFit = (force = false) => {
-      window.cancelAnimationFrame(fitFrame);
-      fitFrame = window.requestAnimationFrame(() => fitTitle(force));
-    };
-
-    requestFit();
-    window.addEventListener("resize", () => requestFit());
-    mobileQuery.addEventListener("change", () => requestFit(true));
-    if (document.fonts?.ready) {
-      document.fonts.ready.then(() => requestFit(true)).catch(() => {});
+    const slides = Array.from(track.querySelectorAll(".hero-slide"));
+    if (slides.length === 0) {
+      return;
     }
+
+    const captions = (data.hero && Array.isArray(data.hero.slides) ? data.hero.slides : []).map(
+      (slide) => slide.caption || "",
+    );
+    const dots = Array.from(hero.querySelectorAll("[data-hero-dot]"));
+    const captionText = hero.querySelector("[data-hero-caption]");
+    const captionIndex = hero.querySelector("[data-hero-index]");
+    const prevButton = hero.querySelector("[data-hero-prev]");
+    const nextButton = hero.querySelector("[data-hero-next]");
+    const interval = Math.max(2500, Number(data.hero && data.hero.slideInterval) || 6500);
+    hero.style.setProperty("--hero-interval", `${interval}ms`);
+
+    let current = 0;
+    let timer = 0;
+    let hovered = false;
+    let pageVisible = !document.hidden;
+    let onScreen = true;
+    let uncovered = true;
+
+    const loadSlide = (index) => {
+      const image = slides[index] ? slides[index].querySelector(".hero-slide-image") : null;
+      if (!image || !image.dataset.src) {
+        return;
+      }
+
+      if (image.dataset.srcset) {
+        image.srcset = image.dataset.srcset;
+        delete image.dataset.srcset;
+      }
+      image.src = image.dataset.src;
+      delete image.dataset.src;
+    };
+
+    // A barrinha de progresso do ponto ativo acompanha o tempo do próximo slide.
+    const restartDotProgress = () => {
+      const fill = dots[current] ? dots[current].querySelector(".hero-dot-fill") : null;
+      if (!fill) {
+        return;
+      }
+
+      fill.style.animation = "none";
+      void fill.offsetWidth;
+      fill.style.animation = "";
+    };
+
+    const stop = () => {
+      window.clearTimeout(timer);
+      timer = 0;
+    };
+
+    const play = () => {
+      stop();
+      if (slides.length < 2 || hovered || !pageVisible || !onScreen || !uncovered || prefersReducedMotion()) {
+        hero.classList.add("is-hero-paused");
+        return;
+      }
+
+      hero.classList.remove("is-hero-paused");
+      restartDotProgress();
+      timer = window.setTimeout(() => goTo(current + 1), interval);
+    };
+
+    // Precisa acompanhar o fade de .hero-slide no main.css (1400ms).
+    const FADE_MS = 1400;
+    const leavingTimers = new Map();
+
+    const clearLeaving = (slide) => {
+      const pending = leavingTimers.get(slide);
+      if (pending) {
+        window.clearTimeout(pending);
+        leavingTimers.delete(slide);
+      }
+      slide.classList.remove("is-leaving", "is-holding");
+    };
+
+    // A foto que sai continua com o ken burns até o fade terminar: sem isso
+    // ela volta ao enquadramento inicial ainda visível, o que pisca.
+    const markLeaving = (slide, hold) => {
+      const pending = leavingTimers.get(slide);
+      if (pending) {
+        window.clearTimeout(pending);
+      }
+
+      slide.classList.add("is-leaving");
+      // Só segura a foto anterior se a próxima já estiver carregada; caso contrário
+      // o que ficaria por cima é um quadro vazio.
+      slide.classList.toggle("is-holding", Boolean(hold));
+      leavingTimers.set(
+        slide,
+        window.setTimeout(() => {
+          leavingTimers.delete(slide);
+          slide.classList.remove("is-leaving", "is-holding");
+        }, FADE_MS + 120),
+      );
+    };
+
+    function goTo(index) {
+      const next = ((index % slides.length) + slides.length) % slides.length;
+      if (next !== current) {
+        loadSlide(next);
+        slides[current].classList.remove("is-active");
+        slides[current].setAttribute("aria-hidden", "true");
+        const incoming = slides[next].querySelector(".hero-slide-image");
+        markLeaving(slides[current], incoming && incoming.complete && incoming.naturalWidth > 0);
+        clearLeaving(slides[next]);
+        slides[next].classList.add("is-active");
+        slides[next].setAttribute("aria-hidden", "false");
+        dots.forEach((dot, dotIndex) => {
+          dot.classList.toggle("is-active", dotIndex === next);
+          dot.setAttribute("aria-current", dotIndex === next ? "true" : "false");
+        });
+
+        if (captionText) {
+          captionText.textContent = captions[next] || "";
+          captionText.classList.remove("is-in");
+          void captionText.offsetWidth;
+          captionText.classList.add("is-in");
+        }
+
+        if (captionIndex) {
+          captionIndex.textContent = String(next + 1).padStart(2, "0");
+        }
+
+        current = next;
+        loadSlide((next + 1) % slides.length);
+      }
+
+      play();
+    }
+
+    prevButton?.addEventListener("click", () => goTo(current - 1));
+    nextButton?.addEventListener("click", () => goTo(current + 1));
+    dots.forEach((dot) => {
+      dot.addEventListener("click", () => goTo(Number(dot.getAttribute("data-hero-dot")) || 0));
+    });
+
+    hero.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        goTo(current - 1);
+      } else if (event.key === "ArrowRight") {
+        event.preventDefault();
+        goTo(current + 1);
+      }
+    });
+
+    const setHovered = (value) => {
+      hovered = value;
+      play();
+    };
+
+    // Só a barra de controles pausa a troca automática: o herói ocupa a tela inteira.
+    const bar = hero.querySelector(".hero-bar");
+    bar?.addEventListener("pointerenter", () => setHovered(true));
+    bar?.addEventListener("pointerleave", () => setHovered(false));
+    hero.addEventListener("focusin", () => setHovered(true));
+    hero.addEventListener("focusout", (event) => {
+      if (!hero.contains(event.relatedTarget)) {
+        setHovered(false);
+      }
+    });
+
+    // Arrastar com o dedo troca a foto no celular. O ouvinte fica no palco porque
+    // o scrim e o conteúdo cobrem a faixa de fotos e receberiam o toque antes dela.
+    const stage = hero.querySelector(".hero-stage");
+    let swipeStartX = 0;
+    let swipePointerId = null;
+    stage?.addEventListener(
+      "pointerdown",
+      (event) => {
+        // Só o primeiro dedo conta: com dois, o pinçar viraria troca de foto.
+        if (event.pointerType === "mouse" || !event.isPrimary || swipePointerId !== null) {
+          return;
+        }
+
+        const target = event.target instanceof Element ? event.target : null;
+        if (target && target.closest("a, button")) {
+          return;
+        }
+
+        swipePointerId = event.pointerId;
+        swipeStartX = event.clientX;
+      },
+      { passive: true },
+    );
+    stage?.addEventListener(
+      "pointerup",
+      (event) => {
+        if (swipePointerId === null || event.pointerId !== swipePointerId) {
+          return;
+        }
+
+        swipePointerId = null;
+        const delta = event.clientX - swipeStartX;
+        if (Math.abs(delta) > 44) {
+          goTo(current + (delta < 0 ? 1 : -1));
+        }
+      },
+      { passive: true },
+    );
+    stage?.addEventListener(
+      "pointercancel",
+      (event) => {
+        if (event.pointerId === swipePointerId) {
+          swipePointerId = null;
+        }
+      },
+      { passive: true },
+    );
+
+    document.addEventListener("visibilitychange", () => {
+      pageVisible = !document.hidden;
+      play();
+    });
+
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            onScreen = entry.isIntersecting;
+            play();
+          });
+        },
+        { threshold: 0.12 },
+      );
+      observer.observe(hero);
+    }
+
+    // O herói é sticky: continua "intersectando" mesmo depois de coberto pelas
+    // seções seguintes, então a cobertura é medida pela própria rolagem.
+    let coverFrame = 0;
+    const refreshCoverage = () => {
+      coverFrame = 0;
+      const next = window.scrollY < hero.offsetHeight - 4;
+      if (next === uncovered) {
+        return;
+      }
+
+      uncovered = next;
+      play();
+    };
+
+    const requestCoverage = () => {
+      window.cancelAnimationFrame(coverFrame);
+      coverFrame = window.requestAnimationFrame(refreshCoverage);
+    };
+
+    window.addEventListener("scroll", requestCoverage, { passive: true });
+    window.addEventListener("resize", requestCoverage);
+    refreshCoverage();
+
+    slides.forEach((slide, index) => {
+      if (index <= 1) {
+        loadSlide(index);
+      }
+    });
+    play();
   };
 
   const initHeroScrollAnimation = () => {
@@ -3072,23 +3314,21 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    const setHeroOffsets = (progress) => {
-      hero.style.setProperty("--hero-image-scroll-y", `${Math.round(progress * 46)}px`);
-      hero.style.setProperty("--hero-title-first-scroll-x", `${Math.round(progress * 58)}px`);
-      hero.style.setProperty("--hero-title-last-scroll-x", `${Math.round(progress * -58)}px`);
+    const setProgress = (progress) => {
+      hero.style.setProperty("--hero-scroll-progress", progress.toFixed(3));
     };
 
     if (prefersReducedMotion()) {
-      setHeroOffsets(0);
+      setProgress(0);
       return;
     }
 
     let ticking = false;
 
     const update = () => {
-      const animationEnd = Math.max(hero.offsetHeight, 1);
+      const animationEnd = Math.max(window.innerHeight * 0.75, 1);
       const progress = Math.min(Math.max(window.scrollY / animationEnd, 0), 1);
-      setHeroOffsets(progress);
+      setProgress(progress);
       ticking = false;
     };
 
@@ -3121,6 +3361,76 @@ document.addEventListener("DOMContentLoaded", () => {
     window.setTimeout(() => {
       document.documentElement.classList.remove("is-hero-booting", "is-hero-ready");
     }, 1900);
+  };
+
+  // Na home o cabeçalho fica escondido enquanto a página está no topo, para não
+  // cobrir a foto, e desce assim que a pessoa começa a rolar.
+  const initHeaderReveal = () => {
+    const body = document.body;
+    if (!body.classList.contains("home-page")) {
+      return;
+    }
+
+    const showAt = 72;
+    const hideAt = 24;
+    let visible = false;
+    let frame = 0;
+
+    const apply = () => {
+      frame = 0;
+      // Com o menu aberto a rolagem fica travada e o botão de fechar vive no
+      // cabeçalho: manter o estado atual evita esconder o próprio controle.
+      if (body.classList.contains("no-scroll")) {
+        return;
+      }
+
+      const offset = window.scrollY;
+      const next = visible ? offset > hideAt : offset > showAt;
+      if (next === visible) {
+        return;
+      }
+
+      visible = next;
+      body.classList.toggle("is-header-visible", visible);
+    };
+
+    // Cancelar e repedir evita ficar preso caso um quadro nunca chegue (aba em segundo plano).
+    const requestApply = () => {
+      window.cancelAnimationFrame(frame);
+      frame = window.requestAnimationFrame(apply);
+    };
+
+    // Quem navega pelo teclado precisa ver o cabeçalho ao chegar nele pelo Tab.
+    const header = document.querySelector(".site-header");
+    header?.addEventListener("focusin", () => {
+      window.cancelAnimationFrame(frame);
+      frame = 0;
+      visible = true;
+      body.classList.add("is-header-visible");
+    });
+    header?.addEventListener("focusout", (event) => {
+      if (!header.contains(event.relatedTarget)) {
+        requestApply();
+      }
+    });
+
+    // O menu congela o estado do cabeçalho; ao fechar é preciso reavaliar.
+    if ("MutationObserver" in window) {
+      let frozen = body.classList.contains("no-scroll");
+      new MutationObserver(() => {
+        const isFrozen = body.classList.contains("no-scroll");
+        if (frozen && !isFrozen) {
+          requestApply();
+        }
+        frozen = isFrozen;
+      }).observe(body, { attributes: true, attributeFilter: ["class"] });
+    }
+
+    apply();
+    window.requestAnimationFrame(() => body.classList.add("is-header-ready"));
+    window.addEventListener("scroll", requestApply, { passive: true });
+    window.addEventListener("resize", requestApply);
+    window.addEventListener("load", requestApply, { once: true });
   };
 
   const initContactForm = () => {
@@ -3508,9 +3818,10 @@ document.addEventListener("DOMContentLoaded", () => {
   void loadOwariRoboWidget();
   updateWhyMetrics();
   initStreamText();
-  initHeroTitleFit();
+  initHeroCarousel();
   initHeroScrollAnimation();
   initHeroLoadReveal();
+  initHeaderReveal();
   initNavigation();
   initStatsSection();
   void hydrateSiteVisitMetrics();
