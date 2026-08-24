@@ -1388,16 +1388,24 @@ button {
     color: var(--text-muted);
     font-size: var(--type-body-large);
     line-height: var(--type-body-large-line);
-    transition:
-        opacity 0.7s ease 0.15s,
-        transform 0.7s ease 0.15s;
 }
 
-/* Espera a citação terminar de ser datilografada. O estado padrão é visível:
-   se o efeito não rodar, a frase aparece normalmente. */
-.philosophy-quote.is-stream-ready:not(.is-stream-complete) + .philosophy-proof {
-    opacity: 0;
-    transform: translateY(10px);
+/* Animação própria, independente da máquina de escrever da citação: entra
+   junto com a seção. O estado padrão é visível, então a frase aparece
+   normalmente se a revelação por scroll não rodar. */
+.philosophy-section.is-revealed .philosophy-proof {
+    animation: philosophy-proof-in 0.7s ease 0.1s both;
+}
+
+@keyframes philosophy-proof-in {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
 }
 
 .philosophy-proof-strong {
@@ -1516,10 +1524,8 @@ button {
         animation: none;
     }
 
-    .philosophy-quote.is-stream-ready:not(.is-stream-complete) + .philosophy-proof {
-        opacity: 1;
-        transform: none;
-        transition: none;
+    .philosophy-section.is-revealed .philosophy-proof {
+        animation: none;
     }
 }
 
