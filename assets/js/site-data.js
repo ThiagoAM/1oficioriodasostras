@@ -432,12 +432,15 @@
       role: "Tabelião titular do 1º Ofício de Justiça",
       statement:
         "Com forte compromisso com a cidadania, celeridade, segurança jurídica e modernização dos serviços cartorários, lidero uma equipe dedicada a oferecer atendimento eficiente, transparente e próximo da comunidade de Rio das Ostras e região.",
-      bio:
-        "Titular do Cartório do 1º Ofício de Rio das Ostras, aprovado em concurso público de provas e títulos organizado pelo Tribunal de Justiça do Estado do Rio de Janeiro. Doutor (UERJ) e Mestre (UFRJ) em Direito, com atuação acadêmica e profissional em diversas áreas, possui larga experiência em serviços notariais e de registro, tendo exercido os cargos de Técnico da Justiça Federal, Promotor de Justiça e Procurador da República.",
+      bio: [
+        "Titular do Cartório do 1º Ofício de Rio das Ostras, aprovado em concurso público de provas e títulos organizado pelo Tribunal de Justiça do Estado do Rio de Janeiro. Possui larga experiência em serviços notariais e de registro e exerceu os cargos de Técnico da Justiça Federal, Promotor de Justiça e Procurador da República.",
+        "Pós-Doutor em Direito pela UENP, Doutor pela UERJ e pelo CEUB-ITE e Mestre pela UFRJ e pela UNIPAR. É especialista em Direito Notarial e Registral, Negócios Imobiliários e Direito Civil pela Anhanguera e pelo Damásio, e professor de graduação e pós-graduação desde 2009.",
+      ],
       image: "assets/images/display/robson-720.jpg",
       imageAlt: "Robson Martins, Tabelião do 1º Ofício de Rio das Ostras",
       body: [
-        "Titular do Cartório do 1º Ofício de Rio das Ostras, aprovado em concurso público de provas e títulos organizado pelo Tribunal de Justiça do Estado do Rio de Janeiro. Doutor (UERJ) e Mestre (UFRJ) em Direito, com atuação acadêmica e profissional em diversas áreas, possui larga experiência em serviços notariais e de registro, tendo exercido os cargos de Técnico da Justiça Federal, Promotor de Justiça e Procurador da República.",
+        "Titular do Cartório do 1º Ofício de Rio das Ostras, aprovado em concurso público de provas e títulos organizado pelo Tribunal de Justiça do Estado do Rio de Janeiro. Possui larga experiência em serviços notariais e de registro e exerceu os cargos de Técnico da Justiça Federal, Promotor de Justiça e Procurador da República.",
+        "Pós-Doutor em Direito pela UENP, Doutor pela UERJ e pelo CEUB-ITE e Mestre pela UFRJ e pela UNIPAR. É especialista em Direito Notarial e Registral, Negócios Imobiliários e Direito Civil pela Anhanguera e pelo Damásio, e professor de graduação e pós-graduação desde 2009.",
         "Com forte compromisso com cidadania, celeridade, segurança jurídica e modernização dos serviços cartorários, lidera uma equipe dedicada a oferecer atendimento eficiente, transparente e próximo da comunidade de Rio das Ostras e região.",
       ],
     },

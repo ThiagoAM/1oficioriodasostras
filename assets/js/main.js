@@ -1468,13 +1468,18 @@ document.addEventListener("DOMContentLoaded", () => {
     </section>
   `;
 
+  // A bio aceita um parágrafo só ou uma lista deles.
+  const toParagraphs = (value) => (Array.isArray(value) ? value.filter(Boolean) : value ? [value] : []);
+
   const renderAbout = () => `
     <section class="section section-muted" id="sobre">
       <div class="container about-grid">
         <div class="about-copy">
           <p class="section-kicker">${escapeHtml(data.about.kicker)}</p>
           <blockquote class="about-quote">“${escapeHtml(data.about.statement)}”</blockquote>
-          ${data.about.bio ? `<p class="about-person-bio">${escapeHtml(data.about.bio)}</p>` : ""}
+          ${toParagraphs(data.about.bio)
+            .map((paragraph) => `<p class="about-person-bio">${escapeHtml(paragraph)}</p>`)
+            .join("")}
           <div class="about-person">
             <h2>${escapeHtml(data.about.title)}</h2>
             <p>${escapeHtml(data.about.role)}</p>
