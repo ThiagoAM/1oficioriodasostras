@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /legacy/
+Disallow: /tests/
+Disallow: /scripts/
+Disallow: /docs/
+Disallow: /site/
+Disallow: /guides/markdown/
+
+Sitemap: https://cartorioderiodasostras.com.br/sitemap.xml
