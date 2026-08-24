@@ -10,10 +10,10 @@ A escritura pública confere segurança jurídica aos negócios imobiliários po
 
 | Aspecto                       | Informação principal                                                                                                                                |
 | ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Fé pública**                | O tabelão é agente público investido de fé pública. A escritura faz prova plena dos fatos declarados e presenciados pelo notário.                   |
+| **Fé pública**                | O tabelião é agente público investido de fé pública. A escritura faz prova plena dos fatos declarados e presenciados pelo notário.                   |
 | **Fiscalização**              | O cartório é fiscalizado pela Corregedoria do TJRJ e pelo CNJ.                                                                                      |
 | **CENSEC e livros perpétuos** | Os atos são registrados em livros notariais de conservação permanente e indexados na CENSEC/CNJ, garantindo rastreabilidade nacional.               |
-| **Responsabilidade civil**    | O tabelão responde civil, criminal e disciplinarmente pelos atos que lavra.                                                                         |
+| **Responsabilidade civil**    | O tabelião responde civil, criminal e disciplinarmente pelos atos que lavra.                                                                         |
 | **Segurança registral**       | A escritura pública é título hábil para registro imobiliário, mas a propriedade só é transferida com o registro no Cartório de Registro de Imóveis. |
 | **Prevenção de fraudes**      | São realizadas consultas obrigatórias à CNIB, à CENSEC e verificação de óbito dos alienantes.                                                       |
 
@@ -220,7 +220,7 @@ Se o credor perder o imóvel recebido em dação, a dívida se restabelece, conf
    Conferência de RG, CPF, estado civil e regime de bens.
 
 7. **Lavratura da escritura**
-   O tabelão redige e lê o ato.
+   O tabelião redige e lê o ato.
 
 8. **Assinaturas, selos e DOI**
    As partes assinam, são aplicados os selos e é emitida a Declaração de Operação Imobiliária.
@@ -249,7 +249,7 @@ Se o credor perder o imóvel recebido em dação, a dívida se restabelece, conf
 | **Certidões fiscais**               | Certidões negativas federal, estadual e municipal, ou apontamentos declarados.                                     |
 | **Certidão do RI**                  | Matrícula de inteiro teor com validade máxima de 30 dias.                                                          |
 | **CNIB / CENSEC**                   | Consulta obrigatória a indisponibilidades, inventários, divórcios e óbito dos alienantes.                          |
-| **Leitura e assinaturas**           | Leitura em voz alta pelo tabelão, assinatura das partes e aplicação dos selos.                                     |
+| **Leitura e assinaturas**           | Leitura em voz alta pelo tabelião, assinatura das partes e aplicação dos selos.                                     |
 | **DOI**                             | Declaração de Operação Imobiliária ao fisco federal, obrigatória em atos de transferência.                         |
 
 ---
@@ -274,7 +274,7 @@ Se o credor perder o imóvel recebido em dação, a dívida se restabelece, conf
 | **Imóvel com penhora ou gravame**                     | A lavratura é permitida se as partes declararem ciência, mas o registro pode ficar bloqueado até o cancelamento do gravame. |
 | **Procurador do vendedor**                            | Exige procuração pública com poderes especiais. Se for do exterior, exige apostila, tradução e registro em RTD.             |
 | **Cônjuge ou companheiro**                            | Outorga conjugal pode ser obrigatória, conforme o regime de bens.                                                           |
-| **Fundação privada**                                  | Exige oitiva prévia do Ministério Público; o tabelão não deve lavrar sem manifestação ministerial.                          |
+| **Fundação privada**                                  | Exige oitiva prévia do Ministério Público; o tabelião não deve lavrar sem manifestação ministerial.                          |
 | **Bem de família voluntário**                         | Exige escritura, registro no RI e publicação em jornal.                                                                     |
 | **Superfície, servidão, usufruto e multipropriedade** | Constituição, transferência e extinção exigem escritura pública e registro no RI.                                           |
 | **Dação e alienação fiduciária**                      | O registro da dação pode gerar averbação automática da extinção da alienação fiduciária.                                    |
@@ -283,7 +283,7 @@ Se o credor perder o imóvel recebido em dação, a dívida se restabelece, conf
 
 ---
 
-## 13. Cautelas do tabelão
+## 13. Cautelas do tabelião
 
 | Tema                                                  | Dever ou cautela                                                                                                                                                         |
 | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
