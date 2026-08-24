@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "node scripts/civil-dev-server.mjs",
+    "prerender": "node scripts/prerender.mjs",
     "test": "node tests/civil-consultation-core.mjs && node tests/civil-consultation-smoke.mjs && node tests/site-visits-hydration.mjs"
   },
   "devDependencies": {
