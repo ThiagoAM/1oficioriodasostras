@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return value;
     }
     const localAnchors = PAGE_LOCAL_ANCHORS[contentPage] || [];
-    return localAnchors.indexOf(value) !== -1 ? value : `index.html${value}`;
+    return localAnchors.indexOf(value) !== -1 ? value : `/${value}`;
   };
 
   const getFaqHref = (category = "Todas", query = "") => {
@@ -1400,7 +1400,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <div class="container split-heading">
         <p class="section-kicker">${escapeHtml(data.onlineServices.kicker)}</p>
         <div>
-          <h2 class="section-title">${escapeHtml(data.onlineServices.title)}</h2>
+          <h1 class="section-title">${escapeHtml(data.onlineServices.title)}</h1>
           <p class="section-subtitle">${escapeHtml(data.onlineServices.text)}</p>
         </div>
       </div>
@@ -1428,7 +1428,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <div class="container split-heading">
         <p class="section-kicker">${escapeHtml(data.paperForms.kicker)}</p>
         <div>
-          <h2 class="section-title">${escapeHtml(data.paperForms.title)}</h2>
+          <h1 class="section-title">${escapeHtml(data.paperForms.title)}</h1>
           ${data.paperForms.text ? `<p class="section-subtitle">${escapeHtml(data.paperForms.text)}</p>` : ""}
         </div>
       </div>
@@ -1453,7 +1453,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <div class="container guides-layout">
         <div class="guides-intro">
           <p class="section-kicker">${escapeHtml(data.guides.kicker)}</p>
-          <h2 class="section-title">${escapeHtml(data.guides.title)}</h2>
+          <h1 class="section-title">${escapeHtml(data.guides.title)}</h1>
           <p class="section-subtitle">${escapeHtml(data.guides.text)}</p>
         </div>
         <div class="guide-groups">
@@ -1466,7 +1466,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     ${group.links
                       .map(
                         (link) => `
-                          <a href="${escapeHtml(link.href)}" target="_blank" rel="noopener noreferrer">
+                          <a href="${escapeHtml(link.href)}"${/\.pdf($|[?#])/i.test(link.href) || /^https?:/i.test(link.href) ? ' target="_blank" rel="noopener noreferrer"' : ""}>
                             ${escapeHtml(link.title)}
                           </a>
                         `,
@@ -1547,7 +1547,7 @@ document.addEventListener("DOMContentLoaded", () => {
             .map((paragraph) => `<p class="about-person-bio">${escapeHtml(paragraph)}</p>`)
             .join("")}
           <div class="about-person">
-            <h2>${escapeHtml(data.about.title)}</h2>
+            <h1>${escapeHtml(data.about.title)}</h1>
             <p>${escapeHtml(data.about.role)}</p>
           </div>
         </div>
@@ -1566,7 +1566,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <div class="container split-heading">
         <p class="section-kicker">Cartório e cidade</p>
         <div>
-          <h2 class="section-title">Cartório e Rio das Ostras em fotos.</h2>
+          <h1 class="section-title">Cartório e Rio das Ostras em fotos.</h1>
         </div>
       </div>
       <div class="container gallery-toolbar">
@@ -1613,7 +1613,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="container split-heading">
           <p class="section-kicker">Números do cartório</p>
           <div>
-            <h2 class="section-title">Indicadores por ano.</h2>
+            <h1 class="section-title">Indicadores por ano.</h1>
             <p class="section-subtitle">Consulte os principais números do cartório, organizados por período e tipo de serviço.</p>
           </div>
         </div>
@@ -1633,7 +1633,7 @@ document.addEventListener("DOMContentLoaded", () => {
     <section class="section section-light useful-links-section" id="links-uteis">
       <div class="container split-heading">
         <p class="section-kicker">${escapeHtml(data.usefulLinks.kicker)}</p>
-        <h2 class="section-title">${escapeHtml(data.usefulLinks.title)}</h2>
+        <h1 class="section-title">${escapeHtml(data.usefulLinks.title)}</h1>
       </div>
       <div class="container useful-links-grid">
         ${data.usefulLinks.links
@@ -1663,7 +1663,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const renderFaq = () => `
     <section class="section section-muted faq-section" id="faq">
       <div class="container split-heading">
-        <p class="section-kicker">Perguntas frequentes</p>
+        <h1 class="section-kicker">Perguntas frequentes</h1>
       </div>
       <div class="container faq-controls">
         <details class="faq-filter-menu" id="faqFilterMenu">
@@ -1958,9 +1958,9 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
       </div>
       <div class="container footer-credit">
-        Criado por <a href="https://owarilabs.com" target="_blank" rel="noopener noreferrer">Owari Labs</a>
+        Criado por <a href="https://owarilabs.com" target="_blank" rel="nofollow noopener noreferrer">Owari Labs</a>
       </div>
-      <a href="${escapeHtml(data.contact.whatsappUrl)}" target="_blank" rel="noopener" class="whatsapp-float" aria-label="Iniciar conversa no WhatsApp">
+      <a href="${escapeHtml(data.contact.whatsappUrl)}" target="_blank" rel="noopener noreferrer" class="whatsapp-float" aria-label="Iniciar conversa no WhatsApp">
         <svg aria-hidden="true" viewBox="0 0 32 32" focusable="false">
           <path d="M16 4.2A11.6 11.6 0 0 0 6.1 21.8L4.7 27.3l5.6-1.4A11.6 11.6 0 1 0 16 4.2Zm0 2.3a9.3 9.3 0 0 1 0 18.6 9.1 9.1 0 0 1-4.7-1.3l-.4-.2-3.1.8.8-3-.3-.5A9.3 9.3 0 0 1 16 6.5Zm-3.6 4.7c-.2 0-.5.1-.7.4-.2.3-.9 1-.9 2.3 0 1.4 1 2.7 1.1 2.9.1.2 2 3.2 5 4.3 2.4.9 3 .7 3.5.6.5-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.1-.3-.2-.6-.4l-1.9-.9c-.3-.1-.5-.2-.7.1l-.9 1.1c-.2.2-.4.3-.7.1-.3-.1-1.2-.4-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.7l.4-.5c.1-.2.2-.3.3-.5.1-.2.1-.4 0-.6l-.8-1.9c-.2-.4-.4-.4-.6-.4h-.8Z" />
         </svg>
@@ -2587,6 +2587,7 @@ document.addEventListener("DOMContentLoaded", () => {
             full,
             thumb: typeof entry === "object" && entry.thumb ? entry.thumb : full,
             category,
+            alt: typeof entry === "object" && entry.alt ? String(entry.alt) : "",
           };
         }).filter(Boolean)
       : [];
@@ -2612,7 +2613,7 @@ document.addEventListener("DOMContentLoaded", () => {
           .map(
             (image, index) => `
               <button class="gallery-tile" type="button" data-index="${index}" aria-label="Abrir foto ${index + 1}">
-                <img src="${escapeHtml(image.thumb)}" data-full="${escapeHtml(image.full)}" alt="Foto da galeria do cartório e de Rio das Ostras" loading="${index < 8 ? "eager" : "lazy"}" decoding="async" />
+                <img src="${escapeHtml(image.thumb)}" data-full="${escapeHtml(image.full)}" alt="${escapeHtml(image.alt || "Foto da galeria do cartório e de Rio das Ostras")}" loading="${index < 8 ? "eager" : "lazy"}" decoding="async" />
               </button>
             `,
           )
