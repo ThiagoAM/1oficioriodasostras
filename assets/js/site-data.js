@@ -297,7 +297,7 @@
       text:
         "No setor de Notas, todos os escreventes são pós-graduados em Direito Imobiliário e Registral, reunindo conhecimento especializado, segurança jurídica e atenção em cada atendimento.",
       secondaryText:
-        "Nossa equipe também conta com profissionais qualificados para atender estrangeiros em inglês e chinês.",
+        "Nossa equipe também conta com profissionais qualificados para atender estrangeiros em inglês, espanhol, italiano e chinês.",
       bullets: ["Orientação antes do atendimento", "Serviços presenciais e online", "Integração com plataformas oficiais"],
       metrics: [
         { label: "Lavraturas de escritura", key: "lavratura-escritura", value: "0" },

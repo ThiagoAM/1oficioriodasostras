@@ -15,10 +15,13 @@ document.addEventListener("DOMContentLoaded", () => {
       .replace(/"/g, "&quot;")
       .replace(/'/g, "&#39;");
 
+  const WHY_LANGUAGES = ["inglês", "espanhol", "italiano", "chinês"];
+
   const renderWhySecondaryText = (value) =>
-    escapeHtml(value)
-      .replace(/inglês/g, "<strong>inglês</strong>")
-      .replace(/chinês/g, "<strong>chinês</strong>");
+    WHY_LANGUAGES.reduce(
+      (text, language) => text.replace(new RegExp(language, "g"), `<strong>${language}</strong>`),
+      escapeHtml(value)
+    );
 
   const normalize = (value) =>
     String(value ?? "")
@@ -1178,9 +1181,11 @@ document.addEventListener("DOMContentLoaded", () => {
               ? `<div class="why-secondary-block">
                   <hr class="why-divider" aria-hidden="true" />
                   <p class="why-text why-text-secondary">
-                    <span class="why-flag-row" aria-label="Bandeiras do Brasil, Estados Unidos e China">
+                    <span class="why-flag-row" aria-label="Bandeiras do Brasil, Estados Unidos, Espanha, Itália e China">
                       <img class="why-flag-icon" src="assets/images/flags/br.png" alt="Brasil" loading="eager" decoding="async" />
                       <img class="why-flag-icon why-flag-icon-us" src="assets/images/flags/us.png" alt="Estados Unidos" loading="eager" decoding="async" />
+                      <img class="why-flag-icon" src="assets/images/flags/es.png" alt="Espanha" loading="eager" decoding="async" />
+                      <img class="why-flag-icon" src="assets/images/flags/it.png" alt="Itália" loading="eager" decoding="async" />
                       <img class="why-flag-icon" src="assets/images/flags/cn.png" alt="China" loading="eager" decoding="async" />
                     </span>
                     <span class="why-secondary-copy">${renderWhySecondaryText(data.whyChoose.secondaryText)}</span>

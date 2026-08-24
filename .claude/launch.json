@@ -5,7 +5,8 @@
       "name": "site",
       "runtimeExecutable": "node",
       "runtimeArgs": ["scripts/civil-dev-server.mjs"],
-      "port": 4173
+      "port": 4173,
+      "autoPort": true
     }
   ]
 }
