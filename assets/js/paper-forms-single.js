@@ -1077,7 +1077,7 @@
       subtitleEl.textContent = definition.subtitle;
       renderHighlights(definition, highlightsEl);
       renderForm(definition, form);
-      document.title = `${definition.pageTitle} – 1º Ofício Rio das Ostras`;
+      document.title = `${definition.pageTitle} – Cartório 1º Ofício Rio das Ostras`;
     };
 
     if (categoryTitle) {
