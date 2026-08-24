@@ -119,7 +119,7 @@
     --type-display: 52px;
     --type-heading: 44px;
     --type-card-title: 36px;
-    --type-hero-title: 100px;
+    --type-hero-title: 76px;
     --type-counter: 80px;
     --type-marquee: 152px;
     --type-display-line: 1.2;
@@ -132,7 +132,7 @@
         --type-display: 48px;
         --type-heading: 32px;
         --type-card-title: 28px;
-        --type-hero-title: 88px;
+        --type-hero-title: 68px;
         --type-counter: 96px;
         --type-marquee: 80px;
     }
@@ -145,7 +145,7 @@
         --type-display: 32px;
         --type-heading: 28px;
         --type-card-title: 28px;
-        --type-hero-title: 52px;
+        --type-hero-title: 40px;
         --type-counter: 80px;
         --type-marquee: 44px;
     }
@@ -830,7 +830,11 @@ button {
 }
 
 .is-hero-booting .hero-title span:nth-child(2) {
-    transition-delay: 340ms;
+    transition-delay: 320ms;
+}
+
+.is-hero-booting .hero-title span:nth-child(3) {
+    transition-delay: 380ms;
 }
 
 .is-hero-booting .hero-place {

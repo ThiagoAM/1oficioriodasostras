@@ -109,7 +109,7 @@
     },
     hero: {
       eyebrow: "Notas · Protesto · Registro Civil",
-      titleLines: ["1º Ofício", "de Justiça"],
+      titleLines: ["Cartório do", "1º Ofício", "de Justiça"],
       place: "Rio das Ostras · Rio de Janeiro",
       intro:
         "Atendimento presencial: segunda a sexta, das 9h às 17h. Plantão para nascimento e óbito: fins de semana e feriados, das 9h às 12h.",
