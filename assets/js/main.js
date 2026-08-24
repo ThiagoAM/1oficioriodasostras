@@ -805,8 +805,8 @@ document.addEventListener("DOMContentLoaded", () => {
           ${data.hero.eyebrow ? `<p class="hero-kicker">${escapeHtml(data.hero.eyebrow)}</p>` : ""}
           <h1 class="hero-title" id="heroTitle">
             ${data.hero.titleLines.map((line) => `<span>${escapeHtml(line)}</span>`).join(" ")}
+            ${data.hero.place ? `<span class="hero-place">${escapeHtml(data.hero.place)}</span>` : ""}
           </h1>
-          ${data.hero.place ? `<p class="hero-place">${escapeHtml(data.hero.place)}</p>` : ""}
           ${actions.length ? `<div class="hero-actions">${actions.map(renderHeroAction).join("")}</div>` : ""}
           <p class="hero-intro" data-stream-rich="true" data-stream-text="${escapeHtml(data.hero.intro)}">${
             data.hero.introHtml ? data.hero.introHtml : escapeHtml(data.hero.intro)

@@ -829,7 +829,7 @@ button {
     transition-delay: 260ms;
 }
 
-.is-hero-booting .hero-title span:last-child {
+.is-hero-booting .hero-title span:nth-child(2) {
     transition-delay: 340ms;
 }
 
@@ -992,7 +992,6 @@ button {
 
 .hero-title {
     margin: 0;
-    max-width: 16ch;
     color: #f2fbf8;
     font-family: var(--font-sans);
     font-size: var(--type-hero-title);
@@ -1004,6 +1003,13 @@ button {
 
 .hero-title span {
     display: block;
+}
+
+/* O limite de linha vale só para o nome do cartório; a linha da cidade
+   (.hero-place, dentro do h1 para compor o texto do título) mede o que precisa. */
+.hero-title span:not(.hero-place) {
+    max-width: 16ch;
+    margin-inline: auto;
 }
 
 .hero-place {
@@ -1298,7 +1304,7 @@ button {
 }
 
 @media (max-width: 1080px) {
-    .hero-title {
+    .hero-title span:not(.hero-place) {
         max-width: 12ch;
     }
 
@@ -1329,7 +1335,7 @@ button {
         letter-spacing: 0.02em;
     }
 
-    .hero-title {
+    .hero-title span:not(.hero-place) {
         max-width: none;
     }
 
