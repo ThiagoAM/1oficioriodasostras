@@ -1049,12 +1049,30 @@ document.addEventListener("DOMContentLoaded", () => {
   `;
   };
 
+  // Frase-ponte entre o compromisso institucional e a prova social do Google.
+  // Precisa ser irmã do blockquote: o efeito de máquina de escrever limpa o
+  // conteúdo de .philosophy-quote, então nada pode viver dentro dele.
+  const renderPhilosophyProof = (proof) => {
+    if (!proof || !proof.text) {
+      return "";
+    }
+
+    const index = proof.highlight ? proof.text.indexOf(proof.highlight) : -1;
+    const body =
+      index === -1
+        ? escapeHtml(proof.text)
+        : `${escapeHtml(proof.text.slice(0, index))}<strong class="philosophy-proof-strong">${escapeHtml(proof.highlight)}</strong>${escapeHtml(proof.text.slice(index + proof.highlight.length))}`;
+
+    return `<p class="philosophy-proof">${body}</p>`;
+  };
+
   const renderPhilosophy = () => `
     <section class="section section-light philosophy-section">
       <div class="container philosophy-grid">
         <div>
           <p class="section-kicker">${escapeHtml(data.philosophy.kicker)}</p>
           <blockquote class="philosophy-quote">“${escapeHtml(data.philosophy.quote)}”</blockquote>
+          ${renderPhilosophyProof(data.philosophy.proof)}
         </div>
         ${data.philosophy.reviews ? renderGoogleReviews(data.philosophy.reviews) : ""}
         ${

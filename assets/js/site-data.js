@@ -150,6 +150,11 @@
       kicker: "Nosso compromisso",
       quote:
         "Atuar com técnica, transparência e respeito ao cidadão, tornando cada ato cartorário mais claro, seguro e acessível.",
+      proof: {
+        text:
+          "Somos um dos cartórios mais bem avaliados do Brasil no Google — reconhecimento da confiança e da excelência do nosso atendimento, inclusive nos atos eletrônicos.",
+        highlight: "um dos cartórios mais bem avaliados do Brasil no Google",
+      },
       link: null,
       reviews: {
         rating: "4,9",

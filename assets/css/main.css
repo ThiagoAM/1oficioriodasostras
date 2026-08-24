@@ -1380,6 +1380,31 @@ button {
     line-height: var(--type-display-line);
 }
 
+.philosophy-proof {
+    max-width: 660px;
+    margin: 30px 0 0;
+    padding-top: 26px;
+    border-top: 1px solid var(--line-light);
+    color: var(--text-muted);
+    font-size: var(--type-body-large);
+    line-height: var(--type-body-large-line);
+    transition:
+        opacity 0.7s ease 0.15s,
+        transform 0.7s ease 0.15s;
+}
+
+/* Espera a citação terminar de ser datilografada. O estado padrão é visível:
+   se o efeito não rodar, a frase aparece normalmente. */
+.philosophy-quote.is-stream-ready:not(.is-stream-complete) + .philosophy-proof {
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+.philosophy-proof-strong {
+    color: var(--text-dark);
+    font-weight: 500;
+}
+
 .philosophy-media img,
 .editorial-image img,
 .about-image,
@@ -1428,7 +1453,7 @@ button {
 }
 
 .reviews-stream-viewport {
-    height: 300px;
+    height: 360px;
     overflow: hidden;
     -webkit-mask-image: linear-gradient(transparent, #000 12%, #000 88%, transparent);
     mask-image: linear-gradient(transparent, #000 12%, #000 88%, transparent);
@@ -1489,6 +1514,12 @@ button {
 @media (prefers-reduced-motion: reduce) {
     .reviews-stream {
         animation: none;
+    }
+
+    .philosophy-quote.is-stream-ready:not(.is-stream-complete) + .philosophy-proof {
+        opacity: 1;
+        transform: none;
+        transition: none;
     }
 }
 
@@ -4995,6 +5026,14 @@ button {
     .hero-contact a {
         overflow-wrap: anywhere;
     }
+
+    .philosophy-proof {
+        max-width: none;
+        margin-top: 26px;
+        padding-top: 22px;
+        font-size: var(--type-body);
+        line-height: 1.55;
+    }
 }
 
 @media (min-width: 1081px) and (max-width: 1189.98px) {
@@ -5327,6 +5366,14 @@ button {
 
     .philosophy-quote {
         font-size: var(--type-display);
+    }
+
+    .philosophy-proof {
+        max-width: none;
+        margin-top: 26px;
+        padding-top: 22px;
+        font-size: var(--type-body);
+        line-height: 1.55;
     }
 
     .reviews-card {
