@@ -178,9 +178,29 @@ const escapeHtml = (value) =>
 
 const escapeAttr = escapeHtml;
 
-// Inline: só há negrito (**texto**) nos arquivos. Escapa HTML primeiro.
-const inline = (text) =>
-  escapeHtml(text.trim()).replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+// Inline: negrito (**texto**) e links markdown ([texto](destino)). Escapa HTML
+// primeiro; o destino aceita só caminho absoluto do site ou https, para que um
+// .md nunca consiga injetar javascript: numa página gerada. O `(?![/\\])` barra
+// `//host` e `/\host`, que o navegador resolveria como outro domínio e que
+// escapariam do rel="noopener noreferrer" do ramo externo.
+const LINK_RE = /\[([^\]]+)\]\((\/(?![/\\])[^\s)]*|https:\/\/[^\s)]+)\)/g;
+
+const inline = (text) => {
+  const escaped = escapeHtml(text.trim()).replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+  // O destino para no primeiro ")", então uma URL com parêntese sairia truncada
+  // e o resto vazaria como texto. Melhor falhar a build do que publicar isso.
+  const truncated = escaped.match(/\[[^\]]+\]\([^\s)]*\([^\s)]*\)/);
+  if (truncated) {
+    throw new Error(
+      `Link markdown com parêntese no destino não é suportado: ${truncated[0]}. Use uma URL sem parêntese (percent-encode: %28 e %29).`,
+    );
+  }
+  return escaped.replace(LINK_RE, (_match, label, href) =>
+    href.startsWith("https://")
+      ? `<a href="${href}" rel="noopener noreferrer">${label}</a>`
+      : `<a href="${href}">${label}</a>`,
+  );
+};
 
 const LIST_ITEM_RE = /^(\s*)([-*]|\d+\.)\s+(.*)$/;
 const TABLE_SEP_RE = /^\s*\|?\s*:?-{2,}[\s|:-]*$/;

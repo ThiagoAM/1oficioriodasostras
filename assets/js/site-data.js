@@ -368,9 +368,15 @@
       cards: [
         {
           title: "Escrituras e atos notariais",
-          text: "Inicie pedidos de escrituras, inventários, divórcios consensuais e outros atos de notas. Atos também podem ser realizados de forma eletrônica, por videoconferência, pelo e-Notariado.",
+          text: "Inicie pedidos de escrituras, inventários, divórcios consensuais e outros atos de notas.",
           href: "servico-escrituras.html",
           meta: "Formulário online",
+        },
+        {
+          title: "Atos notariais eletrônicos",
+          text: "Escrituras, procurações e atas por videoconferência pelo e-Notariado: quais atos são possíveis, quem pode praticá-los aqui e como solicitar.",
+          href: "servico-atos-eletronicos.html",
+          meta: "Como funciona",
         },
         {
           title: "Certidões",

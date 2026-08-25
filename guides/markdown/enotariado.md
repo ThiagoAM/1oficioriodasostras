@@ -65,3 +65,7 @@ Continua obrigatória a assistência de advogado ou Defensoria Pública nos atos
 - Estrangeiros podem usar a plataforma se conseguirem se identificar e cumprir as exigências do ato.
 - O reconhecimento eletrônico de assinatura confirma autoria, integridade e data, mas não valida o conteúdo do documento.
 - O ato digital deve ser guardado com seu código de verificação.
+
+## Como solicitar neste cartório
+
+A página [Atos notariais eletrônicos por videoconferência](/servico-atos-eletronicos.html) reúne, em um só lugar, quem pode praticar o ato aqui, quais atos são possíveis e como enviar o pedido.
