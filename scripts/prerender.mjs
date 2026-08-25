@@ -9,7 +9,12 @@
  *
  * O script é idempotente: cada execução substitui o conteúdo dos containers
  * `[data-site-header]`, `#siteRoot` e `[data-site-footer]` — nunca duplica.
- * A home (index.html) NÃO é pré-renderizada (restrição de aparência).
+ *
+ * A home tem uma forma diferente das demais: o #siteRoot é um <div> dentro de
+ * `<main id="topo">` (o id é usado pelo menu "Início" e pelo logo do rodapé).
+ * Por isso, nela a faixa substituída é o próprio <main id="topo">, e o wrapper
+ * `<div id="siteRoot">` é reescrito junto — `</div>` não serve de delimitador,
+ * porque o conteúdo capturado está cheio deles.
  */
 
 import { spawn } from "node:child_process";
@@ -23,6 +28,7 @@ const port = Number(process.env.PRERENDER_PORT || 4790);
 const baseUrl = `http://127.0.0.1:${port}`;
 
 const PAGES = [
+  "index.html",
   "perguntas-frequentes.html",
   "guias.html",
   "links-uteis.html",
@@ -44,6 +50,7 @@ const BLOCKED_URL_PARTS = [
   "dev-robo.owarilabs.com", // widget externo
   "googletagmanager.com", // analytics (evita pageviews falsos do prerender)
   "google-analytics.com",
+  "google.com/maps/embed", // iframe do mapa: o src fica no markup, a requisição não
 ];
 
 const startDevServer = async () => {
@@ -189,10 +196,14 @@ const captureContainers = (page) =>
       });
 
       container
-        .querySelectorAll("[data-dropdown-animation-bound], [data-starter-controller-bound]")
+        .querySelectorAll(
+          "[data-dropdown-animation-bound], [data-starter-controller-bound], [data-robo-open-bound], [data-count-animated]",
+        )
         .forEach((el) => {
           delete el.dataset.dropdownAnimationBound;
           delete el.dataset.starterControllerBound;
+          delete el.dataset.roboOpenBound;
+          delete el.dataset.countAnimated;
         });
 
       // civil-consultation.js faz bind único no PRIMEIRO [data-civil-consultation]
@@ -205,6 +216,75 @@ const captureContainers = (page) =>
         delete el.dataset.civilConsultationReady;
       });
     });
+
+    // O feed de notícias está bloqueado durante a captura, então o DOM fica no
+    // estado de erro. Grava o estado inicial do template — é o que o JS mostra
+    // no primeiro quadro, antes de a requisição real responder.
+    const newsStatus = document.getElementById("heroNewsStatus");
+    if (newsStatus) {
+      newsStatus.textContent = "Carregando notícias...";
+      newsStatus.hidden = false;
+    }
+    ["heroNewsCarousel", "heroNewsDots"].forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.hidden = true;
+      }
+    });
+
+    // Contador de visitas: vem do Firestore e ficaria congelado num número
+    // velho. Volta ao estado de carregamento do template, que é exatamente o
+    // primeiro quadro pintado pelo JS (zero piscada).
+    const visits = document.querySelector('[data-metric-key="visitas-site"] strong');
+    if (visits) {
+      visits.className = "is-loading";
+      visits.textContent = "...";
+      delete visits.dataset.countTarget;
+      delete visits.dataset.countFinal;
+    }
+
+    // Carrossel do herói: o índice capturado depende de quanto tempo o load
+    // levou. Volta sempre ao slide 0, que é o único com <link rel=preload> no
+    // head — senão o HTML estático mandaria o navegador baixar duas fotos de
+    // 1800px na primeira pintura.
+    const hero = document.querySelector(".hero");
+    if (hero) {
+      hero.removeAttribute("style");
+      hero.querySelectorAll("[data-hero-slide]").forEach((slide) => {
+        const index = Number(slide.getAttribute("data-hero-slide"));
+        const image = slide.querySelector(".hero-slide-image");
+        if (image && index > 0) {
+          if (image.getAttribute("srcset")) {
+            image.setAttribute("data-srcset", image.getAttribute("srcset"));
+            image.removeAttribute("srcset");
+          }
+          if (image.getAttribute("src")) {
+            image.setAttribute("data-src", image.getAttribute("src"));
+            image.removeAttribute("src");
+          }
+        }
+        slide.classList.remove("is-leaving", "is-holding");
+        slide.classList.toggle("is-active", index === 0);
+        slide.setAttribute("aria-hidden", index === 0 ? "false" : "true");
+      });
+      hero.querySelectorAll("[data-hero-dot]").forEach((dot) => {
+        const index = Number(dot.getAttribute("data-hero-dot"));
+        dot.classList.toggle("is-active", index === 0);
+        dot.setAttribute("aria-current", index === 0 ? "true" : "false");
+      });
+      const captionText = hero.querySelector("[data-hero-caption]");
+      const captionIndex = hero.querySelector("[data-hero-index]");
+      if (captionIndex) {
+        captionIndex.textContent = "01";
+      }
+      if (captionText && window.SiteData && window.SiteData.hero) {
+        const slides = window.SiteData.hero.slides || [];
+        captionText.textContent = (slides[0] && slides[0].caption) || captionText.textContent;
+      }
+    }
+
+    // Resíduos de style="" deixados pelas animações.
+    document.querySelectorAll('[style=""]').forEach((el) => el.removeAttribute("style"));
 
     const [header, root, footer] = containers;
     return {
@@ -325,13 +405,28 @@ const prerenderPage = async (context, fileName) => {
       captured.header,
       `${fileName} [data-site-header]`,
     );
-    updated = replaceContainerContent(
-      updated,
-      /<main\b[^>]*\bid="siteRoot"[^>]*>/,
-      "</main>",
-      captured.root,
-      `${fileName} #siteRoot`,
-    );
+    if (fileName === "index.html") {
+      // Na home o #siteRoot é um <div> dentro de <main id="topo">. Usar </div>
+      // como delimitador é inviável (o conteúdo capturado tem centenas deles),
+      // então a faixa substituída é o <main id="topo"> inteiro e o wrapper é
+      // reescrito junto. O <noscript> que existia aí dentro deixa de fazer
+      // sentido: o HTML estático já entrega a home completa sem JavaScript.
+      updated = replaceContainerContent(
+        updated,
+        /<main\b[^>]*\bid="topo"[^>]*>/,
+        "</main>",
+        `<div id="siteRoot">${captured.root}</div>`,
+        `${fileName} <main id="topo">`,
+      );
+    } else {
+      updated = replaceContainerContent(
+        updated,
+        /<main\b[^>]*\bid="siteRoot"[^>]*>/,
+        "</main>",
+        captured.root,
+        `${fileName} #siteRoot`,
+      );
+    }
     updated = replaceContainerContent(
       updated,
       /<footer\b[^>]*\bdata-site-footer\b[^>]*>/,
@@ -376,6 +471,18 @@ const main = async () => {
       } catch {
         // indisponível — segue sem seed
       }
+    });
+
+    // Math.random determinístico durante a captura: as avaliações do Google são
+    // sorteadas (main.js:873), então sem isso cada execução gravaria um conjunto
+    // diferente e o `git diff` do prerender nunca ficaria vazio. Só afeta o
+    // prerender; no navegador do visitante o sorteio continua normal.
+    await context.addInitScript(() => {
+      let seed = 0x2f6e2b1;
+      Math.random = () => {
+        seed = (seed * 1103515245 + 12345) & 0x7fffffff;
+        return seed / 0x7fffffff;
+      };
     });
     await context.route("**/*", (route) => {
       const url = route.request().url();

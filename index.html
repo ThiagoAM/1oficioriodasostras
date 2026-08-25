@@ -89,7 +89,29 @@
     <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png" />
-    <link rel="stylesheet" href="assets/css/main.css?v=h1-cartorio-v6-20260824" />
+    <link rel="stylesheet" href="assets/css/main.css?v=atos-eletronicos-v7-20260824" />
+    <script>
+      // O conteúdo da home é pré-renderizado no HTML, então o navegador pinta o
+      // herói antes do main.js rodar. Sem esta classe aplicada já na análise do
+      // head, o main.js a aplicaria depois (main.js:7) e o herói apareceria,
+      // sumiria e reapareceria.
+      //
+      // Como a classe zera a opacidade do herói, quem a aplica precisa garantir
+      // que alguém a remova. No caminho normal quem remove é o main.js, ~1,9 s
+      // depois do DOMContentLoaded. As duas redes de segurança abaixo cobrem o
+      // caso em que o main.js nem chega a rodar (erro de rede, 404 no script):
+      // o "load" já aconteceu bem depois de qualquer script defer, e o teto de
+      // 15 s cobre o caso em que o próprio "load" não dispara. Nenhuma das duas
+      // corta a animação de entrada, que termina muito antes.
+      document.documentElement.classList.add("is-hero-booting");
+      var revelarHeroi = function () {
+        document.documentElement.classList.remove("is-hero-booting");
+      };
+      window.addEventListener("load", function () {
+        window.setTimeout(revelarHeroi, 4000);
+      });
+      window.setTimeout(revelarHeroi, 15000);
+    </script>
     <link
       rel="preload"
       as="image"
@@ -100,42 +122,1074 @@
     />
     <script defer src="assets/js/gallery-data.js"></script>
     <script defer src="assets/js/pricing-config.js"></script>
-    <script defer src="assets/js/site-data.js?v=h1-cartorio-v6-20260824"></script>
+    <script defer src="assets/js/site-data.js?v=atos-eletronicos-v7-20260824"></script>
     <script type="module" src="assets/js/site-visits.js"></script>
-    <script defer src="assets/js/main.js?v=h1-cartorio-v6-20260824"></script>
+    <script defer src="assets/js/main.js?v=atos-eletronicos-v7-20260824"></script>
   </head>
   <body class="home-page">
-    <header class="site-header" data-site-header></header>
-    <main id="topo">
-      <div id="siteRoot"></div>
-      <noscript>
-        <h1>Cartório do 1º Ofício de Justiça de Rio das Ostras</h1>
-        <p>Tabelionato de Notas, Protesto de Títulos e Registro Civil das Pessoas Naturais da Comarca de Rio das Ostras/RJ.</p>
-        <address>
-          Rua Luíza Vianna, nº 87, Loja 1<br />
-          Novo Rio das Ostras – Rio das Ostras/RJ<br />
-          CEP 28893-470
-        </address>
-        <p>
-          Telefone: <a href="tel:+552231900120">(22) 3190-0120</a><br />
-          WhatsApp: <a href="https://wa.me/552231900120">wa.me/552231900120</a><br />
-          E-mail: <a href="mailto:1oficiorioostras@gmail.com">1oficiorioostras@gmail.com</a>
-        </p>
-        <p>
-          Balcão presencial: segunda a sexta-feira, das 9h às 17h.<br />
-          Plantão de nascimento e óbito: sábados, domingos e feriados, das 9h às 12h.
-        </p>
-        <ul>
-          <li><a href="servicos-online.html">Serviços online</a></li>
-          <li><a href="servico-registro-civil.html">2ª via de certidão e Registro Civil</a></li>
-          <li><a href="perguntas-frequentes.html">Perguntas frequentes</a></li>
-          <li><a href="guias.html">Guias ao cidadão</a></li>
-          <li><a href="formularios-impressao.html">Formulários para impressão</a></li>
-          <li><a href="sobre-tabeliao.html">Sobre o tabelião</a></li>
-          <li><a href="links-uteis.html">Links úteis</a></li>
-        </ul>
-      </noscript>
-    </main>
-    <footer class="site-footer" data-site-footer></footer>
+    <header class="site-header" data-site-header><!-- conteúdo pré-renderizado para SEO/no-JS; regenerar com: npm run prerender -->
+      <div class="container header-inner">
+        <a href="#topo" class="brand" aria-label="1º Ofício de Justiça de Rio das Ostras">
+          <img src="assets/images/display/cartorio-icon-140.png" alt="Logo do Cartório do 1º Ofício de Justiça de Rio das Ostras" class="brand-logo">
+          <span class="brand-text">
+            <span class="brand-title">1º Ofício de Justiça de Rio das Ostras</span>
+            <span class="brand-subtitle">Notas · Protesto · Registro Civil</span>
+          </span>
+        </a>
+        <div class="header-actions">
+          <a class="consultation-link" href="#contato"><span aria-hidden="true"></span>Solicitar atendimento</a>
+          <a class="consultation-link consultation-link-location" href="#localizacao">
+            <span class="consultation-icon consultation-icon-pin" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <path d="M12 21s7-6.15 7-12a7 7 0 1 0-14 0c0 5.85 7 12 7 12Z"></path>
+                <circle cx="12" cy="9" r="2.4"></circle>
+              </svg>
+            </span>
+            Como chegar
+          </a>
+          <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="siteNav" aria-label="Abrir menu">
+            <span class="nav-toggle-bar"></span>
+            <span class="nav-toggle-bar"></span>
+            <span class="nav-toggle-bar"></span>
+          </button>
+        </div>
+      </div>
+    </header>
+    <main id="topo"><!-- conteúdo pré-renderizado para SEO/no-JS; regenerar com: npm run prerender --><div id="siteRoot">
+    <section class="hero" aria-labelledby="heroTitle">
+      <div class="hero-stage">
+        <div class="hero-slides" data-hero-slides="">
+          
+          <figure class="hero-slide is-active" data-hero-slide="0" aria-hidden="false">
+            <img class="hero-slide-image" src="assets/images/hero/slides/rio-das-ostras-1-1800.jpg" srcset="assets/images/hero/slides/rio-das-ostras-1-1000.jpg 1000w, assets/images/hero/slides/rio-das-ostras-1-1800.jpg 1800w" sizes="100vw" alt="Vista aérea de uma praia de Rio das Ostras, com costões de pedra e mar esverdeado" fetchpriority="high" decoding="async">
+          </figure>
+          <figure class="hero-slide" data-hero-slide="1" aria-hidden="true">
+            <img class="hero-slide-image" sizes="100vw" alt="Píer avançando sobre o mar de Rio das Ostras sob um céu rosado no fim da tarde" loading="lazy" decoding="async" data-srcset="assets/images/hero/slides/rio-das-ostras-2-1000.jpg 1000w, assets/images/hero/slides/rio-das-ostras-2-1800.jpg 1800w" data-src="assets/images/hero/slides/rio-das-ostras-2-1800.jpg">
+          </figure>
+          <figure class="hero-slide" data-hero-slide="2" aria-hidden="true">
+            <img class="hero-slide-image" data-src="assets/images/hero/slides/rio-das-ostras-3-1800.jpg" data-srcset="assets/images/hero/slides/rio-das-ostras-3-1000.jpg 1000w, assets/images/hero/slides/rio-das-ostras-3-1800.jpg 1800w" sizes="100vw" alt="Vista aérea do encontro do rio com o mar em Rio das Ostras, com morro coberto de mata" loading="lazy" decoding="async">
+          </figure>
+          <figure class="hero-slide" data-hero-slide="3" aria-hidden="true">
+            <img class="hero-slide-image" data-src="assets/images/hero/slides/rio-das-ostras-4-1800.jpg" data-srcset="assets/images/hero/slides/rio-das-ostras-4-1000.jpg 1000w, assets/images/hero/slides/rio-das-ostras-4-1800.jpg 1800w" sizes="100vw" alt="Silhueta do monumento da ostra recortada contra o céu alaranjado do pôr do sol" loading="lazy" decoding="async">
+          </figure>
+          <figure class="hero-slide" data-hero-slide="4" aria-hidden="true">
+            <img class="hero-slide-image" data-src="assets/images/hero/slides/rio-das-ostras-5-1800.jpg" data-srcset="assets/images/hero/slides/rio-das-ostras-5-1000.jpg 1000w, assets/images/hero/slides/rio-das-ostras-5-1800.jpg 1800w" sizes="100vw" alt="Praia de Rio das Ostras ao amanhecer, com píer ao fundo e reflexo dourado na areia" loading="lazy" decoding="async">
+          </figure>
+          <figure class="hero-slide" data-hero-slide="5" aria-hidden="true">
+            <img class="hero-slide-image" data-src="assets/images/hero/slides/rio-das-ostras-6-1800.jpg" data-srcset="assets/images/hero/slides/rio-das-ostras-6-1000.jpg 1000w, assets/images/hero/slides/rio-das-ostras-6-1800.jpg 1800w" sizes="100vw" alt="Vista aérea da orla urbana de Rio das Ostras, com praia, ruas e casas à beira-mar" loading="lazy" decoding="async">
+          </figure>
+        </div>
+        <div class="hero-scrim" aria-hidden="true"></div>
+
+        <div class="container hero-content">
+          <p class="hero-kicker">Notas · Protesto · Registro Civil</p>
+          <h1 class="hero-title" id="heroTitle">
+            <span>Cartório do</span> <span>1º Ofício</span> <span>de Justiça</span>
+            <span class="hero-place">Rio das Ostras · Rio de Janeiro</span>
+          </h1>
+          <div class="hero-actions">
+            <a class="btn hero-action btn-primary" href="https://wa.me/552231900120?text=Ol%C3%A1%21%20Vim%20pelo%20site%20do%201%C2%BA%20Of%C3%ADcio%20e%20gostaria%20de%20solicitar%20um%20servi%C3%A7o%20do%20cart%C3%B3rio." target="_blank" rel="noopener noreferrer">
+              <span class="hero-action-icon" aria-hidden="true"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M16 4.2A11.6 11.6 0 0 0 6.1 21.8L4.7 27.3l5.6-1.4A11.6 11.6 0 1 0 16 4.2Zm0 2.3a9.3 9.3 0 0 1 0 18.6 9.1 9.1 0 0 1-4.7-1.3l-.4-.2-3.1.8.8-3-.3-.5A9.3 9.3 0 0 1 16 6.5Zm-3.6 4.7c-.2 0-.5.1-.7.4-.2.3-.9 1-.9 2.3 0 1.4 1 2.7 1.1 2.9.1.2 2 3.2 5 4.3 2.4.9 3 .7 3.5.6.5-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.1-.3-.2-.6-.4l-1.9-.9c-.3-.1-.5-.2-.7.1l-.9 1.1c-.2.2-.4.3-.7.1-.3-.1-1.2-.4-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.7l.4-.5c.1-.2.2-.3.3-.5.1-.2.1-.4 0-.6l-.8-1.9c-.2-.4-.4-.4-.6-.4h-.8Z"></path></svg></span>
+              Solicitar atendimento
+            </a>
+            <a class="btn hero-action btn-ghost" href="#localizacao">
+              <span class="hero-action-icon" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s7-6.15 7-12a7 7 0 1 0-14 0c0 5.85 7 12 7 12Z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="12" cy="9" r="2.4" fill="none" stroke="currentColor" stroke-width="1.9"></circle></svg></span>
+              Como chegar
+            </a></div>
+          <p class="hero-intro"><strong>Atendimento presencial:</strong> segunda a sexta, das 9h às 17h.<br><strong>Plantão para nascimento e óbito:</strong> fins de semana e feriados, das 9h às 12h.</p>
+        </div>
+
+        
+        <div class="container hero-bar">
+          <p class="hero-caption">
+            <span class="hero-caption-index" data-hero-index="" aria-hidden="true">01</span>
+            <span class="hero-caption-text" data-hero-caption="">Praias e costões</span>
+          </p>
+          <div class="hero-controls" role="group" aria-label="Fotos de Rio das Ostras">
+            <button class="hero-arrow" type="button" data-hero-prev="" aria-label="Foto anterior">
+              <span aria-hidden="true"></span>
+            </button>
+            <div class="hero-dots" data-hero-dots="">
+              
+              <button class="hero-dot is-active" type="button" data-hero-dot="0" aria-label="Foto 1 de 6: Praias e costões" aria-current="true">
+                <span class="hero-dot-track"><span class="hero-dot-fill"></span></span>
+              </button>
+              <button class="hero-dot" type="button" data-hero-dot="1" aria-label="Foto 2 de 6: Entardecer no píer" aria-current="false">
+                <span class="hero-dot-track"><span class="hero-dot-fill"></span></span>
+              </button>
+              <button class="hero-dot" type="button" data-hero-dot="2" aria-label="Foto 3 de 6: Onde o rio encontra o mar" aria-current="false">
+                <span class="hero-dot-track"><span class="hero-dot-fill"></span></span>
+              </button>
+              <button class="hero-dot" type="button" data-hero-dot="3" aria-label="Foto 4 de 6: Pôr do sol na cidade das ostras" aria-current="false">
+                <span class="hero-dot-track"><span class="hero-dot-fill"></span></span>
+              </button>
+              <button class="hero-dot" type="button" data-hero-dot="4" aria-label="Foto 5 de 6: Amanhecer na orla" aria-current="false">
+                <span class="hero-dot-track"><span class="hero-dot-fill"></span></span>
+              </button>
+              <button class="hero-dot" type="button" data-hero-dot="5" aria-label="Foto 6 de 6: A cidade à beira-mar" aria-current="false">
+                <span class="hero-dot-track"><span class="hero-dot-fill"></span></span>
+              </button>
+            </div>
+            <button class="hero-arrow" type="button" data-hero-next="" aria-label="Próxima foto">
+              <span aria-hidden="true"></span>
+            </button>
+          </div>
+        </div>
+        
+
+        <a class="hero-scroll" href="#boas-vindas" aria-label="Ir para o conteúdo do site">
+          <span class="hero-scroll-label">Role a página</span>
+          <span class="hero-scroll-line" aria-hidden="true"></span>
+        </a>
+      </div>
+    </section>
+  
+    <section class="section welcome-section" id="boas-vindas" aria-labelledby="welcomeTitle">
+      <div class="container welcome-inner">
+        <div class="welcome-copy">
+          <h2 class="welcome-title" id="welcomeTitle">
+            <span class="welcome-title-greeting">Boas-vindas</span>
+            a um dos cartórios mais digitais do Estado do Rio de Janeiro
+          </h2>
+          <p class="welcome-text">Aqui boa parte do atendimento começa — e muitas vezes termina — sem sair de casa. Fale com a nossa equipe pelo WhatsApp de segunda a sexta, das 9h às 17h, tire dúvidas a qualquer hora com o nosso assistente de inteligência artificial ou resolva você mesmo pelos serviços online.</p>
+          <div class="welcome-actions">
+            
+                <a class="welcome-action welcome-action-whatsapp" href="https://wa.me/552231900120?text=Ol%C3%A1%21%20Vim%20pelo%20site%20do%201%C2%BA%20Of%C3%ADcio%20e%20gostaria%20de%20solicitar%20um%20servi%C3%A7o%20do%20cart%C3%B3rio." target="_blank" rel="noopener noreferrer">
+                  <span class="welcome-action-icon" aria-hidden="true"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M16 4.2A11.6 11.6 0 0 0 6.1 21.8L4.7 27.3l5.6-1.4A11.6 11.6 0 1 0 16 4.2Zm0 2.3a9.3 9.3 0 0 1 0 18.6 9.1 9.1 0 0 1-4.7-1.3l-.4-.2-3.1.8.8-3-.3-.5A9.3 9.3 0 0 1 16 6.5Zm-3.6 4.7c-.2 0-.5.1-.7.4-.2.3-.9 1-.9 2.3 0 1.4 1 2.7 1.1 2.9.1.2 2 3.2 5 4.3 2.4.9 3 .7 3.5.6.5-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.1-.3-.2-.6-.4l-1.9-.9c-.3-.1-.5-.2-.7.1l-.9 1.1c-.2.2-.4.3-.7.1-.3-.1-1.2-.4-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.7l.4-.5c.1-.2.2-.3.3-.5.1-.2.1-.4 0-.6l-.8-1.9c-.2-.4-.4-.4-.6-.4h-.8Z"></path></svg></span>
+                  <span class="welcome-action-label">Solicitar pelo WhatsApp</span>
+                  <span class="welcome-action-arrow" aria-hidden="true">→</span>
+                </a>
+                
+                <a class="welcome-action welcome-action-ai" href="#inteligencia-artificial" data-robo-open="widget">
+                  <span class="welcome-action-icon" aria-hidden="true"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M26.2 5.8H5.8A2.8 2.8 0 0 0 3 8.6v10.8a2.8 2.8 0 0 0 2.8 2.8h3.4v5.2l5.8-5.2h11.2a2.8 2.8 0 0 0 2.8-2.8V8.6a2.8 2.8 0 0 0-2.8-2.8Z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"></path><path d="M16 8.9l1.35 3.65L21 13.9l-3.65 1.35L16 18.9l-1.35-3.65L11 13.9l3.65-1.35L16 8.9Z"></path></svg></span>
+                  <span class="welcome-action-label">Tirar dúvidas 24h com IA</span>
+                  <span class="welcome-action-arrow" aria-hidden="true">→</span>
+                </a>
+                
+                <a class="welcome-action welcome-action-online" href="servicos-online.html">
+                  <span class="welcome-action-icon" aria-hidden="true"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M4.6 6.2h22.8a1.6 1.6 0 0 1 1.6 1.6v13a1.6 1.6 0 0 1-1.6 1.6H4.6A1.6 1.6 0 0 1 3 20.8v-13a1.6 1.6 0 0 1 1.6-1.6Z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"></path><path d="M11 26.4h10" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"></path><path d="M16 22.4v4" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"></path><path d="m12.6 11.4 3.4 3.4 3.4-3.4" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"></path><path d="M16 14.8V9" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"></path></svg></span>
+                  <span class="welcome-action-label">Serviços online</span>
+                  <span class="welcome-action-arrow" aria-hidden="true">→</span>
+                </a>
+                
+          </div>
+        </div>
+        <div class="welcome-visual">
+    <svg class="welcome-scene" viewBox="0 0 420 420" role="img" aria-label="Ilustração animada de um documento sendo lavrado e recebendo um selo digital">
+      <g class="wa-rings" aria-hidden="true">
+        <circle class="wa-ring wa-ring-outer" cx="210" cy="210" r="178"></circle>
+        <circle class="wa-ring wa-ring-inner" cx="210" cy="210" r="150"></circle>
+      </g>
+
+      <g class="wa-nodes" aria-hidden="true">
+        <circle class="wa-node wa-node-1" cx="66" cy="146" r="4.5"></circle>
+        <circle class="wa-node wa-node-2" cx="358" cy="126" r="3.5"></circle>
+        <circle class="wa-node wa-node-3" cx="84" cy="322" r="3.5"></circle>
+        <circle class="wa-node wa-node-4" cx="366" cy="292" r="4.5"></circle>
+      </g>
+
+      <g class="wa-sheet">
+        <rect class="wa-sheet-body" x="120" y="88" width="180" height="244" rx="3"></rect>
+        <line class="wa-title" x1="145" y1="126" x2="232" y2="126"></line>
+        <line class="wa-line wa-line-1" x1="145" y1="160" x2="275" y2="160"></line>
+        <line class="wa-line wa-line-2" x1="145" y1="184" x2="275" y2="184"></line>
+        <line class="wa-line wa-line-3" x1="145" y1="208" x2="258" y2="208"></line>
+        <line class="wa-line wa-line-4" x1="145" y1="232" x2="275" y2="232"></line>
+        <line class="wa-line wa-line-5" x1="145" y1="256" x2="232" y2="256"></line>
+        <path class="wa-sign" d="M148 296c10-14 17-14 21-4s7 16 13 8 9-14 15-10 8 10 16 4 11-12 18-8"></path>
+      </g>
+
+      <circle class="wa-pulse wa-pulse-1" cx="300" cy="306" r="36" aria-hidden="true"></circle>
+      <circle class="wa-pulse wa-pulse-2" cx="300" cy="306" r="36" aria-hidden="true"></circle>
+
+      <g class="wa-seal">
+        <circle class="wa-seal-outer" cx="300" cy="306" r="36"></circle>
+        <circle class="wa-seal-inner" cx="300" cy="306" r="28"></circle>
+        <path class="wa-check" d="M287 306l9 9 18-19"></path>
+      </g>
+    </svg>
+  </div>
+      </div>
+    </section>
+  
+    <section class="section section-light philosophy-section">
+      <div class="container philosophy-grid">
+        <div>
+          <p class="section-kicker">Nosso compromisso</p>
+          <blockquote class="philosophy-quote">“Atuar com técnica, transparência e respeito ao cidadão, tornando cada ato cartorário mais claro, seguro e acessível.”</blockquote>
+          <p class="philosophy-proof">Somos <strong class="philosophy-proof-strong">um dos cartórios mais bem avaliados do Brasil no Google</strong> — reconhecimento da confiança e da excelência do nosso atendimento, inclusive nos atos eletrônicos.</p>
+        </div>
+        
+    <aside class="reviews-card" aria-label="Avaliações no Google">
+      <div class="reviews-head">
+        <div class="reviews-score-line">
+          <span class="reviews-score-value">4,9</span>
+          <span class="review-stars" aria-hidden="true">★★★★★</span>
+        </div>
+        <p class="reviews-count">1.161 avaliações no Google</p>
+      </div>
+      <div class="reviews-stream-viewport">
+        <ul class="reviews-stream">
+          <li class="review-item">
+            <span class="review-stars" aria-hidden="true">★★★★★</span>
+            <p class="review-text">“Atendimento cordial, funcionários muito educados e atenciosos, local limpo e organizado. Estão de parabéns, Deus os abençoe sempre.”</p>
+            <p class="review-name">Renato Madruga Fernandes</p>
+          </li>
+          <li class="review-item">
+            <span class="review-stars" aria-hidden="true">★★★★★</span>
+            <p class="review-text">“Venho parabenizar o cartório pelo excelente trabalho prestado com a sociedade! E também quero parabenizar a funcionária Kamily Ferreira, que me atendeu e prestou um ótimo serviço, com toda atenção e carinho com o meu caso. Novamente parabéns a todos!”</p>
+            <p class="review-name">Joyce Hellen</p>
+          </li>
+          <li class="review-item">
+            <span class="review-stars" aria-hidden="true">★★★★★</span>
+            <p class="review-text">“Gostaria de registrar um elogio ao atendimento prestado pela colaboradora Maria Eduarda durante o processo de certificação digital realizado recentemente.”</p>
+            <p class="review-name">José Luiz Costa da Silva</p>
+          </li>
+          <li class="review-item">
+            <span class="review-stars" aria-hidden="true">★★★★★</span>
+            <p class="review-text">“Fui muito bem atendida pela atendente Ana Carolina Dantas!”</p>
+            <p class="review-name">Idenir da Silva</p>
+          </li>
+          <li class="review-item">
+            <span class="review-stars" aria-hidden="true">★★★★★</span>
+            <p class="review-text">“Excelente atendimento realizado pela colaboradora Letícia Rosa!”</p>
+            <p class="review-name">David Rodrigues</p>
+          </li>
+          <li class="review-item">
+            <span class="review-stars" aria-hidden="true">★★★★★</span>
+            <p class="review-text">“Melhor cartório da região!”</p>
+            <p class="review-name">Mouriel</p>
+          </li>
+          <li class="review-item" aria-hidden="true">
+            <span class="review-stars" aria-hidden="true">★★★★★</span>
+            <p class="review-text">“Atendimento cordial, funcionários muito educados e atenciosos, local limpo e organizado. Estão de parabéns, Deus os abençoe sempre.”</p>
+            <p class="review-name">Renato Madruga Fernandes</p>
+          </li>
+          <li class="review-item" aria-hidden="true">
+            <span class="review-stars" aria-hidden="true">★★★★★</span>
+            <p class="review-text">“Venho parabenizar o cartório pelo excelente trabalho prestado com a sociedade! E também quero parabenizar a funcionária Kamily Ferreira, que me atendeu e prestou um ótimo serviço, com toda atenção e carinho com o meu caso. Novamente parabéns a todos!”</p>
+            <p class="review-name">Joyce Hellen</p>
+          </li>
+          <li class="review-item" aria-hidden="true">
+            <span class="review-stars" aria-hidden="true">★★★★★</span>
+            <p class="review-text">“Gostaria de registrar um elogio ao atendimento prestado pela colaboradora Maria Eduarda durante o processo de certificação digital realizado recentemente.”</p>
+            <p class="review-name">José Luiz Costa da Silva</p>
+          </li>
+          <li class="review-item" aria-hidden="true">
+            <span class="review-stars" aria-hidden="true">★★★★★</span>
+            <p class="review-text">“Fui muito bem atendida pela atendente Ana Carolina Dantas!”</p>
+            <p class="review-name">Idenir da Silva</p>
+          </li>
+          <li class="review-item" aria-hidden="true">
+            <span class="review-stars" aria-hidden="true">★★★★★</span>
+            <p class="review-text">“Excelente atendimento realizado pela colaboradora Letícia Rosa!”</p>
+            <p class="review-name">David Rodrigues</p>
+          </li>
+          <li class="review-item" aria-hidden="true">
+            <span class="review-stars" aria-hidden="true">★★★★★</span>
+            <p class="review-text">“Melhor cartório da região!”</p>
+            <p class="review-name">Mouriel</p>
+          </li></ul>
+      </div>
+      <a class="btn btn-primary reviews-cta" href="https://maps.app.goo.gl/4ah3aHAuX1gf2aVs5" target="_blank" rel="noopener noreferrer">Avaliar no Google</a>
+    </aside>
+  
+        
+      </div>
+    </section>
+  
+    <section class="section ai-assistance-section" id="inteligencia-artificial" aria-labelledby="aiAssistanceTitle">
+      <div class="container ai-assistance-inner">
+        <p class="section-kicker">Inteligência Artificial</p>
+        <div class="ai-assistance-layout">
+          <div class="ai-assistance-copy">
+            <h2 class="ai-assistance-title" id="aiAssistanceTitle">Atendimento com <span class="ai-assistance-title-gradient">inteligência artificial</span> 24h</h2>
+            <p class="ai-assistance-text">Este cartório está entre os poucos no Brasil que oferecem serviços com inteligência artificial. Usuários podem tirar dúvidas ou iniciar um serviço a qualquer hora, com nossos atendentes dando prosseguimento em horário comercial.</p>
+          </div>
+          
+    <div class="ai-starter-panel">
+      <img class="ai-assistance-logo" src="assets/images/display/cartorio-icon-420.png" alt="Logo do Cartório do 1º Ofício de Justiça de Rio das Ostras" loading="lazy" decoding="async">
+      <form class="ai-starter-form" data-owari-robo-starter="" data-robo-target="widget">
+        <div class="ai-starter-field">
+          <input class="ai-starter-input" type="text" name="message" data-robo-starter-input="" placeholder="Pergunte qualquer coisa" aria-label="Pergunte qualquer coisa" autocomplete="off" maxlength="2000">
+          <button class="ai-starter-send" type="submit" aria-label="Enviar pergunta" disabled="">
+            <svg class="ai-starter-send-icon" aria-hidden="true" focusable="false" viewBox="0 0 18 18">
+              <path d="M9 14.4V3.6"></path>
+              <path d="m4.8 7.8 4.2-4.2 4.2 4.2"></path>
+            </svg>
+          </button>
+        </div>
+        <p class="ai-starter-status" data-robo-starter-status="" aria-live="polite"></p>
+      </form>
+    </div>
+  
+        </div>
+      </div>
+    </section>
+  
+    <section class="section section-light" id="servicos">
+      <div class="container editorial-grid">
+        <p class="section-kicker">Serviços do cartório</p>
+        <figure class="editorial-image">
+          <img src="assets/images/display/cartorio-13-900.jpg" alt="Ambiente interno do cartório" loading="lazy" decoding="async">
+        </figure>
+        <div class="editorial-copy">
+          <h2 class="section-title">Resolva serviços de notas, protesto e Registro Civil com orientação da equipe.</h2>
+          <p class="section-subtitle">Antes de iniciar o atendimento, você pode consultar documentos necessários, prazos e formas de solicitação.</p>
+        </div>
+      </div>
+      <div class="container practice-list">
+        
+              <article class="practice-card">
+                <h3>Escrituras públicas</h3>
+                <p>Compra e venda, doação, permuta, inventário, divórcio consensual, união estável e outros atos notariais.</p>
+                <a href="perguntas-frequentes.html?categoria=Escrituras+e+Notas&amp;busca=escrituras" class="practice-card-action" data-faq-jump-category="Escrituras e Notas" data-faq-jump-query="escrituras">
+                  Ver orientações <span aria-hidden="true">→</span>
+                </a>
+              </article>
+            
+              <article class="practice-card">
+                <h3>Registro Civil</h3>
+                <p>Nascimento, casamento, óbito, averbações e transcrições de registros ocorridos no exterior.</p>
+                <a href="perguntas-frequentes.html?categoria=Registro+Civil" class="practice-card-action" data-faq-jump-category="Registro Civil" data-faq-jump-query="">
+                  Ver orientações <span aria-hidden="true">→</span>
+                </a>
+              </article>
+            
+              <article class="practice-card">
+                <h3>Protesto de títulos</h3>
+                <p>Protocolo, intimação, lavratura, pagamento e cancelamento de protestos com observância dos prazos legais.</p>
+                <a href="perguntas-frequentes.html?categoria=Quadros-resumo&amp;busca=protesto" class="practice-card-action" data-faq-jump-category="Quadros-resumo" data-faq-jump-query="protesto">
+                  Ver orientações <span aria-hidden="true">→</span>
+                </a>
+              </article>
+            
+              <article class="practice-card">
+                <h3>Firmas e autenticações</h3>
+                <p>Reconhecimento de firma, autenticação de cópias, apostilamento de Haia e serviços eletrônicos pelo e-Notariado.</p>
+                <a href="perguntas-frequentes.html?categoria=Escrituras+e+Notas&amp;busca=autentica%C3%A7%C3%A3o+firma" class="practice-card-action" data-faq-jump-category="Escrituras e Notas" data-faq-jump-query="autenticação firma">
+                  Ver orientações <span aria-hidden="true">→</span>
+                </a>
+              </article>
+            
+              <article class="practice-card">
+                <h3>Certidões</h3>
+                <p>Certidões de atos notariais, protesto, Registro Civil e certidão negativa de Interdição, Tutela e Curatela.</p>
+                <a href="perguntas-frequentes.html?busca=certid%C3%B5es" class="practice-card-action" data-faq-jump-category="Todas" data-faq-jump-query="certidões">
+                  Ver orientações <span aria-hidden="true">→</span>
+                </a>
+              </article>
+            
+              <article class="practice-card">
+                <h3>Orientação ao cidadão</h3>
+                <p>Guias práticos e atendimento para esclarecer documentos necessários antes do serviço presencial ou online.</p>
+                <a href="perguntas-frequentes.html?categoria=Atendimento" class="practice-card-action" data-faq-jump-category="Atendimento" data-faq-jump-query="">
+                  Ver orientações <span aria-hidden="true">→</span>
+                </a>
+              </article>
+            
+      </div>
+    </section>
+  
+    <section class="section section-muted emolument-section" id="calculadora-emolumentos">
+      <div class="container">
+      <section class="emolument-panel" data-emolument-calculator="" aria-labelledby="emolumentTitle">
+        <div class="emolument-copy">
+          <p class="section-kicker">Calculadora de emolumentos</p>
+          <h2 class="emolument-title" id="emolumentTitle">Simule o custo da escritura do seu imóvel</h2>
+          <p class="emolument-text">Informe o valor do imóvel e o seu WhatsApp. Nossa equipe calcula os emolumentos com base na tabela vigente no Estado do Rio de Janeiro e envia a simulação para você, junto com a lista de documentos necessários.</p>
+          <ol class="emolument-steps">
+            <li>Você informa o valor do imóvel e o seu contato.</li><li>A equipe calcula pela tabela de emolumentos vigente no Estado do Rio de Janeiro.</li><li>Você recebe a simulação e a lista de documentos pelo WhatsApp.</li>
+          </ol>
+        </div>
+        <div class="emolument-form-card">
+          <h3 class="emolument-form-title" data-emolument-form-title="">Peça sua simulação</h3>
+          <form class="emolument-form" data-emolument-form="" novalidate="">
+            
+      <div class="emolument-field">
+        <label class="field-label emolument-label" for="emolumentName">Seu nome *</label>
+        <div class="emolument-input-wrap">
+          <span class="emolument-input-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="3.6"></circle><path d="M4.8 20.2a7.2 7.2 0 0 1 14.4 0"></path></svg></span>
+          <input class="emolument-input" id="emolumentName" name="Nome completo" placeholder="Nome completo" required="" type="text" autocomplete="name" maxlength="120">
+        </div>
+      </div>
+    
+            
+      <div class="emolument-field">
+        <label class="field-label emolument-label" for="emolumentPhone">Seu WhatsApp *</label>
+        <div class="emolument-input-wrap">
+          <span class="emolument-input-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="6.5" y="2.6" width="11" height="18.8" rx="2.4"></rect><path d="M10.6 18.4h2.8"></path></svg></span>
+          <input class="emolument-input" id="emolumentPhone" name="WhatsApp" placeholder="(22) 99999-9999" required="" type="tel" inputmode="numeric" autocomplete="tel" maxlength="16">
+        </div>
+      </div>
+    
+            <div class="emolument-field">
+              <label class="field-label emolument-label" for="emolumentValue">Valor do imóvel (R$) *</label>
+              <div class="emolument-input-wrap emolument-input-wrap-currency">
+                <span class="emolument-input-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3.6 12 12 4.4l8.4 7.6"></path><path d="M5.8 10.4v9.2h12.4v-9.2"></path><path d="M10 19.6v-4.6h4v4.6"></path></svg></span>
+                <span class="emolument-currency-prefix" aria-hidden="true">R$</span>
+                <input class="emolument-input emolument-input-currency" id="emolumentValue" name="Valor do imóvel" type="text" inputmode="numeric" autocomplete="off" placeholder="0,00" maxlength="18" required="">
+              </div>
+            </div>
+            <button class="btn btn-primary btn-full emolument-submit" type="submit" data-emolument-submit="">Solicitar cálculo</button>
+            <p class="form-helper emolument-privacy">Ao enviar, você autoriza o uso dos dados informados apenas para o cálculo solicitado e para o contato da equipe do cartório.</p>
+            <p class="form-status emolument-status" data-emolument-status="" role="status" aria-live="polite"></p>
+            <a class="emolument-error-link" data-emolument-error-link="" href="https://wa.me/552231900120?text=Ol%C3%A1%21%20Vim%20pelo%20site%20do%201%C2%BA%20Of%C3%ADcio%20e%20gostaria%20de%20solicitar%20um%20servi%C3%A7o%20do%20cart%C3%B3rio." target="_blank" rel="noopener noreferrer" hidden="">Falar no WhatsApp agora</a>
+          </form>
+          <div class="emolument-success" data-emolument-success="" tabindex="-1" hidden="">
+            <span class="emolument-success-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="m5 12.6 4.4 4.4L19 7.4"></path></svg>
+            </span>
+            <h3 class="emolument-success-title">Recebemos seus dados</h3>
+            <p class="emolument-success-text">O cartório entrará em contato pelo WhatsApp em breve com a simulação dos emolumentos. Nosso atendimento é de segunda a sexta-feira, das 9h às 17h.</p>
+            <div class="emolument-success-actions">
+              <a class="btn btn-primary" href="https://wa.me/552231900120?text=Ol%C3%A1%21%20Vim%20pelo%20site%20do%201%C2%BA%20Of%C3%ADcio%20e%20gostaria%20de%20solicitar%20um%20servi%C3%A7o%20do%20cart%C3%B3rio." target="_blank" rel="noopener noreferrer">Falar no WhatsApp agora</a>
+              <button class="btn emolument-reset" type="button" data-emolument-reset="">Fazer nova simulação</button>
+            </div>
+          </div>
+        </div>
+        <p class="emolument-note">A simulação é uma estimativa calculada pela tabela de emolumentos vigente no Estado do Rio de Janeiro, já com os acréscimos legais e os tributos incidentes sobre o ato notarial. Não inclui o ITBI devido ao município nem os custos de registro no Cartório de Registro de Imóveis. O valor final pode variar conforme as particularidades de cada escritura.</p>
+      </section>
+    </div>
+    </section>
+  
+    <section class="section section-dark why-section">
+      <div class="container why-grid">
+        <div class="why-copy">
+          <p class="section-kicker">Por que escolher nosso cartório</p>
+          <h2 class="section-title">Atendimento técnico e humano para transformar procedimentos complexos em etapas compreensíveis.</h2>
+          <div class="why-details">
+            <div class="why-qualification">
+              <svg class="why-graduation-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2 8.75 12 4l10 4.75L12 13.5 2 8.75Z"></path>
+                <path d="M6 10.75v5.15c3.45 2.8 8.55 2.8 12 0v-5.15"></path>
+                <path d="M22 8.75v6"></path>
+              </svg>
+              <p class="why-text">No setor de Notas, todos os escreventes são pós-graduados em Direito Imobiliário e Registral, reunindo conhecimento especializado, segurança jurídica e atenção em cada atendimento.</p>
+            </div>
+            <ul class="line-list">
+              <li>Orientação antes do atendimento</li><li>Serviços presenciais e online</li><li>Integração com plataformas oficiais</li>
+            </ul>
+          </div>
+          <div class="why-secondary-block">
+                  <hr class="why-divider" aria-hidden="true">
+                  <p class="why-text why-text-secondary">
+                    <span class="why-flag-row" aria-label="Bandeiras do Brasil, Estados Unidos, Espanha, Itália e China">
+                      <img class="why-flag-icon" src="assets/images/flags/br.png" alt="Brasil" loading="eager" decoding="async">
+                      <img class="why-flag-icon why-flag-icon-us" src="assets/images/flags/us.png" alt="Estados Unidos" loading="eager" decoding="async">
+                      <img class="why-flag-icon" src="assets/images/flags/es.png" alt="Espanha" loading="eager" decoding="async">
+                      <img class="why-flag-icon" src="assets/images/flags/it.png" alt="Itália" loading="eager" decoding="async">
+                      <img class="why-flag-icon" src="assets/images/flags/cn.png" alt="China" loading="eager" decoding="async">
+                    </span>
+                    <span class="why-secondary-copy">Nossa equipe também conta com profissionais qualificados para atender estrangeiros em <strong>inglês</strong>, <strong>espanhol</strong>, <strong>italiano</strong> e <strong>chinês</strong>.</span>
+                  </p>
+                </div>
+        </div>
+        <div class="metric-stack">
+          
+                <div class="metric" data-metric-key="lavratura-escritura">
+                  <span>Lavraturas de escritura</span>
+                  <strong data-count-target="3168" data-count-final="3.168">3.168</strong>
+                </div>
+              
+                <div class="metric" data-metric-key="registro-casamento">
+                  <span>Registros de casamento</span>
+                  <strong data-count-target="1102" data-count-final="1.102">1.102</strong>
+                </div>
+              
+                <div class="metric" data-metric-key="visitas-site">
+                  <span>Visitas ao site</span>
+                  <strong class="is-loading">...</strong>
+                </div>
+              
+          <a class="btn metric-more-link" href="numeros-cartorio.html">Ver mais</a>
+        </div>
+      </div>
+    </section>
+  
+    <section class="section section-light" id="localizacao">
+      <div class="container location-grid">
+        <div class="location-text">
+          <p class="section-kicker">Localização</p>
+          <h2 class="section-title">Como chegar ao cartório</h2>
+          <p class="section-subtitle">Estamos em região central e de fácil acesso em Rio das Ostras/RJ.</p>
+          <ul class="contact-list">
+            <li><strong>Endereço</strong><span>Ofício de Justiça da Comarca de Rio das Ostras</span><span>Rua Luíza Vianna, nº 87, Loja 1</span><span>Novo Rio das Ostras – Rio das Ostras/RJ</span><span>CEP 28893-470</span></li>
+            <li><strong>Telefone / WhatsApp</strong><a href="tel:+552231900120">(22) 3190-0120</a></li>
+            <li><strong>E-mail</strong><a href="mailto:1oficiorioostras@gmail.com">1oficiorioostras@gmail.com</a></li>
+          </ul>
+          <a class="btn btn-primary" href="https://maps.app.goo.gl/VQS7zjTKEZ4Dpodv5" target="_blank" rel="noopener noreferrer">Abrir no Google Maps</a>
+        </div>
+        <div class="location-map-wrapper">
+          <iframe class="location-map-embed" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3677.8397282875484!2d-41.93736!3d-22.523978!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x97b30020fba24b%3A0x220ae06be19b9dec!2s1%C2%B0%20Of%C3%ADcio%20de%20Justi%C3%A7a%20de%20Rio%20das%20Ostras%2FRJ%20-%20Notas%2C%20RCPN%20e%20Protesto!5e0!3m2!1spt-BR!2sbr!4v1725846459574!5m2!1spt-BR!2sbr" title="Mapa do Cartório do 1º Ofício de Justiça de Rio das Ostras" loading="lazy" allowfullscreen="" referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+      </div>
+    </section>
+    <section class="section section-dark" id="horario">
+      <div class="container hours-grid">
+        <div>
+          <p class="section-kicker">Horário de atendimento</p>
+          <h2 class="section-title">Horários presenciais e plantão do Registro Civil.</h2>
+          <p class="section-subtitle">Atos urgentes de nascimento e óbito contam com plantão em fins de semana e feriados.</p>
+        </div>
+        <div class="hours-list">
+          
+                <article class="hours-item">
+                  <strong>Balcão presencial</strong>
+                  <p>Segunda a sexta-feira, das 9h às 17h.</p>
+                </article>
+              
+                <article class="hours-item">
+                  <strong>Plantão de nascimento e óbito</strong>
+                  <p>Sábados, domingos e feriados, das 9h às 12h.</p>
+                </article>
+              
+                <article class="hours-item">
+                  <strong>Serviços online</strong>
+                  <p>Solicitações podem ser enviadas a qualquer momento, com análise em horário comercial.</p>
+                </article>
+              
+          
+        </div>
+      </div>
+    </section>
+  
+    <section class="feature-pages" id="conteudos">
+      <div class="feature-pages-heading">
+        <p class="section-kicker">Explore mais</p>
+        <div>
+          <h2 class="section-title">Mais informações</h2>
+          <p class="section-subtitle">Acesse guias, links oficiais, fotos e informações sobre o cartório.</p>
+        </div>
+      </div>
+      <div class="feature-pages-grid" aria-label="Páginas de conteúdo do cartório">
+        
+              <a class="feature-page-card" href="servicos-online.html">
+                <img src="assets/images/display/feature-servicos-online-1100.jpg" alt="Notebook com formulário online em mesa de cartório" loading="lazy" decoding="async">
+                <h3>Serviços online</h3>
+                <p>Solicite serviços sem sair de casa e receba orientação da equipe.</p>
+              </a>
+            
+              <a class="feature-page-card" href="formularios-impressao.html">
+                <img src="assets/images/display/feature-formularios-impressao-1100.jpg" alt="Formulários impressos em mesa de atendimento" loading="lazy" decoding="async">
+                <h3>Formulários para impressão</h3>
+                <p>Preencha formulários antes do atendimento presencial.</p>
+              </a>
+            
+              <a class="feature-page-card" href="perguntas-frequentes.html">
+                <img src="assets/images/display/feature-perguntas-frequentes-1100.jpg" alt="Atendimento com tablet exibindo perguntas frequentes" loading="lazy" decoding="async">
+                <h3>Perguntas frequentes</h3>
+                <p>Consulte orientações por assunto, documentos, prazos e valores.</p>
+              </a>
+            
+              <a class="feature-page-card" href="guias.html">
+                <img src="assets/images/display/feature-guias-1100.jpg" alt="Documentos, chaves e balança em mesa de cartório" loading="lazy" decoding="async">
+                <h3>Guias ao cidadão</h3>
+                <p>Orientações práticas por assunto antes do atendimento.</p>
+              </a>
+            
+              <a class="feature-page-card" href="sobre-tabeliao.html">
+                <img src="assets/images/display/robson-720.jpg" alt="Robson Martins, Tabelião do 1º Ofício de Rio das Ostras" loading="lazy" decoding="async">
+                <h3>Sobre o tabelião</h3>
+                <p>Trajetória e atuação do titular do 1º Ofício.</p>
+              </a>
+            
+              <a class="feature-page-card" href="cartorio-e-cidade.html">
+                <img src="assets/images/display/rio-das-ostras-5-1000.jpg" alt="Rio das Ostras ao pôr do sol" loading="lazy" decoding="async">
+                <h3>Galeria de fotos</h3>
+                <p>Fotos do cartório e de Rio das Ostras.</p>
+              </a>
+            
+              <a class="feature-page-card" href="numeros-cartorio.html">
+                <img src="assets/images/display/feature-numeros-1100.jpg" alt="Indicadores do cartório em notebook sobre mesa de documentos" loading="lazy" decoding="async">
+                <h3>Números do cartório</h3>
+                <p>Indicadores por ano e tipo de serviço.</p>
+              </a>
+            
+              <a class="feature-page-card" href="links-uteis.html">
+                <img src="assets/images/display/feature-links-1100.jpg" alt="Cartões com atalhos de serviços oficiais em mesa de cartório" loading="lazy" decoding="async">
+                <h3>Links úteis</h3>
+                <p>Portais oficiais para consultas e serviços.</p>
+              </a>
+            
+      </div>
+    </section>
+  
+    <section class="section section-light" id="contato">
+      <div class="container contact-grid">
+        <div class="contact-text">
+          <p class="section-kicker">Fale conosco</p>
+          <h2 class="section-title">Precisa de orientação?</h2>
+          <p class="section-subtitle">Envie sua mensagem com o serviço desejado. Nossa equipe responderá em horário comercial.</p>
+          <ul class="contact-list contact-list-inline">
+            <li><strong>Horário</strong><span>Segunda a sexta-feira, das 9h às 17h.</span></li>
+            <li><strong>WhatsApp</strong><a href="https://wa.me/552231900120" target="_blank" rel="noopener">(22) 3190-0120</a></li>
+            <li><strong>E-mail</strong><a href="mailto:1oficiorioostras@gmail.com">1oficiorioostras@gmail.com</a></li>
+            <li><strong>Instagram</strong><a href="https://www.instagram.com/cartorioderiodasostras" target="_blank" rel="noopener">@cartorioderiodasostras</a></li>
+            <li><strong>Facebook</strong><a href="https://www.facebook.com/cartorioderiodasostras" target="_blank" rel="noopener">@cartorioderiodasostras</a></li>
+          </ul>
+        </div>
+        <div class="contact-form-card">
+          <form id="contactForm" action="https://api.web3forms.com/submit" method="POST" class="contact-form">
+            <input type="hidden" name="access_key" value="2a703f7e-b77b-4478-97f2-c9d8379ad11b">
+            <input type="hidden" name="subject" value="Novo formulário de contato - Site 1º Ofício Rio das Ostras">
+            <input type="hidden" name="from_name" value="Site 1º Ofício Rio das Ostras">
+            <input type="checkbox" name="botcheck" class="hidden" style="display:none">
+            <div class="field-group">
+              <label for="nome" class="field-label">Nome completo *</label>
+              <input type="text" id="nome" name="Nome completo" class="field-input" autocomplete="name" required="">
+            </div>
+            <div class="field-grid">
+              <div class="field-group">
+                <label for="email" class="field-label">E-mail *</label>
+                <input type="email" id="email" name="email" class="field-input" autocomplete="email" required="">
+              </div>
+              <div class="field-group">
+                <label for="telefone" class="field-label">Telefone / WhatsApp *</label>
+                <input type="tel" id="telefone" name="Telefone / WhatsApp" class="field-input" placeholder="(22) 99999-9999" autocomplete="tel" required="">
+              </div>
+            </div>
+            <div class="field-group">
+              <label for="tipo" class="field-label">Assunto / tipo de serviço *</label>
+              <select id="tipo" name="Assunto" class="field-input" required="">
+                <option value="">Selecione uma opção</option>
+                <option value="Dúvida geral">Dúvida geral</option><option value="Certidão">Certidão</option><option value="Escritura / ato notarial">Escritura / ato notarial</option><option value="Registro civil">Registro civil</option><option value="Protesto de títulos">Protesto de títulos</option><option value="Outro">Outro</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <label for="mensagem" class="field-label">Mensagem *</label>
+              <textarea id="mensagem" name="Mensagem" class="field-input field-textarea" rows="5" required=""></textarea>
+            </div>
+            <p class="form-helper">Ao enviar, você autoriza o uso dos dados informados apenas para resposta ao seu contato e orientação sobre os serviços do cartório.</p>
+            <button type="submit" class="btn btn-primary btn-full" data-contact-submit="">Enviar mensagem</button>
+            <p id="formStatus" class="form-status" role="status" aria-live="polite"></p>
+            <a class="form-error-link" data-contact-error-link="" href="https://wa.me/552231900120?text=Ol%C3%A1%21%20Vim%20pelo%20site%20do%201%C2%BA%20Of%C3%ADcio%20e%20gostaria%20de%20solicitar%20um%20servi%C3%A7o%20do%20cart%C3%B3rio." target="_blank" rel="noopener noreferrer" hidden="">Falar no WhatsApp agora</a>
+          </form>
+          <div class="form-success" data-contact-success="" tabindex="-1" hidden="">
+            <span class="form-success-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="m5 12.6 4.4 4.4L19 7.4"></path></svg>
+            </span>
+            <h3 class="form-success-title">Mensagem enviada</h3>
+            <p class="form-success-text">Obrigado por entrar em contato com o 1º Ofício de Justiça de Rio das Ostras. Nossa equipe responderá pelos dados informados, de segunda a sexta-feira, das 9h às 17h.</p>
+            <div class="form-success-actions">
+              <a class="btn btn-primary" href="https://wa.me/552231900120?text=Ol%C3%A1%21%20Vim%20pelo%20site%20do%201%C2%BA%20Of%C3%ADcio%20e%20gostaria%20de%20solicitar%20um%20servi%C3%A7o%20do%20cart%C3%B3rio." target="_blank" rel="noopener noreferrer">Falar no WhatsApp agora</a>
+              <button class="btn form-success-reset" type="button" data-contact-reset="">Enviar outra mensagem</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  
+    <section class="section agenda-section" id="agenda-2030" aria-labelledby="agendaTitle">
+      <div class="container split-heading agenda-heading">
+        <p class="section-kicker">Agenda 2030</p>
+        <div>
+          <h2 class="section-title" id="agendaTitle">Nosso compromisso com os Objetivos de Desenvolvimento Sustentável</h2>
+          <p class="section-subtitle">Adotada em 2015 pelos 193 Estados-membros da ONU, a Agenda 2030 reúne 17 Objetivos de Desenvolvimento Sustentável e 169 metas. O trabalho de um cartório está no centro desse compromisso: é do registro civil que nasce a identidade jurídica de uma pessoa, e é da atividade notarial e de protesto que vem boa parte da segurança jurídica e da solução de conflitos fora do Judiciário.</p>
+        </div>
+      </div>
+
+      <div class="container agenda-body">
+        <article class="agenda-statement">
+          <p class="agenda-statement-badge">Provimento CNJ nº 85/2019</p>
+          <h3 class="agenda-statement-title">Esta serventia internalizou a Agenda 2030</h3>
+          <figure class="agenda-quote">
+            <blockquote>“As Corregedorias e as Serventias Extrajudiciais deverão inserir em seus portais ou sites, expressamente, a informação de que internalizaram a Agenda 2030, bem como a correspondência dos respectivos assuntos e atos normativos à cada um dos ODS.”</blockquote>
+            <figcaption>Art. 3º do Provimento nº 85, de 19 de agosto de 2019, da Corregedoria Nacional de Justiça do CNJ</figcaption>
+          </figure>
+          <a class="text-link agenda-statement-link" href="https://atos.cnj.jus.br/atos/detalhar/2988" target="_blank" rel="noopener noreferrer">Ler o Provimento nº 85/2019 <span aria-hidden="true">→</span></a>
+        </article>
+
+        <div class="agenda-goals-block">
+          <h3 class="agenda-block-title">Os 17 Objetivos de Desenvolvimento Sustentável</h3>
+          <p class="ods-legend"><span class="ods-legend-dot" aria-hidden="true"></span>O ponto no canto do quadro marca os objetivos a que os atos praticados por esta serventia se relacionam diretamente.</p>
+          <ul class="ods-grid" aria-label="Os 17 Objetivos de Desenvolvimento Sustentável">
+            
+                  <li class="ods-tile ods-ink-light" style="--ods-color:#E5243B" aria-label="ODS 1: Erradicação da pobreza">
+                    <span class="ods-tile-number" aria-hidden="true">01</span>
+                    <span class="ods-tile-name" aria-hidden="true">Erradicação da pobreza</span>
+                  </li>
+                
+                  <li class="ods-tile ods-ink-dark" style="--ods-color:#DDA63A" aria-label="ODS 2: Fome zero e agricultura sustentável">
+                    <span class="ods-tile-number" aria-hidden="true">02</span>
+                    <span class="ods-tile-name" aria-hidden="true">Fome zero e agricultura sustentável</span>
+                  </li>
+                
+                  <li class="ods-tile ods-ink-dark is-focus" style="--ods-color:#4C9F38" aria-label="ODS 3: Saúde e bem-estar. Objetivo com relação direta com os atos desta serventia.">
+                    <span class="ods-tile-number" aria-hidden="true">03</span>
+                    <span class="ods-tile-name" aria-hidden="true">Saúde e bem-estar</span>
+                  </li>
+                
+                  <li class="ods-tile ods-ink-light is-focus" style="--ods-color:#C5192D" aria-label="ODS 4: Educação de qualidade. Objetivo com relação direta com os atos desta serventia.">
+                    <span class="ods-tile-number" aria-hidden="true">04</span>
+                    <span class="ods-tile-name" aria-hidden="true">Educação de qualidade</span>
+                  </li>
+                
+                  <li class="ods-tile ods-ink-dark is-focus" style="--ods-color:#FF3A21" aria-label="ODS 5: Igualdade de gênero. Objetivo com relação direta com os atos desta serventia.">
+                    <span class="ods-tile-number" aria-hidden="true">05</span>
+                    <span class="ods-tile-name" aria-hidden="true">Igualdade de gênero</span>
+                  </li>
+                
+                  <li class="ods-tile ods-ink-dark" style="--ods-color:#26BDE2" aria-label="ODS 6: Água potável e saneamento">
+                    <span class="ods-tile-number" aria-hidden="true">06</span>
+                    <span class="ods-tile-name" aria-hidden="true">Água potável e saneamento</span>
+                  </li>
+                
+                  <li class="ods-tile ods-ink-dark" style="--ods-color:#FCC30B" aria-label="ODS 7: Energia limpa e acessível">
+                    <span class="ods-tile-number" aria-hidden="true">07</span>
+                    <span class="ods-tile-name" aria-hidden="true">Energia limpa e acessível</span>
+                  </li>
+                
+                  <li class="ods-tile ods-ink-light is-focus" style="--ods-color:#A21942" aria-label="ODS 8: Trabalho decente e crescimento econômico. Objetivo com relação direta com os atos desta serventia.">
+                    <span class="ods-tile-number" aria-hidden="true">08</span>
+                    <span class="ods-tile-name" aria-hidden="true">Trabalho decente e crescimento econômico</span>
+                  </li>
+                
+                  <li class="ods-tile ods-ink-dark is-focus" style="--ods-color:#FD6925" aria-label="ODS 9: Indústria, inovação e infraestrutura. Objetivo com relação direta com os atos desta serventia.">
+                    <span class="ods-tile-number" aria-hidden="true">09</span>
+                    <span class="ods-tile-name" aria-hidden="true">Indústria, inovação e infraestrutura</span>
+                  </li>
+                
+                  <li class="ods-tile ods-ink-light is-focus" style="--ods-color:#DD1367" aria-label="ODS 10: Redução das desigualdades. Objetivo com relação direta com os atos desta serventia.">
+                    <span class="ods-tile-number" aria-hidden="true">10</span>
+                    <span class="ods-tile-name" aria-hidden="true">Redução das desigualdades</span>
+                  </li>
+                
+                  <li class="ods-tile ods-ink-dark is-focus" style="--ods-color:#FD9D24" aria-label="ODS 11: Cidades e comunidades sustentáveis. Objetivo com relação direta com os atos desta serventia.">
+                    <span class="ods-tile-number" aria-hidden="true">11</span>
+                    <span class="ods-tile-name" aria-hidden="true">Cidades e comunidades sustentáveis</span>
+                  </li>
+                
+                  <li class="ods-tile ods-ink-dark is-focus" style="--ods-color:#BF8B2E" aria-label="ODS 12: Consumo e produção responsáveis. Objetivo com relação direta com os atos desta serventia.">
+                    <span class="ods-tile-number" aria-hidden="true">12</span>
+                    <span class="ods-tile-name" aria-hidden="true">Consumo e produção responsáveis</span>
+                  </li>
+                
+                  <li class="ods-tile ods-ink-light is-focus" style="--ods-color:#3F7E44" aria-label="ODS 13: Ação contra a mudança global do clima. Objetivo com relação direta com os atos desta serventia.">
+                    <span class="ods-tile-number" aria-hidden="true">13</span>
+                    <span class="ods-tile-name" aria-hidden="true">Ação contra a mudança global do clima</span>
+                  </li>
+                
+                  <li class="ods-tile ods-ink-dark" style="--ods-color:#0A97D9" aria-label="ODS 14: Vida na água">
+                    <span class="ods-tile-number" aria-hidden="true">14</span>
+                    <span class="ods-tile-name" aria-hidden="true">Vida na água</span>
+                  </li>
+                
+                  <li class="ods-tile ods-ink-dark" style="--ods-color:#56C02B" aria-label="ODS 15: Vida terrestre">
+                    <span class="ods-tile-number" aria-hidden="true">15</span>
+                    <span class="ods-tile-name" aria-hidden="true">Vida terrestre</span>
+                  </li>
+                
+                  <li class="ods-tile ods-ink-light is-focus" style="--ods-color:#00689D" aria-label="ODS 16: Paz, justiça e instituições eficazes. Objetivo com relação direta com os atos desta serventia.">
+                    <span class="ods-tile-number" aria-hidden="true">16</span>
+                    <span class="ods-tile-name" aria-hidden="true">Paz, justiça e instituições eficazes</span>
+                  </li>
+                
+                  <li class="ods-tile ods-ink-light is-focus" style="--ods-color:#19486A" aria-label="ODS 17: Parcerias e meios de implementação. Objetivo com relação direta com os atos desta serventia.">
+                    <span class="ods-tile-number" aria-hidden="true">17</span>
+                    <span class="ods-tile-name" aria-hidden="true">Parcerias e meios de implementação</span>
+                  </li>
+                
+          </ul>
+        </div>
+
+        <div class="agenda-disclosures">
+          
+      <details class="agenda-disclosure">
+        <summary class="agenda-disclosure-summary">
+          <h3 class="agenda-disclosure-title">Como os atos deste cartório se relacionam aos ODS</h3>
+          <span class="agenda-disclosure-meta">13 atividades</span>
+          <span class="dropdown-chevron" aria-hidden="true"></span>
+        </summary>
+        <div class="agenda-disclosure-body">
+      <p class="agenda-disclosure-intro">Correspondência entre as atividades desta serventia, o fundamento de cada uma e os Objetivos de Desenvolvimento Sustentável, na forma do Anexo I do Provimento nº 85/2019.</p>
+      <ul class="agenda-matrix">
+        
+              <li class="agenda-matrix-row">
+                <div class="agenda-matrix-main">
+                  <h4 class="agenda-matrix-activity">Registro civil de nascimento</h4>
+                  <p class="agenda-matrix-text">Ato gratuito para todos, que dá à pessoa sua identidade jurídica e abre o acesso a documentos, escola, saúde e programas sociais.</p>
+                  <p class="agenda-matrix-norm">Art. 30 da Lei nº 6.015/1973, com a redação dada pela Lei nº 9.534/1997</p>
+                </div>
+                <div class="agenda-matrix-goals"><span class="ods-chip ods-ink-light" style="--ods-color:#00689D" title="ODS 16 - Paz, justiça e instituições eficazes"><span aria-hidden="true">ODS 16</span><span class="visually-hidden">ODS 16: Paz, justiça e instituições eficazes</span></span><span class="ods-chip ods-ink-light" style="--ods-color:#DD1367" title="ODS 10 - Redução das desigualdades"><span aria-hidden="true">ODS 10</span><span class="visually-hidden">ODS 10: Redução das desigualdades</span></span><span class="ods-chip ods-ink-light" style="--ods-color:#C5192D" title="ODS 4 - Educação de qualidade"><span aria-hidden="true">ODS 4</span><span class="visually-hidden">ODS 4: Educação de qualidade</span></span></div>
+              </li>
+            
+              <li class="agenda-matrix-row">
+                <div class="agenda-matrix-main">
+                  <h4 class="agenda-matrix-activity">Registro de nascimento em maternidade</h4>
+                  <p class="agenda-matrix-text">Rio das Ostras conta com unidade interligada em maternidade: o registro é feito no próprio hospital e a família recebe alta já com a certidão de nascimento em mãos.</p>
+                  <p class="agenda-matrix-norm">Art. 54, § 5º, da Lei nº 6.015/1973, incluído pela Lei nº 14.382/2022</p>
+                </div>
+                <div class="agenda-matrix-goals"><span class="ods-chip ods-ink-dark" style="--ods-color:#4C9F38" title="ODS 3 - Saúde e bem-estar"><span aria-hidden="true">ODS 3</span><span class="visually-hidden">ODS 3: Saúde e bem-estar</span></span><span class="ods-chip ods-ink-light" style="--ods-color:#00689D" title="ODS 16 - Paz, justiça e instituições eficazes"><span aria-hidden="true">ODS 16</span><span class="visually-hidden">ODS 16: Paz, justiça e instituições eficazes</span></span></div>
+              </li>
+            
+              <li class="agenda-matrix-row">
+                <div class="agenda-matrix-main">
+                  <h4 class="agenda-matrix-activity">Registro de óbito e estatísticas vitais</h4>
+                  <p class="agenda-matrix-text">Os dados enviados pelos cartórios alimentam as estatísticas oficiais de mortalidade do país e orientam políticas públicas de saúde.</p>
+                  <p class="agenda-matrix-norm">Lei nº 6.015/1973 e Sistema de Estatísticas Vitais do IBGE</p>
+                </div>
+                <div class="agenda-matrix-goals"><span class="ods-chip ods-ink-dark" style="--ods-color:#4C9F38" title="ODS 3 - Saúde e bem-estar"><span aria-hidden="true">ODS 3</span><span class="visually-hidden">ODS 3: Saúde e bem-estar</span></span><span class="ods-chip ods-ink-light" style="--ods-color:#00689D" title="ODS 16 - Paz, justiça e instituições eficazes"><span aria-hidden="true">ODS 16</span><span class="visually-hidden">ODS 16: Paz, justiça e instituições eficazes</span></span><span class="ods-chip ods-ink-light" style="--ods-color:#19486A" title="ODS 17 - Parcerias e meios de implementação"><span aria-hidden="true">ODS 17</span><span class="visually-hidden">ODS 17: Parcerias e meios de implementação</span></span></div>
+              </li>
+            
+              <li class="agenda-matrix-row">
+                <div class="agenda-matrix-main">
+                  <h4 class="agenda-matrix-activity">Reconhecimento de paternidade</h4>
+                  <p class="agenda-matrix-text">Feito diretamente no cartório, sem processo judicial, garantindo à criança o nome do pai no registro e os direitos que dele decorrem.</p>
+                  <p class="agenda-matrix-norm">Art. 1.609 do Código Civil, Lei nº 8.560/1992 e programa Pai Presente, do CNJ</p>
+                </div>
+                <div class="agenda-matrix-goals"><span class="ods-chip ods-ink-dark" style="--ods-color:#FF3A21" title="ODS 5 - Igualdade de gênero"><span aria-hidden="true">ODS 5</span><span class="visually-hidden">ODS 5: Igualdade de gênero</span></span><span class="ods-chip ods-ink-light" style="--ods-color:#DD1367" title="ODS 10 - Redução das desigualdades"><span aria-hidden="true">ODS 10</span><span class="visually-hidden">ODS 10: Redução das desigualdades</span></span><span class="ods-chip ods-ink-light" style="--ods-color:#00689D" title="ODS 16 - Paz, justiça e instituições eficazes"><span aria-hidden="true">ODS 16</span><span class="visually-hidden">ODS 16: Paz, justiça e instituições eficazes</span></span></div>
+              </li>
+            
+              <li class="agenda-matrix-row">
+                <div class="agenda-matrix-main">
+                  <h4 class="agenda-matrix-activity">Alteração de prenome e gênero</h4>
+                  <p class="agenda-matrix-text">A pessoa maior de 18 anos pode adequar prenome e gênero à identidade autopercebida diretamente no registro civil, sem autorização judicial.</p>
+                  <p class="agenda-matrix-norm">Código Nacional de Normas do Foro Extrajudicial (Provimento CNJ nº 149/2023)</p>
+                </div>
+                <div class="agenda-matrix-goals"><span class="ods-chip ods-ink-dark" style="--ods-color:#FF3A21" title="ODS 5 - Igualdade de gênero"><span aria-hidden="true">ODS 5</span><span class="visually-hidden">ODS 5: Igualdade de gênero</span></span><span class="ods-chip ods-ink-light" style="--ods-color:#DD1367" title="ODS 10 - Redução das desigualdades"><span aria-hidden="true">ODS 10</span><span class="visually-hidden">ODS 10: Redução das desigualdades</span></span><span class="ods-chip ods-ink-light" style="--ods-color:#00689D" title="ODS 16 - Paz, justiça e instituições eficazes"><span aria-hidden="true">ODS 16</span><span class="visually-hidden">ODS 16: Paz, justiça e instituições eficazes</span></span></div>
+              </li>
+            
+              <li class="agenda-matrix-row">
+                <div class="agenda-matrix-main">
+                  <h4 class="agenda-matrix-activity">Gratuidades e isenções</h4>
+                  <p class="agenda-matrix-text">O registro de nascimento, o assento de óbito e a primeira certidão de cada um são gratuitos para todos. Os reconhecidamente pobres são isentos das demais certidões do registro civil.</p>
+                  <p class="agenda-matrix-norm">Art. 30, caput e § 1º, da Lei nº 6.015/1973 e art. 5º, LXXVI, da Constituição Federal</p>
+                </div>
+                <div class="agenda-matrix-goals"><span class="ods-chip ods-ink-light" style="--ods-color:#DD1367" title="ODS 10 - Redução das desigualdades"><span aria-hidden="true">ODS 10</span><span class="visually-hidden">ODS 10: Redução das desigualdades</span></span><span class="ods-chip ods-ink-light" style="--ods-color:#E5243B" title="ODS 1 - Erradicação da pobreza"><span aria-hidden="true">ODS 1</span><span class="visually-hidden">ODS 1: Erradicação da pobreza</span></span><span class="ods-chip ods-ink-light" style="--ods-color:#00689D" title="ODS 16 - Paz, justiça e instituições eficazes"><span aria-hidden="true">ODS 16</span><span class="visually-hidden">ODS 16: Paz, justiça e instituições eficazes</span></span></div>
+              </li>
+            
+              <li class="agenda-matrix-row">
+                <div class="agenda-matrix-main">
+                  <h4 class="agenda-matrix-activity">Escrituras públicas e atas notariais</h4>
+                  <p class="agenda-matrix-text">Formalizam a compra e venda, a doação e os demais negócios sobre imóveis e produzem a prova que instrui a regularização fundiária e a usucapião extrajudicial, processadas no Registro de Imóveis. É a base da segurança da moradia.</p>
+                  <p class="agenda-matrix-norm">Lei nº 8.935/1994 e Código Nacional de Normas do Foro Extrajudicial (Provimento CNJ nº 149/2023)</p>
+                </div>
+                <div class="agenda-matrix-goals"><span class="ods-chip ods-ink-dark" style="--ods-color:#FD9D24" title="ODS 11 - Cidades e comunidades sustentáveis"><span aria-hidden="true">ODS 11</span><span class="visually-hidden">ODS 11: Cidades e comunidades sustentáveis</span></span><span class="ods-chip ods-ink-light" style="--ods-color:#00689D" title="ODS 16 - Paz, justiça e instituições eficazes"><span aria-hidden="true">ODS 16</span><span class="visually-hidden">ODS 16: Paz, justiça e instituições eficazes</span></span><span class="ods-chip ods-ink-light" style="--ods-color:#A21942" title="ODS 8 - Trabalho decente e crescimento econômico"><span aria-hidden="true">ODS 8</span><span class="visually-hidden">ODS 8: Trabalho decente e crescimento econômico</span></span></div>
+              </li>
+            
+              <li class="agenda-matrix-row">
+                <div class="agenda-matrix-main">
+                  <h4 class="agenda-matrix-activity">Inventário, divórcio e demais atos extrajudiciais</h4>
+                  <p class="agenda-matrix-text">Resolvem no cartório, de forma consensual, o que antes exigia processo judicial — menos litígio, menos custo e menos tempo de espera.</p>
+                  <p class="agenda-matrix-norm">Código de Processo Civil (Lei nº 13.105/2015)</p>
+                </div>
+                <div class="agenda-matrix-goals"><span class="ods-chip ods-ink-light" style="--ods-color:#00689D" title="ODS 16 - Paz, justiça e instituições eficazes"><span aria-hidden="true">ODS 16</span><span class="visually-hidden">ODS 16: Paz, justiça e instituições eficazes</span></span><span class="ods-chip ods-ink-dark" style="--ods-color:#FF3A21" title="ODS 5 - Igualdade de gênero"><span aria-hidden="true">ODS 5</span><span class="visually-hidden">ODS 5: Igualdade de gênero</span></span></div>
+              </li>
+            
+              <li class="agenda-matrix-row">
+                <div class="agenda-matrix-main">
+                  <h4 class="agenda-matrix-activity">Protesto de títulos</h4>
+                  <p class="agenda-matrix-text">Recupera créditos e resolve a inadimplência fora do Judiciário, com custo menor para quem cobra e caminho simples de regularização para quem deve.</p>
+                  <p class="agenda-matrix-norm">Lei nº 9.492/1997</p>
+                </div>
+                <div class="agenda-matrix-goals"><span class="ods-chip ods-ink-light" style="--ods-color:#A21942" title="ODS 8 - Trabalho decente e crescimento econômico"><span aria-hidden="true">ODS 8</span><span class="visually-hidden">ODS 8: Trabalho decente e crescimento econômico</span></span><span class="ods-chip ods-ink-light" style="--ods-color:#00689D" title="ODS 16 - Paz, justiça e instituições eficazes"><span aria-hidden="true">ODS 16</span><span class="visually-hidden">ODS 16: Paz, justiça e instituições eficazes</span></span></div>
+              </li>
+            
+              <li class="agenda-matrix-row">
+                <div class="agenda-matrix-main">
+                  <h4 class="agenda-matrix-activity">Atos eletrônicos e certidões digitais</h4>
+                  <p class="agenda-matrix-text">Escrituras, procurações e certidões por meio digital reduzem consumo de papel, deslocamentos e emissões associadas ao transporte.</p>
+                  <p class="agenda-matrix-norm">Sistema Eletrônico dos Registros Públicos (Lei nº 14.382/2022) e Provimento CNJ nº 149/2023</p>
+                </div>
+                <div class="agenda-matrix-goals"><span class="ods-chip ods-ink-dark" style="--ods-color:#BF8B2E" title="ODS 12 - Consumo e produção responsáveis"><span aria-hidden="true">ODS 12</span><span class="visually-hidden">ODS 12: Consumo e produção responsáveis</span></span><span class="ods-chip ods-ink-light" style="--ods-color:#3F7E44" title="ODS 13 - Ação contra a mudança global do clima"><span aria-hidden="true">ODS 13</span><span class="visually-hidden">ODS 13: Ação contra a mudança global do clima</span></span><span class="ods-chip ods-ink-dark" style="--ods-color:#FD6925" title="ODS 9 - Indústria, inovação e infraestrutura"><span aria-hidden="true">ODS 9</span><span class="visually-hidden">ODS 9: Indústria, inovação e infraestrutura</span></span></div>
+              </li>
+            
+              <li class="agenda-matrix-row">
+                <div class="agenda-matrix-main">
+                  <h4 class="agenda-matrix-activity">Atendimento por WhatsApp e inteligência artificial 24h</h4>
+                  <p class="agenda-matrix-text">Amplia o acesso ao serviço público delegado a qualquer hora do dia, inclusive fins de semana, sem exigir deslocamento até o balcão.</p>
+                  <p class="agenda-matrix-norm">Iniciativa de modernização da serventia</p>
+                </div>
+                <div class="agenda-matrix-goals"><span class="ods-chip ods-ink-dark" style="--ods-color:#FD6925" title="ODS 9 - Indústria, inovação e infraestrutura"><span aria-hidden="true">ODS 9</span><span class="visually-hidden">ODS 9: Indústria, inovação e infraestrutura</span></span><span class="ods-chip ods-ink-light" style="--ods-color:#DD1367" title="ODS 10 - Redução das desigualdades"><span aria-hidden="true">ODS 10</span><span class="visually-hidden">ODS 10: Redução das desigualdades</span></span><span class="ods-chip ods-ink-light" style="--ods-color:#00689D" title="ODS 16 - Paz, justiça e instituições eficazes"><span aria-hidden="true">ODS 16</span><span class="visually-hidden">ODS 16: Paz, justiça e instituições eficazes</span></span></div>
+              </li>
+            
+              <li class="agenda-matrix-row">
+                <div class="agenda-matrix-main">
+                  <h4 class="agenda-matrix-activity">Guias ao cidadão, perguntas frequentes e formulários online</h4>
+                  <p class="agenda-matrix-text">Informação clara e gratuita sobre documentos, prazos e valores antes do atendimento, para que ninguém perca uma viagem ao cartório.</p>
+                  <p class="agenda-matrix-norm">Iniciativa de transparência da serventia</p>
+                </div>
+                <div class="agenda-matrix-goals"><span class="ods-chip ods-ink-light" style="--ods-color:#C5192D" title="ODS 4 - Educação de qualidade"><span aria-hidden="true">ODS 4</span><span class="visually-hidden">ODS 4: Educação de qualidade</span></span><span class="ods-chip ods-ink-light" style="--ods-color:#00689D" title="ODS 16 - Paz, justiça e instituições eficazes"><span aria-hidden="true">ODS 16</span><span class="visually-hidden">ODS 16: Paz, justiça e instituições eficazes</span></span></div>
+              </li>
+            
+              <li class="agenda-matrix-row">
+                <div class="agenda-matrix-main">
+                  <h4 class="agenda-matrix-activity">Integração com centrais nacionais e órgãos públicos</h4>
+                  <p class="agenda-matrix-text">A serventia opera conectada às centrais eletrônicas do registro civil e do notariado e a outros órgãos, o que evita retrabalho e novas viagens do cidadão.</p>
+                  <p class="agenda-matrix-norm">Centrais de serviços eletrônicos compartilhados do foro extrajudicial</p>
+                </div>
+                <div class="agenda-matrix-goals"><span class="ods-chip ods-ink-light" style="--ods-color:#19486A" title="ODS 17 - Parcerias e meios de implementação"><span aria-hidden="true">ODS 17</span><span class="visually-hidden">ODS 17: Parcerias e meios de implementação</span></span><span class="ods-chip ods-ink-dark" style="--ods-color:#FD6925" title="ODS 9 - Indústria, inovação e infraestrutura"><span aria-hidden="true">ODS 9</span><span class="visually-hidden">ODS 9: Indústria, inovação e infraestrutura</span></span></div>
+              </li>
+            
+      </ul>
+    </div>
+      </details>
+    
+          
+      <details class="agenda-disclosure">
+        <summary class="agenda-disclosure-summary">
+          <h3 class="agenda-disclosure-title">A meta 16.9 e o registro civil de nascimento</h3>
+          <span class="agenda-disclosure-meta">Meta 16.9</span>
+          <span class="dropdown-chevron" aria-hidden="true"></span>
+        </summary>
+        <div class="agenda-disclosure-body">
+      <div class="agenda-spotlight">
+        <div class="agenda-spotlight-copy">
+          <blockquote class="agenda-spotlight-quote">“Até 2030, fornecer identidade legal para todos, incluindo o registro de nascimento.”</blockquote>
+          <p class="agenda-spotlight-source">Meta 16.9 do ODS 16, da Agenda 2030 das Nações Unidas</p>
+          <p class="agenda-spotlight-text">O registro civil de nascimento é o ato que faz uma pessoa existir juridicamente. Sem ele não há CPF, matrícula escolar, atendimento previdenciário nem acesso a programas sociais. É a meta da Agenda 2030 que mais diretamente depende do trabalho dos cartórios de registro civil — e o Brasil vem se aproximando dela.</p>
+        </div>
+        <div class="agenda-stat-grid">
+          
+                <div class="agenda-stat">
+                  <strong class="agenda-stat-value">0,95%</strong>
+                  <span class="agenda-stat-label">Sub-registro de nascimentos no Brasil em 2024</span>
+                  <span class="agenda-stat-note">Primeira vez abaixo de 1% desde o início da série, em 2015, quando era 4,21%.</span>
+                </div>
+              
+                <div class="agenda-stat">
+                  <strong class="agenda-stat-value">22.902</strong>
+                  <span class="agenda-stat-label">Crianças nascidas em 2024 sem registro no ano</span>
+                  <span class="agenda-stat-note">É o que a taxa de 0,95% representa em números absolutos, segundo o IBGE.</span>
+                </div>
+              
+                <div class="agenda-stat">
+                  <strong class="agenda-stat-value">0,14%</strong>
+                  <span class="agenda-stat-label">Sub-registro de óbitos no Rio de Janeiro em 2024</span>
+                  <span class="agenda-stat-note">A menor taxa entre todas as unidades da federação.</span>
+                </div>
+              
+          <p class="agenda-stat-source">Fonte: IBGE, Estimativas de Sub-Registro de Nascimentos e Óbitos 2024, divulgadas em 20 de maio de 2026.</p>
+        </div>
+      </div>
+    </div>
+      </details>
+    
+          
+      <details class="agenda-disclosure">
+        <summary class="agenda-disclosure-summary">
+          <h3 class="agenda-disclosure-title">Fontes oficiais</h3>
+          <span class="agenda-disclosure-meta">6 links</span>
+          <span class="dropdown-chevron" aria-hidden="true"></span>
+        </summary>
+        <div class="agenda-disclosure-body">
+      <div class="agenda-sources">
+        
+              <a class="agenda-source-card" href="https://atos.cnj.jus.br/atos/detalhar/2988" target="_blank" rel="noopener noreferrer">
+                <strong>Provimento CNJ nº 85/2019</strong>
+                <span>Adoção dos ODS pelas Corregedorias e pelo Serviço Extrajudicial.</span>
+                <em>Abrir <span aria-hidden="true">→</span></em>
+              </a>
+            
+              <a class="agenda-source-card" href="https://www.cnj.jus.br/programas-e-acoes/agenda-2030/" target="_blank" rel="noopener noreferrer">
+                <strong>CNJ · Agenda 2030 no Poder Judiciário</strong>
+                <span>Programa, atos normativos e ações do Conselho Nacional de Justiça.</span>
+                <em>Abrir <span aria-hidden="true">→</span></em>
+              </a>
+            
+              <a class="agenda-source-card" href="https://brasil.un.org/pt-br/sdgs" target="_blank" rel="noopener noreferrer">
+                <strong>ONU Brasil · Os 17 ODS</strong>
+                <span>Objetivos, metas e indicadores da Agenda 2030 em português.</span>
+                <em>Abrir <span aria-hidden="true">→</span></em>
+              </a>
+            
+              <a class="agenda-source-card" href="https://sdgs.un.org/goals/goal16" target="_blank" rel="noopener noreferrer">
+                <strong>Nações Unidas · ODS 16</strong>
+                <span>Texto oficial do objetivo e de todas as suas metas, incluindo a meta 16.9.</span>
+                <em>Abrir <span aria-hidden="true">→</span></em>
+              </a>
+            
+              <a class="agenda-source-card" href="https://www.ibge.gov.br/estatisticas/sociais/populacao/26176-estimativa-do-sub-registro.html" target="_blank" rel="noopener noreferrer">
+                <strong>IBGE · Estimativas de Sub-Registro</strong>
+                <span>Série histórica do sub-registro de nascimentos e óbitos no Brasil.</span>
+                <em>Abrir <span aria-hidden="true">→</span></em>
+              </a>
+            
+              <a class="agenda-source-card" href="https://www.anoreg.org.br/ods/" target="_blank" rel="noopener noreferrer">
+                <strong>ANOREG/BR · ODS nos cartórios</strong>
+                <span>Como as serventias extrajudiciais brasileiras atuam em cada objetivo.</span>
+                <em>Abrir <span aria-hidden="true">→</span></em>
+              </a>
+            
+      </div>
+    </div>
+      </details>
+    
+        </div>
+
+        <div class="agenda-footnote">
+          <p class="agenda-support-line">O 1º Ofício de Justiça de Rio das Ostras apoia os Objetivos de Desenvolvimento Sustentável.</p>
+          <p class="agenda-disclaimer">As denominações e as cores dos Objetivos de Desenvolvimento Sustentável seguem o padrão das Nações Unidas. Este site não é uma publicação das Nações Unidas e seu conteúdo não reflete a posição oficial da organização.</p>
+        </div>
+      </div>
+    </section>
+  </div></main>
+    <footer class="site-footer" data-site-footer><!-- conteúdo pré-renderizado para SEO/no-JS; regenerar com: npm run prerender -->
+      <section class="hero-news" id="heroNews">
+        <div class="container hero-news-heading">
+          <p class="section-kicker">Últimas notícias</p>
+        </div>
+        <div class="container">
+          <p class="hero-news-status" id="heroNewsStatus" role="status" aria-live="polite">Carregando notícias...</p>
+          <div class="hero-news-carousel" id="heroNewsCarousel" hidden="">
+            <button class="hero-news-arrow hero-news-prev" id="heroNewsPrev" type="button" aria-label="Notícias anteriores">&lt;</button>
+            <div class="hero-news-page" id="heroNewsPage" aria-live="polite"></div>
+            <button class="hero-news-arrow hero-news-next" id="heroNewsNext" type="button" aria-label="Próximas notícias">&gt;</button>
+          </div>
+          <div class="hero-news-dots" id="heroNewsDots" aria-label="Páginas de notícias" hidden=""></div>
+        </div>
+      </section>
+      <div class="container footer-grid">
+        <div class="footer-brand">
+          <a href="#topo" class="footer-logo-row" aria-label="Voltar ao início">
+            <img src="assets/images/display/cartorio-icon-140.png" alt="Logo do Cartório do 1º Ofício de Justiça de Rio das Ostras" class="footer-logo">
+            <div class="footer-brand-text">
+              <span class="footer-brand-title">1º Ofício de Justiça de Rio das Ostras</span>
+              <span class="footer-brand-subtitle">Notas · Protesto · Registro Civil</span>
+            </div>
+          </a>
+          <p class="footer-copy">© 2026, 1º Ofício de Justiça da Comarca de Rio das Ostras/RJ. Todos os direitos reservados.</p>
+          <div class="footer-social-links" aria-label="Redes sociais">
+          <a class="footer-social-link" href="https://www.instagram.com/cartorioderiodasostras" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            
+        <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8">
+          <rect x="4" y="4" width="16" height="16" rx="5"></rect>
+          <circle cx="12" cy="12" r="3.6"></circle>
+          <circle cx="16.8" cy="7.2" r="0.8"></circle>
+        </svg>
+      
+          </a>
+        
+          <a class="footer-social-link" href="https://www.facebook.com/cartorioderiodasostras" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+            
+        <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
+          <path fill="currentColor" d="M14.2 8.2h2V5h-2.7c-3 0-4.6 1.8-4.6 4.7v2H6.5V15h2.4v6h3.5v-6h3l.5-3.3h-3.5v-1.6c0-1 .4-1.9 1.8-1.9Z"></path>
+        </svg>
+      
+          </a>
+        </div>
+        </div>
+        <div class="footer-column">
+          <h3 class="footer-title">Menu</h3>
+          <ul class="footer-contact-list">
+            <li><a href="#topo">Início</a></li><li><a href="#inteligencia-artificial">Inteligência Artificial 24h</a></li><li><a href="#servicos">Serviços do cartório</a></li><li><a href="#calculadora-emolumentos">Calculadora de emolumentos</a></li><li><a href="#localizacao">Localização</a></li><li><a href="#horario">Horário de atendimento</a></li><li><a href="perguntas-frequentes.html">Perguntas frequentes</a></li><li><a href="#conteudos">Explore mais</a></li><li><a href="#contato">Fale conosco</a></li><li><a href="#agenda-2030">Agenda 2030</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3 class="footer-title">Contato</h3>
+          <ul class="footer-contact-list">
+            <li><strong>Telefone / WhatsApp</strong><br><a href="tel:+552231900120">(22) 3190-0120</a></li>
+            <li><strong>E-mail geral</strong><br><a href="mailto:1oficiorioostras@gmail.com">1oficiorioostras@gmail.com</a></li>
+            <li><strong>Endereço</strong><br>Rua Luíza Vianna, nº 87, Loja 1<br>Novo Rio das Ostras – Rio das Ostras/RJ<br>CEP 28893-470</li>
+          </ul>
+        </div>
+      </div>
+      <div class="container footer-credit">
+        Criado por <a href="https://owarilabs.com" target="_blank" rel="nofollow noopener noreferrer">Owari Labs</a>
+      </div>
+      
+    </footer>
   </body>
 </html>
