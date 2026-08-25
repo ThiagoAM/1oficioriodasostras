@@ -170,8 +170,8 @@
       ],
     },
     welcome: {
-      titleGreeting: "Bem-vindo(a)",
-      titleRest: "ao cartório mais digital do Rio de Janeiro",
+      titleGreeting: "Boas-vindas",
+      titleRest: "a um dos cartórios mais digitais do Estado do Rio de Janeiro",
       text:
         "Aqui boa parte do atendimento começa — e muitas vezes termina — sem sair de casa. Fale com a nossa equipe pelo WhatsApp de segunda a sexta, das 9h às 17h, tire dúvidas a qualquer hora com o nosso assistente de inteligência artificial ou resolva você mesmo pelos serviços online.",
       actions: [
