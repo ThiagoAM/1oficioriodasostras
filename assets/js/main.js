@@ -752,7 +752,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <nav class="menu-panel" id="siteNav" aria-hidden="true" hidden>
         <div class="container menu-grid">
           <div class="menu-aside">
-            <img src="assets/images/gallery/thumbs/rio-das-ostras/2.jpg" alt="Vista de Rio das Ostras ao entardecer" class="menu-image" loading="lazy" />
+            <img src="assets/images/gallery/thumbs/rio-das-ostras/2.webp" alt="Vista de Rio das Ostras ao entardecer" class="menu-image" loading="lazy" />
             <a href="${escapeHtml(data.contact.phoneHref)}">${escapeHtml(data.contact.phoneLabel)}</a>
             <span>Atendimento em horário comercial</span>
             <a href="mailto:${escapeHtml(data.contact.email)}">${escapeHtml(data.contact.email)}</a>
