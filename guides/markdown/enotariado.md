@@ -25,14 +25,14 @@ Documentos comuns:
 - Comprovante de residência recente.
 - Endereço eletrônico e telefone.
 
-## Competência territorial em atos eletrônicos
+## Competência territorial
 
-A escolha do tabelionato pode depender do ato:
+Nos atos presenciais a escolha é livre: o interessado pode procurar qualquer tabelionato de notas do país, qualquer que seja o seu domicílio ou o lugar onde estão os bens (Art. 8º da Lei 8.935/1994).
 
-- Atos imobiliários eletrônicos observam critérios ligados ao domicílio do adquirente ou local do imóvel.
-- Ata notarial pode depender do local do fato ou domicílio do solicitante.
-- Testamento costuma observar o domicílio do testador.
-- União estável, divórcio e inventário seguem critérios próprios, geralmente ligados ao domicílio das partes ou local dos bens.
+Nos atos eletrônicos e híbridos existe regra de competência:
+
+- Como regra geral, as partes precisam ter domicílio na comarca do tabelionato.
+- Atos sobre imóvel podem ser praticados no tabelionato do local do imóvel ou do domicílio do adquirente. Se o imóvel fica no estado do Rio de Janeiro e o adquirente reside no estado, o ato pode ser feito em qualquer tabelionato de notas fluminense.
 
 Quando houver mais de um critério possível, o tabelionato deve justificar a competência usada.
 
