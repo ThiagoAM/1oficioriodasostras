@@ -6,8 +6,11 @@
   "type": "module",
   "scripts": {
     "dev": "node scripts/civil-dev-server.mjs",
+    "build": "npm run build:guides && npm run prerender && npm run build:sitemap",
+    "build:guides": "node scripts/build-guides.mjs",
+    "build:sitemap": "node scripts/build-sitemap.mjs",
     "prerender": "node scripts/prerender.mjs",
-    "test": "node tests/civil-consultation-core.mjs && node tests/civil-consultation-smoke.mjs && node tests/site-visits-hydration.mjs"
+    "test": "node tests/civil-consultation-core.mjs && node tests/civil-consultation-smoke.mjs && node tests/site-visits-hydration.mjs && node tests/seo-metadata.mjs"
   },
   "devDependencies": {
     "@11ty/eleventy": "^3.1.5",
