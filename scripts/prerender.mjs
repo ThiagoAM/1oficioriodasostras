@@ -54,6 +54,23 @@ const BLOCKED_URL_PARTS = [
 ];
 
 const startDevServer = async () => {
+  // Se a porta já responde, o script adotaria um servidor que não é o dele —
+  // possivelmente servindo outra cópia do repositório — e o prerender gravaria
+  // o conteúdo errado sem avisar.
+  try {
+    const busy = await fetch(`${baseUrl}/index.html`, { method: "HEAD" });
+    if (busy.ok) {
+      throw new Error(
+        `A porta ${port} já está em uso por outro servidor. Pare-o ou use PRERENDER_PORT=<porta livre>.`,
+      );
+    }
+  } catch (error) {
+    if (error instanceof Error && error.message.includes("já está em uso")) {
+      throw error;
+    }
+    // ninguém escutando — é o esperado
+  }
+
   const child = spawn(process.execPath, [join(rootDir, "scripts/civil-dev-server.mjs")], {
     cwd: rootDir,
     env: { ...process.env, PORT: String(port) },
@@ -86,21 +103,14 @@ const startDevServer = async () => {
   throw new Error(`Dev server não respondeu em ${baseUrl}.`);
 };
 
+// As páginas já são SERVIDAS com o HTML pré-renderizado dentro dos containers,
+// então "o container tem filhos" seria verdade já na análise do HTML, antes de
+// qualquer JavaScript — um portão que aprova até um site quebrado. O sinal certo
+// é a marca que o main.js grava no fim do init (assets/js/main.js).
 const waitForRenderedContainers = (page) =>
-  page.waitForFunction(
-    () => {
-      const header = document.querySelector("[data-site-header]");
-      const root = document.getElementById("siteRoot");
-      const footer = document.querySelector("[data-site-footer]");
-      return (
-        Boolean(header && root && footer) &&
-        header.children.length > 0 &&
-        root.children.length > 0 &&
-        footer.children.length > 0
-      );
-    },
-    { timeout: 20000 },
-  );
+  page.waitForFunction(() => document.documentElement.dataset.siteRendered === "1", {
+    timeout: 20000,
+  });
 
 const expandAllFaqItems = async (page) => {
   await page.waitForSelector("#faqList .faq-item", { timeout: 20000 });
@@ -329,6 +339,14 @@ const replaceContainerContent = (source, openTagPattern, closeTag, newInner, lab
   if (newInner.includes(closeTag)) {
     throw new Error(`Conteúdo capturado de ${label} contém "${closeTag}" — abortando.`);
   }
+  // Assinatura inequívoca de que o capturado é o HTML estático anterior, e não
+  // o que o JavaScript renderizou: gravar isso duplicaria o marcador a cada
+  // execução e republicaria conteúdo velho como se fosse novo.
+  if (newInner.includes(MARKER)) {
+    throw new Error(
+      `Conteúdo capturado de ${label} já contém o marcador de pré-renderização — o JavaScript não re-renderizou a página. Abortando.`,
+    );
+  }
 
   const innerStart = openMatch.index + openMatch[0].length;
   const closeIndex = source.indexOf(closeTag, innerStart);
@@ -371,10 +389,16 @@ const prerenderPage = async (context, fileName) => {
   const originalSource = await readFile(filePath, "utf8");
   const page = await context.newPage();
   const consoleErrors = [];
+  const pageErrors = [];
   page.on("console", (message) => {
     if (message.type() === "error") {
       consoleErrors.push(message.text());
     }
+  });
+  // Erro de console é aviso (recursos externos bloqueados de propósito caem
+  // aqui); exceção não capturada é falha — significa que o site quebrou.
+  page.on("pageerror", (error) => {
+    pageErrors.push(error.message);
   });
 
   try {
@@ -391,6 +415,12 @@ const prerenderPage = async (context, fileName) => {
 
     // Deixa renderizações síncronas pós-load (fontes/reflow) assentarem.
     await page.waitForTimeout(300);
+
+    if (pageErrors.length > 0) {
+      throw new Error(
+        `Exceção não capturada durante o carregamento: ${pageErrors.join(" | ")}`,
+      );
+    }
 
     const captured = await captureContainers(page);
     if (!captured.header || !captured.root || !captured.footer) {

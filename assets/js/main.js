@@ -3812,28 +3812,41 @@ document.addEventListener("DOMContentLoaded", () => {
     targets.forEach((target) => observer.observe(target));
   };
 
-  renderHeader();
-  renderSiteContent();
-  renderFooter();
-  promoteFloatingWhatsApp();
-  void loadOwariRoboWidget();
-  updateWhyMetrics();
-  initStreamText();
-  initHeroCarousel();
-  initHeroScrollAnimation();
-  initHeroLoadReveal();
-  initHeaderReveal();
-  initNavigation();
-  initStatsSection();
-  void hydrateSiteVisitMetrics();
-  initFaq();
-  initGuideGroups();
-  initGallery();
-  initHeroNews();
-  initOwariRoboStarterForms();
-  initRoboOpenTriggers();
-  initContactForm();
-  initEmolumentCalculator();
-  initScrollReveal();
-  scrollToInitialHash();
+  try {
+    renderHeader();
+    renderSiteContent();
+    renderFooter();
+    promoteFloatingWhatsApp();
+    void loadOwariRoboWidget();
+    updateWhyMetrics();
+    initStreamText();
+    initHeroCarousel();
+    initHeroScrollAnimation();
+    initHeroLoadReveal();
+    initHeaderReveal();
+    initNavigation();
+    initStatsSection();
+    void hydrateSiteVisitMetrics();
+    initFaq();
+    initGuideGroups();
+    initGallery();
+    initHeroNews();
+    initOwariRoboStarterForms();
+    initRoboOpenTriggers();
+    initContactForm();
+    initEmolumentCalculator();
+    initScrollReveal();
+    scrollToInitialHash();
+    // Prova de que o init chegou ao fim. O prerender espera por esta marca:
+    // como as páginas já são servidas com o HTML pré-renderizado dentro dos
+    // containers, "o container tem filhos" não distingue mais página renderizada
+    // de página com o JavaScript quebrado.
+    document.documentElement.dataset.siteRendered = "1";
+  } catch (error) {
+    // Se o init falhar no meio, o herói não pode ficar preso invisível: a classe
+    // de boot zera a opacidade do conteúdo até a animação de entrada terminar,
+    // e quem a remove é o initHeroLoadReveal(), lá no meio da sequência.
+    document.documentElement.classList.remove("is-hero-booting");
+    throw error;
+  }
 });
