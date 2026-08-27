@@ -208,7 +208,7 @@
       link: null,
       reviews: {
         rating: "4,9",
-        totalLabel: "1.161 avaliações no Google",
+        totalLabel: "1.206 avaliações no Google",
         rateUrl: "https://maps.app.goo.gl/4ah3aHAuX1gf2aVs5",
         items: [
           {
