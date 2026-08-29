@@ -2741,7 +2741,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    const newsFeedUrl = "https://thiagoam.github.io/noticias-cartorio-rio-das-ostras/noticias.json";
+    const newsFeedUrl = "https://thiagoam.github.io/agentic-news/clients/cartorio-rio-das-ostras/noticias.json";
     const dateFormatter = new Intl.DateTimeFormat("pt-BR", { dateStyle: "medium" });
     const pageSizeQuery = window.matchMedia("(max-width: 820px)");
     const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
