@@ -5,6 +5,7 @@
  * volta nos próprios arquivos para SEO e navegação sem JavaScript.
  *
  * Uso: npm run prerender   (ou: node scripts/prerender.mjs)
+ * Apenas páginas selecionadas: npm run prerender -- index.html
  * Porta do dev server: PRERENDER_PORT (padrão 4790).
  *
  * O script é idempotente: cada execução substitui o conteúdo dos containers
@@ -489,6 +490,13 @@ const prerenderPage = async (context, fileName) => {
 };
 
 const main = async () => {
+  const requestedPages = [...new Set(process.argv.slice(2))];
+  const pages = requestedPages.length > 0 ? requestedPages : PAGES;
+  const unknownPages = pages.filter((fileName) => !PAGES.includes(fileName));
+  if (unknownPages.length > 0) {
+    throw new Error(`Páginas não suportadas: ${unknownPages.join(", ")}`);
+  }
+
   const server = await startDevServer();
   const browser = await chromium.launch();
 
@@ -522,7 +530,7 @@ const main = async () => {
       return route.continue();
     });
 
-    for (const fileName of PAGES) {
+    for (const fileName of pages) {
       console.log(`Pré-renderizando ${fileName}...`);
       await prerenderPage(context, fileName);
     }
