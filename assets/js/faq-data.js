@@ -557,8 +557,7 @@ window.FAQ_ITEMS = [
     answer: [
       "No site, você pode abrir solicitações online para:",
       "- Escrituras e atos notariais.",
-      "- Certidões.",
-      "- Registro civil.",
+      "- Certidão negativa de Interdição, Tutela e Curatela (ITC).",
       "As solicitações são enviadas por formulário e a equipe retorna com orientações, documentos necessários e valores."
     ]
   },
