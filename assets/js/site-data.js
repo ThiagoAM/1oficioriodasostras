@@ -378,12 +378,6 @@
           href: "servico-atos-eletronicos.html",
           meta: "Como funciona",
         },
-        {
-          title: "Certidão negativa de ITC",
-          text: "Solicite a certidão de Interdição, Tutela e Curatela e envie o comprovante de pagamento.",
-          href: "servico-certidao-negativa-itc.html",
-          meta: "Formulário online",
-        },
       ],
     },
     paperForms: {

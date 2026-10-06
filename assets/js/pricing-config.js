@@ -16,11 +16,6 @@
       secondCopyContact: "Para esta modalidade, consulte nossa equipe antes do pagamento para confirmar o valor final e as orientações.",
     },
     services: {
-      itc: {
-        amountDisplay: "R$ 249,90",
-        pixAmount: "249.90",
-        txid: "ITC2026",
-      },
       segundaViaBreveRelato: {
         amountDisplay: "R$ 188,76",
         pixAmount: "188.76",

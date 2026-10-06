@@ -325,7 +325,6 @@ Exemplos mais comuns:
 No site, é possível abrir solicitações online para:
 
 - Escrituras e atos notariais.
-- Certidão negativa de Interdição, Tutela e Curatela (ITC).
 
 As solicitações são enviadas por formulário, e a equipe retorna com orientações, documentos necessários e valores.
 
