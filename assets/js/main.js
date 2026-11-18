@@ -75,6 +75,14 @@ document.addEventListener("DOMContentLoaded", () => {
     locale: "pt-BR",
     host: "https://dev-robo.owarilabs.com/",
   };
+  // Web chat de atendimento humano (wbot.chat), pedido pelo cartório para
+  // desafogar o WhatsApp: substitui o WhatsApp flutuante e os botões que
+  // levavam a ele. O script lê o token do próprio <script>
+  // (document.currentScript), então o atributo vai na tag injetada.
+  const WBOT_WEBCHAT = {
+    scriptUrl: "https://wbot.chat/index.js",
+    token: "4edb62cb718ab0e3bf588dee7e6b5880",
+  };
   let siteVisitMetricsLoaded = false;
   let siteVisitMetricsPromise = null;
   let refreshStatsSection = null;
@@ -784,7 +792,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const renderHeroAction = (action, index) => `
             <a
               class="btn hero-action${index === 0 ? " btn-primary" : " btn-ghost"}"
-              href="${escapeHtml(resolveSiteHref(action.href))}"${action.roboOpen ? ` data-robo-open="${escapeHtml(action.roboOpen)}"` : ""}${linkAttrs(action.href, action.external)}>
+              href="${escapeHtml(resolveSiteHref(action.href))}"${action.roboOpen ? ` data-robo-open="${escapeHtml(action.roboOpen)}"` : ""}${action.webchatOpen ? " data-webchat-open" : ""}${linkAttrs(action.href, action.external)}>
               <span class="hero-action-icon" aria-hidden="true">${WELCOME_ICONS[action.kind] || ""}</span>
               ${escapeHtml(action.label)}
             </a>`;
@@ -927,8 +935,8 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const WELCOME_ICONS = {
-    whatsapp:
-      '<svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M16 4.2A11.6 11.6 0 0 0 6.1 21.8L4.7 27.3l5.6-1.4A11.6 11.6 0 1 0 16 4.2Zm0 2.3a9.3 9.3 0 0 1 0 18.6 9.1 9.1 0 0 1-4.7-1.3l-.4-.2-3.1.8.8-3-.3-.5A9.3 9.3 0 0 1 16 6.5Zm-3.6 4.7c-.2 0-.5.1-.7.4-.2.3-.9 1-.9 2.3 0 1.4 1 2.7 1.1 2.9.1.2 2 3.2 5 4.3 2.4.9 3 .7 3.5.6.5-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.1-.3-.2-.6-.4l-1.9-.9c-.3-.1-.5-.2-.7.1l-.9 1.1c-.2.2-.4.3-.7.1-.3-.1-1.2-.4-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.7l.4-.5c.1-.2.2-.3.3-.5.1-.2.1-.4 0-.6l-.8-1.9c-.2-.4-.4-.4-.6-.4h-.8Z" /></svg>',
+    chat:
+      '<svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M26.2 5.8H5.8A2.8 2.8 0 0 0 3 8.6v10.8a2.8 2.8 0 0 0 2.8 2.8h3.4v5.2l5.8-5.2h11.2a2.8 2.8 0 0 0 2.8-2.8V8.6a2.8 2.8 0 0 0-2.8-2.8Z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" /><circle cx="10.6" cy="14" r="1.7" /><circle cx="16" cy="14" r="1.7" /><circle cx="21.4" cy="14" r="1.7" /></svg>',
     online:
       '<svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M4.6 6.2h22.8a1.6 1.6 0 0 1 1.6 1.6v13a1.6 1.6 0 0 1-1.6 1.6H4.6A1.6 1.6 0 0 1 3 20.8v-13a1.6 1.6 0 0 1 1.6-1.6Z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" /><path d="M11 26.4h10" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" /><path d="M16 22.4v4" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" /><path d="m12.6 11.4 3.4 3.4 3.4-3.4" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" /><path d="M16 14.8V9" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" /></svg>',
     location:
@@ -995,7 +1003,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 (action) => `
                 <a
                   class="welcome-action welcome-action-${escapeHtml(action.kind)}"
-                  href="${escapeHtml(resolveSiteHref(action.href))}"${action.roboOpen ? ` data-robo-open="${escapeHtml(action.roboOpen)}"` : ""}${linkAttrs(action.href, action.external)}>
+                  href="${escapeHtml(resolveSiteHref(action.href))}"${action.roboOpen ? ` data-robo-open="${escapeHtml(action.roboOpen)}"` : ""}${action.webchatOpen ? " data-webchat-open" : ""}${linkAttrs(action.href, action.external)}>
                   <span class="welcome-action-icon" aria-hidden="true">${WELCOME_ICONS[action.kind] || ""}</span>
                   <span class="welcome-action-label">${escapeHtml(action.label)}</span>
                   <span class="welcome-action-arrow" aria-hidden="true">&rarr;</span>
@@ -1080,10 +1088,9 @@ document.addEventListener("DOMContentLoaded", () => {
             <a
               class="emolument-error-link"
               data-emolument-error-link
-              href="${escapeHtml(data.contact.whatsappServiceUrl || data.contact.whatsappUrl)}"
-              target="_blank"
-              rel="noopener noreferrer"
-              hidden>${escapeHtml(calc.whatsappLabel)}</a>
+              href="${escapeHtml(resolveSiteHref(data.contact.webchatHref))}"
+              data-webchat-open
+              hidden>${escapeHtml(calc.webchatLabel)}</a>
           </form>
           <div class="emolument-success" data-emolument-success tabindex="-1" hidden>
             <span class="emolument-success-icon" aria-hidden="true">
@@ -1092,7 +1099,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <${subTitleTag} class="emolument-success-title">${escapeHtml(calc.successTitle)}</${subTitleTag}>
             <p class="emolument-success-text">${escapeHtml(calc.successText)}</p>
             <div class="emolument-success-actions">
-              <a class="btn btn-primary" href="${escapeHtml(data.contact.whatsappServiceUrl || data.contact.whatsappUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(calc.whatsappLabel)}</a>
+              <a class="btn btn-primary" href="${escapeHtml(resolveSiteHref(data.contact.webchatHref))}" data-webchat-open>${escapeHtml(calc.webchatLabel)}</a>
               <button class="btn emolument-reset" type="button" data-emolument-reset>${escapeHtml(calc.successAgainLabel)}</button>
             </div>
           </div>
@@ -1694,7 +1701,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <p class="section-subtitle">${escapeHtml(data.contactForm.text)}</p>
           <ul class="contact-list contact-list-inline">
             <li><strong>Horário</strong><span>Segunda a sexta-feira, das 9h às 17h.</span></li>
-            <li><strong>WhatsApp</strong><a href="${escapeHtml(data.contact.whatsappUrl)}" target="_blank" rel="noopener">${escapeHtml(data.contact.phoneLabel)}</a></li>
+            <li><strong>Chat do site</strong><a href="${escapeHtml(resolveSiteHref(data.contact.webchatHref))}" data-webchat-open>${escapeHtml(data.contact.webchatLabel)}</a></li>
             <li><strong>E-mail</strong><a href="mailto:${escapeHtml(data.contact.email)}">${escapeHtml(data.contact.email)}</a></li>
             <li><strong>Instagram</strong><a href="${escapeHtml(data.contact.instagramUrl)}" target="_blank" rel="noopener">${escapeHtml(data.contact.instagramLabel)}</a></li>
             <li><strong>Facebook</strong><a href="${escapeHtml(data.contact.facebookUrl)}" target="_blank" rel="noopener">${escapeHtml(data.contact.facebookLabel)}</a></li>
@@ -1737,10 +1744,9 @@ document.addEventListener("DOMContentLoaded", () => {
             <a
               class="form-error-link"
               data-contact-error-link
-              href="${escapeHtml(data.contact.whatsappServiceUrl || data.contact.whatsappUrl)}"
-              target="_blank"
-              rel="noopener noreferrer"
-              hidden>${escapeHtml(data.contactForm.whatsappLabel)}</a>
+              href="${escapeHtml(resolveSiteHref(data.contact.webchatHref))}"
+              data-webchat-open
+              hidden>${escapeHtml(data.contactForm.webchatLabel)}</a>
           </form>
           <div class="form-success" data-contact-success tabindex="-1" hidden>
             <span class="form-success-icon" aria-hidden="true">
@@ -1749,7 +1755,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <h3 class="form-success-title">${escapeHtml(data.contactForm.successTitle)}</h3>
             <p class="form-success-text">${escapeHtml(data.contactForm.successText)}</p>
             <div class="form-success-actions">
-              <a class="btn btn-primary" href="${escapeHtml(data.contact.whatsappServiceUrl || data.contact.whatsappUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(data.contactForm.whatsappLabel)}</a>
+              <a class="btn btn-primary" href="${escapeHtml(resolveSiteHref(data.contact.webchatHref))}" data-webchat-open>${escapeHtml(data.contactForm.webchatLabel)}</a>
               <button class="btn form-success-reset" type="button" data-contact-reset>${escapeHtml(data.contactForm.successAgainLabel)}</button>
             </div>
           </div>
@@ -1960,11 +1966,6 @@ document.addEventListener("DOMContentLoaded", () => {
       <div class="container footer-credit">
         Criado por <a href="https://owarilabs.com" target="_blank" rel="nofollow noopener noreferrer">Owari Labs</a>
       </div>
-      <a href="${escapeHtml(data.contact.whatsappUrl)}" target="_blank" rel="noopener noreferrer" class="whatsapp-float" aria-label="Iniciar conversa no WhatsApp">
-        <svg aria-hidden="true" viewBox="0 0 32 32" focusable="false">
-          <path d="M16 4.2A11.6 11.6 0 0 0 6.1 21.8L4.7 27.3l5.6-1.4A11.6 11.6 0 1 0 16 4.2Zm0 2.3a9.3 9.3 0 0 1 0 18.6 9.1 9.1 0 0 1-4.7-1.3l-.4-.2-3.1.8.8-3-.3-.5A9.3 9.3 0 0 1 16 6.5Zm-3.6 4.7c-.2 0-.5.1-.7.4-.2.3-.9 1-.9 2.3 0 1.4 1 2.7 1.1 2.9.1.2 2 3.2 5 4.3 2.4.9 3 .7 3.5.6.5-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.1-.3-.2-.6-.4l-1.9-.9c-.3-.1-.5-.2-.7.1l-.9 1.1c-.2.2-.4.3-.7.1-.3-.1-1.2-.4-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.7l.4-.5c.1-.2.2-.3.3-.5.1-.2.1-.4 0-.6l-.8-1.9c-.2-.4-.4-.4-.6-.4h-.8Z" />
-        </svg>
-      </a>
     `;
   };
 
@@ -2889,18 +2890,113 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   };
 
-  const promoteFloatingWhatsApp = () => {
-    const whatsappLink = document.querySelector(".whatsapp-float");
-    if (whatsappLink && whatsappLink.parentElement !== document.body) {
-      document.body.appendChild(whatsappLink);
+  // Os botões flutuantes (web chat e widget de IA) aparecem nas páginas com o
+  // rodapé completo, as mesmas que tinham o WhatsApp flutuante.
+  const hasFloatingAssistants = () => Boolean(document.querySelector("[data-site-footer]"));
+
+  // Script bloqueado (bloqueador de anúncios, fornecedor fora do ar): os botões
+  // vão direto para o destino alternativo, sem esperar o tempo-limite.
+  let wbotWebchatFailed = false;
+
+  const injectWbotWebchat = () => {
+    // O script declara globais com `const`: carregá-lo duas vezes quebra.
+    if (window.WBOTdata || document.querySelector(`script[src="${WBOT_WEBCHAT.scriptUrl}"]`)) {
+      return;
     }
+    const script = document.createElement("script");
+    script.src = WBOT_WEBCHAT.scriptUrl;
+    script.setAttribute("token", WBOT_WEBCHAT.token);
+    script.addEventListener(
+      "error",
+      () => {
+        wbotWebchatFailed = true;
+      },
+      { once: true },
+    );
+    document.body.appendChild(script);
+  };
+
+  // Entra só depois do `load` para não disputar o carregamento da página (o
+  // script ainda baixa HTML, CSS, fontes e socket.io próprios). Um clique num
+  // botão de atendimento antes disso antecipa a carga.
+  const loadWbotWebchat = () => {
+    if (!hasFloatingAssistants()) {
+      return;
+    }
+    if (document.readyState === "complete") {
+      injectWbotWebchat();
+    } else {
+      window.addEventListener("load", injectWbotWebchat, { once: true });
+    }
+  };
+
+  // Pronto = função global definida, janela injetada e CSS aplicado (o
+  // contêiner fica com visibility: hidden até o CSS do fornecedor chegar).
+  const isWbotWebchatReady = () => {
+    const container = document.getElementById("wbot-chat-container");
+    return (
+      typeof window.WBOTopenChat === "function" &&
+      Boolean(document.getElementById("wbot-chat")) &&
+      Boolean(container) &&
+      window.getComputedStyle(container).visibility === "visible"
+    );
+  };
+
+  const openWbotWebchat = () =>
+    new Promise((resolve) => {
+      injectWbotWebchat();
+      const startedAt = Date.now();
+      const check = () => {
+        if (isWbotWebchatReady()) {
+          window.WBOTopenChat();
+          resolve(true);
+          return;
+        }
+        if (wbotWebchatFailed || Date.now() - startedAt > 8000) {
+          resolve(false);
+          return;
+        }
+        window.setTimeout(check, 150);
+      };
+      check();
+    });
+
+  // Botões com data-webchat-open abrem o web chat; o href ("Fale conosco") é o
+  // destino sem JavaScript, com Ctrl/Cmd-clique ou se o chat não carregar.
+  const initWebchatTriggers = () => {
+    document.addEventListener("click", (event) => {
+      const trigger = event.target instanceof Element ? event.target.closest("[data-webchat-open]") : null;
+      if (
+        !trigger ||
+        event.defaultPrevented ||
+        event.button !== 0 ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.shiftKey ||
+        event.altKey
+      ) {
+        return;
+      }
+
+      event.preventDefault();
+      if (trigger.getAttribute("aria-busy") === "true") {
+        return;
+      }
+      trigger.setAttribute("aria-busy", "true");
+      void openWbotWebchat().then((didOpen) => {
+        trigger.removeAttribute("aria-busy");
+        if (!didOpen && trigger instanceof HTMLAnchorElement) {
+          window.location.href = trigger.href;
+        }
+      });
+    });
   };
 
   const isOwariRoboReady = () =>
     Boolean(window.OwariRobo && typeof window.OwariRobo.open === "function");
 
   const loadOwariRoboWidget = () => {
-    if (!document.querySelector(".whatsapp-float")) {
+    if (!hasFloatingAssistants()) {
       return Promise.resolve(false);
     }
 
@@ -3816,8 +3912,9 @@ document.addEventListener("DOMContentLoaded", () => {
     renderHeader();
     renderSiteContent();
     renderFooter();
-    promoteFloatingWhatsApp();
     void loadOwariRoboWidget();
+    loadWbotWebchat();
+    initWebchatTriggers();
     updateWhyMetrics();
     initStreamText();
     initHeroCarousel();

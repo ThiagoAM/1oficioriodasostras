@@ -10,7 +10,7 @@
     "build:guides": "node scripts/build-guides.mjs",
     "build:sitemap": "node scripts/build-sitemap.mjs",
     "prerender": "node scripts/prerender.mjs",
-    "test": "node tests/civil-consultation-core.mjs && node tests/civil-consultation-smoke.mjs && node tests/site-visits-hydration.mjs && node tests/seo-metadata.mjs"
+    "test": "node tests/civil-consultation-core.mjs && node tests/civil-consultation-smoke.mjs && node tests/site-visits-hydration.mjs && node tests/seo-metadata.mjs && node tests/wbot-webchat-contract.mjs"
   },
   "devDependencies": {
     "@11ty/eleventy": "^3.1.5",

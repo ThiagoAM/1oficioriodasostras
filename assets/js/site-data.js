@@ -2,9 +2,10 @@
   const contact = {
     phoneLabel: "(22) 3190-0120",
     phoneHref: "tel:+552231900120",
-    whatsappUrl: "https://wa.me/552231900120",
-    whatsappServiceUrl:
-      "https://wa.me/552231900120?text=Ol%C3%A1%21%20Vim%20pelo%20site%20do%201%C2%BA%20Of%C3%ADcio%20e%20gostaria%20de%20solicitar%20um%20servi%C3%A7o%20do%20cart%C3%B3rio.",
+    // Os botões de atendimento abrem o web chat (wbot.chat, carregado pelo
+    // main.js). Sem JavaScript ou se o chat não carregar, levam ao "Fale conosco".
+    webchatHref: "#contato",
+    webchatLabel: "Conversar com a equipe",
     email: "1oficiorioostras@gmail.com",
     instagramUrl: "https://www.instagram.com/cartorioderiodasostras",
     instagramLabel: "@cartorioderiodasostras",
@@ -117,10 +118,11 @@
         "<strong>Atendimento presencial:</strong> segunda a sexta, das 9h às 17h.<br><strong>Plantão para nascimento e óbito:</strong> fins de semana e feriados, das 9h às 12h.",
       actions: [
         {
-          kind: "whatsapp",
+          kind: "chat",
           label: "Solicitar atendimento",
-          href: contact.whatsappServiceUrl,
-          external: true,
+          href: contact.webchatHref,
+          external: false,
+          webchatOpen: true,
         },
         {
           kind: "location",
@@ -173,13 +175,14 @@
       titleGreeting: "Boas-vindas",
       titleRest: "a um dos cartórios mais digitais do Estado do Rio de Janeiro",
       text:
-        "Aqui boa parte do atendimento começa — e muitas vezes termina — sem sair de casa. Fale com a nossa equipe pelo WhatsApp de segunda a sexta, das 9h às 17h, tire dúvidas a qualquer hora com o nosso assistente de inteligência artificial ou resolva você mesmo pelos serviços online.",
+        "Aqui boa parte do atendimento começa — e muitas vezes termina — sem sair de casa. Fale com a nossa equipe pelo chat do site de segunda a sexta, das 9h às 17h, tire dúvidas a qualquer hora com o nosso assistente de inteligência artificial ou resolva você mesmo pelos serviços online.",
       actions: [
         {
-          kind: "whatsapp",
-          label: "Solicitar pelo WhatsApp",
-          href: contact.whatsappServiceUrl,
-          external: true,
+          kind: "chat",
+          label: "Solicitar pelo chat",
+          href: contact.webchatHref,
+          external: false,
+          webchatOpen: true,
         },
         {
           kind: "ai",
@@ -517,10 +520,10 @@
         "Obrigado por entrar em contato com o 1º Ofício de Justiça de Rio das Ostras. Nossa equipe responderá pelos dados informados, de segunda a sexta-feira, das 9h às 17h.",
       successAgainLabel: "Enviar outra mensagem",
       errorText:
-        "Não foi possível enviar sua mensagem agora. Tente novamente em instantes ou fale conosco pelo WhatsApp.",
+        "Não foi possível enviar sua mensagem agora. Tente novamente em instantes ou fale conosco pelo chat do site.",
       timeoutText:
-        "O envio demorou mais que o esperado e pode ter sido concluído mesmo assim. Antes de enviar de novo, confirme conosco pelo WhatsApp.",
-      whatsappLabel: "Falar no WhatsApp agora",
+        "O envio demorou mais que o esperado e pode ter sido concluído mesmo assim. Antes de enviar de novo, confirme conosco pelo chat do site.",
+      webchatLabel: "Falar com a equipe no chat",
       options: [
         "Dúvida geral",
         "Certidão",
@@ -547,7 +550,7 @@
       cpfPlaceholder: "000.000.000-00",
       submitLabel: "Consultar processo",
       note:
-        "A consulta mostra a situação registrada no processo de habilitação deste cartório. Em caso de divergência ou dúvida sobre alguma etapa, fale com a nossa equipe pelo WhatsApp.",
+        "A consulta mostra a situação registrada no processo de habilitação deste cartório. Em caso de divergência ou dúvida sobre alguma etapa, fale com a nossa equipe pelo chat do site.",
     },
     emolumentCalculator: {
       kicker: "Calculadora de emolumentos",
@@ -576,9 +579,9 @@
       successText:
         "O cartório entrará em contato pelo WhatsApp em breve com a simulação dos emolumentos. Nosso atendimento é de segunda a sexta-feira, das 9h às 17h.",
       successAgainLabel: "Fazer nova simulação",
-      whatsappLabel: "Falar no WhatsApp agora",
+      webchatLabel: "Falar com a equipe no chat",
       errorText:
-        "Não foi possível enviar agora. Tente novamente em instantes ou fale conosco pelo WhatsApp.",
+        "Não foi possível enviar agora. Tente novamente em instantes ou fale conosco pelo chat do site.",
       privacyText:
         "Ao enviar, você autoriza o uso dos dados informados apenas para o cálculo solicitado e para o contato da equipe do cartório.",
       note:

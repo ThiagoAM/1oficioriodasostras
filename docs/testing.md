@@ -24,3 +24,11 @@ node scripts/civil-dev-server.mjs
 ```
 
 This serves the static site and exposes a local-only proxy at `/api/local-consulta-habilitacao`, so the browser can test the real legacy API without exposing the API token in frontend code.
+
+The customer-service web chat (wbot.chat), which replaced the floating WhatsApp button and the buttons that pointed to WhatsApp, is checked by:
+
+```sh
+node tests/wbot-webchat-contract.mjs
+```
+
+It guards the script URL, the `token` attribute the vendor script reads from its own tag, the `data-webchat-open` buttons (fallback `#contato` without JavaScript or when the chat fails to load), the absence of `wa.me` buttons in the main pages, the launcher in the bottom-right corner next to the AI button, and the prerender block list. When testing the open chat in a browser, intercept `POST` requests to `app.mzworkspace.com`: opening the chat sends "Iniciar" and starts a real conversation in the registry's service queue.

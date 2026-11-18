@@ -49,6 +49,8 @@ const MARKER =
 const BLOCKED_URL_PARTS = [
   "thiagoam.github.io", // feed de notícias (conteúdo volátil)
   "dev-robo.owarilabs.com", // widget externo
+  "wbot.chat", // web chat externo
+  "mzworkspace.com", // API do web chat (não abre sessão de atendimento no prerender)
   "googletagmanager.com", // analytics (evita pageviews falsos do prerender)
   "google-analytics.com",
   "google.com/maps/embed", // iframe do mapa: o src fica no markup, a requisição não

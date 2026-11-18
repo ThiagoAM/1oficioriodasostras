@@ -1556,14 +1556,14 @@ button {
 
 /* Sem transição no primeiro quadro: quem abre a página já rolada não vê o cabeçalho descer. */
 .home-page:not(.is-header-ready) .site-header,
-.home-page:not(.is-header-ready) .whatsapp-float,
-.home-page:not(.is-header-ready) #owari-robo-widget {
+.home-page:not(.is-header-ready) #owari-robo-widget,
+.home-page:not(.is-header-ready) #wbot-chat-container #wbot-open-chat {
     transition: none;
 }
 
 /* Os botões flutuantes acompanham o cabeçalho: somem no topo, voltam ao rolar. */
-.home-page .whatsapp-float,
-.home-page #owari-robo-widget {
+.home-page #owari-robo-widget,
+.home-page #wbot-chat-container #wbot-open-chat {
     transition:
         opacity 260ms ease 200ms,
         transform 300ms cubic-bezier(0.22, 1, 0.36, 1) 200ms,
@@ -1597,9 +1597,9 @@ button {
     transform: translateX(-50%) translateY(14px);
 }
 
-.home-page:not(.is-header-visible) .whatsapp-float,
-.home-page:not(.is-header-visible) #owari-robo-widget:not([data-robo-open="true"]) {
-    /* !important porque o widget de IA traz estilos próprios com a mesma força. */
+.home-page:not(.is-header-visible) #owari-robo-widget:not([data-robo-open="true"]),
+.home-page:not(.is-header-visible) #wbot-chat-container #wbot-open-chat {
+    /* !important porque os widgets externos trazem estilos próprios com a mesma força. */
     opacity: 0 !important;
     transform: translateY(20px) scale(0.94) !important;
     visibility: hidden !important;
@@ -1628,7 +1628,6 @@ button {
 
 @media (prefers-reduced-motion: reduce) {
     .home-page .site-header,
-    .home-page .whatsapp-float,
     .home-page #owari-robo-widget,
     .home-page .hero-bar,
     .home-page .hero-scroll {
@@ -5024,29 +5023,6 @@ button {
     color: var(--text-light);
 }
 
-.whatsapp-float {
-    position: fixed;
-    right: 22px;
-    bottom: 22px;
-    z-index: 120;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 58px;
-    height: 58px;
-    border: 0;
-    border-radius: 50%;
-    background: #25d366;
-    color: #fff;
-    box-shadow: none;
-}
-
-.whatsapp-float svg {
-    width: 34px;
-    height: 34px;
-    fill: currentColor;
-}
-
 #owari-robo-widget {
     right: 96px !important;
     bottom: 22px !important;
@@ -5073,6 +5049,52 @@ button {
     object-fit: cover;
     transform: scale(1.32);
     transform-origin: center;
+}
+
+/* Web chat de atendimento (wbot.chat): ocupa o canto que era do WhatsApp, à
+   direita do widget de IA. O script injeta o próprio CSS depois deste arquivo,
+   com `right: 20px` vindo do painel (posição "Direita"); o `body` no seletor
+   vence na especificidade sem !important. */
+body #wbot-chat-container #wbot-open-chat {
+    right: 22px;
+    bottom: 22px;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+}
+
+/* A janela aberta (tela cheia no celular) precisa cobrir o lançador do widget
+   de IA, que usa z-index 2147483000. */
+body #wbot-chat-container #wbot-chat {
+    z-index: 2147483001;
+}
+
+body #wbot-chat-container #wbot-modal-image {
+    z-index: 2147483002;
+}
+
+/* Botão de atendimento esperando o web chat terminar de carregar. */
+[data-webchat-open][aria-busy="true"] {
+    cursor: progress;
+}
+
+/* O nome do cliente vem do painel do wbot e é longo (código CNS + nome
+   completo). Sem limite, empurra "Assistente Virtual" para fora do cabeçalho de
+   60px e vaza sobre as mensagens: fica em até duas linhas, com reticências. */
+body #wbot-chat-container #wbot-header .wbot-info {
+    min-width: 0;
+}
+
+body #wbot-chat-container #wbot-header .wbot-info p {
+    line-height: 1.25;
+}
+
+body #wbot-chat-container #wbot-header .wbot-client {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
 }
 
 .section-header {
@@ -6029,20 +6051,6 @@ button {
         padding-top: 90px;
     }
 
-    .whatsapp-float {
-        right: 16px;
-        bottom: calc(16px + env(safe-area-inset-bottom));
-        display: inline-flex;
-        width: 54px;
-        height: 54px;
-        z-index: 120;
-    }
-
-    .whatsapp-float svg {
-        width: 31px;
-        height: 31px;
-    }
-
     #owari-robo-widget {
         right: 82px !important;
         bottom: calc(16px + env(safe-area-inset-bottom)) !important;
@@ -6062,6 +6070,13 @@ button {
     #owari-robo-widget .owari-robo-widget-launcher img {
         width: 54px !important;
         height: 54px !important;
+    }
+
+    body #wbot-chat-container #wbot-open-chat {
+        right: 16px;
+        bottom: calc(16px + env(safe-area-inset-bottom));
+        width: 54px;
+        height: 54px;
     }
 
     .hero-news {
